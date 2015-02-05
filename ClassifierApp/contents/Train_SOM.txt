@@ -1,0 +1,17 @@
+  This allows users to put on their desired values for the training parameters for SOM. These new values will be used when the user started to use the application upon clicking OK.
+<img>img/screenshots/train_som.png
+**Map width and height
+  This pertains to the dimensions of the SOM lattice.
+
+**Iterations
+  The number of iterations the clustering algorithm will run to.
+  
+**Distance metric
+  Specifies which distance metric function will be used to calculate the similarity/dissimilarity of each species.
+  Distance metric could be Euclidean, Manhattan or Minkowski.
+
+**Learning rate
+  This pertains to the rate at which SOM adjust the waits of each species.
+
+**Radius
+  Determines the number of neighbors of each unit to consider during the clustering process.

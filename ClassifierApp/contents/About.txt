@@ -1,0 +1,5 @@
+Radiolarian SVM-SOM
+
+Version: 1.0
+
+(c) Copyright 2015
