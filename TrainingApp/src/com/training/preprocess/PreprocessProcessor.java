@@ -8,6 +8,8 @@ import CoreHandler.MathFunctions;
 import Data.PreprocessModel;
 import Data.Species;
 import Interfaces.IPREPROCESS;
+import Jama.Matrix;
+import Jama.SingularValueDecomposition;
 
 public class PreprocessProcessor implements IPREPROCESS {
 	private PreprocessModel model;
@@ -15,11 +17,29 @@ public class PreprocessProcessor implements IPREPROCESS {
 	public PreprocessProcessor() {
 		this.model = new PreprocessModel();
 	}
+	
+	public PreprocessProcessor(int PC) {
+		this.model = new PreprocessModel();
+		model.setPC(PC);
+	}
 
 	@Override
 	public ArrayList<Species> reduceFeatures(ArrayList<Species> dataset) {
 		// TODO Auto-generated method stub
-		return null;
+		double[][] featureSet = extractFeatures(dataset);
+		featureSet = MathFunctions.Transpose(featureSet);
+		
+		double[][] phi = calculatePhi(featureSet);
+		double[][] u = getSVD_U(featureSet);
+		double[][] pc = MathFunctions.GetMatrixColumns(u, 0, model.getPC());
+		double[][] principalComponents = MathFunctions.Transpose(pc);
+		featureSet = MathFunctions.MatrixMultiplication(principalComponents, phi);
+		
+		//save principal components to model
+		model.setPrincipalComponents(principalComponents);
+		
+		featureSet = MathFunctions.Transpose(featureSet);
+		return updateDataset(dataset, featureSet);
 	}
 
 	@Override
@@ -70,6 +90,22 @@ public class PreprocessProcessor implements IPREPROCESS {
 		}
 
 		return features;
+	}
+	
+	private double[][] calculatePhi(double[][] data) {
+		double[] mean = MathFunctions.GetMatrixMean(data);
+		
+		//save to model
+		model.setMean(mean);
+		
+		return MathFunctions.MatrixSubtraction(data, mean);
+	}
+	
+	private double[][] getSVD_U(double[][] data) {
+		SingularValueDecomposition svd = new SingularValueDecomposition(new Matrix(data));
+		Matrix u = svd.getU();
+		
+		return u.getArray();
 	}
 	
 	private ArrayList<Species> updateDataset(ArrayList<Species> rawDataset, double[][] data) {
