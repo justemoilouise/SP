@@ -1,7 +1,10 @@
 package com.training.preprocess;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 
+import CoreHandler.MathFunctions;
 import Data.PreprocessModel;
 import Data.Species;
 import Interfaces.IPREPROCESS;
@@ -28,7 +31,25 @@ public class PreprocessProcessor implements IPREPROCESS {
 	@Override
 	public ArrayList<Species> scale(ArrayList<Species> dataset) {
 		// TODO Auto-generated method stub
-		return null;
+		double[][] featureSet = extractFeatures(dataset);
+		featureSet = MathFunctions.Transpose(featureSet);
+		
+		//scaling proper
+		double[] min = MathFunctions.GetMinimum(featureSet);
+		double[] max = MathFunctions.GetMaximum(featureSet);
+		
+		for(int i=0; i<featureSet.length; i++) {			
+			for(int j=0; j<dataset.size(); j++) {
+				featureSet[i][j] = (featureSet[i][j]-min[i])/(max[i]-min[i]);
+			}
+		}
+		
+		//save scaling factors to model
+		model.setMin(min);
+		model.setMax(max);
+		
+		featureSet = MathFunctions.Transpose(featureSet);
+		return updateDataset(dataset, featureSet);
 	}
 
 	@Override
@@ -37,7 +58,34 @@ public class PreprocessProcessor implements IPREPROCESS {
 		return null;
 	}
 	
-	private double[][] extractFeatures() {
-		return null;
+	private double[][] extractFeatures(ArrayList<Species> dataset) {
+		double[][] features = new double[dataset.size()][];
+		int counter = 0;
+		int len = dataset.get(0).getFeatureValues().length;
+
+		Iterator<Species> i = dataset.iterator();
+		while(i.hasNext()) {
+			features[counter] = Arrays.copyOfRange(i.next().getFeatureValues(), 0, len);
+			counter++;
+		}
+
+		return features;
+	}
+	
+	private ArrayList<Species> updateDataset(ArrayList<Species> rawDataset, double[][] data) {
+		// TODO Auto-generated method stub
+		ArrayList<Species> preprocessedDataset = new ArrayList<Species>();
+		int dCounter = 0;
+
+		Iterator<Species> i = rawDataset.iterator();
+		while(i.hasNext()) {
+			Species s = i.next();
+			s.setFeatureValues(data[dCounter]);
+
+			preprocessedDataset.add(s);
+			dCounter++;
+		}
+		
+		return preprocessedDataset;
 	}
 }
