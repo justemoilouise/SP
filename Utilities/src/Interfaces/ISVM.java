@@ -1,7 +1,8 @@
 package Interfaces;
 
-import java.util.Hashtable;
+import java.util.ArrayList;
 
+import Data.SVMResult;
 import libsvm.svm_parameter;
 import libsvm.svm_problem;
 
@@ -27,7 +28,7 @@ public interface ISVM {
 	 * 
 	 * @param features
 	 */
-	public void classify(double[] features);
+	public ArrayList<SVMResult> classify(double[] features);
 	
 	/**
 	 * Simply retrieves the accuracy of the generated model
@@ -42,11 +43,4 @@ public interface ISVM {
 	 * @return class name
 	 */
 	public String getClassName();
-
-	/**
-	 * Returns table of results
-	 * 
-	 * @return
-	 */
-	public Hashtable<String, Double> getResults();
 }

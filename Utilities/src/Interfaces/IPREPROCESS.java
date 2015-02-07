@@ -5,23 +5,19 @@ import java.util.ArrayList;
 import Data.Species;
 
 public interface IPREPROCESS {
+	
+	/**
+	 * Scales the values to (0,1)
+	 */
+	public ArrayList<Species> scale(ArrayList<Species> dataset);
+	public double[] scale(double[] features);
 
 	/**
-	 * Gets the preprocessed dataset
+	 * Apply PCA to set of features
 	 * 
-	 * @return ArrayList of the dataset that underwent preprocessing
-	 */
-	public ArrayList<Species> getPreprocessedDataset();
-	
-	/**
-	 * 
-	 * @param data
-	 */
-	public void updateDataset(double[][] data);
-	
-	/**
-	 * 
+	 * @param features
 	 * @return
 	 */
-	public double[][] extractFeatures();
+	public ArrayList<Species> reduceFeatures(ArrayList<Species> dataset);
+	public double[] reduceFeatures(double[] features);
 }
