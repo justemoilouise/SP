@@ -12,10 +12,10 @@ import Data.Species;
 import ExceptionHandlers.ExceptionHandler;
 import ExceptionHandlers.ThreadException;
 import FileHandlers.FileConfig;
+import FileHandlers.FileOutput;
 import ImageHandlers.ProcessImage;
 import featureExtraction.ImageJ;
 import featureExtraction.JFeature;
-import fileHandlers.FileOutput;
 import gui.InputPanel;
 import gui.OutputPanel;
 import gui.StartScreen;
@@ -213,7 +213,9 @@ public class Client {
 		progress.setVisible(true);
 		pm.addToDesktopPane(progress);
 		
-		Thread output = new Thread(new FileOutput(inputs.get(index-1), index));
+		FileOutput fo = new FileOutput();
+		fo.saveToFile(inputs.get(index-1), index);
+		Thread output = new Thread(fo);
 		output.start();
 		try {
 			output.join();
