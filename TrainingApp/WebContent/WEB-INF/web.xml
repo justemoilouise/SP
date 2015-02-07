@@ -33,14 +33,47 @@
   	<pc-num>2</pc-num>
   </preprocessing-pca>
   
+  <!-- Servlets -->
   <servlet>
-    <description>Core Servlet</description>
+    <description>TrainingAppServlet</description>
     <display-name>TrainingAppServlet</display-name>
     <servlet-name>TrainingAppServlet</servlet-name>
-    <servlet-class>com.example.myproject.TrainingAppServlet</servlet-class>
+    <servlet-class>com.training.core.TrainingAppServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>SVMServlet</description>
+    <display-name>SVMServlet</display-name>
+    <servlet-name>SVMServlet</servlet-name>
+    <servlet-class>com.training.svm.SVMServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>PreprocessServlet</description>
+    <display-name>PreprocessServlet</display-name>
+    <servlet-name>PreprocessServlet</servlet-name>
+    <servlet-class>com.training.preprocess.PreprocessServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>UserServlet</description>
+    <display-name>UserServlet</display-name>
+    <servlet-name>UserServlet</servlet-name>
+    <servlet-class>com.training.user.UserServlet</servlet-class>
+  </servlet>
+  
+  <!-- Servlet mappings --> 
   <servlet-mapping>
     <servlet-name>TrainingAppServlet</servlet-name>
     <url-pattern>/trainingapp</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SVMServlet</servlet-name>
+    <url-pattern>/trainingapp/svm/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PreprocessServlet</servlet-name>
+    <url-pattern>/trainingapp/preprocess/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserServlet</servlet-name>
+    <url-pattern>/trainingapp/user/*</url-pattern>
   </servlet-mapping>
 </web-app>
