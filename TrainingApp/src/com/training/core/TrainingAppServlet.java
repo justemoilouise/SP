@@ -12,6 +12,7 @@ public class TrainingAppServlet extends HttpServlet {
 	public TrainingAppServlet() {}
 	
 	public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		
+		resp.setContentType("application/json");
+		resp.getWriter().println("Hello world!");
 	}
 }

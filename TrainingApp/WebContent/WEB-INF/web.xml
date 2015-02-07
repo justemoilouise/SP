@@ -10,7 +10,7 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
-    <description>Sample Servlet</description>
+    <description>Core Servlet</description>
     <display-name>TrainingAppServlet</display-name>
     <servlet-name>TrainingAppServlet</servlet-name>
     <servlet-class>com.example.myproject.TrainingAppServlet</servlet-class>
