@@ -7,19 +7,27 @@ import com.training.helpers.FileHelper;
 
 import libsvm.svm;
 import libsvm.svm_model;
+import libsvm.svm_node;
 import libsvm.svm_parameter;
 import libsvm.svm_problem;
 import Data.SVMModel;
 import Data.SVMResult;
+import Data.Species;
 import Interfaces.ISVM;
 
 public class SVMProcessor implements ISVM {
 	private SVMModel model;
+	private ArrayList<String> classes;
 	
 	public SVMProcessor() {
 		this.model = new SVMModel();
+		this.classes = new ArrayList<String>();
 	}
 
+	public SVMModel getSVMModel() {
+		return model;
+	}
+	
 	@Override
 	public void buildModel() {
 		// TODO Auto-generated method stub
@@ -43,7 +51,17 @@ public class SVMProcessor implements ISVM {
 	@Override
 	public double crossValidate(svm_parameter params, svm_problem prob) {
 		// TODO Auto-generated method stub
-		return 0;
+		int correct = 0;
+		double[] target = new double[prob.l];
+		svm.svm_cross_validation(prob, params, 10, target);
+
+		for(int i=0; i<prob.l ;i++) {
+			if(target[i] == prob.y[i]) {
+				correct++;
+			}
+		}
+
+		return 100.0*correct/prob.l;
 	}
 
 	private svm_parameter BuildSVMParameters() {
@@ -65,7 +83,36 @@ public class SVMProcessor implements ISVM {
 	
 	private svm_problem BuildSVMProblem() {
 		//read from temporary file - input
+		ArrayList<Species> dataset = FileHelper.readFromFile();
 		svm_problem prob = new svm_problem();
+		
+		int dataCount = dataset.size();
+		prob.y = new double[dataCount];
+		prob.l = dataCount;
+		prob.x = new svm_node[dataCount][];
+
+		double classNameCtr = 0;
+		String className = "";
+
+		for(int i=0; i<dataCount; i++) {
+			Species s = dataset.get(i);
+			double[] features = s.getFeatureValues();
+			prob.x[i] = new svm_node[features.length];
+			for (int j=0; j<features.length; j++){
+				svm_node node = new svm_node();
+				node.index = j;
+				node.value = features[j];
+
+				prob.x[i][j] = node;
+			}
+
+			if(!className.equals(s.getName())) {
+				className = s.getName();
+				classes.add(className);
+				classNameCtr++;
+			}
+			prob.y[i] = classNameCtr;
+		}
 		
 		return prob;
 	}

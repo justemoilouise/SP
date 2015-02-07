@@ -1,5 +1,7 @@
 package com.training.helpers;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -9,17 +11,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import FileHandlers.FileOutput;
-import FileHandlers.FileRead;
+import Data.Species;
+import FileHandlers.FileInput;
 
 public class FileHelper {
-	private FileOutput output;
-	private FileRead reader;
-	
-	public FileHelper() {
-		this.output = new FileOutput();
-		this.reader = new FileRead();
-	}
 	
 	public static Hashtable<String, String> readFromXML(String tag) {
 		Hashtable<String, String> results = new Hashtable<String, String>();
@@ -43,4 +38,16 @@ public class FileHelper {
 		
 		return results;
 	}
+	
+	public static ArrayList<Species> readFromFile() {
+		FileInput input = new FileInput();
+		File f = input.uploadFile();
+		
+		if(f != null) {
+			return input.read(f);
+		}
+		
+		return null;
+	}
+	
 }
