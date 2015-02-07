@@ -22,6 +22,10 @@ public class PreprocessProcessor implements IPREPROCESS {
 		this.model = new PreprocessModel();
 		model.setPC(PC);
 	}
+	
+	public PreprocessModel getPreprocessModel() {
+		return model;
+	}
 
 	@Override
 	public ArrayList<Species> reduceFeatures(ArrayList<Species> dataset) {

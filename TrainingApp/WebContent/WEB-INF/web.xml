@@ -9,6 +9,30 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  <!-- SVM parameters -->
+  <svm-parameters>
+  	<epsilon>0.001</epsilon>
+  	<kernel>2</kernel>
+  	<type>0</type>
+  	<coef>0.001</coef>
+  	<nu>0.05</nu>
+  	<cost>117</cost>
+  	<gamma>0.02</gamma>
+  	<degree>3</degree>
+  </svm-parameters>
+  
+  <!-- Backdoor admin credentials -->
+  <admin-credentials>
+  	<username>admin</username>
+  	<password>UN5qGb5awt</password>
+  </admin-credentials>
+  
+  <!-- Preprocessing - PCA -->
+  <preprocessing-pca>
+  	<pc-num>2</pc-num>
+  </preprocessing-pca>
+  
   <servlet>
     <description>Core Servlet</description>
     <display-name>TrainingAppServlet</display-name>
