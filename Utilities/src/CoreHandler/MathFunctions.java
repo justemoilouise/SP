@@ -1,5 +1,7 @@
 package CoreHandler;
 
+import java.util.Arrays;
+
 
 public class MathFunctions {
 	
@@ -130,5 +132,29 @@ public class MathFunctions {
         }
 		
 		return product;
+	}
+	
+	public static double[] GetMinimum(double[][] data) {
+		double[] arr = new double[data.length];
+		
+		for(int i=0; i<data.length; i++) {
+			double[] temp = data[i].clone();
+			Arrays.sort(temp);
+			arr[i] = temp[0];
+		}
+		
+		return arr;
+	}
+	
+	public static double[] GetMaximum(double[][] data) {
+		double[] arr = new double[data.length];
+		
+		for(int i=0; i<data.length; i++) {
+			double[] temp = data[i].clone();
+			Arrays.sort(temp);
+			arr[i] = temp[temp.length-1];
+		}
+		
+		return arr;
 	}
 }
