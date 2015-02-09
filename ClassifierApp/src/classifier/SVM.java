@@ -1,9 +1,6 @@
 package classifier;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.Map.Entry;
 
 import Data.SVMModel;
 import Data.SVMResult;
@@ -17,13 +14,8 @@ import libsvm.svm_problem;
 public class SVM implements ISVM {
 	private SVMModel model;
 	private Preprocess_Scale pp;
-	private ArrayList<String> classes;
-	private Hashtable<String, Double> result;
 
-	public SVM() {
-		classes = new ArrayList<String>();
-		result = new Hashtable<String, Double>();
-	}
+	public SVM() {}
 	
 	public SVM(SVMModel model) {
 		this.model = model;
@@ -59,9 +51,7 @@ public class SVM implements ISVM {
 		double proby[] = new double[svm.svm_get_nr_class(model.getModel())]; 
 		svm.svm_predict_probability(model.getModel(), nodes, proby);
 
-		saveResults(proby);
-		
-		return null;
+		return saveResults(proby);
 	}
 
 	@Override
@@ -75,23 +65,23 @@ public class SVM implements ISVM {
 		return model.getAccuracy();
 	}
 
-	private void saveResults(double[] proby) {
+	private ArrayList<SVMResult> saveResults(double[] proby) {
+		ArrayList<SVMResult> results = new ArrayList<SVMResult>();
+		
 		for(int i=0; i<proby.length; i++) {
-			result.put(classes.get(i), proby[i]*100);
+			SVMResult result = new SVMResult();
+			result.setName(model.getClasses()[i]);
+			result.setProbability(proby[i]);
+			
+			results.add(result);
 		}
+		
+		return results;
 	}
 
 	@Override
 	public String getClassName() {
 		// TODO Auto-generated method stub
-		Object[] proby = result.values().toArray();
-		Arrays.sort(proby);
-
-		for(Entry<String, Double> e : result.entrySet()) {
-			if(e.getValue() == proby[proby.length-1])
-				return e.getKey().toString();
-		}
-
 		return null;
 	}
 }
