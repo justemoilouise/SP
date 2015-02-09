@@ -7,13 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-import CoreHandler.MathFunctions;
 import Data.Species;
 import FileHandlers.FileOutput;
-import Interfaces.ISCALE;
 
-public class Preprocess_Scale extends Preprocess implements ISCALE {
-	private ArrayList<Species> dataset_raw;
+public class Preprocess_Scale extends Preprocess {
 	private String[] keys;
 	private double[] min, max;
 	private String key;
@@ -26,7 +23,6 @@ public class Preprocess_Scale extends Preprocess implements ISCALE {
 	public Preprocess_Scale(String key, ArrayList<Species> dataset_raw) {
 		super(dataset_raw);
 		this.key = key;
-		this.dataset_raw = dataset_raw;
 		this.keys = dataset_raw.get(0).getFeatureLabels();
 		
 		int length = keys.length;
@@ -43,7 +39,6 @@ public class Preprocess_Scale extends Preprocess implements ISCALE {
 	public Preprocess_Scale(String key, ArrayList<Species> dataset_raw, boolean isIJ) {
 		super(dataset_raw);
 		this.key = key;
-		this.dataset_raw = dataset_raw;
 		this.keys = dataset_raw.get(0).getFeatureLabels();
 		this.isIJ = isIJ;
 		
@@ -57,10 +52,6 @@ public class Preprocess_Scale extends Preprocess implements ISCALE {
 		
 		readFromFile();
 	}
-	
-	public ArrayList<Species> getPreprocessedDataset() {
-		return super.getPreprocessedDataset();
-	}
 
 	public double[] scale(double[] features) {
 		double[] scaled = new double[features.length];
@@ -70,26 +61,6 @@ public class Preprocess_Scale extends Preprocess implements ISCALE {
 		}
 		
 		return scaled;
-	}
-		
-	@Override
-	public void scale() {
-		// TODO Auto-generated method stub
-		double[][] data_raw = MathFunctions.Transpose(extractFeatures());
-
-		if(min[0]==0 && max[0]==0) {
-			min = MathFunctions.GetMinimum(data_raw);
-			max = MathFunctions.GetMaximum(data_raw);
-		}
-
-		for(int i=0; i<data_raw.length; i++) {			
-			for(int j=0; j<dataset_raw.size(); j++) {
-				data_raw[i][j] = (data_raw[i][j]-min[i])/(max[i]-min[i]);
-			}
-		}
-
-		double[][] data_preprocessed = MathFunctions.Transpose(data_raw);
-		updateDataset(data_preprocessed);
 	}
 	
 	@SuppressWarnings("resource")

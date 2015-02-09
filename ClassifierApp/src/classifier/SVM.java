@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Map.Entry;
 
+import Data.SVMResult;
 import Interfaces.ISVM;
 import preprocess.FeatureSelection_PCATransform;
 import preprocess.Preprocess_Scale;
@@ -43,7 +44,7 @@ public class SVM implements ISVM {
 	}
 
 	@Override
-	public void classify(double[] features) {
+	public ArrayList<SVMResult> classify(double[] features) {
 		// TODO Auto-generated method stub
 		double[][] f = new double[1][];
 		f[0] = pp.scale(features);
@@ -63,6 +64,8 @@ public class SVM implements ISVM {
 		svm.svm_predict_probability(model, nodes, proby);
 
 		saveResults(proby);
+		
+		return null;
 	}
 
 	@Override
@@ -94,11 +97,5 @@ public class SVM implements ISVM {
 		}
 
 		return null;
-	}
-
-	@Override
-	public Hashtable<String, Double> getResults() {
-		// TODO Auto-generated method stub
-		return result;
 	}
 }

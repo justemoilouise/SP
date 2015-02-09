@@ -31,12 +31,8 @@ public class FeatureSelection_PCATransform extends Preprocess {
 		this.PC = PC;
 	}
 	
-	public ArrayList<Species> getPreprocessedDataset() {
-		return super.getPreprocessedDataset();
-	}
-	
 	public void transform() {
-		double[][] dataset = extractFeatures();
+		double[][] dataset = null;
 		this.trainingSet = MathFunctions.Transpose(dataset);
 		
 		double[][] phi = calculatePhi();
@@ -49,7 +45,7 @@ public class FeatureSelection_PCATransform extends Preprocess {
 		principalComponents = MathFunctions.Transpose(pc);
 		double[][] features = MathFunctions.MatrixMultiplication(principalComponents, phi);
 		
-		updateDataset(MathFunctions.Transpose(features));
+		//updateDataset(MathFunctions.Transpose(features));
 	}
 	
 	public double[] getReducedFeatures(double[] input) {

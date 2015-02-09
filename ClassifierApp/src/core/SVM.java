@@ -51,13 +51,11 @@ public class SVM implements Runnable {
 		if(isIJ) {
 			svmIJ.classify(features);
 			
-			this.result = svmIJ.getResults();
 			return svmIJ.getClassName();
 		}
 		else {
 			svmJF.classify(features);
 			
-			this.result = svmJF.getResults();
 			return svmJF.getClassName();
 		}
 	}
