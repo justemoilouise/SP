@@ -5,6 +5,7 @@ import libsvm.svm_model;
 public class SVMModel {
 	private svm_model model;
 	private double accuracy;
+	private String[] classes;
 	
 	public SVMModel() {}
 
@@ -22,5 +23,13 @@ public class SVMModel {
 
 	public void setAccuracy(double accuracy) {
 		this.accuracy = accuracy;
+	}
+
+	public String[] getClasses() {
+		return classes;
+	}
+
+	public void setClasses(String[] classes) {
+		this.classes = classes;
 	}
 }
