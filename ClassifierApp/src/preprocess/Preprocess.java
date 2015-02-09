@@ -1,68 +1,42 @@
 package preprocess;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
+import CoreHandler.MathFunctions;
+import Data.PreprocessModel;
 import Data.Species;
 import Interfaces.IPREPROCESS;
 
 public class Preprocess implements IPREPROCESS {
-	private ArrayList<Species> dataset_raw;
+	private PreprocessModel model;
 	
 	public Preprocess() {}
 	
-	public Preprocess(ArrayList<Species> dataset_raw) {
-		this.dataset_raw = dataset_raw;
-	}
-
-	public double[] getClasses() {		
-		return extractClasses();
+	public Preprocess(PreprocessModel model) {
+		this.model = model;
 	}
 	
-	public int[] getAttributes() {
-		return extractAttributes();
-	}
-
-	private double[] extractClasses() {
-		int count = 0, index=0;
-		String name = "";
-		double[] classes = new double[dataset_raw.size()];
-		Iterator<Species> i = dataset_raw.iterator();
-		while(i.hasNext()) {
-			Species s = i.next();
-			
-			if(!s.getName().equals(name)) {
-				name = s.getName();
-				count++;
-			}
-			
-			classes[index] = count;
-			index++;
+	@Override
+	public double[] scale(double[] features) {
+		// TODO Auto-generated method stub
+		double[] scaled = new double[features.length];
+		double[] min = null;
+		double[] max = null;
+		
+		for(int i=0; i<features.length; i++) {
+			scaled[i] = (features[i]-min[i])/(max[i]-min[i]);
 		}
 		
-		return classes;
+		return scaled;
 	}
 	
-	private int[] extractAttributes() {
-		int attributesLength = dataset_raw.get(0).getFeatureValues().length;
-		int[] attributes = new int[attributesLength];
-		
-		for(int i=0; i<attributesLength; i++)
-			attributes[i] = i+1;
-		
-		return attributes;
-	}
-
 	@Override
-	public ArrayList<Species> reduceFeatures(ArrayList<Species> arg0) {
+	public double[] reduceFeatures(double[] features) {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public double[] reduceFeatures(double[] arg0) {
-		// TODO Auto-generated method stub
-		return null;
+		double[] phi = MathFunctions.MatrixSubtraction(features, model.getMean());
+		double[][] reducedFeatures = MathFunctions.MatrixMultiplication(model.getPrincipalComponents(), phi);
+		
+		return MathFunctions.TransposeTo1D(reducedFeatures);
 	}
 
 	@Override
@@ -70,9 +44,9 @@ public class Preprocess implements IPREPROCESS {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
-	public double[] scale(double[] arg0) {
+	public ArrayList<Species> reduceFeatures(ArrayList<Species> arg0) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -5,36 +5,32 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Map.Entry;
 
+import Data.SVMModel;
 import Data.SVMResult;
 import Interfaces.ISVM;
-import preprocess.FeatureSelection_PCATransform;
 import preprocess.Preprocess_Scale;
 import libsvm.svm;
-import libsvm.svm_model;
 import libsvm.svm_node;
 import libsvm.svm_parameter;
 import libsvm.svm_problem;
 
 public class SVM implements ISVM {
-	private svm_model model;
+	private SVMModel model;
 	private Preprocess_Scale pp;
-	private FeatureSelection_PCATransform pca;
 	private ArrayList<String> classes;
 	private Hashtable<String, Double> result;
-	private double accuracy;
 
 	public SVM() {
 		classes = new ArrayList<String>();
 		result = new Hashtable<String, Double>();
-		model = new svm_model();
+	}
+	
+	public SVM(SVMModel model) {
+		this.model = model;
 	}
 
 	public void init_SVM(boolean isIJ) {
 		//read model files from resources
-	}
-
-	public svm_model getModel() {
-		return model;
 	}
 
 	@Override
@@ -48,7 +44,7 @@ public class SVM implements ISVM {
 		// TODO Auto-generated method stub
 		double[][] f = new double[1][];
 		f[0] = pp.scale(features);
-		f[0] = pca.getReducedFeatures(f[0]);
+//		f[0] = pca.getReducedFeatures(f[0]);
 
 		svm_node[] nodes = new svm_node[f[0].length];
 
@@ -60,8 +56,8 @@ public class SVM implements ISVM {
 			nodes[i] = node;
 		}
 
-		double proby[] = new double[svm.svm_get_nr_class(model)]; 
-		svm.svm_predict_probability(model, nodes, proby);
+		double proby[] = new double[svm.svm_get_nr_class(model.getModel())]; 
+		svm.svm_predict_probability(model.getModel(), nodes, proby);
 
 		saveResults(proby);
 		
@@ -76,7 +72,7 @@ public class SVM implements ISVM {
 
 	@Override
 	public double getAccuracy() {
-		return accuracy;
+		return model.getAccuracy();
 	}
 
 	private void saveResults(double[] proby) {

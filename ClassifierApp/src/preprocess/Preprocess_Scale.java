@@ -21,7 +21,6 @@ public class Preprocess_Scale extends Preprocess {
 	}
 
 	public Preprocess_Scale(String key, ArrayList<Species> dataset_raw) {
-		super(dataset_raw);
 		this.key = key;
 		this.keys = dataset_raw.get(0).getFeatureLabels();
 		
@@ -37,7 +36,6 @@ public class Preprocess_Scale extends Preprocess {
 	}
 	
 	public Preprocess_Scale(String key, ArrayList<Species> dataset_raw, boolean isIJ) {
-		super(dataset_raw);
 		this.key = key;
 		this.keys = dataset_raw.get(0).getFeatureLabels();
 		this.isIJ = isIJ;

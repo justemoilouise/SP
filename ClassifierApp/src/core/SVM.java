@@ -2,7 +2,6 @@ package core;
 
 import java.util.Hashtable;
 
-import libsvm.svm_model;
 import classifier.SVM_IJ;
 import classifier.SVM_JFeature;
 
@@ -33,12 +32,6 @@ public class SVM implements Runnable {
 	
 	public void setInput(double[] features) {
 		this.features = features;
-	}
-	
-	public svm_model getModel() {
-		if(isIJ)
-			return svmIJ.getModel();
-		return svmJF.getModel();
 	}
 	
 	public double getAccuracy() {
