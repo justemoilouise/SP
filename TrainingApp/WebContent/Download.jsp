@@ -7,17 +7,47 @@
 	<script type="text/javascript" src="bootstrap/js/jquery-2.1.3.min.js"></script>
 </head>
 <body>
-	<table class="table">
-		<tr>
-			<th>Date</th>
-			<th>Version number</th>
-			<th>Release notes</th>
-		</tr>
-		<tr>
-			<th><% new java.util.Date();  %></th>
-			<th>1.0</th>
-			<th>Beta</th>
-		</tr>
-	</table>
+
+	<br />
+	<div class="panel panel-default col-md-offset-1 col-md-10">
+		<div class="panel-heading">
+			<h3 class="panel-title">Classifier application</h3>
+		</div>
+		<div class="panel-body">
+			<table class="table">
+				<tr>
+					<th>Date</th>
+					<th>Version number</th>
+					<th>Release notes</th>
+				</tr>
+				<tr>
+					<th><%= new java.util.Date() %></th>
+					<th>1.0</th>
+					<th>Beta</th>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<br />
+	<div class="panel panel-default col-md-offset-1 col-md-10">
+		<div class="panel-heading">
+			<h3 class="panel-title">Classifier model</h3>
+		</div>
+		<div class="panel-body">
+			<table class="table">
+				<tr>
+					<th>Date</th>
+					<th>Version number</th>
+					<th>Release notes</th>
+				</tr>
+				<tr>
+					<th><%= new java.util.Date() %></th>
+					<th>1.0</th>
+					<th>Beta</th>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<br />
 </body>
 </html>

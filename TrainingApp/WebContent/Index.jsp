@@ -7,7 +7,7 @@
 	<script type="text/javascript" src="bootstrap/js/jquery-2.1.3.min.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-inverse">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 	  <div class="container-fluid">
 	    
 	    <!-- Brand and toggle get grouped for better mobile display -->

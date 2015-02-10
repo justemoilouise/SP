@@ -7,30 +7,21 @@
 	<script type="text/javascript" src="bootstrap/js/jquery-2.1.3.min.js"></script>
 </head>
 <body>
-
+	
 	<br />
-	<div class="panel panel-default col-md-offset-1 col-md-10">
+	<div class="panel panel-default col-md-offset-6 col-md-5">
 		<div class="panel-heading">
-			<h3 class="panel-title">Training - input</h3>
+			<h3 class="panel-title">Log in</h3>
 		</div>
 		<div class="panel-body">
-			<ul>
-				<li>Upload file</li>
-				<li>SVM Parameters</li>
-			</ul>
-		</div>
-	</div>
-	<br />
-	<div class="panel panel-default col-md-offset-1 col-md-10">
-		<div class="panel-heading">
-			<h3 class="panel-title">Training - output</h3>
-		</div>
-		<div class="panel-body">
-			<ul>
-				<li>Scaling factors</li>
-				<li>Principal components</li>
-				<li>SVM Model</li>
-			</ul>
+			<label>Username: </label><input type="text" class="form-control" />
+			<br />
+			<label>Password: </label><input type="password" class="form-control" />
+			<br />
+			<div class="btn-group col-md-offset-7 col-md-6">
+				<button class="btn btn-primary">Log in</button>
+				<button class="btn btn-default">Cancel</button>
+			</div>
 		</div>
 	</div>
 	<br />
