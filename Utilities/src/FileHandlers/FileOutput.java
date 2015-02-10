@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-import java.nio.file.Files;
 import java.util.Hashtable;
 import java.util.Map.Entry;
 
@@ -58,7 +57,7 @@ public class FileOutput extends Thread {
 			pw.flush();
 			pw.close();
 
-			Files.setAttribute(f.toPath(), "dos:hidden", true);
+//			Files.setAttribute(f.toPath(), "dos:hidden", true);
 
 		} catch (Exception e) {
 			Prompt.PromptError("ERROR_SAVE_SCALE");
