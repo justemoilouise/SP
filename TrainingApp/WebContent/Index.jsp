@@ -7,6 +7,7 @@
 	<script type="text/javascript" src="bootstrap/js/jquery-2.1.3.min.js"></script>
 	<script type="text/javascript" src="script/navigation.js"></script>
 	<script type="text/javascript" src="script/core.js"></script>
+	<script type="text/javascript" src="script/training.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-inverse">
@@ -28,10 +29,10 @@
 	      <ul class="nav navbar-nav">
 	        <li><a href="#" id="nav_home">Home</a></li>
 	        <li><a href="#" id="nav_download">Downloads</a></li>
-	        <% if(session.getAttribute("admin") != null) { %>
+	        <% //if(session.getAttribute("admin") != null) { %>
 		        <li><a href="#" id="nav_training">Train</a></li>
 		        <li><a href="#" id="nav_documentation">Documentation</a></li>
-	        <% } %>
+	        <% //} %>
 	        <li><a href="#" id="nav_about">About</a></li>
 	      </ul>
 	    </div>

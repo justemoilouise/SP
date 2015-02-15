@@ -1,4 +1,10 @@
 $(function() {
+	$("#login_cancel_btn").click(function () {
+		alert("test alert");
+	})
+});
+
+$(function() {
 	$("#login_btn").click(function() {
 		var username = $("#login_username").val();
 		var password = $("#login_password").val();
@@ -22,7 +28,6 @@ $(function() {
 	$("#logout_btn").click(function() {
 		$.ajax({
 			url: 'trainingapp/user/logout',
-			data: {''},
 			success: function() { alert("Successfully logged out."); },
 			error: function() { alert("An error occurred. Please try again."); },
 		});

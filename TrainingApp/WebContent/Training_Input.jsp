@@ -28,6 +28,6 @@
 <br />
 <div class="btn-group col-md-offset-9 col-md-3">
 	<button class="btn btn-primary" id="build_model">Build model</button>
-	<button class="btn btn-default">Cancel</button>
+	<button class="btn btn-default" id="train_cancel_btn">Cancel</button>
 </div>
 <br />

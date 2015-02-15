@@ -1,4 +1,10 @@
-function preprocess(data) {
+$(function() {
+	$("#train_cancel_btn").click(function() {
+		alert("test alert");
+	});
+})
+
+/*function preprocess(data) {
 	var preprocessedData = scale(data);
 	
 	if(preprocessedData  != null)
@@ -27,4 +33,4 @@ function reduceFeatures(data) {
 
 function buildModel(data) {
 	
-}
+}*/
