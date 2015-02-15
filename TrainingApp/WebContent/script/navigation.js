@@ -1,29 +1,29 @@
 $(function() {
 	$("#nav_download").click(function() {
-		$("#content_holder").load("download.jsp");
+		$("#content_holder").load("Download.jsp");
 	});
 })
 
 $(function() {
 	$("#nav_documentation").click(function() {
-		$("#content_holder").load("documentation.jsp");
+		$("#content_holder").load("Documentation.jsp");
 	});
 })
 
 $(function() {
 	$("#nav_about").click(function() {
-		$("#content_holder").load("about.jsp");
+		$("#content_holder").load("About.jsp");
 	});
 })
 
 $(function() {
 	$("#nav_training").click(function() {
-		$("#content_holder").load("training_input.jsp");
+		$("#content_holder").load("Training_Input.jsp");
 	});
 })
 
 $(function() {
 	$("#build_model").click(function() {
-		$("#content_holder").load("training_output.jsp");
+		$("#content_holder").load("Training_Output.jsp");
 	});
 })

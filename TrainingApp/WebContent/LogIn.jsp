@@ -5,6 +5,7 @@
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="bootstrap/js/jquery-2.1.3.min.js"></script>
+	<script type="text/javascript" src="script/user.js"></script>
 </head>
 <body>
 	
@@ -14,12 +15,12 @@
 			<h3 class="panel-title">Log in</h3>
 		</div>
 		<div class="panel-body">
-			<label>Username: </label><input type="text" class="form-control" />
+			<label>Username: </label><input id="login_username" type="text" class="form-control" />
 			<br />
-			<label>Password: </label><input type="password" class="form-control" />
+			<label>Password: </label><input id="login_password" type="password" class="form-control" />
 			<br />
 			<div class="btn-group col-md-offset-7 col-md-6">
-				<button class="btn btn-primary">Log in</button>
+				<button class="btn btn-primary" id="login_btn">Log in</button>
 				<button class="btn btn-default">Cancel</button>
 			</div>
 		</div>
