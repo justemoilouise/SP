@@ -4,12 +4,13 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.util.Hashtable;
-import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import CoreHandler.Prompt;
+import Data.ClassifierModel;
 import Data.Input;
+import Data.SVMResult;
 import Data.Species;
 import ImageHandlers.ProcessImage;
 
@@ -28,8 +29,12 @@ import com.itextpdf.text.pdf.draw.LineSeparator;
 public class FileOutput extends Thread {
 
 	public FileOutput() {}
-
-	public void saveToFile(double[] arr, boolean isIJ) {
+	
+	public String saveToFile(ClassifierModel model) {
+		return null;
+	}
+	
+	public void saveToFile(double[] arr, boolean isIJUsed) {
 		StringBuilder sb = new StringBuilder();
 
 		for(int i=0; i<arr.length; i++) {
@@ -40,7 +45,7 @@ public class FileOutput extends Thread {
 		StringBuilder fileName = new StringBuilder();
 		fileName.append("settings");
 		
-		if(isIJ) {
+		if(isIJUsed) {
 			fileName.append("_IJ");
 		}
 		else {
@@ -57,8 +62,6 @@ public class FileOutput extends Thread {
 			pw.println();
 			pw.flush();
 			pw.close();
-
-			Files.setAttribute(f.toPath(), "dos:hidden", true);
 
 		} catch (Exception e) {
 			Prompt.PromptError("ERROR_SAVE_SCALE");
@@ -130,11 +133,14 @@ public class FileOutput extends Thread {
 			t2.addCell("Species");
 			t2.addCell("Probabilty");
 
-			Hashtable<String, Double> svmResult = input.getSvmResult();
+			ArrayList<SVMResult> svmResult = input.getSvmResult();
 
-			for(Entry<String, Double> e : svmResult.entrySet()) {
-				t2.addCell(e.getKey());
-				t2.addCell(e.getValue().toString());
+			Iterator<SVMResult> iter = svmResult.iterator();
+			while(iter.hasNext()) {
+				SVMResult result = iter.next();
+				
+				t2.addCell(result.getName());
+				t2.addCell(Double.toString(result.getProbability()));
 			}
 
 			document.add(p2);
@@ -148,6 +154,14 @@ public class FileOutput extends Thread {
 		}
 	}
 
+	public String compressFile(File f) {
+		return null;
+	}
+	
+	public ClassifierModel decompressFile(File f) {
+		return null;
+	}
+	
 	private Image getImage(Input input) {
 		Image img = null;
 		

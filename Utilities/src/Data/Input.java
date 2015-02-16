@@ -1,6 +1,6 @@
 package Data;
 
-import java.util.Hashtable;
+import java.util.ArrayList;
 
 import ij.ImagePlus;
 
@@ -8,11 +8,12 @@ public class Input {
 	private ImagePlus img;
 	private String imageName;
 	private Species species;
-	private Hashtable<String, Double> svmResult;
+	private ArrayList<SVMResult> svmResult;
 
 	public Input() {
 		this.img = null;
 		this.imageName = "img/noimg.png";
+		this.svmResult = new ArrayList<SVMResult>();
 	}
 
 	public ImagePlus getImg() {
@@ -39,11 +40,11 @@ public class Input {
 		this.species = species;
 	}
 
-	public Hashtable<String, Double> getSvmResult() {
+	public ArrayList<SVMResult> getSvmResult() {
 		return svmResult;
 	}
-
-	public void setSvmResult(Hashtable<String, Double> svmResult) {
+	
+	public void setSvmResult(ArrayList<SVMResult> svmResult) {
 		this.svmResult = svmResult;
-	}	
+	}
 }
