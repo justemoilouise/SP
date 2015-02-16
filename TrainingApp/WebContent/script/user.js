@@ -1,10 +1,8 @@
 $(function() {
-	$("#login_cancel_btn").click(function () {
+	$("#login_cancel_btn").on("click", function() {
 		alert("test alert");
-	})
-});
-
-$(function() {
+	});
+	
 	$("#login_btn").click(function() {
 		var username = $("#login_username").val();
 		var password = $("#login_password").val();
@@ -22,9 +20,7 @@ $(function() {
 			dataType: 'json'
 		});
 	});
-});
-
-$(function() {
+	
 	$("#logout_btn").click(function() {
 		$.ajax({
 			url: 'trainingapp/user/logout',
