@@ -23,7 +23,7 @@ public class SVMServlet extends HttpServlet {
 		if(method.equalsIgnoreCase("getmodel")) {
 			response = processor.getSVMModel();
 		} else if(method.equalsIgnoreCase("buildmodel")) {
-			processor.buildModel();
+			processor.buildModel(true);
 		}
 		
 		resp.setContentType("application/json");

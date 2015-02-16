@@ -29,7 +29,7 @@ public class SVMProcessor implements ISVM {
 	}
 	
 	@Override
-	public void buildModel() {
+	public void buildModel(boolean isIJUsed) {
 		// TODO Auto-generated method stub
 		svm_parameter params = BuildSVMParameters();
 		svm_problem prob = BuildSVMProblem();
@@ -43,7 +43,7 @@ public class SVMProcessor implements ISVM {
 	}
 
 	@Override
-	public ArrayList<SVMResult> classify(double[] features) {
+	public ArrayList<SVMResult> classify(double[] features, boolean isIJUsed) {
 		// TODO Auto-generated method stub
 		return null;
 	}
