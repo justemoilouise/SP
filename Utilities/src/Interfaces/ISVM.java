@@ -11,7 +11,7 @@ public interface ISVM {
 	/**
 	 * Builds SVM model
 	 */
-	public void buildModel();
+	public void buildModel(boolean isIJUsed);
 	
 	/**
 	 * Cross validates model
@@ -28,19 +28,5 @@ public interface ISVM {
 	 * 
 	 * @param features
 	 */
-	public ArrayList<SVMResult> classify(double[] features);
-	
-	/**
-	 * Simply retrieves the accuracy of the generated model
-	 * 
-	 * @return accuracy
-	 */
-	public double getAccuracy();
-	
-	/**
-	 * Returns the classification name
-	 * 
-	 * @return class name
-	 */
-	public String getClassName();
+	public ArrayList<SVMResult> classify(double[] features, boolean isIJUsed);
 }

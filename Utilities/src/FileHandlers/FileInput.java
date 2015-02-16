@@ -2,7 +2,7 @@ package FileHandlers;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.Hashtable;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JFileChooser;
@@ -19,12 +19,11 @@ import Data.Species;
 import Interfaces.IFILE_READ;
 
 public class FileInput implements IFILE_READ {
-	private File file;
 	private String[] keys;
 	private double[] values;
 
 	@Override
-	public void parse(Row row, int rowNumber) {
+	public Input parseInput(Row row, int rowNumber) {
 		// TODO Auto-generated method stub
 		int cCount = 0;
 		Iterator<Cell> cellIter = row.iterator();
@@ -37,54 +36,44 @@ public class FileInput implements IFILE_READ {
 			}
 		}
 		else {
-			Hashtable<String, Double> features = new Hashtable<String, Double>();
 			while(cellIter.hasNext()) {
 				values[cCount] = cellIter.next().getNumericCellValue();
 				cCount++;
 			}
 
-			addToInput(features);
+			return setInput();
 		}
+		
+		return null;
 	}
-
+	
 	@Override
-	public boolean read() {
-		// TODO Auto-generated method stub		
-		try {
-			FileInputStream fis = new FileInputStream(file);
-			XSSFWorkbook workbook = new XSSFWorkbook(fis);
-			XSSFSheet sheet = workbook.getSheetAt(0);
-
-			int rCount = 0;
-			Iterator<Row> rowIter = sheet.iterator();
-			while(rowIter.hasNext() && rCount<sheet.getPhysicalNumberOfRows()) {
-				Row row = rowIter.next();
-
-				parse(row, rCount);
-				rCount++;
+	public Species parse(Row row, int rowNumber) {
+		// TODO Auto-generated method stub
+		int cCount = 0;
+		Iterator<Cell> cellIter = row.iterator();
+		if(rowNumber==0) {
+			keys = new String[row.getPhysicalNumberOfCells()];
+			values = new double[row.getPhysicalNumberOfCells()];
+			while(cellIter.hasNext()) {
+				keys[cCount] = cellIter.next().getStringCellValue();
+				cCount++;
+			}
+		}
+		else {
+			while(cellIter.hasNext()) {
+				values[cCount] = cellIter.next().getNumericCellValue();
+				cCount++;
 			}
 
-			return true;
-		} catch (Exception e) {
-			Prompt.PromptError("ERROR_READ_FILE");
+			return setSpecies();
 		}
-
-		return false;
-	}
-
-	private Input addToInput(Hashtable<String, Double> features) {
-		Species species = new Species();
-		species.setFeatureLabels(keys);
-		species.setFeatureValues(values);
-
-		Input i = new Input();
-		i.setSpecies(species);
 		
-		return i;
+		return null;
 	}
 
 	@Override
-	public boolean upload_file() {
+	public File uploadFile() {
 		// TODO Auto-generated method stub		
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel files", "xlsx");
 		JFileChooser fc = new JFileChooser();
@@ -94,8 +83,8 @@ public class FileInput implements IFILE_READ {
 
 		try {
 			if (status == JFileChooser.APPROVE_OPTION) {
-				file = fc.getSelectedFile();
-				return true;
+				File file = fc.getSelectedFile();
+				return file;
 			}
 			else if (status == JFileChooser.CANCEL_OPTION);
 		}
@@ -103,18 +92,76 @@ public class FileInput implements IFILE_READ {
 			Prompt.PromptError("ERROR_UPLOAD_FILE");
 		}
 
-		return false;
+		return null;
 	}
+	
 
 	@Override
-	public File getFile() {
+	public ArrayList<Input> readInput(File f) {
 		// TODO Auto-generated method stub
-		return file;
-	}
+		ArrayList<Input> list = new ArrayList<Input>();
+		
+		try {
+			FileInputStream fis = new FileInputStream(f);
+			XSSFWorkbook workbook = new XSSFWorkbook(fis);
+			XSSFSheet sheet = workbook.getSheetAt(0);
 
+			int rCount = 0;
+			Iterator<Row> rowIter = sheet.iterator();
+			while(rowIter.hasNext() && rCount<sheet.getPhysicalNumberOfRows()) {
+				Row row = rowIter.next();
+
+				Input i = parseInput(row, rCount);
+				list.add(i);
+				
+				rCount++;
+			}
+		} catch (Exception e) {
+			Prompt.PromptError("ERROR_READ_FILE");
+		}
+		
+		return list;
+	}
+	
 	@Override
-	public boolean read(File f) {
+	public ArrayList<Species> read(File f) {
 		// TODO Auto-generated method stub
-		return false;
+		ArrayList<Species> list = new ArrayList<Species>();
+		
+		try {
+			FileInputStream fis = new FileInputStream(f);
+			XSSFWorkbook workbook = new XSSFWorkbook(fis);
+			XSSFSheet sheet = workbook.getSheetAt(0);
+
+			int rCount = 0;
+			Iterator<Row> rowIter = sheet.iterator();
+			while(rowIter.hasNext() && rCount<sheet.getPhysicalNumberOfRows()) {
+				Row row = rowIter.next();
+
+				Species s = parse(row, rCount);
+				list.add(s);
+				
+				rCount++;
+			}
+		} catch (Exception e) {
+			Prompt.PromptError("ERROR_READ_FILE");
+		}
+		
+		return list;
+	}
+	
+	private Species setSpecies() {
+		Species species = new Species();
+		species.setFeatureLabels(keys);
+		species.setFeatureValues(values);
+		
+		return species;
+	}
+	
+	private Input setInput() {
+		Input i = new Input();
+		i.setSpecies(setSpecies());
+		
+		return i;
 	}
 }
