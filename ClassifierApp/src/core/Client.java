@@ -119,7 +119,7 @@ public class Client {
 		progress.setVisible(true);
 		pm.addToDesktopPane(progress);
 		
-		svm.setIsIJ(isIJ);		
+		//svm.setIsIJ(isIJ);		
 		
 		t = new Thread(svm, "SVM");
 		t.setUncaughtExceptionHandler(new ThreadException());
@@ -188,7 +188,7 @@ public class Client {
 			else {
 				input = inputs.get(inputs.size()-1);
 			}
-			svm.setInput(input.getSpecies().getFeatureValues());
+			//svm.setInput(input.getSpecies().getFeatureValues());
 		}
 		catch(Exception e) {
 			Prompt.PromptError("ERROR_INPUT_FEATURES");

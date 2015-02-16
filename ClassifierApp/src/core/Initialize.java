@@ -22,7 +22,7 @@ public class Initialize implements Runnable {
 		
 		long startTime = System.currentTimeMillis();
 		SVM svm = Client.getSvm();
-		svm.init_SVM();
+		//svm.init_SVM();
 		
 		Client.getPm().appendToConsole("SVM took " + (System.currentTimeMillis()-startTime) + " ms to initialize..");
 		Client.getPm().appendToConsole("SVM: " + svm.getAccuracy() + "%");
