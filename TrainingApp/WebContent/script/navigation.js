@@ -1,29 +1,17 @@
 $(function() {
-	$("#nav_download").click(function() {
+	$("#nav_download").on("click", function() {
 		$("#content_holder").load("Download.jsp");
 	});
-})
-
-$(function() {
-	$("#nav_documentation").click(function() {
+	
+	$("#nav_documentation").on("click", function() {
 		$("#content_holder").load("Documentation.jsp");
 	});
-})
-
-$(function() {
-	$("#nav_about").click(function() {
+	
+	$("#nav_about").on("click", function() {
 		$("#content_holder").load("About.jsp");
 	});
-})
-
-$(function() {
-	$("#nav_training").click(function() {
+	
+	$("#nav_training").on("click", function() {
 		$("#content_holder").load("Training_Input.jsp");
 	});
-})
-
-$(function() {
-	$("#build_model").click(function() {
-		$("#content_holder").load("Training_Output.jsp");
-	});
-})
+});

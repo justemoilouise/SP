@@ -1,8 +1,8 @@
 $(function() {
-	$("#train_cancel_btn").click(function() {
+	$("#train_cancel_btn").on("click", function() {
 		alert("test alert");
 	});
-})
+});
 
 /*function preprocess(data) {
 	var preprocessedData = scale(data);
