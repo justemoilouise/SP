@@ -5,11 +5,24 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import CoreHandler.Prompt;
 import Data.ClassifierModel;
 import Data.Input;
+import Data.PreprocessModel;
+import Data.SVMModel;
 import Data.SVMResult;
 import Data.Species;
 import ImageHandlers.ProcessImage;
@@ -30,7 +43,94 @@ public class FileOutput extends Thread {
 
 	public FileOutput() {}
 	
+	// save as XML
 	public String saveToFile(ClassifierModel model) {
+		org.w3c.dom.Element root, element, subElement;
+		
+		try {
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+			org.w3c.dom.Document doc = docBuilder.newDocument();
+			
+			root = doc.createElement("classifier-model");
+			doc.appendChild(root);
+			
+			element = doc.createElement("version");
+			element.appendChild(doc.createTextNode(Double.toString(model.getVersion())));
+			root.appendChild(element);
+			
+			element = doc.createElement("created-date");
+			element.appendChild(doc.createTextNode(model.getCreatedDate().toString()));
+			root.appendChild(element);
+			
+			element = doc.createElement("notes");
+			element.appendChild(doc.createTextNode(model.getNotes()));
+			root.appendChild(element);
+			
+			element = doc.createElement("isIJUsed");
+			element.appendChild(doc.createTextNode(Boolean.toString(model.isIJUsed())));
+			root.appendChild(element);
+			
+			// Preprocessing model
+			PreprocessModel preprocessModel = model.getPreprocessModel();
+			element = doc.createElement("preprocess-model");
+			root.appendChild(element);
+			
+			subElement = doc.createElement("scale-min");
+			subElement.appendChild(doc.createTextNode(Arrays.toString(preprocessModel.getMin())));
+			element.appendChild(subElement);
+			
+			subElement = doc.createElement("scale-max");
+			subElement.appendChild(doc.createTextNode(Arrays.toString(preprocessModel.getMax())));
+			element.appendChild(subElement);
+			
+			subElement = doc.createElement("pca-pc");
+			subElement.appendChild(doc.createTextNode(Integer.toString(preprocessModel.getPC())));
+			element.appendChild(subElement);
+			
+			subElement = doc.createElement("pca-mean");
+			subElement.appendChild(doc.createTextNode(Arrays.toString(preprocessModel.getMean())));
+			element.appendChild(subElement);
+			
+			subElement = doc.createElement("pca-principal-components");
+			subElement.appendChild(doc.createTextNode(Arrays.toString(preprocessModel.getPrincipalComponents())));
+			element.appendChild(subElement);
+			
+			// SVM model
+			SVMModel svmModel = model.getSvmmodel();
+			element = doc.createElement("svm-model");
+			root.appendChild(element);
+			
+			subElement = doc.createElement("svm-svm-model");
+			subElement.appendChild(doc.createTextNode(svmModel.getModel().toString()));
+			element.appendChild(subElement);
+			
+			subElement = doc.createElement("svm-accuracy");
+			subElement.appendChild(doc.createTextNode(Double.toString(svmModel.getAccuracy())));
+			element.appendChild(subElement);
+			
+			subElement = doc.createElement("svm-classes");
+			subElement.appendChild(doc.createTextNode(Arrays.toString(svmModel.getClasses().toArray())));
+			element.appendChild(subElement);
+			
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(new File("classifier-model-" + model.getVersion() + ".xml"));
+	 
+			transformer.transform(source, result);
+			
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 	
@@ -181,5 +281,9 @@ public class FileOutput extends Thread {
 		}
 		
 		return img;
+	}
+
+	private String convertToString(String[] arr) {
+		return null;
 	}
 }
