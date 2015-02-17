@@ -44,8 +44,9 @@ public class FileOutput extends Thread {
 	public FileOutput() {}
 	
 	// save as XML
-	public String saveToFile(ClassifierModel model) {
+	public File saveToFile(ClassifierModel model) {
 		org.w3c.dom.Element root, element, subElement;
+		File f = null;
 		
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -116,8 +117,9 @@ public class FileOutput extends Thread {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("classifier-model-" + model.getVersion() + ".xml"));
-	 
+			
+			f = new File("classifier-model-" + model.getVersion() + ".xml");
+			StreamResult result = new StreamResult(f);
 			transformer.transform(source, result);
 			
 		} catch (ParserConfigurationException e) {
@@ -131,7 +133,7 @@ public class FileOutput extends Thread {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return f;
 	}
 	
 	public void saveToFile(double[] arr, boolean isIJUsed) {
