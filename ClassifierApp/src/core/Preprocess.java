@@ -20,8 +20,8 @@ public class Preprocess implements IPREPROCESS {
 	public double[] scale(double[] features) {
 		// TODO Auto-generated method stub
 		double[] scaled = new double[features.length];
-		double[] min = null;
-		double[] max = null;
+		double[] min = model.getMin();
+		double[] max = model.getMax();
 		
 		for(int i=0; i<features.length; i++) {
 			scaled[i] = (features[i]-min[i])/(max[i]-min[i]);

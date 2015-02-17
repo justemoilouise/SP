@@ -47,15 +47,12 @@ public class Listener_Mouse implements ActionListener {
 		}
 		else if(command.equals("input_file")) {
 			FileInput ifp = new FileInput();
-			boolean isUploaded = ifp.upload_file();
 			
-			if(isUploaded) {
-				boolean isRead = ifp.read();
-				
-				if(isRead) {
-					Prompt.PromptSuccess("SUCCESS_UPLOAD_FILE");
-					Client.displayInput();
-				}
+			File f = ifp.uploadFile();
+			
+			if(f != null) {
+				ifp.readInput(f);
+				//ArrayList<Input> input = ifp.readInput(f);
 			}
 		}
 		else if(command.equals("submit")) {

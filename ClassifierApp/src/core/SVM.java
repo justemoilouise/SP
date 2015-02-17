@@ -26,13 +26,13 @@ public class SVM extends Thread implements ISVM {
 	}
 
 	@Override
-	public void buildModel() {
+	public void buildModel(boolean isIJused) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public ArrayList<SVMResult> classify(double[] features) {
+	public ArrayList<SVMResult> classify(double[] features, boolean isIJused) {
 		// TODO Auto-generated method stub
 		double[][] f = new double[1][];
 		f[0] = preprocess.scale(features);
@@ -60,7 +60,6 @@ public class SVM extends Thread implements ISVM {
 		return 0;
 	}
 
-	@Override
 	public double getAccuracy() {
 		return model.getAccuracy();
 	}
@@ -70,18 +69,12 @@ public class SVM extends Thread implements ISVM {
 		
 		for(int i=0; i<proby.length; i++) {
 			SVMResult result = new SVMResult();
-			result.setName(model.getClasses()[i]);
+			result.setName("");
 			result.setProbability(proby[i]);
 			
 			results.add(result);
 		}
 		
 		return results;
-	}
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
