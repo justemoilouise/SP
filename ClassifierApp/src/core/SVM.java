@@ -69,7 +69,7 @@ public class SVM extends Thread implements ISVM {
 		
 		for(int i=0; i<proby.length; i++) {
 			SVMResult result = new SVMResult();
-			result.setName("");
+			result.setName(model.getClasses().get(i));
 			result.setProbability(proby[i]);
 			
 			results.add(result);
