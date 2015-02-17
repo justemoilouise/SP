@@ -233,4 +233,8 @@ public class Client {
 		String stackTrace = ExceptionHandler.getStackTrace(ex);
 		pm.appendToErrorLog(stackTrace);
 	}
+
+	public static void setInputs(ArrayList<Input> inputList) {
+		inputs = inputList;
+	}
 }

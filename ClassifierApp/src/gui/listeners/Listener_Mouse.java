@@ -9,11 +9,13 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import CoreHandler.Prompt;
+import Data.Input;
 import FileHandlers.FileInput;
 import ImageHandlers.ProcessImage;
 import core.Client;
@@ -51,8 +53,9 @@ public class Listener_Mouse implements ActionListener {
 			File f = ifp.uploadFile();
 			
 			if(f != null) {
-				ifp.readInput(f);
-				//ArrayList<Input> input = ifp.readInput(f);
+				ArrayList<Input> input = ifp.readInput(f);
+				
+				Client.setInputs(input);
 			}
 		}
 		else if(command.equals("submit")) {
