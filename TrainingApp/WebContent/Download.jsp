@@ -1,5 +1,5 @@
 <br />
-<div class="panel panel-default col-md-offset-1 col-md-10">
+<div class="panel panel-default col-md-offset-1 col-md-10" id="dload_app">
 	<div class="panel-heading">
 		<h3 class="panel-title">Classifier application</h3>
 	</div>
@@ -19,7 +19,7 @@
 	</div>
 </div>
 <br />
-<div class="panel panel-default col-md-offset-1 col-md-10">
+<div class="panel panel-default col-md-offset-1 col-md-10" id="dload_model">
 	<div class="panel-heading">
 		<h3 class="panel-title">Classifier model</h3>
 	</div>

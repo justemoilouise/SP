@@ -10,6 +10,20 @@ $(function() {
 	$("#content_holder").on("click","#train_cancel_btn", function() {
 		$("#content_holder").load("Home.jsp");
 	});
+	
+	$("#content_holder").on("click","#train_save_btn", function(data) {
+		$.ajax({
+			url: 'trainingapp/saveclassifiermodel',
+			data: data,
+			dataType: "json",
+			success: function(response) { return response; },
+			error: function() { return null; },
+		});
+	});
+	
+	$("#content_holder").on("click","#train_rebuild_btn", function() {
+		$("#content_holder").load("Training_Input.jsp");
+	});
 });
 
 function readFile() {}

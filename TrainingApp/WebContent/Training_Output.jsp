@@ -56,7 +56,7 @@
 </div>
 <br />
 <div class="btn-group col-md-offset-8 col-md-4">
-	<button class="btn btn-primary">Save model</button>
-	<button class="btn btn-default">Rebuild model</button>
+	<button class="btn btn-primary" id="train_save_btn">Save model</button>
+	<button class="btn btn-default" id="train_rebuild_btn">Rebuild model</button>
 </div>
 <br />
