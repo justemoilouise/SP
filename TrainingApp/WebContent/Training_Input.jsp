@@ -34,8 +34,8 @@
 	</div>
 </div>
 <br />
-<div class="btn-group col-md-offset-9 col-md-3">
-	<button class="btn btn-primary" id="build_model">Build model</button>
+<div class="btn-group col-md-offset-9 col-md-3" id="train_form">
+	<button class="btn btn-primary" id="train_build_btn">Build model</button>
 	<button class="btn btn-default" id="train_cancel_btn">Cancel</button>
 </div>
 <br />
