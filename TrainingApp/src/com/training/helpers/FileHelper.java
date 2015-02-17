@@ -15,6 +15,7 @@ import Data.Species;
 import FileHandlers.FileInput;
 
 public class FileHelper {
+	private static String path = "C:\\Users\\Persephone\\Documents\\GitHub\\SP\\TrainingApp\\WebContent\\WEB-INF";
 	
 	public static Hashtable<String, String> readFromXML(String tag) {
 		Hashtable<String, String> results = new Hashtable<String, String>();
@@ -23,7 +24,7 @@ public class FileHelper {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			
-			Document doc = db.parse("web.xml");
+			Document doc = db.parse(path + "\\web.xml");
 			NodeList nodes = doc.getElementsByTagName(tag);
 			
 			if(nodes.getLength() > 0) {
@@ -48,6 +49,5 @@ public class FileHelper {
 		}
 		
 		return null;
-	}
-	
+	}	
 }

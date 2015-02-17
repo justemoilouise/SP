@@ -14,7 +14,7 @@
 		<div class="panel-heading">
 			<h3 class="panel-title">Log in</h3>
 		</div>
-		<div class="panel-body">
+		<div class="panel-body" id="login_form">
 			<label>Username: </label><input id="login_username" type="text" class="form-control" />
 			<br />
 			<label>Password: </label><input id="login_password" type="password" class="form-control" />

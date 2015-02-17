@@ -1,6 +1,8 @@
 $(function() {
-	$("#train_cancel_btn").on("click", function() {
+	$("#content_holder").on("click", "#train_cancel_btn", function() {
 		alert("CANCEEEEL!");
+		
+		$("#content_holder").load("Home.jsp");
 	});
 });
 
