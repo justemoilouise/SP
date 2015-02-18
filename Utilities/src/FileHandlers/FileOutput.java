@@ -2,7 +2,12 @@ package FileHandlers;
 
 import java.awt.Dimension;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,8 +48,7 @@ public class FileOutput extends Thread {
 
 	public FileOutput() {}
 	
-	// save as XML
-	public File saveToFile(ClassifierModel model) {
+	public File saveToXMLFile(ClassifierModel model) {
 		org.w3c.dom.Element root, element, subElement;
 		File f = null;
 		
@@ -134,6 +138,28 @@ public class FileOutput extends Thread {
 		}
 		
 		return f;
+	}
+	
+	public File saveToDATFile(ClassifierModel model) {
+		
+		try {
+			File f = new File("classifier-model-" + model.getVersion() + ".dat");
+			FileOutputStream fileStream = new FileOutputStream(f);
+			ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
+			objectStream.writeObject(model);
+			objectStream.flush();
+			objectStream.close();
+			
+			return f;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public void saveToFile(double[] arr, boolean isIJUsed) {
@@ -255,12 +281,26 @@ public class FileOutput extends Thread {
 			Prompt.PromptError("ERROR_SAVE_FILE");
 		}
 	}
-
-	public String compressFile(File f) {
-		return null;
-	}
 	
-	public ClassifierModel decompressFile(File f) {
+	public ClassifierModel readModelFromDATFile(String filename) {
+		try {
+			FileInputStream fileStream = new FileInputStream(filename);
+			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
+			ClassifierModel model = (ClassifierModel)objectStream.readObject();			
+			objectStream.close();
+			
+			return model;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 	
@@ -283,9 +323,5 @@ public class FileOutput extends Thread {
 		}
 		
 		return img;
-	}
-
-	private String convertToString(String[] arr) {
-		return null;
 	}
 }
