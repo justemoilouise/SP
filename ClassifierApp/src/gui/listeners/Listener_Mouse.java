@@ -47,13 +47,11 @@ public class Listener_Mouse implements ActionListener {
 				}
 			}
 		}
-		else if(command.equals("input_file")) {
-			FileInput ifp = new FileInput();
-			
-			File f = ifp.uploadFile();
+		else if(command.equals("input_file")) {			
+			File f = FileInput.uploadExcelFile();
 			
 			if(f != null) {
-				ArrayList<Input> input = ifp.readInput(f);
+				ArrayList<Input> input = FileInput.readInput(f);
 				
 				Client.setInputs(input);
 			}
