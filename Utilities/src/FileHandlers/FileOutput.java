@@ -2,11 +2,9 @@ package FileHandlers;
 
 import java.awt.Dimension;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -48,7 +46,7 @@ public class FileOutput extends Thread {
 
 	public FileOutput() {}
 	
-	public File saveToXMLFile(ClassifierModel model) {
+	public static File saveToXMLFile(ClassifierModel model) {
 		org.w3c.dom.Element root, element, subElement;
 		File f = null;
 		
@@ -140,7 +138,7 @@ public class FileOutput extends Thread {
 		return f;
 	}
 	
-	public File saveToDATFile(ClassifierModel model) {
+	public static File saveToDATFile(ClassifierModel model) {
 		
 		try {
 			File f = new File("classifier-model-" + model.getVersion() + ".dat");
@@ -162,7 +160,7 @@ public class FileOutput extends Thread {
 		return null;
 	}
 	
-	public void saveToFile(double[] arr, boolean isIJUsed) {
+	public static void saveToFile(double[] arr, boolean isIJUsed) {
 		StringBuilder sb = new StringBuilder();
 
 		for(int i=0; i<arr.length; i++) {
@@ -196,7 +194,7 @@ public class FileOutput extends Thread {
 		}
 	}
 	
-	public void saveToFile(Input input, int index) {
+	public static void saveToFile(Input input, int index) {
 		Image img = getImage(input);
 
 		Document document=new Document(PageSize.LETTER, 50, 50, 50, 50);
@@ -282,7 +280,7 @@ public class FileOutput extends Thread {
 		}
 	}
 		
-	private Image getImage(Input input) {
+	private static Image getImage(Input input) {
 		Image img = null;
 		
 		try {

@@ -20,14 +20,12 @@ import CoreHandler.Prompt;
 import Data.ClassifierModel;
 import Data.Input;
 import Data.Species;
-import Interfaces.IFILE_READ;
 
-public class FileInput implements IFILE_READ {
-	private String[] keys;
-	private double[] values;
+public class FileInput {
+	private static String[] keys;
+	private static double[] values;
 
-	@Override
-	public File uploadModelFile() {
+	public static File uploadModelFile() {
 		// TODO Auto-generated method stub
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Dat files", "dat");
 		JFileChooser fc = new JFileChooser();
@@ -48,9 +46,8 @@ public class FileInput implements IFILE_READ {
 
 		return null;
 	}
-	
-	@Override
-	public ClassifierModel readModelFromDATFile(String filename) {
+
+	public static ClassifierModel readModelFromDATFile(String filename) {
 		try {
 			FileInputStream fileStream = new FileInputStream(filename);
 			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
@@ -71,9 +68,8 @@ public class FileInput implements IFILE_READ {
 		
 		return null;
 	}
-	
-	@Override
-	public File uploadExcelFile() {
+
+	public static File uploadExcelFile() {
 		// TODO Auto-generated method stub		
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel files", "xlsx");
 		JFileChooser fc = new JFileChooser();
@@ -94,9 +90,8 @@ public class FileInput implements IFILE_READ {
 
 		return null;
 	}
-	
-	@Override
-	public ArrayList<Input> readInput(File f) {
+
+	public static ArrayList<Input> readInput(File f) {
 		// TODO Auto-generated method stub
 		ArrayList<Input> list = new ArrayList<Input>();
 		
@@ -121,9 +116,8 @@ public class FileInput implements IFILE_READ {
 		
 		return list;
 	}
-	
-	@Override
-	public ArrayList<Species> readSpecies(File f) {
+
+	public static ArrayList<Species> readSpecies(File f) {
 		// TODO Auto-generated method stub
 		ArrayList<Species> list = new ArrayList<Species>();
 		
@@ -148,9 +142,8 @@ public class FileInput implements IFILE_READ {
 		
 		return list;
 	}
-	
-	@Override
-	public Input parseInput(Row row, int rowNumber) {
+
+	public static Input parseInput(Row row, int rowNumber) {
 		// TODO Auto-generated method stub
 		int cCount = 0;
 		Iterator<Cell> cellIter = row.iterator();
@@ -173,9 +166,8 @@ public class FileInput implements IFILE_READ {
 		
 		return null;
 	}
-	
-	@Override
-	public Species parseSpecies(Row row, int rowNumber) {
+
+	public static Species parseSpecies(Row row, int rowNumber) {
 		// TODO Auto-generated method stub
 		int cCount = 0;
 		Iterator<Cell> cellIter = row.iterator();
@@ -199,7 +191,7 @@ public class FileInput implements IFILE_READ {
 		return null;
 	}
 	
-	private Species setSpecies() {
+	private static Species setSpecies() {
 		Species species = new Species();
 		species.setFeatureLabels(keys);
 		species.setFeatureValues(values);
@@ -207,12 +199,11 @@ public class FileInput implements IFILE_READ {
 		return species;
 	}
 	
-	private Input setInput() {
+	private static Input setInput() {
 		Input i = new Input();
 		i.setSpecies(setSpecies());
 		
 		return i;
 	}
-	
-	
+
 }
