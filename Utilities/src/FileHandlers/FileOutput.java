@@ -281,29 +281,7 @@ public class FileOutput extends Thread {
 			Prompt.PromptError("ERROR_SAVE_FILE");
 		}
 	}
-	
-	public ClassifierModel readModelFromDATFile(String filename) {
-		try {
-			FileInputStream fileStream = new FileInputStream(filename);
-			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
-			ClassifierModel model = (ClassifierModel)objectStream.readObject();			
-			objectStream.close();
-			
-			return model;
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
-		return null;
-	}
-	
 	private Image getImage(Input input) {
 		Image img = null;
 		

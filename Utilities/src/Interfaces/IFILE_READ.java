@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.apache.poi.ss.usermodel.Row;
 
+import Data.ClassifierModel;
 import Data.Input;
 import Data.Species;
 
@@ -13,7 +14,19 @@ public interface IFILE_READ {
 	/**
 	 * Allows user to select file to be uploaded
 	 */
-	public File uploadFile();
+	public File uploadExcelFile();
+	
+	/**
+	 * Allows user to select file to be uploaded
+	 */
+	public File uploadModelFile();
+	
+	/**
+	 * 
+	 * @param filename
+	 * @return
+	 */
+	public ClassifierModel readModelFromDATFile(String filename);
 	
 	/**
 	 * Reads the contents of a file
@@ -31,7 +44,7 @@ public interface IFILE_READ {
 	/**
 	 * Reads the contents of a file
 	 */
-	public ArrayList<Species> read(File f);
+	public ArrayList<Species> readSpecies(File f);
 	
 	/**
 	 * Parses the line read from the file
@@ -39,5 +52,5 @@ public interface IFILE_READ {
 	 * @param Excel row to be read
 	 * @param row number
 	 */
-	public Species parse(Row row, int rowNumber);
+	public Species parseSpecies(Row row, int rowNumber);
 }
