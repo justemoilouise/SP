@@ -41,11 +41,10 @@ public class FileHelper {
 	}
 	
 	public static ArrayList<Species> readFromFile() {
-		FileInput input = new FileInput();
-		File f = input.uploadFile();
+		File f = FileInput.uploadExcelFile();
 		
 		if(f != null) {
-			return input.read(f);
+			return FileInput.readSpecies(f);
 		}
 		
 		return null;
