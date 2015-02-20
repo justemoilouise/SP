@@ -26,7 +26,28 @@ $(function() {
 	});
 });
 
-function readFile() {}
+function readFile() {
+	var filename = $("#input_file").val();
+	
+	$.ajax({
+		url: 'trainingapp/readdataset',
+		method: "GET",
+		success: function(response) { return response; },
+		error: function() { return null; },
+	});
+}
+
+function readSVMParameters() {
+	var params = {};
+	params["cost"] = $("#svm_cost").html();
+	params["gamma"] = $("#svm_gamma").html();
+	params["eps"] = $("#svm_eps").html();
+	params["degree"] = $("#svm_degree").html();
+	params["nu"] = $("#svm_nu").html();
+	params["coef"] = $("#svm_coef").html();
+	
+	return params;
+}
 
 function preprocess(data) {
 	var preprocessedData = scale(data);

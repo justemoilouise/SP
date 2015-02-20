@@ -26,6 +26,8 @@ public class TrainingAppServlet extends HttpServlet {
 			processor.getAppList();
 		} else if(method.equalsIgnoreCase("saveclassifiermodel")) {
 			response = processor.saveClassifierModel(null, null, null);
+		} else if(method.equalsIgnoreCase("readdataset")) {
+			response = processor.readDataset(req.getParameter("filename"));
 		}
 		
 		resp.setContentType("application/json");

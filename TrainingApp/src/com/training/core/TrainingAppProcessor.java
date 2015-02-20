@@ -1,11 +1,14 @@
 package com.training.core;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
 import Data.ClassifierModel;
 import Data.PreprocessModel;
 import Data.SVMModel;
+import Data.Species;
+import FileHandlers.FileInput;
 
 public class TrainingAppProcessor {
 
@@ -25,5 +28,14 @@ public class TrainingAppProcessor {
 		model.setCreatedDate(new Date());
 		
 		return model.getVersion();
+	}
+	
+	public ArrayList<Species> readDataset(String filename) {
+		File f = FileInput.uploadExcelFile();
+		if(f != null) {
+			return FileInput.readSpecies(f);
+		}
+		
+		return new ArrayList<Species>();
 	}
 }
