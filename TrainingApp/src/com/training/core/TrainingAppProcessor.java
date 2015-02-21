@@ -46,4 +46,13 @@ public class TrainingAppProcessor {
 		
 		return new ArrayList<Species>();
 	}
+	
+	public ArrayList<Species> read() {
+		File f = new File("C:\\Users\\Persephone\\Documents\\GitHub\\RadiSS\\data\\SVM_IJ.xlsx");
+		if(f != null) {
+			return FileInput.readSpecies(f);
+		}
+		
+		return new ArrayList<Species>();
+	}
 }

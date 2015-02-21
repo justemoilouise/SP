@@ -32,6 +32,8 @@ public class TrainingAppServlet extends HttpServlet {
 			File f = ServletHelper.ConvertToObject(requestBody, File.class);
 			
 			response = processor.readDataset(f);
+		} else if(method.equalsIgnoreCase("read")) {
+			response = processor.read();
 		}
 		
 		resp.setContentType("application/json");

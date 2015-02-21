@@ -1,19 +1,27 @@
 $(function() {
 	var readFileInput = function() {
-		var file = $("#input_file").get(0).files[0];
+//		var file = $("#input_file").get(0).files[0];
+//		
+//		var data = new FormData();
+//		data.append("file", file);
 		
-		var data = new FormData();
-		data.append("file", file);
-		
+//		$.ajax({
+//			url: 'trainingapp/readdataset',
+//			contentType: false,
+//			processData: false,
+//			method: "POST",
+//			dataType: "json",
+//			data: data,
+//			success: function(response) {
+//				console.log(response);
+//				return response;
+//			},
+//			error: function() { return null; },
+//		});
 		$.ajax({
-			url: 'trainingapp/readdataset',
-			contentType: false,
-			processData: false,
-			method: "POST",
+			url: 'trainingapp/read',
 			dataType: "json",
-			data: data,
 			success: function(response) {
-				console.log(response);
 				return response;
 			},
 			error: function() { return null; },
@@ -70,6 +78,7 @@ $(function() {
 
 	$("#content_holder").on("click","#train_build_btn", function() {
 		var dataset = readFileInput();
+		console.log(dataset);
 //		var preprocessedDataset = preprocess(dataset);
 //		var model = buildModel(dataset);
 //
