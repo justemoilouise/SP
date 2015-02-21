@@ -26,11 +26,16 @@ $(function() {
 		});
 	});
 	
-	$("#login_form").on("click", "#logout_btn",function() {
+	$("#logout_btn").on("click", function() {
 		$.ajax({
 			url: 'trainingapp/user/logout',
-			success: function() { alert("Successfully logged out."); },
-			error: function() { alert("An error occurred. Please try again."); },
+			success: function() {
+				callback("You have successfully logged out of the system.");
+				window.location = "/";
+			},
+			error: function() {
+				callback("An error has occurred.");
+			}
 		});
 	});
 	
