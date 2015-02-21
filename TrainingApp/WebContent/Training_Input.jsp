@@ -1,9 +1,19 @@
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory" %>
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreService" %>
+<%! BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService(); %>
+
 <br />
 <div class="input-group col-md-offset-1 col-md-10">
+	 <form action="<%= blobstoreService.createUploadUrl("/trainingapp/upload") %>" method="post" enctype="multipart/form-data">
+		<input type="file" width="50" class="col-md-10" id="input_file" name="dataset" />
+		<input type="submit" class="btn btn-primary col-md-2" name="submit" value="Upload" />
+	</form>
+	<!--
 	<input type="file" width="50" class="col-md-10" id="input_file" />
-	<button type="submit" class="btn btn-primary col-md-2">
+	<button type="submit" class="btn btn-primary col-md-2" id="input_file_btn">
 		<span class="glyphicon glyphicon-check"></span>
 	</button>
+	-->
 </div>
 <br />
 <div class="panel panel-default col-md-offset-1 col-md-10">
