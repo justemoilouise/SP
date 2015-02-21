@@ -1,14 +1,31 @@
 $(function() {
+	var callback = function(message) {
+		$("#user_alert_holder").load("Prompt.jsp")
+		$("#user_alert_holder").css("visibility: visible; navbar-fixed-top");
+		$("#alert_message").text(message);
+	}
+	
 	$("#login_form").on("click", "#login_btn",function() {
 		var username = $("#login_username").val();
 		var password = $("#login_password").val();
 		
 		$.ajax({
 			url: 'trainingapp/user/login?username=' + username + '&password=' + password,
-			method: 'GET',
-			success: function() { alert("Log in successful.") },
-			error: function() { alert("An error occurred. Please try again."); },
-			dataType: 'json'
+			success: function(response) {
+				if(response.indexOf("true") >= 0) {
+					callback("Log in successful.");
+					
+					$.ajax({
+						url: '/'
+					});
+					
+				}  else {
+					callback("Invalid username and/or password.");
+				}
+			},
+			error: function() {
+				callback("An error has occurred.");
+			}
 		});
 	});
 	

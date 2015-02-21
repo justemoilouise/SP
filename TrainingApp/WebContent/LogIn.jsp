@@ -3,12 +3,13 @@
 <head>
 	<title>RadiSS - Training</title>
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="bootstrap/js/jquery-2.1.3.min.js"></script>
+	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="script/user.js"></script>
 </head>
 <body>
-	
+	<div id="user_alert_holder" class="visibility: hidden;">
+	</div>
 	<br />
 	<div class="panel panel-default col-md-offset-6 col-md-5">
 		<div class="panel-heading">
