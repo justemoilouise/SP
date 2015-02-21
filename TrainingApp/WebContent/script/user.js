@@ -14,10 +14,7 @@ $(function() {
 			success: function(response) {
 				if(response.indexOf("true") >= 0) {
 					callback("Log in successful.");
-					
-					$.ajax({
-						url: '/'
-					});
+					window.location = "/";
 					
 				}  else {
 					callback("Invalid username and/or password.");
@@ -38,6 +35,6 @@ $(function() {
 	});
 	
 	$("#login_form").on("click", "#login_cancel_btn",function() {
-		$(this).load("Index.jsp");
+		window.location = "/";
 	});
 });

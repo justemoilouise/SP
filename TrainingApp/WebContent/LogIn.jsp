@@ -22,7 +22,9 @@
 			<br />
 			<div class="btn-group col-md-offset-7 col-md-6">
 				<button class="btn btn-primary" id="login_btn">Log in</button>
-				<button class="btn btn-default" id="login_cancel_btn">Cancel</button>
+				<button class="btn btn-default" id="login_cancel_btn">
+					<!-- <a href="Index.jsp" plain="true" class="text-decoration: none;"> -->Cancel
+				</button>
 			</div>
 		</div>
 	</div>
