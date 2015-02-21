@@ -83,7 +83,7 @@ public class SVMProcessor implements ISVM {
 	
 	private svm_problem BuildSVMProblem() {
 		//read from temporary file - input
-		ArrayList<Species> dataset = FileHelper.readFromFile();
+		ArrayList<Species> dataset = FileHelper.readFromExcelFile();
 		svm_problem prob = new svm_problem();
 		
 		int dataCount = dataset.size();

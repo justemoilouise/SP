@@ -38,4 +38,12 @@ public class TrainingAppProcessor {
 		
 		return new ArrayList<Species>();
 	}
+	
+	public ArrayList<Species> readDataset(File f) {
+		if(f != null) {
+			return FileInput.readSpecies(f);
+		}
+		
+		return new ArrayList<Species>();
+	}
 }

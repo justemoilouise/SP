@@ -40,7 +40,7 @@ public class FileHelper {
 		return results;
 	}
 	
-	public static ArrayList<Species> readFromFile() {
+	public static ArrayList<Species> readFromExcelFile() {
 		File f = FileInput.uploadExcelFile();
 		
 		if(f != null) {

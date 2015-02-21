@@ -57,7 +57,7 @@
   <!-- Servlet mappings --> 
   <servlet-mapping>
     <servlet-name>TrainingAppServlet</servlet-name>
-    <url-pattern>/trainingapp</url-pattern>
+    <url-pattern>/trainingapp/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>SVMServlet</servlet-name>
