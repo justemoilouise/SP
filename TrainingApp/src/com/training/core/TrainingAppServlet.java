@@ -1,5 +1,6 @@
 package com.training.core;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -39,7 +40,7 @@ public class TrainingAppServlet extends HttpServlet {
 	        if (blobKeys == null || blobKeys.isEmpty()) {
 	            response = false;
 	        } else {
-	            response = true;
+	        	response = readFileContents(blobKeys.get(0));
 	        }
 		} else if(method.equalsIgnoreCase("readdataset")) {
 			String requestBody = ServletHelper.GetRequestBody(req.getReader());
@@ -52,5 +53,36 @@ public class TrainingAppServlet extends HttpServlet {
 		
 		resp.setContentType("application/json");
 		resp.getWriter().println(ServletHelper.ConvertToJson(response));
+	}
+	
+	private boolean readFileContents(BlobKey key) {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        long start = 0, end = 1024;
+        boolean flag = false;
+
+        do {
+            try {
+                byte[] b = blobstoreService.fetchData(key, start, end);
+                out.write(b);
+
+                if (b.length < 1024)
+                    flag = true;
+
+                start = end + 1;
+                end += 1025;
+
+            } catch (Exception e) {
+                flag = true;
+            }
+
+        } while (!flag);
+
+        byte[] filebytes = out.toByteArray();
+        
+        if(filebytes.length > 0)
+        	return true;
+        
+        return false;
 	}
 }
