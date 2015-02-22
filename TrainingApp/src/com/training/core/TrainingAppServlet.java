@@ -19,7 +19,6 @@ public class TrainingAppServlet extends HttpServlet {
 	private TrainingAppProcessor processor;
 	private BlobstoreService blobstoreService;
 
-	
 	public TrainingAppServlet() {
 		this.processor = new TrainingAppProcessor();
 		this.blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
@@ -35,7 +34,7 @@ public class TrainingAppServlet extends HttpServlet {
 			processor.getAppList();
 		}  else if(method.equalsIgnoreCase("upload")) {
 			Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
-	        List<BlobKey> blobKeys = blobs.get("input_file");
+	        List<BlobKey> blobKeys = blobs.get("file");
 
 	        if (blobKeys == null || blobKeys.isEmpty()) {
 	            response = false;
