@@ -11,17 +11,13 @@ import libsvm.svm_node;
 import libsvm.svm_parameter;
 import libsvm.svm_problem;
 
-public class SVM extends Thread implements ISVM {
-	private SVMModel model;
+public class SVM implements ISVM {
+	private SVMModel IJModel, JFModel, model;
 	private Preprocess preprocess;
 
 	public SVM() {}
-	
-	public SVM(SVMModel model) {
-		this.model = model;
-	}
 
-	public void init_SVM(boolean isIJ) {
+	public void init_SVM() {
 		//read model files from resources
 	}
 
@@ -47,8 +43,13 @@ public class SVM extends Thread implements ISVM {
 
 			nodes[i] = node;
 		}
+		
+		if(isIJused)
+			model = IJModel;
+		else
+			model = JFModel;
 
-		double proby[] = new double[svm.svm_get_nr_class(model.getModel())]; 
+		double proby[] = new double[svm.svm_get_nr_class(model.getModel())];
 		svm.svm_predict_probability(model.getModel(), nodes, proby);
 
 		return saveResults(proby);
@@ -60,8 +61,15 @@ public class SVM extends Thread implements ISVM {
 		return 0;
 	}
 
-	public double getAccuracy() {
-		return model.getAccuracy();
+	public double getAccuracy(boolean isIJ) {
+		if(model != null)
+			return model.getAccuracy();
+		else {
+			if(isIJ)
+				return IJModel.getAccuracy();
+			else
+				return JFModel.getAccuracy();
+		}
 	}
 
 	private ArrayList<SVMResult> saveResults(double[] proby) {

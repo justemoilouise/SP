@@ -28,7 +28,6 @@ public class Client {
 	private static StartScreen screen;
 	private static MainWindow pm;
 	private static ProgressInfo progress;	
-
 	private static SVM svm;
 
 	private static ImagePlus imgPlus;
@@ -113,26 +112,15 @@ public class Client {
 		
 	public static void onSubmit(boolean isIJ) {
 		count++;		
-		getInputFeatures(isIJ);
+		double[] features = getInputFeatures(isIJ);
 
-		progress = new ProgressInfo();
-		progress.setVisible(true);
-		pm.addToDesktopPane(progress);
-		
-		//svm.setIsIJ(isIJ);		
-		
-		t = new Thread(svm, "SVM");
-		t.setUncaughtExceptionHandler(new ThreadException());
-		t.start();
-		
-		try {
-			t.join();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Prompt.PromptError("ERROR_DLOAD");
-			printStackTrace(e);
-		}
-		finally {
+		if(features != null) {
+			progress = new ProgressInfo();
+			progress.setVisible(true);
+			pm.addToDesktopPane(progress);
+			
+			svm.classify(features, isIJ);
+			
 			progress.closeProgressBar();
 			displayOutput();
 		}
@@ -152,7 +140,7 @@ public class Client {
 		}
 	}
 		
-	private static void getInputFeatures(boolean isIJ) {
+	private static double[] getInputFeatures(boolean isIJ) {
 		try {
 			Input input = new Input();
 			
@@ -188,12 +176,15 @@ public class Client {
 			else {
 				input = inputs.get(inputs.size()-1);
 			}
-			//svm.setInput(input.getSpecies().getFeatureValues());
+			
+			return input.getSpecies().getFeatureValues();
 		}
 		catch(Exception e) {
 			Prompt.PromptError("ERROR_INPUT_FEATURES");
 			printStackTrace(e);
 		}
+		
+		return null;
 	}
 
 	public static void displayInput() {
@@ -212,21 +203,9 @@ public class Client {
 		progress = new ProgressInfo();
 		progress.setVisible(true);
 		pm.addToDesktopPane(progress);
-		
-		FileOutput fo = new FileOutput();
-		fo.saveToFile(inputs.get(index-1), index);
-		Thread output = new Thread(fo);
-		output.start();
-		try {
-			output.join();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Prompt.PromptError("ERROR_DLOAD");
-			printStackTrace(e);
-		}
-		finally {
-			Prompt.PromptSuccess("SUCCESS_DLOAD");
-		}
+
+		FileOutput.saveToFile(inputs.get(index-1), index);
+//		Prompt.PromptSuccess("SUCCESS_DLOAD")
 	}
 	
 	public static void printStackTrace(Throwable ex) {

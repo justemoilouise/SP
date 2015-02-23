@@ -25,7 +25,6 @@ public class Initialize implements Runnable {
 		//svm.init_SVM();
 		
 		Client.getPm().appendToConsole("SVM took " + (System.currentTimeMillis()-startTime) + " ms to initialize..");
-		Client.getPm().appendToConsole("SVM: " + svm.getAccuracy() + "%");
 		Client.setSvm(svm);
 	}
 }
