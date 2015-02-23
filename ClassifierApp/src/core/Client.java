@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import CoreHandler.Prompt;
+import Data.ClassifierModel;
 import Data.Input;
 import Data.Species;
 import ExceptionHandlers.ExceptionHandler;
@@ -29,6 +30,7 @@ public class Client {
 	private static MainWindow pm;
 	private static ProgressInfo progress;	
 	private static SVM svm;
+	private static ClassifierModel model;
 
 	private static ImagePlus imgPlus;
 	private static ArrayList<Input> inputs;
@@ -95,6 +97,14 @@ public class Client {
 
 	public static void setSvm(SVM svm) {
 		Client.svm = svm;
+	}
+
+	public static ClassifierModel getModel() {
+		return model;
+	}
+
+	public static void setModel(ClassifierModel model) {
+		Client.model = model;
 	}
 
 	public static boolean validateInput() {

@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import CoreHandler.Prompt;
+import Data.ClassifierModel;
 import Data.Input;
 import FileHandlers.FileInput;
 import ImageHandlers.ProcessImage;
@@ -54,6 +55,15 @@ public class Listener_Mouse implements ActionListener {
 				ArrayList<Input> input = FileInput.readInput(f);
 				
 				Client.setInputs(input);
+			}
+		}
+		else if(command.equals("upload_model")) {
+			File f = FileInput.uploadModelFile();
+			
+			if(f != null) {
+				ClassifierModel model = FileInput.readModelFromDATFile("");
+				
+				Client.setModel(model);
 			}
 		}
 		else if(command.equals("submit")) {

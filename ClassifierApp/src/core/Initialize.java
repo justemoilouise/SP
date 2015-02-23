@@ -12,6 +12,7 @@ public class Initialize implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		readModels();
 		init_SVM();
 		
 		screen.setExecutable(false);
@@ -26,5 +27,9 @@ public class Initialize implements Runnable {
 		
 		Client.getPm().appendToConsole("SVM took " + (System.currentTimeMillis()-startTime) + " ms to initialize..");
 		Client.setSvm(svm);
+	}
+	
+	private void readModels() {
+		
 	}
 }

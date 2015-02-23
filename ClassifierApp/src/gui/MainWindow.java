@@ -138,6 +138,12 @@ public class MainWindow extends JFrame {
 		item.addActionListener(lm);
 		menu.add(item);
 		menu.addSeparator();
+		
+		item = new JMenuItem("Upload classifier model");
+		item.setActionCommand("upload_model");
+		item.addActionListener(lm);
+		menu.add(item);
+		menu.addSeparator();
 
 		item = new JMenuItem("Quit");
 		item.setActionCommand("quit");
