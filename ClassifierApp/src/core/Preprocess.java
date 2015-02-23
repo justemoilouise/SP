@@ -8,10 +8,35 @@ import Data.Species;
 import Interfaces.IPREPROCESS;
 
 public class Preprocess implements IPREPROCESS {
-	private PreprocessModel model;
+	private PreprocessModel IJModel, JFModel, model;
+	private boolean isIJ;
 	
 	public Preprocess() {}
 	
+	public boolean isIJ() {
+		return isIJ;
+	}
+
+	public void setIJ(boolean isIJ) {
+		this.isIJ = isIJ;
+	}
+
+	public PreprocessModel getIJModel() {
+		return IJModel;
+	}
+
+	public void setIJModel(PreprocessModel iJModel) {
+		IJModel = iJModel;
+	}
+
+	public PreprocessModel getJFModel() {
+		return JFModel;
+	}
+
+	public void setJFModel(PreprocessModel jFModel) {
+		JFModel = jFModel;
+	}
+
 	public Preprocess(PreprocessModel model) {
 		this.model = model;
 	}
@@ -19,6 +44,12 @@ public class Preprocess implements IPREPROCESS {
 	@Override
 	public double[] scale(double[] features) {
 		// TODO Auto-generated method stub
+		
+		if(isIJ)
+			model = IJModel;
+		else
+			model = JFModel;
+		
 		double[] scaled = new double[features.length];
 		double[] min = model.getMin();
 		double[] max = model.getMax();

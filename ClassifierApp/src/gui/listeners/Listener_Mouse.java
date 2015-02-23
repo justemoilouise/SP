@@ -42,10 +42,7 @@ public class Listener_Mouse implements ActionListener {
 					Client.setImgPlus(imgPlus);
 					Client.getPm().addToDesktopPane(imgWindow);
 				}
-				catch(Exception x) {
-					//Prompt.PromptError("ERROR_UPLOAD_IMAGE");		
-					//Client.printStackTrace(x);
-				}
+				catch(Exception x) {}
 			}
 		}
 		else if(command.equals("input_file")) {			
@@ -79,26 +76,26 @@ public class Listener_Mouse implements ActionListener {
 				Prompt.PromptError("ERROR_INPUT");
 			}
 		}
-		else if(command.equals("IJ")) {
-			boolean isIJ = Prompt.isIJ();
-
-			if(isIJ) {
-				Prompt.SetIJSelected(true);
-			}
-			else {
-				Prompt.SetIJSelected(false);
-			}
-		}
-		else if(command.equals("JF")) {
-			boolean isIJ = Prompt.isIJ();
-
-			if(isIJ) {
-				Prompt.SetIJSelected(false);
-			}
-			else {
-				Prompt.SetIJSelected(true);
-			}
-		}
+//		else if(command.equals("IJ")) {
+//			boolean isIJ = Prompt.isIJ();
+//
+//			if(isIJ) {
+//				Prompt.SetIJSelected(true);
+//			}
+//			else {
+//				Prompt.SetIJSelected(false);
+//			}
+//		}
+//		else if(command.equals("JF")) {
+//			boolean isIJ = Prompt.isIJ();
+//
+//			if(isIJ) {
+//				Prompt.SetIJSelected(false);
+//			}
+//			else {
+//				Prompt.SetIJSelected(true);
+//			}
+//		}
 		else if(command.equals("stop")) {
 			boolean isValid = Client.validateInput();
 

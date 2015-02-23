@@ -28,7 +28,9 @@ public class Client {
 	private static Thread t;
 	private static StartScreen screen;
 	private static MainWindow pm;
-	private static ProgressInfo progress;	
+	private static ProgressInfo progress;
+	
+	private static Preprocess preprocess;
 	private static SVM svm;
 	private static ClassifierModel model;
 
@@ -39,6 +41,7 @@ public class Client {
 	public Client() {
 		inputs = new ArrayList<Input>();
 		props = FileConfig.readConfig();
+		preprocess = new Preprocess();
 		svm = new SVM();
 		pm = new MainWindow();	
 		Prompt.SetParentComponent(pm.getDesktoPane());
@@ -51,7 +54,7 @@ public class Client {
 		screen.setExecutable(true);
 		
 		Thread splashScreen = new Thread(screen, "SplashScreen");
-		Thread init = new Thread(new Initialize(screen), "Initialize");
+		Thread init = new Thread(new Initialize(screen, props), "Initialize");
 
 		splashScreen.setUncaughtExceptionHandler(new ThreadException());
 		splashScreen.start();
@@ -89,6 +92,14 @@ public class Client {
 
 	public static ProgressInfo getProgress() {
 		return progress;
+	}
+
+	public static Preprocess getPreprocess() {
+		return preprocess;
+	}
+
+	public static void setPreprocess(Preprocess preprocess) {
+		Client.preprocess = preprocess;
 	}
 
 	public static SVM getSvm() {
