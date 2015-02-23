@@ -140,7 +140,9 @@ public class Client {
 			progress.setVisible(true);
 			pm.addToDesktopPane(progress);
 			
-			svm.classify(features, isIJ);
+			double[] preprocessedData = preprocess.scale(features);
+			preprocessedData = preprocess.reduceFeatures(preprocessedData);
+			svm.classify(preprocessedData, isIJ);
 			
 			progress.closeProgressBar();
 			displayOutput();
