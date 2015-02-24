@@ -5,10 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Hashtable;
+import java.util.Date;
 import java.util.Properties;
 
 import CoreHandler.Prompt;
+import Data.ClassifierModel;
 
 public class FileConfig {
 	final static String configName = "settings/config.properties";
@@ -31,22 +32,13 @@ public class FileConfig {
 		return null;
 	}
 	
-	public static void updateConfig(Hashtable<String, Double> params, String mode) {
+	public static void updateModelInfo(ClassifierModel model) {
 		Properties old = readConfig();
-		
-		if(mode.equals("SVM"))
-			updateSVM(old, params);
-		
+		old.setProperty("model.version", Double.toString(model.getVersion()));
+		old.setProperty("model.createdDate", model.getCreatedDate().toString());
+		old.setProperty("model.uploadDate", new Date().toString());
+		old.setProperty("model.used", "true");
 		saveToFile(old);
-	}
-	
-	private static void updateSVM(Properties old, Hashtable<String, Double> params) {
-		old.setProperty("svm.type", params.get("SVM type").toString());
-		old.setProperty("svm.kernel", params.get("SVM Kernel").toString());
-		old.setProperty("svm.cost", params.get("Cost").toString());
-		old.setProperty("svm.degree", params.get("Degree").toString());
-		old.setProperty("svm.nu", params.get("Nu").toString());
-		old.setProperty("svm.epsilon", params.get("Epsilon").toString());
 	}
 	
 	private static void saveToFile(Properties props) {
