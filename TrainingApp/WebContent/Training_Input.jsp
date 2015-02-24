@@ -18,9 +18,15 @@ $(function() {
 			data: data,
 			dataType: "json",
 			success: function(response) {
-				alert(response);
+				if(response.indexOf("true") >= 0) {
+					callback("File uploaded successfully.");					
+				}  else {
+					callback("Unable to upload file. Please try again.");
+				}
 			},
-			error: function() { return null; }
+			error: function() {
+				callback("An error has occurred.");
+			}
 		});
 	});
 });
