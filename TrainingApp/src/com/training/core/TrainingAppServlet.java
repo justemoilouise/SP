@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
@@ -19,6 +20,7 @@ import com.training.helpers.ServletHelper;
 public class TrainingAppServlet extends HttpServlet {
 	private TrainingAppProcessor processor;
 	private BlobstoreService blobstoreService;
+	private HttpSession session;
 
 	public TrainingAppServlet() {
 		this.processor = new TrainingAppProcessor();
@@ -28,6 +30,7 @@ public class TrainingAppServlet extends HttpServlet {
 	public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		Object response = null;
 		String method = ServletHelper.ExtractMethod(req.getRequestURI());
+		this.session = req.getSession();
 		
 		if(method.equalsIgnoreCase("getmodellist")) {
 			response = processor.getModelList();
@@ -40,11 +43,11 @@ public class TrainingAppServlet extends HttpServlet {
 	        if (blobKeys == null || blobKeys.isEmpty()) {
 	            response = false;
 	        } else {
-	        	response = readFileContents(blobKeys.get(0));
+	        	session.setAttribute("key", blobKeys.get(0));
+	        	response = true;
 	        }
 		} else if(method.equalsIgnoreCase("readdataset")) {
-			String requestBody = ServletHelper.GetRequestBody(req.getReader());
-			File f = ServletHelper.ConvertToObject(requestBody, File.class);
+			File f = readFileFromBlob((BlobKey) session.getAttribute("key"));
 			
 			response = processor.readDataset(f);
 		} else if(method.equalsIgnoreCase("saveclassifiermodel")) {
@@ -55,7 +58,7 @@ public class TrainingAppServlet extends HttpServlet {
 		resp.getWriter().println(ServletHelper.ConvertToJson(response));
 	}
 	
-	private boolean readFileContents(BlobKey key) {
+	private File readFileFromBlob(BlobKey key) {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         long start = 0, end = 1024;
@@ -81,8 +84,8 @@ public class TrainingAppServlet extends HttpServlet {
         byte[] filebytes = out.toByteArray();
         
         if(filebytes.length > 0)
-        	return true;
+        	return new File("");
         
-        return false;
+        return null;
 	}
 }

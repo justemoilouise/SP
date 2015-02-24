@@ -82,4 +82,4 @@ $(function() {
 	<button class="btn btn-primary" id="train_build_btn">Build model</button>
 	<button class="btn btn-default" id="train_cancel_btn">Cancel</button>
 </div>
-<br />
+<br /><br />
