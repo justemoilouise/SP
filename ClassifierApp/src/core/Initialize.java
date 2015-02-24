@@ -2,10 +2,17 @@ package core;
 
 import java.util.Hashtable;
 import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
+import Data.ClassifierModel;
 import Data.PreprocessModel;
 import Data.SVMModel;
 import FileHandlers.FileInput;
+import FileHandlers.FileOutput;
 import gui.StartScreen;
 
 public class Initialize implements Runnable {
@@ -53,9 +60,43 @@ public class Initialize implements Runnable {
 	private Hashtable<String, Object> readModels() {
 		screen.setMessage("Retrieving models..");
 		
+		boolean isModelUsed = Boolean.getBoolean(props.getProperty("model.used"));
+		
+		if(!isModelUsed) {
+			DecompressModel();
+		}
+		
 		String filename = props.getProperty("");
 		FileInput.readModelFromDATFile(filename);
 		
 		return null;
+	}
+	
+	@SuppressWarnings("resource")
+	private void DecompressModel() {
+		String zipPath = props.getProperty("models/Classifier.zip");
+		
+		try {
+			ZipInputStream stream = new ZipInputStream(new FileInputStream(zipPath));
+			ZipEntry entry = stream.getNextEntry();
+			
+			while(entry != null) {
+				String filename = entry.getName();
+				
+				ClassifierModel model = FileInput.readModelFromDATFile(filename);
+				SaveModeltofile(model, model.isIJUsed());
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void SaveModeltofile(ClassifierModel model, boolean isIJ) {
+		FileOutput.saveToFile(model.getPreprocessModel(), isIJ);
+		FileOutput.saveToFile(model.getSvmmodel(), isIJ);
 	}
 }
