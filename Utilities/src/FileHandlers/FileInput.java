@@ -47,6 +47,28 @@ public class FileInput {
 		return null;
 	}
 
+	public static ClassifierModel readModelFromDATFile(File f) {
+		try {
+			FileInputStream fileStream = new FileInputStream(f);
+			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
+			ClassifierModel model = (ClassifierModel)objectStream.readObject();			
+			objectStream.close();
+			
+			return model;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public static ClassifierModel readModelFromDATFile(String filename) {
 		try {
 			FileInputStream fileStream = new FileInputStream(filename);
