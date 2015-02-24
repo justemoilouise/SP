@@ -11,8 +11,8 @@
 	<script type="text/javascript" src="script/user.js"></script>
 </head>
 <body>
-	<div id="alert_holder" class="hidden"></div>
-
+	<div id="alert_holder" class="visibility: hidden;"></div>
+	
 	<nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 
