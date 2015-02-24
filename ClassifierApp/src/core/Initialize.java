@@ -28,27 +28,31 @@ public class Initialize implements Runnable {
 
 	private void init_Preprocess(PreprocessModel IJmodel, PreprocessModel JFmodel) {
 		screen.setMessage("Initializing Preprocessing model..");
-
 		long startTime = System.currentTimeMillis();
+		
 		Preprocess preprocess = Client.getPreprocess();
 		preprocess.setIJModel(IJmodel);
 		preprocess.setJFModel(JFmodel);
+		
 		Client.getPm().appendToConsole("Preprocessing took " + (System.currentTimeMillis()-startTime) + " ms to initialize..");
 		Client.setPreprocess(preprocess);
 	}
 
 	private void init_SVM(SVMModel IJmodel, SVMModel JFmodel) {
-		screen.setMessage("Initializing SVM..");
-
+		screen.setMessage("Initializing SVM model..");
 		long startTime = System.currentTimeMillis();
+		
 		SVM svm = Client.getSvm();
 		svm.setIJModel(IJmodel);
 		svm.setJFModel(JFmodel);
+		
 		Client.getPm().appendToConsole("SVM took " + (System.currentTimeMillis()-startTime) + " ms to initialize..");
 		Client.setSvm(svm);
 	}
 
 	private Hashtable<String, Object> readModels() {
+		screen.setMessage("Retrieving models..");
+		
 		String filename = props.getProperty("");
 		FileInput.readModelFromDATFile(filename);
 		
