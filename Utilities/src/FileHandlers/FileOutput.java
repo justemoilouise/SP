@@ -160,6 +160,11 @@ public class FileOutput extends Thread {
 		return null;
 	}
 	
+	public static void saveToFile(ClassifierModel model, boolean isIJ) {
+		saveToFile(model.getPreprocessModel(), isIJ);
+		saveToFile(model.getSvmmodel(), isIJ);
+	}
+	
 	public static boolean saveToFile(PreprocessModel model, boolean isIJ) {
 		try {
 			String flag = "_IJ";
