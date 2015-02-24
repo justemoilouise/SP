@@ -60,16 +60,7 @@ public class Listener_Mouse implements ActionListener {
 			
 			if(f != null) {
 				ClassifierModel model = FileInput.readModelFromDATFile("");
-				
-				// save separate models to file
-				if(model.isIJUsed()) {
-					FileOutput.saveToFile(model.getPreprocessModel(), true);
-					FileOutput.saveToFile(model.getSvmmodel(), true);
-				}
-				else {
-					FileOutput.saveToFile(model.getPreprocessModel(), false);
-					FileOutput.saveToFile(model.getSvmmodel(), false);
-				}
+				FileOutput.saveToFile(model, model.isIJUsed());
 				
 				Client.setModel(model);
 			}

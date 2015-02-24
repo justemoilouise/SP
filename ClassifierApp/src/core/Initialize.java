@@ -84,7 +84,7 @@ public class Initialize implements Runnable {
 				String filename = entry.getName();
 				
 				ClassifierModel model = FileInput.readModelFromDATFile(filename);
-				SaveModeltofile(model, model.isIJUsed());
+				FileOutput.saveToFile(model, model.isIJUsed());
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -93,10 +93,5 @@ public class Initialize implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	private void SaveModeltofile(ClassifierModel model, boolean isIJ) {
-		FileOutput.saveToFile(model.getPreprocessModel(), isIJ);
-		FileOutput.saveToFile(model.getSvmmodel(), isIJ);
 	}
 }
