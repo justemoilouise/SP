@@ -5,13 +5,13 @@ import java.util.Hashtable;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 @SuppressWarnings("serial")
 public class DialogBox extends JDialog {
 	private Component comp;
 	private static Hashtable<String, String> message;
-	private static JRadioButton ij, jf;
 	
 	public DialogBox() {
 		populateMessages();
@@ -64,19 +64,19 @@ public class DialogBox extends JDialog {
 		JOptionPane.showInternalMessageDialog(comp, message.get(key));
 	}
 	
-	public boolean isIJ() {
+	public boolean chooseFeatures(boolean isIJ) {
+		JRadioButton ij, jf;
+		JPanel panel = new JPanel();
+		
+		ij = new JRadioButton("Shape and basic texture features", isIJ);
+		panel.add(ij);
+		
+		jf = new JRadioButton("Haralick texture descriptors", !isIJ);
+		panel.add(jf);
+
+		JOptionPane.showConfirmDialog(comp, panel, "Choose which features to use:", JOptionPane.QUESTION_MESSAGE);
+		
 		return ij.isSelected();
-	}
-	
-	public void setIJSelected(boolean isSelected) {
-		if(isSelected) {
-			ij.setSelected(true);
-			jf.setSelected(false);
-		}
-		else {
-			ij.setSelected(false);
-			jf.setSelected(true);
-		}
 	}
 	
 	public int confirmExit(String mode) {

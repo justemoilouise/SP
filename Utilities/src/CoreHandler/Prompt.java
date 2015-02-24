@@ -18,12 +18,8 @@ public class Prompt {
 		new DialogBox().success(key);
 	}
 	
-	public static boolean isIJ() {
-		return new DialogBox().isIJ();
-	}
-	
-	public static void SetIJSelected(boolean isSelected) {
-		new DialogBox().setIJSelected(isSelected);
+	public static boolean chooseFeatures(boolean isIJ) {
+		return new DialogBox().chooseFeatures(isIJ);
 	}
 	
 	public static int ConfirmExit(String mode) {
