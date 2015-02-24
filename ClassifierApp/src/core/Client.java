@@ -116,6 +116,16 @@ public class Client {
 
 	public static void setModel(ClassifierModel model) {
 		Client.model = model;
+		
+		//update currently used models
+		if(model.isIJUsed()) {
+			preprocess.setIJModel(model.getPreprocessModel());
+			svm.setIJModel(model.getSvmmodel());
+		}
+		else {
+			preprocess.setJFModel(model.getPreprocessModel());
+			svm.setJFModel(model.getSvmmodel());
+		}
 	}
 
 	public static boolean validateInput() {
@@ -227,8 +237,12 @@ public class Client {
 		progress.setVisible(true);
 		pm.addToDesktopPane(progress);
 
-		FileOutput.saveToFile(inputs.get(index-1), index);
-//		Prompt.PromptSuccess("SUCCESS_DLOAD")
+		boolean dloadSuccess = FileOutput.saveToFile(inputs.get(index-1), index);
+		
+		if(dloadSuccess)
+			Prompt.PromptSuccess("SUCCESS_DLOAD");
+		else
+			Prompt.PromptSuccess("ERROR_DLOAD");
 	}
 	
 	public static void printStackTrace(Throwable ex) {

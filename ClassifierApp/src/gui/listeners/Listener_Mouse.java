@@ -18,6 +18,7 @@ import CoreHandler.Prompt;
 import Data.ClassifierModel;
 import Data.Input;
 import FileHandlers.FileInput;
+import FileHandlers.FileOutput;
 import ImageHandlers.ProcessImage;
 import core.Client;
 
@@ -59,6 +60,16 @@ public class Listener_Mouse implements ActionListener {
 			
 			if(f != null) {
 				ClassifierModel model = FileInput.readModelFromDATFile("");
+				
+				// save separate models to file
+				if(model.isIJUsed()) {
+					FileOutput.saveToFile(model.getPreprocessModel(), true);
+					FileOutput.saveToFile(model.getSvmmodel(), true);
+				}
+				else {
+					FileOutput.saveToFile(model.getPreprocessModel(), false);
+					FileOutput.saveToFile(model.getSvmmodel(), false);
+				}
 				
 				Client.setModel(model);
 			}
