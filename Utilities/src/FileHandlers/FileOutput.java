@@ -160,7 +160,59 @@ public class FileOutput extends Thread {
 		return null;
 	}
 	
-	public static void saveToFile(double[] arr, boolean isIJUsed) {
+	public static boolean saveToFile(PreprocessModel model, boolean isIJ) {
+		try {
+			String flag = "_IJ";
+			
+			if(!isIJ)
+				flag = "_JF";
+				
+			File f = new File("models/Preprocess" + flag + ".dat");
+			FileOutputStream fileStream = new FileOutputStream(f);
+			ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
+			objectStream.writeObject(model);
+			objectStream.flush();
+			objectStream.close();
+			
+			return true;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public static boolean saveToFile(SVMModel model, boolean isIJ) {
+		try {
+			String flag = "_IJ";
+			
+			if(!isIJ)
+				flag = "_JF";
+				
+			File f = new File("models/SVM" + flag + ".dat");
+			FileOutputStream fileStream = new FileOutputStream(f);
+			ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
+			objectStream.writeObject(model);
+			objectStream.flush();
+			objectStream.close();
+			
+			return true;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public static boolean saveToFile(double[] arr, boolean isIJUsed) {
 		StringBuilder sb = new StringBuilder();
 
 		for(int i=0; i<arr.length; i++) {
@@ -188,13 +240,16 @@ public class FileOutput extends Thread {
 			pw.println();
 			pw.flush();
 			pw.close();
-
+			
+			return true;
 		} catch (Exception e) {
 			Prompt.PromptError("ERROR_SAVE_SCALE");
 		}
+		
+		return false;
 	}
 	
-	public static void saveToFile(Input input, int index) {
+	public static boolean saveToFile(Input input, int index) {
 		Image img = getImage(input);
 
 		Document document=new Document(PageSize.LETTER, 50, 50, 50, 50);
@@ -275,9 +330,13 @@ public class FileOutput extends Thread {
 			document.newPage();
 
 			document.close();
+			
+			return true;
 		} catch (Exception e) {
 			Prompt.PromptError("ERROR_SAVE_FILE");
 		}
+		
+		return false;
 	}
 		
 	private static Image getImage(Input input) {
