@@ -1,5 +1,5 @@
 $(function() {
-	var callback = function(message) {
+	var fxnCallback = function(message) {
 		$("#alert_holder").load("Prompt.jsp")
 		$("#alert_holder").css("visibility: visible; navbar-fixed-top");
 		$("#alert_message").text(message);

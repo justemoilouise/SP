@@ -4,6 +4,12 @@
 
 <script type="text/javascript">
 $(function() {
+	var trainingCallback = function(message) {
+		$("#alert_holder").load("Prompt.jsp")
+		$("#alert_holder").css("visibility: visible; navbar-fixed-top");
+		$("#alert_message").text(message);
+	};
+	
 	$("#input_file").on("click", "#input_file_btn", function(){
 		var file = $("#input_file_fld").get(0).files[0];
 		
@@ -19,13 +25,14 @@ $(function() {
 			dataType: "json",
 			success: function(response) {
 				if(response.indexOf("true") >= 0) {
-					callback("File uploaded successfully.");					
+					trainingCallback("File uploaded successfully.");
+					alert("OKS!");
 				}  else {
-					callback("Unable to upload file. Please try again.");
+					trainingCallback("Unable to upload file. Please try again.");
 				}
 			},
 			error: function() {
-				callback("An error has occurred.");
+				trainingCallback("An error has occurred.");
 			}
 		});
 	});

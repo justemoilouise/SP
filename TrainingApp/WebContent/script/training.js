@@ -48,6 +48,14 @@ $(function() {
 	};
 	
 	$("#content_holder").on("click","#train_build_btn", function() {
+		var dataset = null;
+		
+		$.ajax({
+			url: 'trainingapp/readdataset',
+			dataType: "json",
+			success: function(response) { dataset = response; },
+			error: function() { return null; },
+		});
 //		var preprocessedDataset = preprocess(dataset);
 //		var model = buildModel(dataset);
 //
