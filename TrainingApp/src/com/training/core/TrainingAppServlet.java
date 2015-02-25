@@ -1,8 +1,9 @@
 package com.training.core;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -47,9 +48,9 @@ public class TrainingAppServlet extends HttpServlet {
 	        	response = true;
 	        }
 		} else if(method.equalsIgnoreCase("readdataset")) {
-			File f = readFileFromBlob((BlobKey) session.getAttribute("key"));
+			InputStream stream = readFileFromBlob((BlobKey) session.getAttribute("key"));
 			
-			response = processor.readDataset(f);
+			response = processor.readDataset(stream);
 		} else if(method.equalsIgnoreCase("saveclassifiermodel")) {
 			response = processor.saveClassifierModel(null, null, null);
 		}
@@ -58,7 +59,7 @@ public class TrainingAppServlet extends HttpServlet {
 		resp.getWriter().println(ServletHelper.ConvertToJson(response));
 	}
 	
-	private File readFileFromBlob(BlobKey key) {
+	private InputStream readFileFromBlob(BlobKey key) {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         long start = 0, end = 1024;
@@ -84,7 +85,7 @@ public class TrainingAppServlet extends HttpServlet {
         byte[] filebytes = out.toByteArray();
         
         if(filebytes.length > 0)
-        	return new File("dataset.xlsx");
+        	return new ByteArrayInputStream(filebytes);
         
         return null;
 	}

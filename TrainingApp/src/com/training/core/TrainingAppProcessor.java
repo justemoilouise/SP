@@ -1,6 +1,7 @@
 package com.training.core;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -43,6 +44,14 @@ public class TrainingAppProcessor {
 		if(f != null) {
 			return FileInput.readSpecies(f);
 		}
+		
+		return new ArrayList<Species>();
+	}
+	
+	public ArrayList<Species> readDataset(InputStream stream) {
+//		if(f != null) {
+//			return FileInput.readSpecies(f);
+//		}
 		
 		return new ArrayList<Species>();
 	}
