@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -139,6 +140,31 @@ public class FileInput {
 		return list;
 	}
 
+	public static ArrayList<Species> readSpecies(InputStream stream) {
+		// TODO Auto-generated method stub
+		ArrayList<Species> list = new ArrayList<Species>();
+		
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(stream);
+			XSSFSheet sheet = workbook.getSheetAt(0);
+
+			int rCount = 0;
+			Iterator<Row> rowIter = sheet.iterator();
+			while(rowIter.hasNext() && rCount<sheet.getPhysicalNumberOfRows()) {
+				Row row = rowIter.next();
+
+				Species s = parseSpecies(row, rCount);
+				list.add(s);
+				
+				rCount++;
+			}
+		} catch (Exception e) {
+			Prompt.PromptError("ERROR_READ_FILE");
+		}
+		
+		return list;
+	}
+	
 	public static ArrayList<Species> readSpecies(File f) {
 		// TODO Auto-generated method stub
 		ArrayList<Species> list = new ArrayList<Species>();
