@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import CoreHandler.Prompt;
 import Data.ClassifierModel;
 import Data.Input;
+import FileHandlers.FileConfig;
 import FileHandlers.FileInput;
 import FileHandlers.FileOutput;
 import ImageHandlers.ProcessImage;
@@ -61,7 +62,7 @@ public class Listener_Mouse implements ActionListener {
 			if(f != null) {
 				ClassifierModel model = FileInput.readModelFromDATFile("");
 				FileOutput.saveToFile(model, model.isIJUsed());
-				
+				FileConfig.updateModelInfo(model);
 				Client.setModel(model);
 			}
 		}
@@ -69,35 +70,13 @@ public class Listener_Mouse implements ActionListener {
 			boolean isValid = Client.validateInput();
 
 			if(isValid) {
-				//Prompt.ChooseFeatures();
-
-				boolean isIJ = Prompt.isIJ();			
+				boolean isIJ = Prompt.chooseFeatures(true);
 				Client.onSubmit(isIJ);
 			}
 			else {
 				Prompt.PromptError("ERROR_INPUT");
 			}
 		}
-//		else if(command.equals("IJ")) {
-//			boolean isIJ = Prompt.isIJ();
-//
-//			if(isIJ) {
-//				Prompt.SetIJSelected(true);
-//			}
-//			else {
-//				Prompt.SetIJSelected(false);
-//			}
-//		}
-//		else if(command.equals("JF")) {
-//			boolean isIJ = Prompt.isIJ();
-//
-//			if(isIJ) {
-//				Prompt.SetIJSelected(false);
-//			}
-//			else {
-//				Prompt.SetIJSelected(true);
-//			}
-//		}
 		else if(command.equals("stop")) {
 			boolean isValid = Client.validateInput();
 
