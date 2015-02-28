@@ -26,7 +26,6 @@ $(function() {
 			success: function(response) {
 				if(response.indexOf("true") >= 0) {
 					trainingCallback("File uploaded successfully.");
-					alert("OKS!");
 				}  else {
 					trainingCallback("Unable to upload file. Please try again.");
 				}

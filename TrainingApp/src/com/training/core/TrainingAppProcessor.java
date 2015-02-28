@@ -31,23 +31,6 @@ public class TrainingAppProcessor {
 		return model.getVersion();
 	}
 	
-	public ArrayList<Species> readDataset(String filename) {
-		File f = FileInput.uploadExcelFile();
-		if(f != null) {
-			return FileInput.readSpecies(f);
-		}
-		
-		return new ArrayList<Species>();
-	}
-	
-	public ArrayList<Species> readDataset(File f) {
-		if(f != null) {
-			return FileInput.readSpecies(f);
-		}
-		
-		return new ArrayList<Species>();
-	}
-	
 	public ArrayList<Species> readDataset(InputStream stream) {
 		if(stream != null) {
 			ArrayList<Species> list = FileInput.readSpecies(stream);
