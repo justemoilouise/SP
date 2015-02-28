@@ -158,9 +158,7 @@ public class FileInput {
 				
 				rCount++;
 			}
-		} catch (Exception e) {
-			Prompt.PromptError("ERROR_READ_FILE");
-		}
+		} catch (Exception e) {}
 		
 		return list;
 	}
@@ -184,9 +182,7 @@ public class FileInput {
 				
 				rCount++;
 			}
-		} catch (Exception e) {
-			Prompt.PromptError("ERROR_READ_FILE");
-		}
+		} catch (Exception e) {}
 		
 		return list;
 	}
