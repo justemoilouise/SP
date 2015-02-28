@@ -1,12 +1,12 @@
 $(function() {
 	var readSVMParameters = function() {
 		var params = {};
-		params["cost"] = $("#svm_cost").html();
-		params["gamma"] = $("#svm_gamma").html();
-		params["eps"] = $("#svm_eps").html();
-		params["degree"] = $("#svm_degree").html();
-		params["nu"] = $("#svm_nu").html();
-		params["coef"] = $("#svm_coef").html();
+		params["cost"] = $("#svm_cost").val();
+		params["gamma"] = $("#svm_gamma").val();
+		params["eps"] = $("#svm_eps").val();
+		params["degree"] = $("#svm_degree").val();
+		params["nu"] = $("#svm_nu").val();
+		params["coef"] = $("#svm_coef").val();
 
 		return params;
 	};

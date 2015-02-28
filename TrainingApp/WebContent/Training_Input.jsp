@@ -55,6 +55,18 @@ $(function() {
 </div>
 <br />
 <div class="panel panel-default col-md-offset-1 col-md-10">
+	<div class="panel-heading">Preprocessing</div>
+	<div class="panel-body">
+		<table class="table">
+			<tr>
+				<th>No. of principal components</th>
+				<td><input type="text" name="train_preprocess_pca" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<br />
+<div class="panel panel-default col-md-offset-1 col-md-10">
 	<div class="panel-heading">SVM Parameters</div>
 	<div class="panel-body">
 		<table class="table">
@@ -64,27 +76,27 @@ $(function() {
 			</tr>
 			<tr>
 				<td>Cost</td>
-				<td id="svm_cost">1</td>
+				<td><input type="text" id="svm_cost" /></td>
 			</tr>
 			<tr>
 				<td>Gamma</td>
-				<td id="svm_gamma">1</td>
+				<td><input type="text" id="svm_gamma" /></td>
 			</tr>
 			<tr>
 				<td>Epsilon</td>
-				<td id="svm_eps">1</td>
+				<td id="svm_eps"><input type="text" id="svm_eps" /></td>
 			</tr>
 			<tr>
 				<td>Degree</td>
-				<td id="svm_degree">1</td>
+				<td id="svm_degree"><input type="text" id="svm_degree" /></td>
 			</tr>
 			<tr>
 				<td>Nu</td>
-				<td id="svm_nu">1</td>
+				<td id="svm_nu"><input type="text" id="svm_nu" /></td>
 			</tr>
 			<tr>
 				<td>Coefficient</td>
-				<td id="svm_coef">1</td>
+				<td id="svm_coef"><input type="text" id="svm_coef" /></td>
 			</tr>
 		</table>
 	</div>
