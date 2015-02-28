@@ -23,6 +23,11 @@ public class PreprocessProcessor implements IPREPROCESS {
 		model.setPC(PC);
 	}
 	
+	public boolean setPC(int PC) {
+		model.setPC(PC);
+		return true;
+	}
+	
 	public PreprocessModel getPreprocessModel() {
 		return model;
 	}
