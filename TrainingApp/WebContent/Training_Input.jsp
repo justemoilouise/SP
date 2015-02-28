@@ -60,7 +60,7 @@ $(function() {
 		<table class="table">
 			<tr>
 				<th>No. of principal components</th>
-				<td><input type="text" name="train_preprocess_pca" /></td>
+				<td><input type="text" id="train_preprocess_pca" /></td>
 			</tr>
 		</table>
 	</div>

@@ -30,6 +30,14 @@ $(function() {
 	};
 
 	var preprocess = function(dataset) {
+		var pca = $("#train_preprocess_pca").val();
+		
+		$.ajax({
+			url: 'trainingapp/preprocess/setpca/pca=' + pca,
+			success: function(response) { return response; },
+			error: function() { return null; },
+		});
+		
 		var preprocessedData = scale(data);
 
 		if(preprocessedData  != null)
