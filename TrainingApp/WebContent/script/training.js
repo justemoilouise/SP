@@ -65,11 +65,12 @@ $(function() {
 	});
 
 	$("#content_holder").on("click","#train_save_btn", function() {
+		var notes = "";
+		
 		$.ajax({
 			url: "trainingapp/saveclassifiermodel",
 			method : "POST",
-			contentType : false,
-			processData : false,
+			data: notes;
 			dataType : "json",
 			success : function(response) {
 				if (response.indexOf("true") >= 0) {
