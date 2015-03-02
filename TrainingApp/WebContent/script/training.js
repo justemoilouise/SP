@@ -63,6 +63,7 @@ $(function() {
 		
 		$.ajax({
 			url: 'trainingapp/svm/buildmodel',
+			method: 'POST',
 			data: data,
 			success: function(response) { return response; },
 			error: function() { return null; },
