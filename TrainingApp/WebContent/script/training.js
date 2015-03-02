@@ -9,6 +9,8 @@ $(function() {
 	
 	var readSVMParameters = function() {
 		var params = {};
+		params["type"] = $("#svm_type").val();
+		params["kernel"] = $("#svm_kernel").val();
 		params["cost"] = $("#svm_cost").val();
 		params["gamma"] = $("#svm_gamma").val();
 		params["eps"] = $("#svm_eps").val();

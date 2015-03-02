@@ -75,6 +75,14 @@ $(function() {
 				<th>Value</th>
 			</tr>
 			<tr>
+				<td>SVM Type</td>
+				<td><input type="text" id="svm_type" /></td>
+			</tr>
+			<tr>
+				<td>Kernel function</td>
+				<td><input type="text" id="svm_kernel" /></td>
+			</tr>
+			<tr>
 				<td>Cost</td>
 				<td><input type="text" id="svm_cost" /></td>
 			</tr>
