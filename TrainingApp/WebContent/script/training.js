@@ -1,4 +1,12 @@
 $(function() {
+	var readDataset = function() {
+		$.ajax({
+			url: 'trainingapp/readdataset',
+			success: function(response) { return response; },
+			error: function() { return null; },
+		});
+	};
+	
 	var readSVMParameters = function() {
 		var params = {};
 		params["cost"] = $("#svm_cost").val();
@@ -47,6 +55,10 @@ $(function() {
 	};
 
 	var buildModel = function(dataset) {
+		var data = {};
+		data["dataset"] = dataset;
+		data["svm_parameters"] = readSVMParameters();
+		
 		$.ajax({
 			url: 'trainingapp/svm/buildmodel',
 			data: data,
@@ -56,20 +68,16 @@ $(function() {
 	};
 	
 	$("#content_holder").on("click","#train_build_btn", function() {
-		var dataset = null;
-		
-		$.ajax({
-			url: 'trainingapp/readdataset',
-			dataType: "json",
-			success: function(response) { dataset = response; },
-			error: function() { return null; },
-		});
-//		var preprocessedDataset = preprocess(dataset);
-//		var model = buildModel(dataset);
-//
-//		if(model != null) {
-//			$("#content_holder").load("Training_Output.jsp");
-//		}
+		var dataset = readDataset();
+
+		if(dataset != null) {
+			var preprocessedDataset = preprocess(dataset);
+			var model = buildModel(dataset);
+
+			if(model != null) {
+				$("#content_holder").load("Training_Output.jsp");
+			}
+		}
 	});
 
 	$("#content_holder").on("click","#train_save_btn", function() {
