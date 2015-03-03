@@ -54,7 +54,7 @@ public class FileInput {
 			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
 			ClassifierModel model = (ClassifierModel)objectStream.readObject();			
 			objectStream.close();
-			
+
 			return model;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -66,17 +66,17 @@ public class FileInput {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
+
 	public static ClassifierModel readModelFromDATFile(String filename) {
 		try {
 			FileInputStream fileStream = new FileInputStream(filename);
 			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
 			ClassifierModel model = (ClassifierModel)objectStream.readObject();			
 			objectStream.close();
-			
+
 			return model;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -88,7 +88,7 @@ public class FileInput {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
@@ -117,7 +117,7 @@ public class FileInput {
 	public static ArrayList<Input> readInput(File f) {
 		// TODO Auto-generated method stub
 		ArrayList<Input> list = new ArrayList<Input>();
-		
+
 		try {
 			FileInputStream fis = new FileInputStream(f);
 			XSSFWorkbook workbook = new XSSFWorkbook(fis);
@@ -128,22 +128,27 @@ public class FileInput {
 			while(rowIter.hasNext() && rCount<sheet.getPhysicalNumberOfRows()) {
 				Row row = rowIter.next();
 
-				Input i = parseInput(row, rCount);
-				list.add(i);
-				
+				if(rCount == 0) {
+					FillKeys(row);
+				}
+				else {
+					Input i = parseInput(row, rCount);
+					list.add(i);
+				}
+
 				rCount++;
 			}
 		} catch (Exception e) {
 			Prompt.PromptError("ERROR_READ_FILE");
 		}
-		
+
 		return list;
 	}
 
 	public static ArrayList<Species> readSpecies(InputStream stream) {
 		// TODO Auto-generated method stub
 		ArrayList<Species> list = new ArrayList<Species>();
-		
+
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(stream);
 			XSSFSheet sheet = workbook.getSheetAt(0);
@@ -153,20 +158,25 @@ public class FileInput {
 			while(rowIter.hasNext() && rCount<sheet.getPhysicalNumberOfRows()) {
 				Row row = rowIter.next();
 
-				Species s = parseSpecies(row, rCount);
-				list.add(s);
-				
+				if(rCount == 0) {
+					FillKeys(row);
+				}
+				else {
+					Species s = parseSpecies(row, rCount);
+					list.add(s);
+				}
+
 				rCount++;
 			}
 		} catch (Exception e) {}
-		
+
 		return list;
 	}
-	
+
 	public static ArrayList<Species> readSpecies(File f) {
 		// TODO Auto-generated method stub
 		ArrayList<Species> list = new ArrayList<Species>();
-		
+
 		try {
 			FileInputStream fis = new FileInputStream(f);
 			XSSFWorkbook workbook = new XSSFWorkbook(fis);
@@ -177,13 +187,18 @@ public class FileInput {
 			while(rowIter.hasNext() && rCount<sheet.getPhysicalNumberOfRows()) {
 				Row row = rowIter.next();
 
-				Species s = parseSpecies(row, rCount);
-				list.add(s);
-				
+				if(rCount == 0) {
+					FillKeys(row);
+				}
+				else {
+					Species s = parseSpecies(row, rCount);
+					list.add(s);
+				}
+
 				rCount++;
 			}
 		} catch (Exception e) {}
-		
+
 		return list;
 	}
 
@@ -191,62 +206,55 @@ public class FileInput {
 		// TODO Auto-generated method stub
 		int cCount = 0;
 		Iterator<Cell> cellIter = row.iterator();
-		if(rowNumber==0) {
-			keys = new String[row.getPhysicalNumberOfCells()];
-			values = new double[row.getPhysicalNumberOfCells()];
-			while(cellIter.hasNext()) {
-				keys[cCount] = cellIter.next().getStringCellValue();
-				cCount++;
-			}
+		while(cellIter.hasNext()) {
+			values[cCount] = cellIter.next().getNumericCellValue();
+			cCount++;
 		}
-		else {
-			while(cellIter.hasNext()) {
-				values[cCount] = cellIter.next().getNumericCellValue();
-				cCount++;
-			}
 
-			return setInput();
-		}
-		
-		return null;
+		return setInput();
 	}
 
 	public static Species parseSpecies(Row row, int rowNumber) {
 		// TODO Auto-generated method stub
 		int cCount = 0;
 		Iterator<Cell> cellIter = row.iterator();
-		if(rowNumber==0) {
-			keys = new String[row.getPhysicalNumberOfCells()];
-			values = new double[row.getPhysicalNumberOfCells()];
-			while(cellIter.hasNext()) {
-				keys[cCount] = cellIter.next().getStringCellValue();
-				cCount++;
-			}
+		String name = cellIter.next().getStringCellValue();
+		while(cellIter.hasNext()) {
+			values[cCount] = cellIter.next().getNumericCellValue();
+			cCount++;
 		}
-		else {
-			while(cellIter.hasNext()) {
-				values[cCount] = cellIter.next().getNumericCellValue();
-				cCount++;
-			}
 
-			return setSpecies();
-		}
-		
-		return null;
+		return setSpecies(name);
 	}
-	
-	private static Species setSpecies() {
+
+	private static void FillKeys(Row row) {
+		int cCount = 0;
+		int len = row.getPhysicalNumberOfCells()-1;
+
+		keys = new String[len];
+		values = new double[len];
+
+		Iterator<Cell> cellIter = row.iterator();
+		cellIter.next();
+		while(cellIter.hasNext()) {
+			keys[cCount] = cellIter.next().getStringCellValue();
+			cCount++;
+		}
+	}
+
+	private static Species setSpecies(String name) {
 		Species species = new Species();
+		species.setName(name);
 		species.setFeatureLabels(keys);
 		species.setFeatureValues(values);
-		
+
 		return species;
 	}
-	
+
 	private static Input setInput() {
 		Input i = new Input();
-		i.setSpecies(setSpecies());
-		
+		i.setSpecies(setSpecies(""));
+
 		return i;
 	}
 
