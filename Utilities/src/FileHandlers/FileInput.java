@@ -129,7 +129,7 @@ public class FileInput {
 				Row row = rowIter.next();
 
 				if(rCount == 0) {
-					FillKeys(row);
+					FillKeys(row, false);
 				}
 				else {
 					Input i = parseInput(row, rCount);
@@ -159,7 +159,7 @@ public class FileInput {
 				Row row = rowIter.next();
 
 				if(rCount == 0) {
-					FillKeys(row);
+					FillKeys(row, true);
 				}
 				else {
 					Species s = parseSpecies(row, rCount);
@@ -188,7 +188,7 @@ public class FileInput {
 				Row row = rowIter.next();
 
 				if(rCount == 0) {
-					FillKeys(row);
+					FillKeys(row, true);
 				}
 				else {
 					Species s = parseSpecies(row, rCount);
@@ -227,7 +227,7 @@ public class FileInput {
 		return setSpecies(name);
 	}
 
-	private static void FillKeys(Row row) {
+	private static void FillKeys(Row row, boolean skipFirstColumn) {
 		int cCount = 0;
 		int len = row.getPhysicalNumberOfCells()-1;
 
@@ -235,7 +235,10 @@ public class FileInput {
 		values = new double[len];
 
 		Iterator<Cell> cellIter = row.iterator();
-		cellIter.next();
+		
+		if(skipFirstColumn)
+			cellIter.next();
+		
 		while(cellIter.hasNext()) {
 			keys[cCount] = cellIter.next().getStringCellValue();
 			cCount++;
