@@ -49,6 +49,15 @@ public class SVM {
 	private svm_parameter BuildSVMParameter(Hashtable<String, Double> params) {
 		svm_parameter svmParams = new svm_parameter();
 		
+		svmParams.svm_type = params.get("svm_type").intValue();
+		svmParams.kernel_type = params.get("kernel").intValue();
+		svmParams.C = params.get("cost");
+		svmParams.eps = params.get("epsilon");
+		svmParams.nu = params.get("nu");
+		svmParams.gamma = params.get("gamma");
+		svmParams.degree = params.get("degree").intValue();
+		svmParams.coef0 = params.get("coefficient");
+		
 		return svmParams;
 	}
 	
