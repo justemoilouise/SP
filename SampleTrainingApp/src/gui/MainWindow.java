@@ -1,12 +1,11 @@
 package gui;
 
 import gui.listener.Listener_Mouse;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -25,21 +24,17 @@ public class MainWindow extends JFrame {
 
 	private Listener_Mouse lm;
 	private JDesktopPane dp;
-	private JButton submit;
 
 	public MainWindow() {		
 		lm = new Listener_Mouse();
 		dp = new JDesktopPane();
-		
+
 		initLookAndFeel();
 
 		dp.setBackground(Color.GRAY);
 		Container c = getContentPane();
 		c.add(dp);
 
-		ImageIcon img = new ImageIcon("img/logo.png");
-		
-		setIconImage(img.getImage());
 		setSize(1000, 600);
 		setJMenuBar(setMenubar());
 		setTitle("RadiSS");
