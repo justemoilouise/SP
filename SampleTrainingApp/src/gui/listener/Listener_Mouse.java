@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import CoreHandler.Prompt;
 import Data.Species;
 import FileHandlers.FileInput;
+import FileHandlers.FileOutput;
 import core.Client;
 
 public class Listener_Mouse implements ActionListener {
@@ -37,6 +38,9 @@ public class Listener_Mouse implements ActionListener {
 			Hashtable<String, Double> params = panel.getParameters();
 			
 			Client.onSubmit(params);
+		}
+		else if(command.equals("save")) {
+			FileOutput.saveToDATFile(Client.getModel());
 		}
 		else if(command.equals("quit")) {
 			int choice = Prompt.ConfirmExit("main");

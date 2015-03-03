@@ -17,6 +17,7 @@ public class Client {
 	private static Properties props;
 	private static MainWindow pm;
 
+	private static ClassifierModel model;
 	private static PreProcess preprocess;
 	private static SVM svm;
 
@@ -46,6 +47,10 @@ public class Client {
 		Client.svm = svm;
 	}
 	
+	public static ClassifierModel getModel() {
+		return model;
+	}
+	
 	public static void setDataset(ArrayList<Species> dataset) {
 		Client.dataset = dataset;
 	}
@@ -55,7 +60,7 @@ public class Client {
 		pDataset = preprocess.reduceFeatures(pDataset);
 		svm.buildModel(params, pDataset);		
 		
-		ClassifierModel model = new ClassifierModel();
+		model = new ClassifierModel();
 		model.setCreatedDate(new Date());
 		model.setIJUsed(true);
 		model.setPreprocessModel(preprocess.getModel());
