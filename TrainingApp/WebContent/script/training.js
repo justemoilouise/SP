@@ -73,14 +73,14 @@ $(function() {
 	$("#content_holder").on("click","#train_build_btn", function() {
 		var dataset = readDataset();
 
-		if(dataset != null) {
-			var preprocessedDataset = preprocess(dataset);
-			var model = buildModel(dataset);
-
-			if(model != null) {
-				$("#content_holder").load("Training_Output.jsp");
-			}
-		}
+//		if(dataset != null) {
+//			var preprocessedDataset = preprocess(dataset);
+//			var model = buildModel(dataset);
+//
+//			if(model != null) {
+//				$("#content_holder").load("Training_Output.jsp");
+//			}
+//		}
 	});
 
 	$("#content_holder").on("click","#train_save_btn", function() {
@@ -89,7 +89,7 @@ $(function() {
 		$.ajax({
 			url: "trainingapp/saveclassifiermodel",
 			method : "POST",
-			data: notes;
+			data: notes,
 			dataType : "json",
 			success : function(response) {
 				if (response.indexOf("true") >= 0) {

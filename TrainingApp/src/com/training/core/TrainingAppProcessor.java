@@ -32,10 +32,7 @@ public class TrainingAppProcessor {
 	
 	public ArrayList<Species> readDataset(InputStream stream) {
 		if(stream != null) {
-			ArrayList<Species> list = FileInput.readSpecies(stream);
-			
-			return list;
-//			return FileInput.readSpecies(stream);
+			return FileInput.readSpecies(stream);
 		}
 		
 		return new ArrayList<Species>();
