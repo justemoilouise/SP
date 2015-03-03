@@ -10,9 +10,9 @@ import java.util.Hashtable;
 
 import javax.swing.JOptionPane;
 
-import CoreHandler.Prompt;
+import core.Prompt;
 import Data.Species;
-import FileHandlers.FileInput;
+import FileHelper.FileInput;
 import FileHandlers.FileOutput;
 import core.Client;
 
@@ -31,10 +31,11 @@ public class Listener_Mouse implements ActionListener {
 			if(f != null) {
 				ArrayList<Species> dataset = FileInput.readSpecies(f);
 				Client.setDataset(dataset);
+				Client.displayInput();
 			}
 		}
 		else if(command.equals("submit")) {
-			InputPanel panel = (InputPanel) e.getSource();
+			InputPanel panel = Client.getIp();
 			Hashtable<String, Double> params = panel.getParameters();
 			
 			Client.onSubmit(params);

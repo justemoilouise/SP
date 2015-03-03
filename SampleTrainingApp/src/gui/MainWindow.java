@@ -40,7 +40,7 @@ public class MainWindow extends JFrame {
 		setTitle("RadiSS");
 		setBackground(Color.DARK_GRAY);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	private void initLookAndFeel() {

@@ -2,7 +2,7 @@ package gui;
 
 import gui.listener.Listener_Mouse;
 
-import java.util.Arrays;
+import java.awt.BorderLayout;
 import java.util.Hashtable;
 
 import javax.swing.JButton;
@@ -28,12 +28,16 @@ public class InputPanel extends JInternalFrame {
 		submit.setActionCommand("submit");
 		submit.addActionListener(lm);
 		
-		add(paramsPanel);
-		add(submit);
+		add(paramsPanel, BorderLayout.CENTER);
+		add(submit, BorderLayout.SOUTH);
+		
+		setSize(300, 500);
+		setVisible(true);
 	}
 	
 	private JPanel initParametersPanel() {
 		JPanel panel = new JPanel();
+		panel.setSize(200, 250);
 
 		label = new JLabel[] {
 				new JLabel("svm_type"),
@@ -46,13 +50,23 @@ public class InputPanel extends JInternalFrame {
 				new JLabel("coefficient"),
 		};
 		
-		field = new JTextField[label.length];
-		Arrays.fill(field, new JTextField());
+		field = new JTextField[] {
+				new JTextField(),
+				new JTextField(),
+				new JTextField(),
+				new JTextField(),
+				new JTextField(),
+				new JTextField(),
+				new JTextField(),
+				new JTextField()
+		};
 
 		for(int i=0; i<label.length; i++) {
+			field[i].setColumns(5);
 			JPanel param = new JPanel();
-			param.add(label[i]);
-			param.add(field[i]);
+			param.setSize(200, 50);
+			param.add(label[i], BorderLayout.WEST);
+			param.add(field[i], BorderLayout.EAST);
 
 			panel.add(param);
 		}

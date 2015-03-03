@@ -51,7 +51,7 @@ public class PreProcess {
 		
 		double[][] phi = calculatePhi(featureSet);
 		double[][] u = getSVD_U(featureSet);
-		double[][] pc = MathFunctions.GetMatrixColumns(u, 0, model.getPC());
+		double[][] pc = MathFunctions.GetMatrixColumns(u, 0, 2);
 		double[][] principalComponents = MathFunctions.Transpose(pc);
 		featureSet = MathFunctions.MatrixMultiplication(principalComponents, phi);
 		
@@ -86,7 +86,8 @@ public class PreProcess {
 	}
 	
 	private double[][] getSVD_U(double[][] data) {
-		SingularValueDecomposition svd = new SingularValueDecomposition(new Matrix(data));
+		Matrix m = new Matrix(data);
+		SingularValueDecomposition svd = new SingularValueDecomposition(m);
 		Matrix u = svd.getU();
 		
 		return u.getArray();

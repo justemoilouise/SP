@@ -1,4 +1,4 @@
-import CoreHandler.Prompt;
+import core.Prompt;
 import core.Client;
 
 
