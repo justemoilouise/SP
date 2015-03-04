@@ -69,7 +69,8 @@ public class PreProcess {
 
 		Iterator<Species> i = dataset.iterator();
 		while(i.hasNext()) {
-			features[counter] = Arrays.copyOfRange(i.next().getFeatureValues(), 0, len);
+			//features[counter] = Arrays.copyOfRange(i.next().getFeatureValues(), 0, len);
+			features[counter] = i.next().getFeatureValues();
 			counter++;
 		}
 

@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 import core.Prompt;
 import Data.Species;
-import FileHelper.FileInput;
+import FileHandlers.FileInput;
 import FileHandlers.FileOutput;
 import core.Client;
 
