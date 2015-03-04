@@ -77,21 +77,21 @@ public class Initialize implements Runnable {
 		
 		// Preprocess models
 		String filename = props.getProperty("model.preprocess.ij");
-		FileInput.readModelFromDATFile(filename);
-		models.put("preprocess_model_IJ", null);
+		PreprocessModel pModel = FileInput.readPreprocessModelFromDATFile(filename);
+		models.put("preprocess_model_IJ", pModel);
 		filename = props.getProperty("model.preprocess.jf");
-		FileInput.readModelFromDATFile(filename);
-		models.put("preprocess_model_JF", null);
+		pModel = FileInput.readPreprocessModelFromDATFile(filename);
+		models.put("preprocess_model_JF", pModel);
 		
 		// SVM models
 		filename = props.getProperty("model.svm.ij");
-		FileInput.readModelFromDATFile(filename);
-		models.put("svm_model_IJ", null);
+		SVMModel sModel = FileInput.readSVMModelFromDATFile(filename);
+		models.put("svm_model_IJ", sModel);
 		filename = props.getProperty("model.svm.ij");
-		FileInput.readModelFromDATFile(filename);
-		models.put("svm_model_JF", null);
+		sModel = FileInput.readSVMModelFromDATFile(filename);
+		models.put("svm_model_JF", sModel);
 
-		return null;
+		return models;
 	}
 
 	private void DecompressModel() {
