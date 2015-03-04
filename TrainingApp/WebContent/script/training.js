@@ -4,10 +4,8 @@ $(function() {
 	var readDataset = function() {
 		$.ajax({
 			url: 'trainingapp/readdataset',
-			success: function(response) {
-				return response;
-			},
-			error: function() { return null; },
+			success: function() { return true; },
+			error: function() { return false; },
 		});
 	};
 
@@ -73,7 +71,7 @@ $(function() {
 	$("#content_holder").on("click","#train_build_btn", function() {
 		var dataset = readDataset();
 
-		if(dataset != null) {
+		if(dataset) {
 			var isPreprocessed = preprocess();
 
 			if(isPreprocecssed == "true") {
