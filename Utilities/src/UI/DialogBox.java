@@ -74,7 +74,7 @@ public class DialogBox extends JDialog {
 		jf = new JRadioButton("Haralick texture descriptors", !isIJ);
 		panel.add(jf);
 
-		JOptionPane.showConfirmDialog(comp, panel, "Choose which features to use:", JOptionPane.QUESTION_MESSAGE);
+		JOptionPane.showConfirmDialog(comp, panel, "Choose which features to use:", JOptionPane.OK_CANCEL_OPTION);
 		
 		return ij.isSelected();
 	}
