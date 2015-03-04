@@ -1,6 +1,9 @@
 package Data;
 
-public class Species {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Species implements Serializable {
 	private String name;
 	private String[] featureLabels;
 	private double[] featureValues;
