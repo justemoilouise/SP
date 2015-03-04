@@ -1,7 +1,6 @@
 package core;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 
 import CoreHandler.MathFunctions;
@@ -56,6 +55,7 @@ public class PreProcess {
 		featureSet = MathFunctions.MatrixMultiplication(principalComponents, phi);
 		
 		//save principal components to model
+		model.setPC(2);
 		model.setPrincipalComponents(principalComponents);
 		
 		featureSet = MathFunctions.Transpose(featureSet);
@@ -65,12 +65,9 @@ public class PreProcess {
 	private double[][] extractFeatures(ArrayList<Species> dataset) {
 		double[][] features = new double[dataset.size()][];
 		int counter = 0;
-		int len = dataset.get(0).getFeatureValues().length;
 
 		Iterator<Species> i = dataset.iterator();
-		while(i.hasNext()) {
-			//features[counter] = Arrays.copyOfRange(i.next().getFeatureValues(), 0, len);
-			features[counter] = i.next().getFeatureValues();
+		while(i.hasNext()) {features[counter] = i.next().getFeatureValues();
 			counter++;
 		}
 

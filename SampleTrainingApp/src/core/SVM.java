@@ -57,6 +57,7 @@ public class SVM {
 		svmParams.gamma = params.get("gamma");
 		svmParams.degree = params.get("degree").intValue();
 		svmParams.coef0 = params.get("coefficient");
+		svmParams.probability = 1;
 		
 		return svmParams;
 	}

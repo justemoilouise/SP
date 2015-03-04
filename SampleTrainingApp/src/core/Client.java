@@ -8,6 +8,7 @@ import core.Prompt;
 import Data.ClassifierModel;
 import Data.Species;
 import ExceptionHandlers.ExceptionHandler;
+import FileHandlers.FileOutput;
 import gui.InputPanel;
 import gui.MainWindow;
 import gui.OutputPanel;
@@ -65,19 +66,11 @@ public class Client {
 		model.setIJUsed(true);
 		model.setPreprocessModel(preprocess.getModel());
 		model.setSvmmodel(svm.getSVMModel());
-		
-		displayOutput(model);
 	}
 	
 	public static void displayInput() {
 		ip = new InputPanel();
 		pm.addToDesktopPane(ip);
-	}
-	
-	public static void displayOutput(ClassifierModel model) {
-		OutputPanel output = new OutputPanel(model);
-		output.setVisible(true);
-		pm.addToDesktopPane(output);
 	}
 	
 	public static void download(int index) {		
