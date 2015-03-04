@@ -1,6 +1,9 @@
 package Data;
 
-public class PreprocessModel {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class PreprocessModel implements Serializable {
 	private double[] min;
 	private double[] max;
 	private int PC;
