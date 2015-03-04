@@ -1,10 +1,12 @@
 package Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import libsvm.svm_model;
 
-public class SVMModel {
+@SuppressWarnings("serial")
+public class SVMModel implements Serializable {
 	private svm_model model;
 	private double accuracy;
 	private ArrayList<String> classes;
