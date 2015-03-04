@@ -20,6 +20,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import CoreHandler.Prompt;
 import Data.ClassifierModel;
 import Data.Input;
+import Data.PreprocessModel;
+import Data.SVMModel;
 import Data.Species;
 
 public class FileInput {
@@ -47,6 +49,94 @@ public class FileInput {
 		return null;
 	}
 
+	public static PreprocessModel readPreprocessModelFromDATFile(File f) {
+		try {
+			FileInputStream fileStream = new FileInputStream(f);
+			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
+			PreprocessModel model = (PreprocessModel)objectStream.readObject();			
+			objectStream.close();
+
+			return model;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public static PreprocessModel readPreprocessModelFromDATFile(String filename) {
+		try {
+			FileInputStream fileStream = new FileInputStream(filename);
+			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
+			PreprocessModel model = (PreprocessModel)objectStream.readObject();			
+			objectStream.close();
+
+			return model;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
+	public static SVMModel readSVMModelFromDATFile(File f) {
+		try {
+			FileInputStream fileStream = new FileInputStream(f);
+			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
+			SVMModel model = (SVMModel)objectStream.readObject();			
+			objectStream.close();
+
+			return model;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public static SVMModel readSVMModelFromDATFile(String filename) {
+		try {
+			FileInputStream fileStream = new FileInputStream(filename);
+			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
+			SVMModel model = (SVMModel)objectStream.readObject();			
+			objectStream.close();
+
+			return model;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
 	public static ClassifierModel readModelFromDATFile(File f) {
 		try {
 			FileInputStream fileStream = new FileInputStream(f);
