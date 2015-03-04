@@ -53,14 +53,6 @@ public class OutputPanel extends JInternalFrame {
 		ImageIcon img = ProcessImage.getScaledImage(input.getImageName(),
 				new Dimension(newWidth, newWidth));
 		JLabel imgLabel = new JLabel(img);
-
-		JTextArea prediction = new JTextArea();
-		prediction.setText(input.getSpecies().getName());
-		prediction.setEditable(false);
-		prediction.setWrapStyleWord(true);
-		prediction.setLineWrap(true);
-		prediction.setColumns(25);
-		prediction.setRows(5);
 		
 		JButton dload = new JButton("Download");
 		dload.setActionCommand("download_" +count);
@@ -68,7 +60,6 @@ public class OutputPanel extends JInternalFrame {
 		
 		JPanel footer = new JPanel();
 		footer.setLayout(new BorderLayout());
-		footer.add(prediction, BorderLayout.CENTER);
 		footer.add(dload, BorderLayout.SOUTH);
 		
 		GroupLayout gl_panel = new GroupLayout(panel);

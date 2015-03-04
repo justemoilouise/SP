@@ -9,6 +9,7 @@ import java.util.Properties;
 import CoreHandler.Prompt;
 import Data.ClassifierModel;
 import Data.Input;
+import Data.SVMResult;
 import Data.Species;
 import ExceptionHandlers.ExceptionHandler;
 import ExceptionHandlers.ThreadException;
@@ -150,9 +151,15 @@ public class Client {
 			progress.setVisible(true);
 			pm.addToDesktopPane(progress);
 			
+			preprocess.setIJ(isIJ);
+			svm.setIJ(isIJ);
+			
 			double[] preprocessedData = preprocess.scale(features);
 			preprocessedData = preprocess.reduceFeatures(preprocessedData);
-			svm.classify(preprocessedData, isIJ);
+			ArrayList<SVMResult> results = svm.classify(preprocessedData, isIJ);
+			
+			Input i = inputs.get(inputs.size()-1);
+			i.setSvmResult(results);
 			
 			progress.closeProgressBar();
 			displayOutput();
