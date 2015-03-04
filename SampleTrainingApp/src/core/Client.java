@@ -62,7 +62,8 @@ public class Client {
 		
 		model = new ClassifierModel();
 		model.setCreatedDate(new Date());
-		model.setIJUsed(true);
+		model.setIJUsed(false);
+		model.setVersion(1.2);
 		model.setPreprocessModel(preprocess.getModel());
 		model.setSvmmodel(svm.getSVMModel());
 		
