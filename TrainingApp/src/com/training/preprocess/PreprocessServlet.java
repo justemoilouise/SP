@@ -35,13 +35,16 @@ public class PreprocessServlet extends HttpServlet {
 			response = processor.setPC(PC);
 		}
 		else {
-			String requestBody = ServletHelper.GetRequestBody(req.getReader());
-			ArrayList<Species> dataset = ServletHelper.ConvertToObject(requestBody, ArrayList.class);
+			ArrayList<Species> dataset = (ArrayList<Species>) session.getAttribute("dataset");
 			
 			if(method.equalsIgnoreCase("scale")) {
-				response = processor.scale(dataset);
+				dataset = processor.scale(dataset);
+				session.setAttribute("dataset", dataset);
+				response = true;
 			} else if (method.equalsIgnoreCase("reducefeatures")) {
-				response = processor.reduceFeatures(dataset);
+				dataset = processor.reduceFeatures(dataset);
+				session.setAttribute("dataset", dataset);
+				response = true;
 			}
 		}		
 		

@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import Data.PreprocessModel;
 import Data.SVMModel;
+import Data.Species;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
@@ -52,8 +54,12 @@ public class TrainingAppServlet extends HttpServlet {
 	        }
 		} else if(method.equalsIgnoreCase("readdataset")) {
 			InputStream stream = readFileFromBlob((BlobKey) session.getAttribute("key"));
+			ArrayList<Species> dataset = processor.readDataset(stream);
 			
-			response = processor.readDataset(stream);
+			if(!dataset.isEmpty()) {
+				session.setAttribute("dataset", dataset);
+				response = true;
+			}
 		} else if(method.equalsIgnoreCase("saveclassifiermodel")) {
 			PreprocessModel pModel = (PreprocessModel) session.getAttribute("model_preprocess");
 			SVMModel sModel = (SVMModel) session.getAttribute("model_svm");

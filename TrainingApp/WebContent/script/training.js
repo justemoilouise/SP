@@ -1,12 +1,16 @@
 $(function() {
+	var species = {};
+
 	var readDataset = function() {
 		$.ajax({
 			url: 'trainingapp/readdataset',
-			success: function(response) { return response; },
+			success: function(response) {
+				return response;
+			},
 			error: function() { return null; },
 		});
 	};
-	
+
 	var readSVMParameters = function() {
 		var params = {};
 		params["type"] = $("#svm_type").val();
@@ -21,10 +25,9 @@ $(function() {
 		return params;
 	};
 
-	var scale = function(dataset) {
+	var scale = function() {
 		$.ajax({
 			url: 'trainingapp/preprocess/scale',
-			data: data,
 			success: function(response) { return response; },
 			error: function() { return null; },
 		});
@@ -32,35 +35,32 @@ $(function() {
 
 	var reduceFeatures = function(dataset) {
 		$.ajax({
-			url: 'trainingapp/preprocess/scale',
-			data: data,
+			url: 'trainingapp/preprocess/reducefeatures',
 			success: function(response) { return response; },
 			error: function() { return null; },
 		});
 	};
 
-	var preprocess = function(dataset) {
+	var preprocess = function() {
 		var pca = $("#train_preprocess_pca").val();
-		
+
 		$.ajax({
 			url: 'trainingapp/preprocess/setpca/pca=' + pca,
 			success: function(response) { return response; },
 			error: function() { return null; },
 		});
-		
-		var preprocessedData = scale(data);
 
-		if(preprocessedData  != null)
-			preprocessedData = reduceFeatures(preprocessedData);
+		var isScaled = scale();
+
+		if(isScaled == "true")
+			preprocessedData = reduceFeatures();
 
 		return preprocessedData;
 	};
 
-	var buildModel = function(dataset) {
-		var data = {};
-		data["dataset"] = dataset;
-		data["svm_parameters"] = readSVMParameters();
-		
+	var buildModel = function() {
+		var data = readSVMParameters();
+
 		$.ajax({
 			url: 'trainingapp/svm/buildmodel',
 			method: 'POST',
@@ -69,23 +69,26 @@ $(function() {
 			error: function() { return null; },
 		});
 	};
-	
+
 	$("#content_holder").on("click","#train_build_btn", function() {
 		var dataset = readDataset();
 
 		if(dataset != null) {
-			var preprocessedDataset = preprocess(dataset);
-			var model = buildModel(dataset);
+			var isPreprocessed = preprocess();
 
-			if(model != null) {
-				$("#content_holder").load("Training_Output.jsp");
+			if(isPreprocecssed == "true") {
+				var model = buildModel();
+
+				if(model != null) {
+					$("#content_holder").load("Training_Output.jsp");
+				}
 			}
 		}
 	});
 
 	$("#content_holder").on("click","#train_save_btn", function() {
 		var notes = "";
-		
+
 		$.ajax({
 			url: "trainingapp/saveclassifiermodel",
 			method : "POST",
@@ -103,7 +106,7 @@ $(function() {
 			}
 		});
 	});
-	
+
 	$("#content_holder").on("click","#train_cancel_btn", function() {
 		$("#content_holder").load("Home.jsp");
 	});

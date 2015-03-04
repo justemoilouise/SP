@@ -24,7 +24,8 @@ $(function() {
 			data: data,
 			dataType: "json",
 			success: function(response) {
-				if(response.indexOf("true") >= 0) {
+				console.log(response);
+				if(response == "true") {
 					trainingCallback("File uploaded successfully.");
 				}  else {
 					trainingCallback("Unable to upload file. Please try again.");

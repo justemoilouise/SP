@@ -33,12 +33,10 @@ public class SVMServlet extends HttpServlet {
 			session.setAttribute("model_svm", response);
 		} else if(method.equalsIgnoreCase("buildmodel")) {
 			String requestBody = ServletHelper.GetRequestBody(req.getReader());
-			int index = requestBody.indexOf("svm_parameters");
-			
-			ArrayList<Species> dataset = ServletHelper.ConvertToObject(requestBody.substring(0, index-3), ArrayList.class);
-			SVMParameter params = ServletHelper.ConvertToObject(requestBody.substring(index-1, requestBody.length()-1), SVMParameter.class);
-			
+			SVMParameter params = ServletHelper.ConvertToObject(requestBody, SVMParameter.class);
+			ArrayList<Species> dataset = (ArrayList<Species>) session.getAttribute("dataset");
 			processor.buildModel(dataset, params);
+			response = true;
 		}
 		
 		resp.setContentType("application/json");
