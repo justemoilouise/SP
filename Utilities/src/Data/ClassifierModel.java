@@ -1,8 +1,10 @@
 package Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ClassifierModel {
+@SuppressWarnings("serial")
+public class ClassifierModel implements Serializable {
 	private double version;
 	private Date createdDate;
 	private String notes;
