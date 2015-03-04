@@ -24,7 +24,6 @@ import Data.Species;
 
 public class FileInput {
 	private static String[] keys;
-	private static double[] values;
 
 	public static File uploadModelFile() {
 		// TODO Auto-generated method stub
@@ -204,6 +203,7 @@ public class FileInput {
 
 	public static Input parseInput(Row row, int rowNumber) {
 		// TODO Auto-generated method stub
+		double[] values = new double[keys.length];
 		int cCount = 0;
 		Iterator<Cell> cellIter = row.iterator();
 		while(cellIter.hasNext()) {
@@ -211,11 +211,12 @@ public class FileInput {
 			cCount++;
 		}
 
-		return setInput();
+		return setInput(values);
 	}
 
 	public static Species parseSpecies(Row row, int rowNumber) {
 		// TODO Auto-generated method stub
+		double[] values = new double[keys.length];
 		int cCount = 0;
 		Iterator<Cell> cellIter = row.iterator();
 		String name = cellIter.next().getStringCellValue();
@@ -224,15 +225,13 @@ public class FileInput {
 			cCount++;
 		}
 
-		return setSpecies(name);
+		return setSpecies(name, values);
 	}
 
 	private static void FillKeys(Row row, boolean skipFirstColumn) {
 		int cCount = 0;
 		int len = row.getPhysicalNumberOfCells()-1;
-
 		keys = new String[len];
-		values = new double[len];
 
 		Iterator<Cell> cellIter = row.iterator();
 		
@@ -245,7 +244,7 @@ public class FileInput {
 		}
 	}
 
-	private static Species setSpecies(String name) {
+	private static Species setSpecies(String name, double[] values) {
 		Species species = new Species();
 		species.setName(name);
 		species.setFeatureLabels(keys);
@@ -254,9 +253,9 @@ public class FileInput {
 		return species;
 	}
 
-	private static Input setInput() {
+	private static Input setInput(double[] values) {
 		Input i = new Input();
-		i.setSpecies(setSpecies(""));
+		i.setSpecies(setSpecies("", values));
 
 		return i;
 	}
