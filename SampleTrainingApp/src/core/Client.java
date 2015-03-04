@@ -11,7 +11,6 @@ import ExceptionHandlers.ExceptionHandler;
 import FileHandlers.FileOutput;
 import gui.InputPanel;
 import gui.MainWindow;
-import gui.OutputPanel;
 
 public class Client {
 	private static MainWindow pm;
@@ -66,6 +65,8 @@ public class Client {
 		model.setIJUsed(true);
 		model.setPreprocessModel(preprocess.getModel());
 		model.setSvmmodel(svm.getSVMModel());
+		
+		FileOutput.saveToDATFile(model);
 	}
 	
 	public static void displayInput() {
