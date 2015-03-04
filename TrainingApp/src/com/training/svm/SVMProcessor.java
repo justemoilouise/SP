@@ -90,6 +90,7 @@ public class SVMProcessor implements ISVM {
 		svmParams.C = params.getCost();
 		svmParams.gamma = params.getGamma();
 		svmParams.degree = params.getDegree();
+		svmParams.probability = 1;
 		
 		return svmParams;
 	}
@@ -141,6 +142,7 @@ public class SVMProcessor implements ISVM {
 		svmParams.C = Double.parseDouble(params.get("cost"));
 		svmParams.gamma = Double.parseDouble(params.get("gamma"));
 		svmParams.degree = Integer.parseInt(params.get("degree"));
+		svmParams.probability = 1;
 		
 		return svmParams;
 	}
