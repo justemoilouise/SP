@@ -1,6 +1,9 @@
 package Data;
 
-public class SVMParameter {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class SVMParameter implements Serializable {
 	private int svmType;
 	private int kernel;
 	private double cost;
