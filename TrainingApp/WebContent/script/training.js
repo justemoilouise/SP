@@ -1,14 +1,4 @@
 $(function() {
-	var species = {};
-
-	var readDataset = function() {
-		$.ajax({
-			url: 'trainingapp/readdataset',
-			success: function() { return true; },
-			error: function() { return false; },
-		});
-	};
-
 	var readSVMParameters = function() {
 		var params = {};
 		params["type"] = $("#svm_type").val();
@@ -22,19 +12,39 @@ $(function() {
 
 		return params;
 	};
+	
+	var buildModel = function() {
+		var data = readSVMParameters();
 
-	var scale = function() {
 		$.ajax({
-			url: 'trainingapp/preprocess/scale',
-			success: function(response) { return response; },
+			url: 'trainingapp/svm/buildmodel',
+			method: 'POST',
+			data: data,
+			success: function(response) {
+				if(response == "true") {
+					$('#content_holder').load('Training_Output.jsp');
+				}
+			},
+			error: function() { return null; },
+		});
+	};
+	
+	var reduceFeatures = function() {
+		$.ajax({
+			url: 'trainingapp/preprocess/reducefeatures',
+			success: function() {
+				buildModel();
+			},
 			error: function() { return null; },
 		});
 	};
 
-	var reduceFeatures = function(dataset) {
+	var scale = function() {
 		$.ajax({
-			url: 'trainingapp/preprocess/reducefeatures',
-			success: function(response) { return response; },
+			url: 'trainingapp/preprocess/scale',
+			success: function() {
+				reduceFeatures();
+			},
 			error: function() { return null; },
 		});
 	};
@@ -44,44 +54,21 @@ $(function() {
 
 		$.ajax({
 			url: 'trainingapp/preprocess/setpca/pca=' + pca,
-			success: function(response) { return response; },
-			error: function() { return null; },
-		});
-
-		var isScaled = scale();
-
-		if(isScaled == "true")
-			preprocessedData = reduceFeatures();
-
-		return preprocessedData;
-	};
-
-	var buildModel = function() {
-		var data = readSVMParameters();
-
-		$.ajax({
-			url: 'trainingapp/svm/buildmodel',
-			method: 'POST',
-			data: data,
-			success: function(response) { return response; },
+			success: function() {
+				scale();
+			},
 			error: function() { return null; },
 		});
 	};
 
 	$("#content_holder").on("click","#train_build_btn", function() {
-		var dataset = readDataset();
-
-		if(dataset) {
-			var isPreprocessed = preprocess();
-
-			if(isPreprocecssed == "true") {
-				var model = buildModel();
-
-				if(model != null) {
-					$("#content_holder").load("Training_Output.jsp");
-				}
-			}
-		}
+		$.ajax({
+			url: 'trainingapp/readdataset',
+			success: function() {
+				preprocess();
+			},
+			error: function() { return false; },
+		});
 	});
 
 	$("#content_holder").on("click","#train_save_btn", function() {
