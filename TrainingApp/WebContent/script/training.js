@@ -19,7 +19,8 @@ $(function() {
 		$.ajax({
 			url: 'trainingapp/svm/buildmodel',
 			method: 'POST',
-			data: data,
+			data: JSON.stringify(data),
+			contentType: 'json',
 			success: function(response) {
 				if(response == "true") {
 					$('#content_holder').load('Training_Output.jsp');
@@ -53,7 +54,7 @@ $(function() {
 		var pca = $("#train_preprocess_pca").val();
 
 		$.ajax({
-			url: 'trainingapp/preprocess/setpca/pca=' + pca,
+			url: 'trainingapp/preprocess/setpca?pca=' + pca,
 			success: function() {
 				scale();
 			},

@@ -93,19 +93,19 @@ $(function() {
 			</tr>
 			<tr>
 				<td>Epsilon</td>
-				<td id="svm_eps"><input type="text" id="svm_eps" /></td>
+				<td><input type="text" id="svm_eps" /></td>
 			</tr>
 			<tr>
 				<td>Degree</td>
-				<td id="svm_degree"><input type="text" id="svm_degree" /></td>
+				<td><input type="text" id="svm_degree" /></td>
 			</tr>
 			<tr>
 				<td>Nu</td>
-				<td id="svm_nu"><input type="text" id="svm_nu" /></td>
+				<td><input type="text" id="svm_nu" /></td>
 			</tr>
 			<tr>
 				<td>Coefficient</td>
-				<td id="svm_coef"><input type="text" id="svm_coef" /></td>
+				<td><input type="text" id="svm_coef" /></td>
 			</tr>
 		</table>
 	</div>
