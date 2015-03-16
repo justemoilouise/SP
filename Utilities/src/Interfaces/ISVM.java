@@ -2,7 +2,9 @@ package Interfaces;
 
 import java.util.ArrayList;
 
+import Data.SVMParameter;
 import Data.SVMResult;
+import Data.Species;
 import libsvm.svm_parameter;
 import libsvm.svm_problem;
 
@@ -11,7 +13,7 @@ public interface ISVM {
 	/**
 	 * Builds SVM model
 	 */
-	public void buildModel(boolean isIJUsed);
+	public void buildModel(ArrayList<Species> dataset, SVMParameter svmParameter);
 	
 	/**
 	 * Cross validates model
