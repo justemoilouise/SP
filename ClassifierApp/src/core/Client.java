@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import CoreHandler.Prompt;
+import Data.ClassifierModel;
 import Data.Input;
+import Data.SVMResult;
 import Data.Species;
 import ExceptionHandlers.ExceptionHandler;
 import ExceptionHandlers.ThreadException;
@@ -27,9 +29,11 @@ public class Client {
 	private static Thread t;
 	private static StartScreen screen;
 	private static MainWindow pm;
-	private static ProgressInfo progress;	
-
+	private static ProgressInfo progress;
+	
+	private static Preprocess preprocess;
 	private static SVM svm;
+	private static ClassifierModel model;
 
 	private static ImagePlus imgPlus;
 	private static ArrayList<Input> inputs;
@@ -38,6 +42,7 @@ public class Client {
 	public Client() {
 		inputs = new ArrayList<Input>();
 		props = FileConfig.readConfig();
+		preprocess = new Preprocess();
 		svm = new SVM();
 		pm = new MainWindow();	
 		Prompt.SetParentComponent(pm.getDesktoPane());
@@ -50,7 +55,7 @@ public class Client {
 		screen.setExecutable(true);
 		
 		Thread splashScreen = new Thread(screen, "SplashScreen");
-		Thread init = new Thread(new Initialize(screen), "Initialize");
+		Thread init = new Thread(new Initialize(screen, props), "Initialize");
 
 		splashScreen.setUncaughtExceptionHandler(new ThreadException());
 		splashScreen.start();
@@ -90,12 +95,38 @@ public class Client {
 		return progress;
 	}
 
+	public static Preprocess getPreprocess() {
+		return preprocess;
+	}
+
+	public static void setPreprocess(Preprocess preprocess) {
+		Client.preprocess = preprocess;
+	}
+
 	public static SVM getSvm() {
 		return svm;
 	}
 
 	public static void setSvm(SVM svm) {
 		Client.svm = svm;
+	}
+
+	public static ClassifierModel getModel() {
+		return model;
+	}
+
+	public static void setModel(ClassifierModel model) {
+		Client.model = model;
+		
+		//update currently used models
+		if(model.isIJUsed()) {
+			preprocess.setIJModel(model.getPreprocessModel());
+			svm.setIJModel(model.getSvmmodel());
+		}
+		else {
+			preprocess.setJFModel(model.getPreprocessModel());
+			svm.setJFModel(model.getSvmmodel());
+		}
 	}
 
 	public static boolean validateInput() {
@@ -113,26 +144,23 @@ public class Client {
 		
 	public static void onSubmit(boolean isIJ) {
 		count++;		
-		getInputFeatures(isIJ);
+		double[] features = getInputFeatures(isIJ);
 
-		progress = new ProgressInfo();
-		progress.setVisible(true);
-		pm.addToDesktopPane(progress);
-		
-		svm.setIsIJ(isIJ);		
-		
-		t = new Thread(svm, "SVM");
-		t.setUncaughtExceptionHandler(new ThreadException());
-		t.start();
-		
-		try {
-			t.join();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Prompt.PromptError("ERROR_DLOAD");
-			printStackTrace(e);
-		}
-		finally {
+		if(features != null) {
+			progress = new ProgressInfo();
+			progress.setVisible(true);
+			pm.addToDesktopPane(progress);
+			
+			preprocess.setIJ(isIJ);
+			svm.setIJ(isIJ);
+			
+			double[] preprocessedData = preprocess.scale(features);
+			preprocessedData = preprocess.reduceFeatures(preprocessedData);
+			ArrayList<SVMResult> results = svm.classify(preprocessedData, isIJ);
+			
+			Input i = inputs.get(inputs.size()-1);
+			i.setSvmResult(results);
+			
 			progress.closeProgressBar();
 			displayOutput();
 		}
@@ -152,7 +180,7 @@ public class Client {
 		}
 	}
 		
-	private static void getInputFeatures(boolean isIJ) {
+	private static double[] getInputFeatures(boolean isIJ) {
 		try {
 			Input input = new Input();
 			
@@ -188,12 +216,15 @@ public class Client {
 			else {
 				input = inputs.get(inputs.size()-1);
 			}
-			svm.setInput(input.getSpecies().getFeatureValues());
+			
+			return input.getSpecies().getFeatureValues();
 		}
 		catch(Exception e) {
 			Prompt.PromptError("ERROR_INPUT_FEATURES");
 			printStackTrace(e);
 		}
+		
+		return null;
 	}
 
 	public static void displayInput() {
@@ -212,25 +243,21 @@ public class Client {
 		progress = new ProgressInfo();
 		progress.setVisible(true);
 		pm.addToDesktopPane(progress);
+
+		boolean dloadSuccess = FileOutput.saveToFile(inputs.get(index-1), index);
 		
-		FileOutput fo = new FileOutput();
-		fo.saveToFile(inputs.get(index-1), index);
-		Thread output = new Thread(fo);
-		output.start();
-		try {
-			output.join();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Prompt.PromptError("ERROR_DLOAD");
-			printStackTrace(e);
-		}
-		finally {
+		if(dloadSuccess)
 			Prompt.PromptSuccess("SUCCESS_DLOAD");
-		}
+		else
+			Prompt.PromptSuccess("ERROR_DLOAD");
 	}
 	
 	public static void printStackTrace(Throwable ex) {
 		String stackTrace = ExceptionHandler.getStackTrace(ex);
 		pm.appendToErrorLog(stackTrace);
+	}
+
+	public static void setInputs(ArrayList<Input> inputList) {
+		inputs = inputList;
 	}
 }

@@ -4,8 +4,7 @@ import gui.listeners.Listener_Mouse;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.Hashtable;
-import java.util.Map.Entry;
+import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -17,12 +16,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import Data.Input;
+import Data.SVMResult;
 import ImageHandlers.ProcessImage;
 import core.Client;
 
@@ -53,14 +52,6 @@ public class OutputPanel extends JInternalFrame {
 		ImageIcon img = ProcessImage.getScaledImage(input.getImageName(),
 				new Dimension(newWidth, newWidth));
 		JLabel imgLabel = new JLabel(img);
-
-		JTextArea prediction = new JTextArea();
-		prediction.setText(input.getSpecies().getName());
-		prediction.setEditable(false);
-		prediction.setWrapStyleWord(true);
-		prediction.setLineWrap(true);
-		prediction.setColumns(25);
-		prediction.setRows(5);
 		
 		JButton dload = new JButton("Download");
 		dload.setActionCommand("download_" +count);
@@ -68,7 +59,6 @@ public class OutputPanel extends JInternalFrame {
 		
 		JPanel footer = new JPanel();
 		footer.setLayout(new BorderLayout());
-		footer.add(prediction, BorderLayout.CENTER);
 		footer.add(dload, BorderLayout.SOUTH);
 		
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -129,17 +119,16 @@ public class OutputPanel extends JInternalFrame {
 	}
 
 	private JScrollPane getSVMResult() {
-		Hashtable<String, Double> result = input.getSvmResult();
+		ArrayList<SVMResult> result = input.getSvmResult();
 		
 		String[] headers = {"Class Name", "Probability"};
 		String[][] tableData = new String[result.size()][2];
 		
-		int ctr = 0;
-		for(Entry<String, Double> e : result.entrySet()) {
-			tableData[ctr][0] = e.getKey();
-			tableData[ctr][1] = e.getValue().toString();
+		for(int i=0; i<result.size(); i++) {
+			SVMResult r = result.get(i);
 			
-			ctr++;
+			tableData[i][0] = r.getName();
+			tableData[i][1] = Double.toString(r.getProbability());
 		}
 		
 		TableModel model = new DefaultTableModel(tableData, headers);

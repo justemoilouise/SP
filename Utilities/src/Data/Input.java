@@ -1,10 +1,12 @@
 package Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import ij.ImagePlus;
 
-public class Input {
+@SuppressWarnings("serial")
+public class Input implements Serializable {
 	private ImagePlus img;
 	private String imageName;
 	private Species species;

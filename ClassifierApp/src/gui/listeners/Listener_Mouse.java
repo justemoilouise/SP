@@ -9,12 +9,17 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import CoreHandler.Prompt;
+import Data.ClassifierModel;
+import Data.Input;
+import FileHandlers.FileConfig;
 import FileHandlers.FileInput;
+import FileHandlers.FileOutput;
 import ImageHandlers.ProcessImage;
 import core.Client;
 
@@ -39,56 +44,37 @@ public class Listener_Mouse implements ActionListener {
 					Client.setImgPlus(imgPlus);
 					Client.getPm().addToDesktopPane(imgWindow);
 				}
-				catch(Exception x) {
-					//Prompt.PromptError("ERROR_UPLOAD_IMAGE");		
-					//Client.printStackTrace(x);
-				}
+				catch(Exception x) {}
 			}
 		}
-		else if(command.equals("input_file")) {
-			FileInput ifp = new FileInput();
-			boolean isUploaded = ifp.upload_file();
+		else if(command.equals("input_file")) {			
+			File f = FileInput.uploadExcelFile();
 			
-			if(isUploaded) {
-				boolean isRead = ifp.read();
+			if(f != null) {
+				ArrayList<Input> input = FileInput.readInput(f);
 				
-				if(isRead) {
-					Prompt.PromptSuccess("SUCCESS_UPLOAD_FILE");
-					Client.displayInput();
-				}
+				Client.setInputs(input);
+			}
+		}
+		else if(command.equals("upload_model")) {
+			File f = FileInput.uploadModelFile();
+			
+			if(f != null) {
+				ClassifierModel model = FileInput.readModelFromDATFile("");
+				FileOutput.saveToFile(model, model.isIJUsed());
+				FileConfig.updateModelInfo(model);
+				Client.setModel(model);
 			}
 		}
 		else if(command.equals("submit")) {
 			boolean isValid = Client.validateInput();
 
 			if(isValid) {
-				//Prompt.ChooseFeatures();
-
-				boolean isIJ = Prompt.isIJ();			
+				boolean isIJ = Prompt.chooseFeatures(true);
 				Client.onSubmit(isIJ);
 			}
 			else {
 				Prompt.PromptError("ERROR_INPUT");
-			}
-		}
-		else if(command.equals("IJ")) {
-			boolean isIJ = Prompt.isIJ();
-
-			if(isIJ) {
-				Prompt.SetIJSelected(true);
-			}
-			else {
-				Prompt.SetIJSelected(false);
-			}
-		}
-		else if(command.equals("JF")) {
-			boolean isIJ = Prompt.isIJ();
-
-			if(isIJ) {
-				Prompt.SetIJSelected(false);
-			}
-			else {
-				Prompt.SetIJSelected(true);
 			}
 		}
 		else if(command.equals("stop")) {
