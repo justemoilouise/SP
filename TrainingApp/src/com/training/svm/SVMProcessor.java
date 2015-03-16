@@ -1,9 +1,6 @@
 package com.training.svm;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-
-import com.training.helpers.FileHelper;
 
 import libsvm.svm;
 import libsvm.svm_model;
@@ -29,25 +26,11 @@ public class SVMProcessor implements ISVM {
 		return model;
 	}
 	
+	@Override
 	public void buildModel(ArrayList<Species> dataset, SVMParameter svmParameter) {
 		// TODO Auto-generated method stub
 		svm_parameter params = BuildSVMParameters(svmParameter);
 		svm_problem prob = BuildSVMProblem(dataset);
-		
-		svm_model svmModel = svm.svm_train(prob, params);		
-		double accuracy = crossValidate(params, prob);
-		
-		//save to SVMModel
-		model.setClasses(classes);
-		model.setModel(svmModel);
-		model.setAccuracy(accuracy);
-	}
-	
-	@Override
-	public void buildModel(boolean isIJUsed) {
-		// TODO Auto-generated method stub
-		svm_parameter params = BuildSVMParameters();
-		svm_problem prob = BuildSVMProblem();
 		
 		svm_model svmModel = svm.svm_train(prob, params);		
 		double accuracy = crossValidate(params, prob);
@@ -96,60 +79,6 @@ public class SVMProcessor implements ISVM {
 	}
 	
 	private svm_problem BuildSVMProblem(ArrayList<Species> dataset) {
-		svm_problem prob = new svm_problem();
-		
-		int dataCount = dataset.size();
-		prob.y = new double[dataCount];
-		prob.l = dataCount;
-		prob.x = new svm_node[dataCount][];
-
-		double classNameCtr = 0;
-		String className = "";
-
-		for(int i=0; i<dataCount; i++) {
-			Species s = dataset.get(i);
-			double[] features = s.getFeatureValues();
-			prob.x[i] = new svm_node[features.length];
-			for (int j=0; j<features.length; j++){
-				svm_node node = new svm_node();
-				node.index = j;
-				node.value = features[j];
-
-				prob.x[i][j] = node;
-			}
-
-			if(!className.equals(s.getName())) {
-				className = s.getName();
-				classes.add(className);
-				classNameCtr++;
-			}
-			prob.y[i] = classNameCtr;
-		}
-		
-		return prob;
-	}
-	
-	private svm_parameter BuildSVMParameters() {
-		//read parameters from web.xml
-		Hashtable<String, String> params = FileHelper.readFromXML("svm-parameters");
-		
-		svm_parameter svmParams = new svm_parameter();
-		svmParams.eps = Double.parseDouble(params.get("epsilon"));
-		svmParams.kernel_type = Integer.parseInt(params.get("kernel"));
-		svmParams.svm_type = Integer.parseInt(params.get("type"));
-		svmParams.coef0 = Double.parseDouble(params.get("coef"));
-		svmParams.nu = Double.parseDouble(params.get("nu"));
-		svmParams.C = Double.parseDouble(params.get("cost"));
-		svmParams.gamma = Double.parseDouble(params.get("gamma"));
-		svmParams.degree = Integer.parseInt(params.get("degree"));
-		svmParams.probability = 1;
-		
-		return svmParams;
-	}
-	
-	private svm_problem BuildSVMProblem() {
-		//read from temporary file - input
-		ArrayList<Species> dataset = FileHelper.readFromExcelFile();
 		svm_problem prob = new svm_problem();
 		
 		int dataCount = dataset.size();
