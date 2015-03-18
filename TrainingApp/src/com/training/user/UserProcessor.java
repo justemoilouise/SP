@@ -2,18 +2,11 @@ package com.training.user;
 
 import java.util.Hashtable;
 
-import com.training.helpers.FileHelper;
-
-public class UserProcessor {
-	private Hashtable<String, String> credentials;
+public class UserProcessor {	
+	public UserProcessor() {}
 	
-	public UserProcessor() {
-		//GetAdminCredentials();
-	}
-	
-	public boolean LogIn(String username, String password) {
-//		if(username.equals(credentials.get("username")) && password.equals(credentials.get("password"))) {
-		if(username.equals("admin") && password.equals("UN5qGb5awt")) {
+	public boolean LogIn(Hashtable<String, String> credentials, String username, String password) {
+		if(username.equals(credentials.get("username")) && password.equals(credentials.get("password"))) {
 			return true;
 		}
 		return false;
@@ -21,9 +14,5 @@ public class UserProcessor {
 	
 	public boolean LogOut() {
 		return true;
-	}
-	
-	private void GetAdminCredentials() {
-		credentials = FileHelper.readFromXML("admin-credentials");
 	}
 }

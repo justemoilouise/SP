@@ -1,7 +1,9 @@
 package com.training.user;
 
 import java.io.IOException;
+import java.util.Hashtable;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +27,12 @@ public class UserServlet extends HttpServlet {
 		this.session = req.getSession();
 		
 		if(method.equalsIgnoreCase("login")) {
-			response = processor.LogIn(req.getParameter("username"), req.getParameter("password"));
+			ServletConfig config = getServletConfig();
+			Hashtable<String, String> credentials = new Hashtable<String, String>();
+			credentials.put("username", config.getInitParameter("username"));
+			credentials.put("password", config.getInitParameter("password"));
+			
+			response = processor.LogIn(credentials, req.getParameter("username"), req.getParameter("password"));
 			
 			if((Boolean) response) {
 				session.setAttribute("admin", "admin");
