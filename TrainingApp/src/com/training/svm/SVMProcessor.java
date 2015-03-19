@@ -17,10 +17,7 @@ public class SVMProcessor implements ISVM {
 	private SVMModel model;
 	private ArrayList<String> classes;
 	
-	public SVMProcessor() {
-		this.model = new SVMModel();
-		this.classes = new ArrayList<String>();
-	}
+	public SVMProcessor() {}
 
 	public SVMModel getSVMModel() {
 		return model;
@@ -29,11 +26,17 @@ public class SVMProcessor implements ISVM {
 	@Override
 	public void buildModel(ArrayList<Species> dataset, SVMParameter svmParameter) {
 		// TODO Auto-generated method stub
+		this.model = new SVMModel();
+		this.classes = new ArrayList<String>();
+		
 		svm_parameter params = BuildSVMParameters(svmParameter);
 		svm_problem prob = BuildSVMProblem(dataset);
 		
-		svm_model svmModel = svm.svm_train(prob, params);		
-		double accuracy = crossValidate(params, prob);
+		//svm_model svmModel = svm.svm_train(prob, params);		
+		//double accuracy = crossValidate(params, prob);
+		
+		svm_model svmModel = new svm_model();	
+		double accuracy = 100;
 		
 		//save to SVMModel
 		model.setClasses(classes);

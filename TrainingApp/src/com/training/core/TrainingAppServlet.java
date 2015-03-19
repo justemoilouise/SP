@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Data.ClassifierModel;
 import Data.PreprocessModel;
 import Data.SVMModel;
 import Data.Species;
@@ -20,6 +23,10 @@ import Data.Species;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.urlfetch.HTTPMethod;
+import com.google.appengine.api.urlfetch.HTTPRequest;
+import com.google.appengine.api.urlfetch.URLFetchService;
+import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.training.helpers.ServletHelper;
 
 @SuppressWarnings("serial")
@@ -65,7 +72,17 @@ public class TrainingAppServlet extends HttpServlet {
 			SVMModel sModel = (SVMModel) session.getAttribute("model_svm");
 			String notes = ServletHelper.GetRequestBody(req.getReader());
 			
-			response = processor.saveClassifierModel(pModel, sModel, notes);
+			ClassifierModel model = processor.saveClassifierModel(pModel, sModel, notes);
+			response = uploadModel(model);
+		} else if(method.equalsIgnoreCase("uploadclassifiermodel")) {
+			Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
+	        List<BlobKey> blobKeys = blobs.get("model");
+
+	        if (blobKeys == null || blobKeys.isEmpty()) {
+	            response = false;
+	        } else {
+	        	response = true;
+	        }
 		}
 		
 		resp.setContentType("application/json");
@@ -101,5 +118,27 @@ public class TrainingAppServlet extends HttpServlet {
         	return new ByteArrayInputStream(filebytes);
         
         return null;
+	}
+	
+	private boolean uploadModel(ClassifierModel model) {
+
+		try {
+			ByteArrayOutputStream b = new ByteArrayOutputStream();
+	        ObjectOutputStream o = new ObjectOutputStream(b);
+	        o.writeObject(model);
+	        byte[] payload = b.toByteArray();
+	        
+			URL url = new URL(blobstoreService.createUploadUrl("/trainingapp/uploadclassifiermodel"));
+			HTTPRequest request = new HTTPRequest(url, HTTPMethod.POST);
+            request.setPayload(payload);
+            
+            URLFetchService urlFetch = URLFetchServiceFactory.getURLFetchService();
+            urlFetch.fetch(request);
+            
+            return true;
+		}
+		catch (Exception ex) {}
+		
+		return false;
 	}
 }

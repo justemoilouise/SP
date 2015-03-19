@@ -21,12 +21,10 @@ $(function() {
 			method: 'POST',
 			data: JSON.stringify(data),
 			contentType: 'json',
-			success: function(response) {
-				if(response == "true") {
-					$('#content_holder').load('Training_Output.jsp');
-				}
+			success: function() {
+				$('#content_holder').load('Training_Output.jsp');
 			},
-			error: function() { return null; },
+			error: function() { alert("ERROR!"); },
 		});
 	};
 	
@@ -61,7 +59,7 @@ $(function() {
 			error: function() { return null; },
 		});
 	};
-
+	
 	$("#content_holder").on("click","#train_build_btn", function() {
 		$.ajax({
 			url: 'trainingapp/readdataset',
@@ -81,7 +79,8 @@ $(function() {
 			data: notes,
 			dataType : "json",
 			success : function(response) {
-				if (response.indexOf("true") >= 0) {
+				if (response == "true") {
+					
 					trainingCallback("Classifier model file saved successfully.");
 				} else {
 					trainingCallback("Unable to save file. Please try again.");

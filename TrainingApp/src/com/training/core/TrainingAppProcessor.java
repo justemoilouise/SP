@@ -20,14 +20,14 @@ public class TrainingAppProcessor {
 	
 	public void getAppList() {}
 	
-	public double saveClassifierModel(PreprocessModel preprocessModel, SVMModel svmModel, String notes) {
+	public ClassifierModel saveClassifierModel(PreprocessModel preprocessModel, SVMModel svmModel, String notes) {
 		ClassifierModel model = new ClassifierModel();
 		model.setPreprocessModel(preprocessModel);
 		model.setSvmmodel(svmModel);
 		model.setNotes(notes);
 		model.setCreatedDate(new Date());
 		
-		return model.getVersion();
+		return model;
 	}
 	
 	public ArrayList<Species> readDataset(InputStream stream) {
