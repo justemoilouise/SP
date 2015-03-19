@@ -23,6 +23,8 @@ import Data.Species;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.urlfetch.HTTPMethod;
 import com.google.appengine.api.urlfetch.HTTPRequest;
 import com.google.appengine.api.urlfetch.URLFetchService;
@@ -33,11 +35,16 @@ import com.training.helpers.ServletHelper;
 public class TrainingAppServlet extends HttpServlet {
 	private TrainingAppProcessor processor;
 	private BlobstoreService blobstoreService;
+	private URLFetchService urlFetchService;
+	private MemcacheService memcacheService;
 	private HttpSession session;
+	final String cacheKey = "model_keys"; 
 
 	public TrainingAppServlet() {
 		this.processor = new TrainingAppProcessor();
 		this.blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+		this.urlFetchService = URLFetchServiceFactory.getURLFetchService();
+		this.memcacheService = MemcacheServiceFactory.getMemcacheService();
 	}
 	
 	public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -81,6 +88,7 @@ public class TrainingAppServlet extends HttpServlet {
 	        if (blobKeys == null || blobKeys.isEmpty()) {
 	            response = false;
 	        } else {
+	        	saveBlobKey(blobKeys.get(0));
 	        	response = true;
 	        }
 		}
@@ -132,13 +140,24 @@ public class TrainingAppServlet extends HttpServlet {
 			HTTPRequest request = new HTTPRequest(url, HTTPMethod.POST);
             request.setPayload(payload);
             
-            URLFetchService urlFetch = URLFetchServiceFactory.getURLFetchService();
-            urlFetch.fetch(request);
+            urlFetchService.fetch(request);
             
             return true;
 		}
 		catch (Exception ex) {}
 		
 		return false;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void saveBlobKey(BlobKey key) {
+		ArrayList<BlobKey> modelKeys = new ArrayList<BlobKey>();
+		if(memcacheService.contains(cacheKey)) {
+			modelKeys = (ArrayList<BlobKey>) memcacheService.get(cacheKey);
+			modelKeys.add(key);
+		}
+
+		modelKeys.add(key);
+		memcacheService.put(cacheKey, modelKeys);
 	}
 }
