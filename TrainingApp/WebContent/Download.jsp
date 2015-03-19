@@ -34,11 +34,12 @@ $(function() {
 	for(int i=0; i<model.length; i++) {
 		$("#model_table tr:last")
 		.after(
-			"<tr>" +
-				"<td>" + model[i].createdDate + "</td>"
-				"<td>" + model[i].version + "</td>"
-				"<td>" + model[i].notes + "</td>"
-			+ "</tr>"		
+			"<tr id=" + model[i] + ">" +
+				"<td>" + model[i].createdDate + "</td>" +
+				"<td>" + model[i].version + "</td>" +
+				"<td>" + model[i].notes + "</td>" +
+				"<a href=#><span class=\"glyphicon glyphicon-download-alt\" id=\"dload_btn\"></span></a>"
+			"</tr>"		
 		);
 	}
 </script>

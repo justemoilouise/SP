@@ -5,6 +5,18 @@ $(function() {
 		$("#alert_message").text(message);
 	}
 	
+	$("#content_holder").on("click","#dload_btn", function() {
+		var key = "key";
+		
+		$.ajax({
+			url: 'trainingapp/download?modelKey=' + key,
+			success: function() {
+				alert("OKS!");
+			},
+			error: function() { alert("NAH!"); },
+		});
+	});
+	
 	$("#content_holder").on("load","#dload_app", function() {
 		$.ajax({
 			url: 'trainingapp/getapplist',
