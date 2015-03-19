@@ -40,7 +40,8 @@ public class TrainingAppServlet extends HttpServlet {
 	private URLFetchService urlFetchService;
 	private MemcacheService memcacheService;
 	private HttpSession session;
-	final String cacheKey = "model_keys"; 
+	final String cacheModelKey = "model_keys";
+	final String cacheAppKey = "app_keys";
 
 	public TrainingAppServlet() {
 		this.processor = new TrainingAppProcessor();
@@ -60,8 +61,8 @@ public class TrainingAppServlet extends HttpServlet {
 		if(method.equalsIgnoreCase("getmodellist")) {
 			Hashtable<BlobKey, ClassifierModel> models = new Hashtable<BlobKey, ClassifierModel>();
 			
-			if(memcacheService.contains(cacheKey))
-				models = (Hashtable<BlobKey, ClassifierModel>)memcacheService.get(cacheKey);
+			if(memcacheService.contains(cacheModelKey))
+				models = (Hashtable<BlobKey, ClassifierModel>)memcacheService.get(cacheModelKey);
 			
 			response = ServletHelper.ConvertToJson(models);
 		} else if(method.equalsIgnoreCase("getapplist")) {
@@ -192,12 +193,12 @@ public class TrainingAppServlet extends HttpServlet {
 		ClassifierModel model = readModelFromBlob(key);
 		
 		if(model != null) {
-			if(memcacheService.contains(cacheKey)) {
-				models = (Hashtable<BlobKey, ClassifierModel>) memcacheService.get(cacheKey);
+			if(memcacheService.contains(cacheModelKey)) {
+				models = (Hashtable<BlobKey, ClassifierModel>) memcacheService.get(cacheModelKey);
 			}
 
 			models.put(key, model);
-			memcacheService.put(cacheKey, models);
+			memcacheService.put(cacheModelKey, models);
 		}
 	}
 }
