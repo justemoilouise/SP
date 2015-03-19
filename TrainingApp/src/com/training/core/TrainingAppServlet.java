@@ -4,9 +4,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -88,7 +90,7 @@ public class TrainingAppServlet extends HttpServlet {
 	        if (blobKeys == null || blobKeys.isEmpty()) {
 	            response = false;
 	        } else {
-	        	saveBlobKey(blobKeys.get(0));
+	        	saveToCache(blobKeys.get(0));
 	        	response = true;
 	        }
 		}
@@ -97,7 +99,7 @@ public class TrainingAppServlet extends HttpServlet {
 		resp.getWriter().println(ServletHelper.ConvertToJson(response));
 	}
 	
-	private InputStream readFileFromBlob(BlobKey key) {
+	private byte[] readFromBlob(BlobKey key) {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         long start = 0, end = 1024;
@@ -120,10 +122,33 @@ public class TrainingAppServlet extends HttpServlet {
 
         } while (!flag);
 
-        byte[] filebytes = out.toByteArray();
+        return out.toByteArray();
+	}
+	
+	private InputStream readFileFromBlob(BlobKey key) {
+		byte[] filebytes = readFromBlob(key);
         
         if(filebytes.length > 0)
         	return new ByteArrayInputStream(filebytes);
+        
+        return null;
+	}
+	
+	private ClassifierModel readModelFromBlob(BlobKey key) {
+		byte[] objBytes = readFromBlob(key);
+        
+        if(objBytes.length > 0) {
+			try {
+				ByteArrayInputStream in = new ByteArrayInputStream(objBytes);
+	            ObjectInputStream is = new ObjectInputStream(in);
+	            ClassifierModel model = (ClassifierModel) is.readObject();
+	            
+	            return model;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
         
         return null;
 	}
@@ -150,14 +175,17 @@ public class TrainingAppServlet extends HttpServlet {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void saveBlobKey(BlobKey key) {
-		ArrayList<BlobKey> modelKeys = new ArrayList<BlobKey>();
-		if(memcacheService.contains(cacheKey)) {
-			modelKeys = (ArrayList<BlobKey>) memcacheService.get(cacheKey);
-			modelKeys.add(key);
-		}
+	private void saveToCache(BlobKey key) {
+		Hashtable<BlobKey, ClassifierModel> models = new Hashtable<BlobKey, ClassifierModel>();
+		ClassifierModel model = readModelFromBlob(key);
+		
+		if(model != null) {
+			if(memcacheService.contains(cacheKey)) {
+				models = (Hashtable<BlobKey, ClassifierModel>) memcacheService.get(cacheKey);
+			}
 
-		modelKeys.add(key);
-		memcacheService.put(cacheKey, modelKeys);
+			models.put(key, model);
+			memcacheService.put(cacheKey, models);
+		}
 	}
 }
