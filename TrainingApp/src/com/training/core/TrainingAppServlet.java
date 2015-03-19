@@ -49,13 +49,21 @@ public class TrainingAppServlet extends HttpServlet {
 		this.memcacheService = MemcacheServiceFactory.getMemcacheService();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		resp.setContentType("application/json");
+		
 		Object response = null;
 		String method = ServletHelper.ExtractMethod(req.getRequestURI());
 		this.session = req.getSession();
 		
 		if(method.equalsIgnoreCase("getmodellist")) {
-			response = processor.getModelList();
+			Hashtable<BlobKey, ClassifierModel> models = new Hashtable<BlobKey, ClassifierModel>();
+			
+			if(memcacheService.contains(cacheKey))
+				models = (Hashtable<BlobKey, ClassifierModel>)memcacheService.get(cacheKey);
+			
+			response = ServletHelper.ConvertToJson(models);
 		} else if(method.equalsIgnoreCase("getapplist")) {
 			processor.getAppList();
 		}  else if(method.equalsIgnoreCase("upload")) {
@@ -93,9 +101,13 @@ public class TrainingAppServlet extends HttpServlet {
 	        	saveToCache(blobKeys.get(0));
 	        	response = true;
 	        }
+		} else if(method.equalsIgnoreCase("download")) {
+			String modelKey = req.getParameter("modelKey");
+			BlobKey modelBlobKey = new BlobKey(modelKey);
+			
+			blobstoreService.serve(modelBlobKey, resp);
 		}
 		
-		resp.setContentType("application/json");
 		resp.getWriter().println(ServletHelper.ConvertToJson(response));
 	}
 	
