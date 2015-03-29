@@ -60,36 +60,43 @@ $(function() {
 		});
 	};
 	
+	var getPreprocessModel = function() {
+		var model = "";
+		
+		$.ajax({
+			url: 'trainingapp/preprocess/getmodel',
+			async: false,
+			dataType: 'json',
+			success: function(response) {
+				model = response
+			},
+			complete: function() {				
+				return model;
+			}
+		});
+	};
+	
+	var getSVMModel = function() {
+		var model = "";
+		
+		$.ajax({
+			url: 'trainingapp/svm/getmodel',
+			async: false,
+			dataType: 'json',
+			success: function(response) {
+				model = JSON.parse(response);
+			},
+			complete: function() {
+				return model;
+			}
+		});
+	};
+	
 	var getClassifierModel = function() {
 		var model = {};
 		model.createdDate = new Date();
-//		model.preprocessModel = "";
-//		model.svmmodel = "";
-		
-		// PreProcess model
-		$.ajax({
-			url: 'trainingapp/preprocess/getmodel',
-			success: function(response) {
-				alert("PREPROCESS:" + response);
-				
-				model.preprocessModel = JSON.parse(response);
-			},
-			error: function() {				
-				model.preprocessModel = "";
-			}
-		});
-		
-		// SVM model
-		$.ajax({
-			url: 'trainingapp/svm/getmodel',
-			success: function(response) {
-				alert("SVM:" + response);
-				model.svmmodel = response;
-			},
-			error: function() {
-				model.svmmodel = "";
-			}
-		});
+		model.preprocessModel = getPreprocessModel();
+		model.svmmodel = getSVMModel();		
 		
 		return model;
 	};

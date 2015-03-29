@@ -50,8 +50,6 @@ public class TrainingAppServlet extends HttpServlet {
 	
 	@SuppressWarnings("unchecked")
 	public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		resp.setContentType("application/json");
-		
 		Object response = null;
 		String method = ServletHelper.ExtractMethod(req.getRequestURI());
 		this.session = req.getSession();
@@ -104,6 +102,7 @@ public class TrainingAppServlet extends HttpServlet {
 			blobstoreService.serve(modelBlobKey, resp);
 		}
 		
+		resp.setContentType("application/json");
 		resp.getWriter().println(ServletHelper.ConvertToJson(response));
 	}
 	
