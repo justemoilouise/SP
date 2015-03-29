@@ -30,7 +30,6 @@ public class SVMServlet extends HttpServlet {
 		
 		if(method.equalsIgnoreCase("getmodel")) {
 			response = processor.getSVMModel();
-			session.setAttribute("model_svm", response);
 		} else if(method.equalsIgnoreCase("buildmodel")) {
 			String requestBody = ServletHelper.GetRequestBody(req.getReader());
 			SVMParameter params = ServletHelper.ConvertToObject(requestBody, SVMParameter.class);

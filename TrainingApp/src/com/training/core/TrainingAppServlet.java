@@ -18,8 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Data.ClassifierModel;
-import Data.PreprocessModel;
-import Data.SVMModel;
 import Data.Species;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -86,11 +84,8 @@ public class TrainingAppServlet extends HttpServlet {
 				response = true;
 			}
 		} else if(method.equalsIgnoreCase("saveclassifiermodel")) {
-			PreprocessModel pModel = (PreprocessModel) session.getAttribute("model_preprocess");
-			SVMModel sModel = (SVMModel) session.getAttribute("model_svm");
-			String notes = ServletHelper.GetRequestBody(req.getReader());
-			
-			ClassifierModel model = processor.saveClassifierModel(pModel, sModel, notes);
+			String modelString = ServletHelper.GetRequestBody(req.getReader());
+			ClassifierModel model = ServletHelper.ConvertToObject(modelString, ClassifierModel.class);
 			response = uploadModel(model);
 		} else if(method.equalsIgnoreCase("uploadclassifiermodel")) {
 			Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);

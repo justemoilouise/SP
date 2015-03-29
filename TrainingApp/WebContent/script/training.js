@@ -60,6 +60,40 @@ $(function() {
 		});
 	};
 	
+	var getClassifierModel = function() {
+		var model = {};
+		model.createdDate = new Date();
+//		model.preprocessModel = "";
+//		model.svmmodel = "";
+		
+		// PreProcess model
+		$.ajax({
+			url: 'trainingapp/preprocess/getmodel',
+			success: function(response) {
+				alert("PREPROCESS:" + response);
+				
+				model.preprocessModel = JSON.parse(response);
+			},
+			error: function() {				
+				model.preprocessModel = "";
+			}
+		});
+		
+		// SVM model
+		$.ajax({
+			url: 'trainingapp/svm/getmodel',
+			success: function(response) {
+				alert("SVM:" + response);
+				model.svmmodel = response;
+			},
+			error: function() {
+				model.svmmodel = "";
+			}
+		});
+		
+		return model;
+	};
+	
 	$("#content_holder").on("click","#train_build_btn", function() {
 		$.ajax({
 			url: 'trainingapp/readdataset',
@@ -71,16 +105,15 @@ $(function() {
 	});
 
 	$("#content_holder").on("click","#train_save_btn", function() {
-		var notes = "";
+		var model = getClassifierModel();
 
 		$.ajax({
 			url: "trainingapp/saveclassifiermodel",
 			method : "POST",
-			data: notes,
+			data: JSON.stringify(model),
 			dataType : "json",
 			success : function(response) {
 				if (response == "true") {
-					
 					trainingCallback("Classifier model file saved successfully.");
 				} else {
 					trainingCallback("Unable to save file. Please try again.");

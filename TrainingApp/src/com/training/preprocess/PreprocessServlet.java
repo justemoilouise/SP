@@ -29,7 +29,6 @@ public class PreprocessServlet extends HttpServlet {
 		
 		if(method.equalsIgnoreCase("getmodel")) {
 			response = processor.getPreprocessModel();
-			session.setAttribute("model_preprocess", response);
 		} else if(method.equalsIgnoreCase("setpca")) {
 			int PC = Integer.parseInt(req.getParameter("pca"));
 			response = processor.setPC(PC);
