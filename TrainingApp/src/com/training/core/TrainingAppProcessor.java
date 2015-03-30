@@ -20,6 +20,11 @@ public class TrainingAppProcessor {
 	
 	public void getAppList() {}
 	
+	public ClassifierModel buildClassifierModel(ClassifierModel model) {
+		model.setCreatedDate(new Date());
+		return model;
+	}
+	
 	public ClassifierModel saveClassifierModel(PreprocessModel preprocessModel, SVMModel svmModel, String notes) {
 		ClassifierModel model = new ClassifierModel();
 		model.setPreprocessModel(preprocessModel);

@@ -84,6 +84,7 @@ public class TrainingAppServlet extends HttpServlet {
 		} else if(method.equalsIgnoreCase("saveclassifiermodel")) {
 			String modelString = ServletHelper.GetRequestBody(req.getReader());
 			ClassifierModel model = ServletHelper.ConvertToObject(modelString, ClassifierModel.class);
+			model = processor.buildClassifierModel(model);
 			response = uploadModel(model);
 		} else if(method.equalsIgnoreCase("uploadclassifiermodel")) {
 			Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
