@@ -10,19 +10,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.omg.CORBA.portable.OutputStream;
 
 import Data.ClassifierModel;
 import Data.Species;
@@ -32,17 +28,12 @@ import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
-import com.google.appengine.api.urlfetch.HTTPMethod;
-import com.google.appengine.api.urlfetch.HTTPRequest;
-import com.google.appengine.api.urlfetch.URLFetchService;
-import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.training.helpers.ServletHelper;
 
 @SuppressWarnings("serial")
 public class TrainingAppServlet extends HttpServlet {
 	private TrainingAppProcessor processor;
 	private BlobstoreService blobstoreService;
-	private URLFetchService urlFetchService;
 	private MemcacheService memcacheService;
 	private HttpSession session;
 	final String cacheModelKey = "model_keys";
@@ -51,7 +42,6 @@ public class TrainingAppServlet extends HttpServlet {
 	public TrainingAppServlet() {
 		this.processor = new TrainingAppProcessor();
 		this.blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-		this.urlFetchService = URLFetchServiceFactory.getURLFetchService();
 		this.memcacheService = MemcacheServiceFactory.getMemcacheService();
 	}
 	
@@ -169,7 +159,6 @@ public class TrainingAppServlet extends HttpServlet {
 	}
 	
 	private byte[] convertToByteArray(ClassifierModel model) {
-
 		try {
 			ByteArrayOutputStream b = new ByteArrayOutputStream();
 	        ObjectOutputStream o = new ObjectOutputStream(b);

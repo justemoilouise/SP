@@ -1,6 +1,16 @@
 $(function() {
 	var model = {};
 	
+	var readDataset = function() {
+		$.ajax({
+			url: 'trainingapp/readdataset',
+			success: function() {
+				preprocess();
+			},
+			error: function() { return false; },
+		});
+	};
+	
 	var readSVMParameters = function() {
 		var params = {};
 		params["type"] = $("#svm_type").val();
@@ -91,6 +101,11 @@ $(function() {
 	};
 	
 	$("#content_holder").on("click","#train_build_btn", function() {
+		$.when(readDataset()).done(function() {
+			getPreprocessModel();
+			getSVMModel();
+		});
+		
 		$.ajax({
 			url: 'trainingapp/readdataset',
 			success: function() {
@@ -101,24 +116,22 @@ $(function() {
 	});
 
 	$("#content_holder").on("click","#train_save_btn", function() {
-		$.when(getPreprocessModel(), getSVMModel()).done(function() {
-			$.ajax({
-				url: "trainingapp/saveclassifiermodel",
-				method : "POST",
-				data: JSON.stringify(model),
-				dataType : "json",
-				async: false,
-				success : function(response) {
-					if (response == "true") {
-						trainingCallback("Classifier model file saved successfully.");
-					} else {
-						trainingCallback("Unable to save file. Please try again.");
-					}
-				},
-				error : function() {
-					trainingCallback("An error has occurred.");
+		$.ajax({
+			url: "trainingapp/saveclassifiermodel",
+			method : "POST",
+			data: JSON.stringify(model),
+			dataType : "json",
+			async: false,
+			success : function(response) {
+				if (response == "true") {
+					trainingCallback("Classifier model file saved successfully.");
+				} else {
+					trainingCallback("Unable to save file. Please try again.");
 				}
-			});
+			},
+			error : function() {
+				trainingCallback("An error has occurred.");
+			}
 		});
 	});
 
