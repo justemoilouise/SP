@@ -2,7 +2,7 @@
 $(function() {
 	var pModel = model.preprocessModel;
 	
-	//Scaling factors
+	// Scaling factors
 	for(var i=0; i<pModel.min.length; i++) {
 		var tRow = '<tr>';
 		tRow += '<td>' + (i+1) + '</td>';
@@ -18,11 +18,29 @@ $(function() {
 		var tRow = '<tr>';
 		tRow += '<td>' + (i+1) + '</td>';
 		for(var j=0; j<pModel.principalComponents.length; j++) {
-			tRow += ('<td>' + pModel.principalComponents[i][j] + '</td>');
+			tRow += ('<td>' + pModel.principalComponents[j][i] + '</td>');
 		}
 		tRow += '</tr>';
 		$('#tbl_princomp').append(tRow);
 	}
+	
+	var sModel = model.svmmodel;
+
+	// Classes
+	var sRow = '<tr>';
+	sRow += '<td>Classes</td>';
+	for(var i=0; i<sModel.classes.length; i++) {
+		sRow += ('<td>' + sModel.classes[i] + '</td>');
+	}
+	sRow += '</tr>';
+	$('#tbl_svm').append(sRow);	
+	
+	//Accuracy
+	sRow = '<tr>';
+	sRow += '<td>Accuracy</td>';
+	sRow += '<td colspan=' + sModel.classes.length + '>' + sModel.accuracy + '</td>';
+	sRow += '</tr>';
+	$('#tbl_svm').append(sRow);
 })
 </script>
 <br />
@@ -62,12 +80,8 @@ $(function() {
 	<div class="panel-body">
 		<table class="table" id="tbl_svm">
 			<tr>
-				<th>Classes</th>
-				<td>A, B, C</td>
-			</tr>
-			<tr>
-				<th>Accuracy (%)</th>
-				<td>1.0</td>
+				<th>Property</th>
+				<th>Value/s</th>
 			</tr>
 		</table>
 	</div>
