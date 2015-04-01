@@ -23,7 +23,6 @@ public class SVMProcessor implements ISVM {
 		return model;
 	}
 	
-	@Override
 	public void buildModel(ArrayList<Species> dataset, SVMParameter svmParameter) {
 		// TODO Auto-generated method stub
 		this.model = new SVMModel();
