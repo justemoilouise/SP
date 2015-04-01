@@ -3,7 +3,9 @@ package core;
 import java.util.ArrayList;
 
 import Data.SVMModel;
+import Data.SVMParameter;
 import Data.SVMResult;
+import Data.Species;
 import Interfaces.ISVM;
 import libsvm.svm;
 import libsvm.svm_node;
@@ -38,12 +40,6 @@ public class SVM implements ISVM {
 
 	public void setJFModel(SVMModel jFModel) {
 		JFModel = jFModel;
-	}
-
-	@Override
-	public void buildModel(boolean isIJused) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -123,5 +119,11 @@ public class SVM implements ISVM {
 		}
 		
 		return results;
+	}
+
+	@Override
+	public void buildModel(ArrayList<Species> arg0, SVMParameter arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 }
