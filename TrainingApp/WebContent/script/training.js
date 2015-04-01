@@ -1,4 +1,6 @@
 $(function() {
+	var model = {};
+	
 	var readSVMParameters = function() {
 		var params = {};
 		params["type"] = $("#svm_type").val();
@@ -61,44 +63,31 @@ $(function() {
 	};
 	
 	var getPreprocessModel = function() {
-		var model = "";
-		
 		$.ajax({
 			url: 'trainingapp/preprocess/getmodel',
 			async: false,
 			dataType: 'json',
 			success: function(response) {
-				model = response
+				model.preprocessModel = response;
 			},
-			complete: function() {				
-				return model;
+			error: function(response) {
+				model.preprocessModel = "";
 			}
 		});
 	};
 	
 	var getSVMModel = function() {
-		var model = "";
-		
 		$.ajax({
 			url: 'trainingapp/svm/getmodel',
 			async: false,
 			dataType: 'json',
 			success: function(response) {
-				model = JSON.parse(response);
+				model.svmmodel = response;
 			},
-			complete: function() {
-				return model;
+			error: function() {
+				model.svmmodel = "";
 			}
 		});
-	};
-	
-	var getClassifierModel = function() {
-		var model = {};
-		model.createdDate = new Date();
-		model.preprocessModel = getPreprocessModel();
-		model.svmmodel = getSVMModel();		
-		
-		return model;
 	};
 	
 	$("#content_holder").on("click","#train_build_btn", function() {
@@ -112,23 +101,24 @@ $(function() {
 	});
 
 	$("#content_holder").on("click","#train_save_btn", function() {
-		var model = getClassifierModel();
-
-		$.ajax({
-			url: "trainingapp/saveclassifiermodel",
-			method : "POST",
-			data: JSON.stringify(model),
-			dataType : "json",
-			success : function(response) {
-				if (response == "true") {
-					trainingCallback("Classifier model file saved successfully.");
-				} else {
-					trainingCallback("Unable to save file. Please try again.");
+		$.when(getPreprocessModel(), getSVMModel()).done(function() {
+			$.ajax({
+				url: "trainingapp/saveclassifiermodel",
+				method : "POST",
+				data: JSON.stringify(model),
+				dataType : "json",
+				async: false,
+				success : function(response) {
+					if (response == "true") {
+						trainingCallback("Classifier model file saved successfully.");
+					} else {
+						trainingCallback("Unable to save file. Please try again.");
+					}
+				},
+				error : function() {
+					trainingCallback("An error has occurred.");
 				}
-			},
-			error : function() {
-				trainingCallback("An error has occurred.");
-			}
+			});
 		});
 	});
 

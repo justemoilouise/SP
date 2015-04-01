@@ -2,20 +2,27 @@ package com.training.core;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.omg.CORBA.portable.OutputStream;
 
 import Data.ClassifierModel;
 import Data.Species;
@@ -84,7 +91,8 @@ public class TrainingAppServlet extends HttpServlet {
 		} else if(method.equalsIgnoreCase("saveclassifiermodel")) {
 			String modelString = ServletHelper.GetRequestBody(req.getReader());
 			ClassifierModel model = ServletHelper.ConvertToObject(modelString, ClassifierModel.class);
-			response = uploadModel(model);
+			model = processor.buildClassifierModel(model);
+			response = uploadModel(convertToByteArray(model));
 		} else if(method.equalsIgnoreCase("uploadclassifiermodel")) {
 			Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
 	        List<BlobKey> blobKeys = blobs.get("model");
@@ -160,23 +168,40 @@ public class TrainingAppServlet extends HttpServlet {
         return null;
 	}
 	
-	private boolean uploadModel(ClassifierModel model) {
+	private byte[] convertToByteArray(ClassifierModel model) {
 
 		try {
 			ByteArrayOutputStream b = new ByteArrayOutputStream();
 	        ObjectOutputStream o = new ObjectOutputStream(b);
 	        o.writeObject(model);
-	        byte[] payload = b.toByteArray();
-	        
-			URL url = new URL(blobstoreService.createUploadUrl("/trainingapp/uploadclassifiermodel"));
-			HTTPRequest request = new HTTPRequest(url, HTTPMethod.POST);
-            request.setPayload(payload);
-            
-            urlFetchService.fetch(request);
-            
-            return true;
+	        return b.toByteArray();
 		}
 		catch (Exception ex) {}
+		
+		return null;
+	}
+	
+	private boolean uploadModel(byte[] payload) {
+		try {
+			URL url = new URL(blobstoreService.createUploadUrl("trainingapp/uplodclassifiermodel"));
+			HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+			urlConn.setDoOutput(true);
+			urlConn.setDoInput(true);
+			urlConn.setRequestMethod("POST");
+			
+			DataOutputStream dataOutStream = new DataOutputStream(urlConn.getOutputStream());
+			dataOutStream.write(payload);
+			dataOutStream.flush();
+			dataOutStream.close();
+			
+			DataInputStream dataInStream = new DataInputStream(urlConn.getInputStream());
+			int responseCode = 0;
+			while((responseCode = dataInStream.read()) == 0) {
+				dataInStream.close();
+				return true;
+			}
+		}
+		catch(Exception x) {}
 		
 		return false;
 	}
