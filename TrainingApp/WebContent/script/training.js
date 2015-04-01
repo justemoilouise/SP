@@ -1,16 +1,6 @@
-$(function() {
-	var model = {};
-	
-	var readDataset = function() {
-		$.ajax({
-			url: 'trainingapp/readdataset',
-			success: function() {
-				preprocess();
-			},
-			error: function() { return false; },
-		});
-	};
-	
+var model = {};
+
+$(function() {	
 	var readSVMParameters = function() {
 		var params = {};
 		params["type"] = $("#svm_type").val();
@@ -34,7 +24,9 @@ $(function() {
 			data: JSON.stringify(data),
 			contentType: 'json',
 			success: function() {
-				$('#content_holder').load('Training_Output.jsp');
+				$.when(getPreprocessModel(), getSVMModel()).done(function() {				
+					$('#content_holder').load('Training_Output.jsp');
+				});
 			},
 			error: function() { alert("ERROR!"); },
 		});
@@ -75,8 +67,8 @@ $(function() {
 	var getPreprocessModel = function() {
 		$.ajax({
 			url: 'trainingapp/preprocess/getmodel',
-			async: false,
 			dataType: 'json',
+			async: false,
 			success: function(response) {
 				model.preprocessModel = response;
 			},
@@ -89,8 +81,8 @@ $(function() {
 	var getSVMModel = function() {
 		$.ajax({
 			url: 'trainingapp/svm/getmodel',
-			async: false,
 			dataType: 'json',
+			async: false,
 			success: function(response) {
 				model.svmmodel = response;
 			},
@@ -101,11 +93,6 @@ $(function() {
 	};
 	
 	$("#content_holder").on("click","#train_build_btn", function() {
-		$.when(readDataset()).done(function() {
-			getPreprocessModel();
-			getSVMModel();
-		});
-		
 		$.ajax({
 			url: 'trainingapp/readdataset',
 			success: function() {
