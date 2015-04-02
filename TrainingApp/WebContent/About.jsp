@@ -1,7 +1,8 @@
 <br />
 <div class="col-md-offset-1 col-md-10">
 	<br /> &emsp;&emsp;This application is created to be used as guide to
-	researchers in classifying Radiolarian species. <br />
+	researchers in classifying Radiolarian species. Final classification 
+	of species is still up to the researcher. <br />
 	<br />
 </div>
 <br />
