@@ -26,7 +26,8 @@ $(function() {
 			success: function() {
 				$.when(getPreprocessModel(), getSVMModel()).done(function() {
 					var trainFeature = $('input[name=train_feature]:checked').val();
-					//model.isIJused
+					model.isIJused = (trainFeature == "IJ") ? true : false;
+					
 					$('#content_holder').load('Training_Output.jsp');
 				});
 			},
