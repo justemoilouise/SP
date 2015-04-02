@@ -85,7 +85,7 @@ public class TrainingAppServlet extends HttpServlet {
 			response = uploadModel(convertToByteArray(model));
 		} else if(method.equalsIgnoreCase("uploadclassifiermodel")) {
 			Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
-	        List<BlobKey> blobKeys = blobs.get("model");
+	        List<BlobKey> blobKeys = blobs.get("modelObj");
 
 	        if (blobKeys == null || blobKeys.isEmpty()) {
 	            response = false;

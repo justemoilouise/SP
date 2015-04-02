@@ -1,3 +1,7 @@
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory" %>
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreService" %>
+<%! BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService(); %>
+
 <script type="text/javascript">
 $(function() {
 	var pModel = model.preprocessModel;
@@ -41,6 +45,29 @@ $(function() {
 	sRow += '<td colspan=' + sModel.classes.length + '>' + sModel.accuracy + '</td>';
 	sRow += '</tr>';
 	$('#tbl_svm').append(sRow);
+	
+	$("#content_holder").on("click","#train_save_btn", function() {
+		var modelObj = $.param(model);
+		
+		$.ajax({
+			url: "<%= blobstoreService.createUploadUrl("/trainingapp/uploadclassifiermodel") %>",
+			method: "POST",
+			contentType: false,
+			processData: false,
+			data: modelObj,
+			dataType : "json",
+			success : function(response) {
+				if (response == "true") {
+					trainingCallback("Classifier model file saved successfully.");
+				} else {
+					trainingCallback("Unable to save file. Please try again.");
+				}
+			},
+			error : function() {
+				trainingCallback("An error has occurred.");
+			}
+		});
+	});
 })
 </script>
 <br />

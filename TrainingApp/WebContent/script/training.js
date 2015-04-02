@@ -105,25 +105,25 @@ $(function() {
 		});
 	});
 
-	$("#content_holder").on("click","#train_save_btn", function() {
-		$.ajax({
-			url: "trainingapp/saveclassifiermodel",
-			method : "POST",
-			data: JSON.stringify(model),
-			dataType : "json",
-			async: false,
-			success : function(response) {
-				if (response == "true") {
-					trainingCallback("Classifier model file saved successfully.");
-				} else {
-					trainingCallback("Unable to save file. Please try again.");
-				}
-			},
-			error : function() {
-				trainingCallback("An error has occurred.");
-			}
-		});
-	});
+//	$("#content_holder").on("click","#train_save_btn", function() {
+//		$.ajax({
+//			url: "trainingapp/saveclassifiermodel",
+//			method : "POST",
+//			data: JSON.stringify(model),
+//			dataType : "json",
+//			async: false,
+//			success : function(response) {
+//				if (response == "true") {
+//					trainingCallback("Classifier model file saved successfully.");
+//				} else {
+//					trainingCallback("Unable to save file. Please try again.");
+//				}
+//			},
+//			error : function() {
+//				trainingCallback("An error has occurred.");
+//			}
+//		});
+//	});
 
 	$("#content_holder").on("click","#train_cancel_btn", function() {
 		$("#content_holder").load("Home.jsp");
