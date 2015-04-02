@@ -24,7 +24,9 @@ $(function() {
 			data: JSON.stringify(data),
 			contentType: 'json',
 			success: function() {
-				$.when(getPreprocessModel(), getSVMModel()).done(function() {				
+				$.when(getPreprocessModel(), getSVMModel()).done(function() {
+					var trainFeature = $('input[name=train_feature]:checked').val();
+					//model.isIJused
 					$('#content_holder').load('Training_Output.jsp');
 				});
 			},
