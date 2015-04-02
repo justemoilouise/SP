@@ -18,11 +18,6 @@ public class PreprocessProcessor implements IPREPROCESS {
 		this.model = new PreprocessModel();
 	}
 	
-	public PreprocessProcessor(int PC) {
-		this.model = new PreprocessModel();
-		model.setPC(PC);
-	}
-	
 	public boolean setPC(int PC) {
 		model.setPC(PC);
 		return true;
@@ -46,7 +41,7 @@ public class PreprocessProcessor implements IPREPROCESS {
 		
 		//save principal components to model
 		model.setPrincipalComponents(principalComponents);
-		
+
 		featureSet = MathFunctions.Transpose(featureSet);
 		return updateDataset(dataset, featureSet);
 	}
@@ -76,6 +71,7 @@ public class PreprocessProcessor implements IPREPROCESS {
 		//save scaling factors to model
 		model.setMin(min);
 		model.setMax(max);
+		model.setFeatures(dataset.get(0).getFeatureLabels());
 		
 		featureSet = MathFunctions.Transpose(featureSet);
 		return updateDataset(dataset, featureSet);

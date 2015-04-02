@@ -5,7 +5,7 @@ $(function() {
 	// Scaling factors
 	for(var i=0; i<pModel.min.length; i++) {
 		var tRow = '<tr>';
-		tRow += '<td>' + (i+1) + '</td>';
+		tRow += '<td>' + pModel.features[i] + '</td>';
 		tRow += '<td>' + pModel.min[i] + '</td>';
 		tRow += '<td>' + pModel.max[i] + '</td>';
 		tRow += '</tr>';
