@@ -1,6 +1,7 @@
 package Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class PreprocessModel implements Serializable {
@@ -9,6 +10,7 @@ public class PreprocessModel implements Serializable {
 	private int PC;
 	private double[] mean;
 	private double[][] principalComponents;
+	private ArrayList<String> features;
 	
 	public PreprocessModel() {}
 
@@ -50,5 +52,13 @@ public class PreprocessModel implements Serializable {
 
 	public void setPrincipalComponents(double[][] principalComponents) {
 		this.principalComponents = principalComponents;
+	}
+
+	public ArrayList<String> getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(ArrayList<String> features) {
+		this.features = features;
 	}
 }
