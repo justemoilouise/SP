@@ -4,10 +4,25 @@
 		<h3 class="panel-title">Training - input</h3>
 	</div>
 	<div class="panel-body">
-		<ul>
+		<ol>
 			<li>Upload file</li>
+				<ul>
+					<li>Only Excel files are accepted as input.</li>
+					<li>Each file should contain species and its corresponding set of features.</li>
+					<li>One training set must be uploaded at a time.</li>
+				</ul>
 			<li>SVM Parameters</li>
-		</ul>
+				<ul>
+					<li>SVM Type</li>
+					<li>Kernel function</li>
+					<li>Cost</li>
+					<li>Gamma</li>
+					<li>Epsilon</li>
+					<li>Degree</li>
+					<li>Nu</li>
+					<li>Coefficient</li>
+				</ul>
+		</ol>
 	</div>
 </div>
 <br />
@@ -16,11 +31,11 @@
 		<h3 class="panel-title">Training - output</h3>
 	</div>
 	<div class="panel-body">
-		<ul>
-			<li>Scaling factors</li>
-			<li>Principal components</li>
-			<li>SVM Model</li>
-		</ul>
+		<ol>
+			<li>Scaling factors - minimum and maximum values used to normalize each feature</li>
+			<li>Principal components - features that represent the whole set to minimize the cost of processing and building the classifier model</li>
+			<li>SVM Model - generated model that will be used to classify unknown Radiolarian species</li>
+		</ol>
 	</div>
 </div>
 <br />
