@@ -1,6 +1,7 @@
 package com.training.svm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import libsvm.svm;
 import libsvm.svm_model;
@@ -67,15 +68,24 @@ public class SVMProcessor implements ISVM {
 
 	private svm_parameter BuildSVMParameters(SVMParameter params) {		
 		svm_parameter svmParams = new svm_parameter();
-		svmParams.eps = params.getEpsilon();
-		svmParams.kernel_type = params.getKernel();
-		svmParams.svm_type = params.getSvmType();
-		svmParams.coef0 = params.getCoefficient();
-		svmParams.nu = params.getNu();
-		svmParams.C = params.getCost();
-		svmParams.gamma = params.getGamma();
-		svmParams.degree = params.getDegree();
+//		svmParams.eps = params.getEpsilon();
+//		svmParams.kernel_type = params.getKernel();
+//		svmParams.svm_type = params.getSvmType();
+//		svmParams.coef0 = params.getCoefficient();
+//		svmParams.nu = params.getNu();
+//		svmParams.C = params.getCost();
+//		svmParams.gamma = params.getGamma();
+//		svmParams.degree = params.getDegree();
 		svmParams.probability = 1;
+		
+		svmParams.eps = 0.1;
+		svmParams.kernel_type = 2;
+		svmParams.svm_type = 0;
+		svmParams.coef0 = 0.1;
+		svmParams.nu = 0.2;
+		svmParams.C = 117;
+		svmParams.gamma = 0.5;
+		svmParams.degree = 3;
 		
 		return svmParams;
 	}

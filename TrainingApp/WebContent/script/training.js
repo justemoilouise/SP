@@ -7,10 +7,10 @@ $(function() {
 		params["kernel"] = $("#svm_kernel").val();
 		params["cost"] = $("#svm_cost").val();
 		params["gamma"] = $("#svm_gamma").val();
-		params["eps"] = $("#svm_eps").val();
+		params["epsilon"] = $("#svm_eps").val();
 		params["degree"] = $("#svm_degree").val();
 		params["nu"] = $("#svm_nu").val();
-		params["coef"] = $("#svm_coef").val();
+		params["coefficient"] = $("#svm_coef").val();
 
 		return params;
 	};
@@ -31,7 +31,10 @@ $(function() {
 					$('#content_holder').load('Training_Output.jsp');
 				});
 			},
-			error: function() { alert("ERROR!"); },
+			error: function() {
+				alertType = "error";
+				fxnCallback("An error occurred in building SVM model.");
+			},
 		});
 	};
 	
@@ -41,7 +44,10 @@ $(function() {
 			success: function() {
 				buildModel();
 			},
-			error: function() { return null; },
+			error: function() {
+				alertType = "warning";
+				fxnCallback("An error occurred in preprocessing the data set.");
+			},
 		});
 	};
 
@@ -51,7 +57,10 @@ $(function() {
 			success: function() {
 				reduceFeatures();
 			},
-			error: function() { return null; },
+			error: function() {
+				alertType = "warning";
+				fxnCallback("An error occurred in preprocessing the data set.");
+			},
 		});
 	};
 
@@ -63,7 +72,10 @@ $(function() {
 			success: function() {
 				scale();
 			},
-			error: function() { return null; },
+			error: function() {
+				alertType = "warning";
+				fxnCallback("An error occurred in preprocessing the data set.");
+			},
 		});
 	};
 	
@@ -101,29 +113,12 @@ $(function() {
 			success: function() {
 				preprocess();
 			},
-			error: function() { return false; },
+			error: function() {
+				alertType = "error";
+				fxnCallback("Unable to read dataset.");
+			},
 		});
 	});
-
-//	$("#content_holder").on("click","#train_save_btn", function() {
-//		$.ajax({
-//			url: "trainingapp/saveclassifiermodel",
-//			method : "POST",
-//			data: JSON.stringify(model),
-//			dataType : "json",
-//			async: false,
-//			success : function(response) {
-//				if (response == "true") {
-//					fxnCallback("Classifier model file saved successfully.");
-//				} else {
-//					fxnCallback("Unable to save file. Please try again.");
-//				}
-//			},
-//			error : function() {
-//				fxnCallback("An error has occurred.");
-//			}
-//		});
-//	});
 
 	$("#content_holder").on("click","#train_cancel_btn", function() {
 		$("#content_holder").load("Home.jsp");
