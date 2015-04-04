@@ -7,7 +7,9 @@ var fxnCallback = function(message) {
 	$("#alert_holder").load("Prompt.jsp");
 }
 
-$(function() {	
+$(function() {
+	$("#content_holder").load("Home.jsp");
+	
 	$("#content_holder").on("click", "span", function() {
 		var key = this.id;
 		
