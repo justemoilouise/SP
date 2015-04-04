@@ -58,12 +58,15 @@ $(function() {
 			dataType : "json",
 			success : function(response) {
 				if (response == "true") {
+					alertType = "success";
 					fxnCallback("Classifier model file saved successfully.");
 				} else {
+					alertType = "warning";
 					fxnCallback("Unable to save file. Please try again.");
 				}
 			},
 			error : function() {
+				alertType = "error";
 				fxnCallback("An error has occurred.");
 			}
 		});

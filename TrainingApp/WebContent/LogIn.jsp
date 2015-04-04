@@ -8,7 +8,7 @@
 	<script type="text/javascript" src="script/user.js"></script>
 </head>
 <body>
-	<div id="user_alert_holder" class="visibility: hidden;">
+	<div id="user_alert_holder">
 	</div>
 	<br />
 	<div class="panel panel-default col-md-offset-6 col-md-5">

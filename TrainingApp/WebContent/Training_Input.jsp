@@ -17,14 +17,16 @@ $(function() {
 			data: data,
 			dataType: "json",
 			success: function(response) {
-				console.log(response);
 				if(response == "true") {
+					alertType = "success";
 					fxnCallback("File uploaded successfully.");
 				}  else {
+					alertType = "warning";
 					fxnCallback("Unable to upload file. Please try again.");
 				}
 			},
 			error: function() {
+				alertType = "error";
 				fxnCallback("An error has occurred.");
 			}
 		});

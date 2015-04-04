@@ -1,21 +1,26 @@
 var modelList = {};
+var alertType = "info";
+var alertMessage = "";
 
 var fxnCallback = function(message) {
-	$("#alert_holder").load("Prompt.jsp")
-	$("#alert_holder").css("visibility: visible; navbar-fixed-top");
-	$("#alert_message").text(message);
+	alertMessage = message;
+	$("#alert_holder").load("Prompt.jsp");
 }
 
 $(function() {	
 	$("#content_holder").on("click", "span", function() {
-		var key = this.title;
+		var key = this.id;
 		
 		$.ajax({
 			url: 'trainingapp/download?modelKey=' + key,
 			success: function() {
-				alert("OKS!");
+				alertType = "success";
+				fxnCallback("Successfully downloading model.");
 			},
-			error: function() { alert("NAH!"); },
+			error: function() {
+				alertType = "error";
+				fxnCallback("An error occurred while retrieving the model. Please try again.");
+			},
 		});
 	});
 });

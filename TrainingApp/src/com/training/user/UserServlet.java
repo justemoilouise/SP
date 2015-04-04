@@ -36,18 +36,12 @@ public class UserServlet extends HttpServlet {
 			
 			if((Boolean) response) {
 				session.setAttribute("admin", "admin");
-				session.setAttribute("alert_type", "success");
-			} else {
-				session.setAttribute("alert_type", "warning");
 			}
 		} else if(method.equalsIgnoreCase("logout")) {
 			response = processor.LogOut();
 			
 			if((Boolean) response) {
 				session.removeAttribute("admin");
-				session.setAttribute("alert_type", "success");
-			} else {
-				session.setAttribute("alert_type", "warning");
 			}
 		}
 

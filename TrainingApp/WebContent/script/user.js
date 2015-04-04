@@ -1,8 +1,10 @@
+var alertType = "info";
+var alertMessage = "YAY!";
+
 $(function() {
 	var callback = function(message) {
-		$("#user_alert_holder").load("Prompt.jsp")
-		$("#user_alert_holder").css("visibility: visible; navbar-fixed-top");
-		$("#alert_message").text(message);
+		alertMessage = message;
+		$("#user_alert_holder").load("Prompt.jsp");
 	}
 	
 	$("#login_form").on("click", "#login_btn",function() {
@@ -13,14 +15,17 @@ $(function() {
 			url: 'trainingapp/user/login?username=' + username + '&password=' + password,
 			success: function(response) {
 				if(response.indexOf("true") >= 0) {
+					alertType = "success";
 					callback("Log in successful.");
 					window.location = "/";
 					
-				}  else {
+				} else {
+					alertType = "warning";
 					callback("Invalid username and/or password.");
 				}
 			},
 			error: function() {
+				alertType = "error";
 				callback("An error has occurred.");
 			}
 		});
@@ -30,10 +35,12 @@ $(function() {
 		$.ajax({
 			url: 'trainingapp/user/logout',
 			success: function() {
+				alertType = "success";
 				callback("You have successfully logged out of the system.");
 				window.location = "/";
 			},
 			error: function() {
+				alertType = "error";
 				callback("An error has occurred.");
 			}
 		});
