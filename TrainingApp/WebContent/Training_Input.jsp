@@ -3,16 +3,9 @@
 <%! BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService(); %>
 
 <script type="text/javascript">
-$(function() {
-	var trainingCallback = function(message) {
-		$("#alert_holder").load("Prompt.jsp")
-		$("#alert_holder").css("visibility: visible; navbar-fixed-top");
-		$("#alert_message").text(message);
-	};
-	
+$(function() {	
 	$("#input_file").on("click", "#input_file_btn", function(){
 		var file = $("#input_file_fld").get(0).files[0];
-		
 		var data = new FormData();
 		data.append("file", file);
 		
@@ -26,13 +19,13 @@ $(function() {
 			success: function(response) {
 				console.log(response);
 				if(response == "true") {
-					trainingCallback("File uploaded successfully.");
+					fxnCallback("File uploaded successfully.");
 				}  else {
-					trainingCallback("Unable to upload file. Please try again.");
+					fxnCallback("Unable to upload file. Please try again.");
 				}
 			},
 			error: function() {
-				trainingCallback("An error has occurred.");
+				fxnCallback("An error has occurred.");
 			}
 		});
 	});

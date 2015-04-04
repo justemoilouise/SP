@@ -114,13 +114,13 @@ $(function() {
 //			async: false,
 //			success : function(response) {
 //				if (response == "true") {
-//					trainingCallback("Classifier model file saved successfully.");
+//					fxnCallback("Classifier model file saved successfully.");
 //				} else {
-//					trainingCallback("Unable to save file. Please try again.");
+//					fxnCallback("Unable to save file. Please try again.");
 //				}
 //			},
 //			error : function() {
-//				trainingCallback("An error has occurred.");
+//				fxnCallback("An error has occurred.");
 //			}
 //		});
 //	});

@@ -58,13 +58,13 @@ $(function() {
 			dataType : "json",
 			success : function(response) {
 				if (response == "true") {
-					alert("Classifier model file saved successfully.");
+					fxnCallback("Classifier model file saved successfully.");
 				} else {
-					alert("Unable to save file. Please try again.");
+					fxnCallback("Unable to save file. Please try again.");
 				}
 			},
 			error : function() {
-				alert("An error has occurred.");
+				fxnCallback("An error has occurred.");
 			}
 		});
 	});

@@ -1,5 +1,4 @@
 var modelList = {};
-var appList = {};
 
 var fxnCallback = function(message) {
 	$("#alert_holder").load("Prompt.jsp")
