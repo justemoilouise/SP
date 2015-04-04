@@ -58,13 +58,13 @@ $(function() {
 			dataType : "json",
 			success : function(response) {
 				if (response == "true") {
-					trainingCallback("Classifier model file saved successfully.");
+					alert("Classifier model file saved successfully.");
 				} else {
-					trainingCallback("Unable to save file. Please try again.");
+					alert("Unable to save file. Please try again.");
 				}
 			},
 			error : function() {
-				trainingCallback("An error has occurred.");
+				alert("An error has occurred.");
 			}
 		});
 	});
@@ -116,7 +116,6 @@ $(function() {
 <br />
 <div class="btn-group col-md-offset-8 col-md-4">
 	<button class="btn btn-primary" id="train_save_btn">Save model</button>
-	<button class="btn btn-default" id="train_rebuild_btn">Rebuild
-		model</button>
+	<button class="btn btn-default" id="train_rebuild_btn">Rebuild model</button>
 </div>
 <br />

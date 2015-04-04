@@ -1,14 +1,27 @@
 <script type="text/javascript">
 $(function() {
-	var model = {};
-	
 	$.ajax({
-		url: 'trainingapp/getmodellist,
+		url: 'trainingapp/getmodellist',
+		dataType: 'json',
 		success: function(response) {
-			model = JSON.parse(response);
+			modelList = response;
+			for(var i=0; i<modelList.length; i++) {
+				var classifier = modelList[i].model;
+				var tRow = "<tr id=" + modelList[i].key.blobKey + ">" +
+								"<td>" + new Date() + "</td>" +
+								"<td>" + classifier.version + "</td>" +
+								"<td> &nbsp; </td>" +
+								"<a href=#><span class=\"glyphicon glyphicon-download-alt\" id=\"dload_btn\"></span></a>" + 
+							"</tr>";
+				
+				$("#model_table").append(tRow);
+			}
+		},
+		error: function() {
+			alert("ERROR: Get model list");
 		}
 	});
-}
+});
 </script>
 <br />
 <div class="panel panel-default col-md-offset-1 col-md-10" id="dload_model">
@@ -22,25 +35,14 @@ $(function() {
 				<th>Version number</th>
 				<th>Release notes</th>
 			</tr>
+			<!--
 			<tr>
-				<th><%= new java.util.Date() %></th>
-				<th>1.0</th>
-				<th>Beta</th>
+				<td><%= new java.util.Date() %></td>
+				<td>1.0</td>
+				<td>Beta</td>
 			</tr>
+			-->
 		</table>
 	</div>
 </div>
-<script type="text/javascript">
-	for(int i=0; i<model.length; i++) {
-		$("#model_table tr:last")
-		.after(
-			"<tr id=" + model[i] + ">" +
-				"<td>" + model[i].createdDate + "</td>" +
-				"<td>" + model[i].version + "</td>" +
-				"<td>" + model[i].notes + "</td>" +
-				"<a href=#><span class=\"glyphicon glyphicon-download-alt\" id=\"dload_btn\"></span></a>"
-			"</tr>"		
-		);
-	}
-</script>
 <br />

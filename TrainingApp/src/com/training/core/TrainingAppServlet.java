@@ -11,7 +11,6 @@ import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -52,12 +51,13 @@ public class TrainingAppServlet extends HttpServlet {
 		this.session = req.getSession();
 		
 		if(method.equalsIgnoreCase("getmodellist")) {
-			Hashtable<BlobKey, ClassifierModel> models = new Hashtable<BlobKey, ClassifierModel>();
+			ArrayList<ClassifierModelList> models = new ArrayList<ClassifierModelList>();
+			models.add(new ClassifierModelList());
 			
 			if(memcacheService.contains(cacheModelKey))
-				models = (Hashtable<BlobKey, ClassifierModel>)memcacheService.get(cacheModelKey);
+				models = (ArrayList<ClassifierModelList>)memcacheService.get(cacheModelKey);
 			
-			response = ServletHelper.ConvertToJson(models);
+			response = models;
 		} else if(method.equalsIgnoreCase("getapplist")) {
 			processor.getAppList();
 		}  else if(method.equalsIgnoreCase("upload")) {
@@ -77,6 +77,8 @@ public class TrainingAppServlet extends HttpServlet {
 			if(!dataset.isEmpty()) {
 				session.setAttribute("dataset", dataset);
 				response = true;
+			} else {
+				response = false;
 			}
 		} else if(method.equalsIgnoreCase("saveclassifiermodel")) {
 			String modelString = ServletHelper.GetRequestBody(req.getReader());
@@ -96,7 +98,6 @@ public class TrainingAppServlet extends HttpServlet {
 		} else if(method.equalsIgnoreCase("download")) {
 			String modelKey = req.getParameter("modelKey");
 			BlobKey modelBlobKey = new BlobKey(modelKey);
-			
 			blobstoreService.serve(modelBlobKey, resp);
 		}
 		
@@ -184,8 +185,7 @@ public class TrainingAppServlet extends HttpServlet {
 			dataOutStream.close();
 			
 			DataInputStream dataInStream = new DataInputStream(urlConn.getInputStream());
-			int responseCode = 0;
-			while((responseCode = dataInStream.read()) == 0) {
+			while((dataInStream.read()) == 0) {
 				dataInStream.close();
 				return true;
 			}
@@ -197,15 +197,17 @@ public class TrainingAppServlet extends HttpServlet {
 	
 	@SuppressWarnings("unchecked")
 	private void saveToCache(BlobKey key) {
-		Hashtable<BlobKey, ClassifierModel> models = new Hashtable<BlobKey, ClassifierModel>();
+		ArrayList<ClassifierModelList> models = new ArrayList<ClassifierModelList>();
 		ClassifierModel model = readModelFromBlob(key);
 		
 		if(model != null) {
+			ClassifierModelList modelList = new ClassifierModelList(key, model);
+			
 			if(memcacheService.contains(cacheModelKey)) {
-				models = (Hashtable<BlobKey, ClassifierModel>) memcacheService.get(cacheModelKey);
+				models = (ArrayList<ClassifierModelList>) memcacheService.get(cacheModelKey);
 			}
 
-			models.put(key, model);
+			models.add(modelList);
 			memcacheService.put(cacheModelKey, models);
 		}
 	}
