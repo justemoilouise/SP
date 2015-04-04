@@ -17,17 +17,12 @@ $(function() {
 			data: data,
 			dataType: "json",
 			success: function(response) {
-				if(response == "true") {
-					alertType = "success";
-					fxnCallback("File uploaded successfully.");
-				}  else {
-					alertType = "warning";
-					fxnCallback("Unable to upload file. Please try again.");
-				}
+				ialertType = "success";
+				fxnCallback("File uploaded successfully.");
 			},
 			error: function() {
 				alertType = "error";
-				fxnCallback("An error has occurred.");
+				fxnCallback("Unable to upload file. Please try again.");
 			}
 		});
 	});

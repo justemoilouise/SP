@@ -8,20 +8,21 @@ $(function() {
 			for(var i=0; i<modelList.length; i++) {
 				var classifier = modelList[i].model;
 				var tRow = "<tr>" +
-								"<td>" + new Date() + "</td>" +
+								"<td>" + classifier.createdDate + "</td>" +
 								"<td>" + classifier.version + "</td>" +
-								"<td> &nbsp; </td>" +
-								"<td>" +
+								"<td>" + classifier.notes + "</td>" +
+								"<td><a href=#>" +
 									"<span class=\"glyphicon glyphicon-download-alt\" id=" + modelList[i].key.blobKey + ">" +
 									"</span>" +
-								"</td>" + 
+								"</a></td>" + 
 							"</tr>";
 				
 				$("#model_table").append(tRow);
 			}
 		},
 		error: function() {
-			alert("ERROR: Get model list");
+			alertType = "warning";
+			fxnCallback("An error occurred in retriving models. Please refresh page.");
 		}
 	});
 });

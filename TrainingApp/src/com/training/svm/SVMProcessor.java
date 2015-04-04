@@ -31,11 +31,11 @@ public class SVMProcessor implements ISVM {
 		svm_parameter params = BuildSVMParameters(svmParameter);
 		svm_problem prob = BuildSVMProblem(dataset);
 		
-		//svm_model svmModel = svm.svm_train(prob, params);		
-		//double accuracy = crossValidate(params, prob);
+		svm_model svmModel = svm.svm_train(prob, params);		
+		double accuracy = crossValidate(params, prob);
 		
-		svm_model svmModel = new svm_model();	
-		double accuracy = 100;
+		//svm_model svmModel = new svm_model();	
+		//double accuracy = 100;
 		
 		//save to SVMModel
 		model.setClasses(classes);
