@@ -7,11 +7,14 @@ $(function() {
 			modelList = response;
 			for(var i=0; i<modelList.length; i++) {
 				var classifier = modelList[i].model;
-				var tRow = "<tr id=" + modelList[i].key.blobKey + ">" +
+				var tRow = "<tr>" +
 								"<td>" + new Date() + "</td>" +
 								"<td>" + classifier.version + "</td>" +
 								"<td> &nbsp; </td>" +
-								"<a href=#><span class=\"glyphicon glyphicon-download-alt\" id=\"dload_btn\"></span></a>" + 
+								"<td>" +
+									"<span class=\"glyphicon glyphicon-download-alt\" id=" + modelList[i].key.blobKey + ">" +
+									"</span>" +
+								"</td>" + 
 							"</tr>";
 				
 				$("#model_table").append(tRow);
@@ -34,6 +37,7 @@ $(function() {
 				<th>Date</th>
 				<th>Version number</th>
 				<th>Release notes</th>
+				<th>&nbsp;</th>
 			</tr>
 			<!--
 			<tr>
