@@ -48,13 +48,16 @@ $(function() {
 	
 	$("#content_holder").on("click","#train_save_btn", function() {
 		var modelObj = $.param(model);
+		var blob = new Blob([modelObj], {type: "application/octet-stream"});
+		var data = new FormData();
+		data.append("model", blob);
 		
 		$.ajax({
 			url: "<%= blobstoreService.createUploadUrl("/trainingapp/uploadclassifiermodel") %>",
 			method: "POST",
 			contentType: false,
 			processData: false,
-			data: modelObj,
+			data: data,
 			dataType : "json",
 			success : function(response) {
 				alertType = "success";

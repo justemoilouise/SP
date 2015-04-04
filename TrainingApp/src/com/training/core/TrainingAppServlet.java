@@ -80,19 +80,15 @@ public class TrainingAppServlet extends HttpServlet {
 			} else {
 				response = false;
 			}
-		} else if(method.equalsIgnoreCase("saveclassifiermodel")) {
-			String modelString = ServletHelper.GetRequestBody(req.getReader());
-			ClassifierModel model = ServletHelper.ConvertToObject(modelString, ClassifierModel.class);
-			model = processor.buildClassifierModel(model);
-			response = uploadModel(convertToByteArray(model));
 		} else if(method.equalsIgnoreCase("uploadclassifiermodel")) {
 			Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
-	        List<BlobKey> blobKeys = blobs.get("modelObj");
+	        List<BlobKey> blobKeys = blobs.get("model");
 
 	        if (blobKeys == null || blobKeys.isEmpty()) {
 	            response = false;
 	        } else {
-	        	saveToCache(blobKeys.get(0));
+	        	BlobKey key = blobKeys.get(0);
+	        	saveToCache(key);
 	        	response = true;
 	        }
 		} else if(method.equalsIgnoreCase("download")) {
@@ -157,42 +153,6 @@ public class TrainingAppServlet extends HttpServlet {
         }
         
         return null;
-	}
-	
-	private byte[] convertToByteArray(ClassifierModel model) {
-		try {
-			ByteArrayOutputStream b = new ByteArrayOutputStream();
-	        ObjectOutputStream o = new ObjectOutputStream(b);
-	        o.writeObject(model);
-	        return b.toByteArray();
-		}
-		catch (Exception ex) {}
-		
-		return null;
-	}
-	
-	private boolean uploadModel(byte[] payload) {
-		try {
-			URL url = new URL(blobstoreService.createUploadUrl("trainingapp/uplodclassifiermodel"));
-			HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
-			urlConn.setDoOutput(true);
-			urlConn.setDoInput(true);
-			urlConn.setRequestMethod("POST");
-			
-			DataOutputStream dataOutStream = new DataOutputStream(urlConn.getOutputStream());
-			dataOutStream.write(payload);
-			dataOutStream.flush();
-			dataOutStream.close();
-			
-			DataInputStream dataInStream = new DataInputStream(urlConn.getInputStream());
-			while((dataInStream.read()) == 0) {
-				dataInStream.close();
-				return true;
-			}
-		}
-		catch(Exception x) {}
-		
-		return false;
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -11,7 +11,7 @@
 	<script type="text/javascript" src="script/user.js"></script>
 </head>
 <body>
-	<div id="alert_holder"></div>
+	<div id="alert_holder"></div>	
 	<nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 
@@ -27,15 +27,14 @@
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse"
-			id="bs-example-navbar-collapse-1">
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li><a href="#" id="nav_home">Home</a></li>
 				<li><a href="#" id="nav_download">Downloads</a></li>
-				<% if(session.getAttribute("admin") != null) { %>
+				<% //if(session.getAttribute("admin") != null) { %>
 				<li><a href="#" id="nav_training">Train</a></li>
 				<li><a href="#" id="nav_documentation">Documentation</a></li>
-				<% } %>
+				<% //} %>
 				<li><a href="#" id="nav_about">About</a></li>
 			</ul>
 			
@@ -47,8 +46,6 @@
 		</div>
 	</div>
 	</nav>
-
 	<div id="content_holder"></div>
-
 </body>
 </html>
