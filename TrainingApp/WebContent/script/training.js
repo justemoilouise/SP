@@ -55,10 +55,6 @@ $(function() {
 		$.ajax({
 			url: 'trainingapp/preprocess/scale',
 			crossDomain: true,
-			headers: {
-				"Access-Control-Request-Method": "GET",
-				"Access-Control-Request-Headers": "x-requested-with"
-			},
 			success: function() {
 				reduceFeatures();
 			},

@@ -94,8 +94,7 @@ public class TrainingAppServlet extends HttpServlet {
 			BlobKey modelBlobKey = new BlobKey(modelKey);
 			blobstoreService.serve(modelBlobKey, resp);
 		}
-		
-		resp.setHeader("Access-Control-Allow-Origin", "*");
+
 		resp.setContentType("application/json");
 		resp.getWriter().println(ServletHelper.ConvertToJson(response));
 	}
