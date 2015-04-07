@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,8 @@ import javax.servlet.http.HttpSession;
 import Data.ClassifierModel;
 import Data.Species;
 
+import com.google.appengine.api.blobstore.BlobInfo;
+import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
@@ -29,6 +33,7 @@ import com.google.appengine.api.files.FileServiceFactory;
 import com.google.appengine.api.files.FileWriteChannel;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.training.helpers.ObjectComparator;
 import com.training.helpers.ServletHelper;
 
 @SuppressWarnings("serial")
@@ -51,13 +56,15 @@ public class TrainingAppServlet extends HttpServlet {
 		Object response = null;
 		String method = ServletHelper.ExtractMethod(req.getRequestURI());
 		this.session = req.getSession();
+		resp.setContentType("application/json");
 		
 		if(method.equalsIgnoreCase("getmodellist")) {
 			ArrayList<ClassifierModelList> models = new ArrayList<ClassifierModelList>();
-			models.add(new ClassifierModelList());
 			
-			if(memcacheService.contains(cacheModelKey))
+			if(memcacheService.contains(cacheModelKey)) {
 				models = (ArrayList<ClassifierModelList>)memcacheService.get(cacheModelKey);
+				Collections.sort(models, new ObjectComparator());
+			}
 			
 			response = models;
 		} else if(method.equalsIgnoreCase("getapplist")) {
@@ -93,9 +100,14 @@ public class TrainingAppServlet extends HttpServlet {
 			String modelKey = req.getParameter("modelKey");
 			BlobKey modelBlobKey = new BlobKey(modelKey);
 			blobstoreService.serve(modelBlobKey, resp);
+			
+//			BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(modelBlobKey);
+//			String encodedFilename = URLEncoder.encode(blobInfo.getFilename(), "utf-8");
+//			encodedFilename.replaceAll("\\+", "%20");
+			resp.setContentType("application/octet-stream");
+			resp.addHeader("Content-Disposition", "attachment; filename*=utf-8");
 		}
 
-		resp.setContentType("application/json");
 		resp.getWriter().println(ServletHelper.ConvertToJson(response));
 	}
 	
