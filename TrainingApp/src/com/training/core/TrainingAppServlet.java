@@ -100,6 +100,7 @@ public class TrainingAppServlet extends HttpServlet {
 			String modelKey = req.getParameter("modelKey");
 			BlobKey modelBlobKey = new BlobKey(modelKey);			
 			BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(modelBlobKey);
+			resp.setHeader("Content-type", "application/octet-stream");
 			resp.setHeader("Content-Disposition", "attachment; filename=" + blobInfo.getFilename());
 			
 			blobstoreService.serve(modelBlobKey, resp);

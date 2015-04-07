@@ -3,8 +3,8 @@ var model = {};
 $(function() {	
 	var readSVMParameters = function() {
 		var params = {};
-		params["type"] = $("#svm_type").val();
-		params["kernel"] = $("#svm_kernel").val();
+		params["type"] = $("#train_svm_type").val();
+		params["kernel"] = $("#train_svm_kernel").val();
 		params["cost"] = $("#svm_cost").val();
 		params["gamma"] = $("#svm_gamma").val();
 		params["epsilon"] = $("#svm_eps").val();
@@ -35,6 +35,9 @@ $(function() {
 				alertType = "error";
 				fxnCallback("An error occurred in building SVM model.");
 			},
+			complete: function() {
+				$('html, body').animate({scrollTop: 0}, 'fast');
+			}
 		});
 	};
 	

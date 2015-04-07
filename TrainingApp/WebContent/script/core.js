@@ -23,6 +23,9 @@ $(function() {
 				alertType = "error";
 				fxnCallback("An error occurred while retrieving the model. Please try again.");
 			},
+			complete: function() {
+				$('html, body').animate({scrollTop: 0}, 'fast');
+			}
 		});
 	});
 });

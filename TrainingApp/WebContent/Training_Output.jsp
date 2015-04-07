@@ -59,6 +59,9 @@ $(function() {
 			error : function() {
 				alertType = "error";
 				fxnCallback("Unable to save file. Please try again.");
+			},
+			complete: function() {
+				$('html, body').animate({scrollTop: 0}, 'fast');
 			}
 		});
 	});

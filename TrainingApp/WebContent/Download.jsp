@@ -23,6 +23,9 @@ $(function() {
 		error: function() {
 			alertType = "warning";
 			fxnCallback("An error occurred in retriving models. Please refresh page.");
+		},
+		complete: function() {
+			$('html, body').animate({scrollTop: 0}, 'fast');
 		}
 	});
 });
@@ -40,13 +43,6 @@ $(function() {
 				<th>Release notes</th>
 				<th>&nbsp;</th>
 			</tr>
-			<!--
-			<tr>
-				<td><%= new java.util.Date() %></td>
-				<td>1.0</td>
-				<td>Beta</td>
-			</tr>
-			-->
 		</table>
 	</div>
 </div>
