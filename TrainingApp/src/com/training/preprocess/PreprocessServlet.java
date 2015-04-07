@@ -30,10 +30,10 @@ public class PreprocessServlet extends HttpServlet {
 		if(method.equalsIgnoreCase("getmodel")) {
 			response = processor.getPreprocessModel();
 		} else if(method.equalsIgnoreCase("setpca")) {
+			session.getAttribute("dataset");
 			int PC = Integer.parseInt(req.getParameter("pca"));
 			response = processor.setPC(PC);
-		}
-		else {
+		} else {
 			ArrayList<Species> dataset = (ArrayList<Species>) session.getAttribute("dataset");
 			
 			if(method.equalsIgnoreCase("scale")) {
@@ -47,6 +47,7 @@ public class PreprocessServlet extends HttpServlet {
 			}
 		}		
 		
+		resp.setHeader("Access-Control-Allow-Origin", "*");
 		resp.setContentType("application/json");
 		resp.getWriter().println(ServletHelper.ConvertToJson(response));
 	}

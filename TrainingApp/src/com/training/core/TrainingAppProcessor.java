@@ -11,8 +11,11 @@ import Data.Species;
 import FileHandlers.FileInput;
 
 public class TrainingAppProcessor {
+	private double version;
 
-	public TrainingAppProcessor() {}
+	public TrainingAppProcessor() {
+		this.version = 1;
+	}
 	
 	public ArrayList<ClassifierModel> getModelList() {
 		return null;
@@ -22,6 +25,9 @@ public class TrainingAppProcessor {
 	
 	public ClassifierModel buildClassifierModel(ClassifierModel model) {
 		model.setCreatedDate(new Date());
+		model.setNotes("YAY!");
+		model.setVersion(version);
+		version++;
 		
 		return model;
 	}

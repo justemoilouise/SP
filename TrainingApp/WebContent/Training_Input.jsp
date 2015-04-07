@@ -10,14 +10,15 @@ $(function() {
 		data.append("file", file);
 		
 		$.ajax({
-			url: "<%= blobstoreService.createUploadUrl("/trainingapp/upload") %>",
+			url: '<%= blobstoreService.createUploadUrl("/trainingapp/upload") %>',
 			method: "POST",
 			contentType: false,
 			processData: false,
 			data: data,
 			dataType: "json",
+			async: false,
 			success: function(response) {
-				ialertType = "success";
+				alertType = "success";
 				fxnCallback("File uploaded successfully.");
 			},
 			error: function() {

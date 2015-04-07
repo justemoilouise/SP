@@ -2,14 +2,11 @@ package com.training.core;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +22,11 @@ import Data.Species;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.files.AppEngineFile;
+import com.google.appengine.api.files.FileReadChannel;
+import com.google.appengine.api.files.FileService;
+import com.google.appengine.api.files.FileServiceFactory;
+import com.google.appengine.api.files.FileWriteChannel;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.training.helpers.ServletHelper;
@@ -80,25 +82,40 @@ public class TrainingAppServlet extends HttpServlet {
 			} else {
 				response = false;
 			}
-		} else if(method.equalsIgnoreCase("uploadclassifiermodel")) {
-			Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
-	        List<BlobKey> blobKeys = blobs.get("model");
-
-	        if (blobKeys == null || blobKeys.isEmpty()) {
-	            response = false;
-	        } else {
-	        	BlobKey key = blobKeys.get(0);
-	        	saveToCache(key);
-	        	response = true;
-	        }
+		} else if(method.equalsIgnoreCase("saveclassifiermodel")) {
+			String requestBody = ServletHelper.GetRequestBody(req.getReader());
+			ClassifierModel model = ServletHelper.ConvertToObject(requestBody, ClassifierModel.class);
+			model = processor.buildClassifierModel(model);
+			BlobKey key = writeFileToBlob(model);
+			saveToCache(key);
+        	response = true;
 		} else if(method.equalsIgnoreCase("download")) {
 			String modelKey = req.getParameter("modelKey");
 			BlobKey modelBlobKey = new BlobKey(modelKey);
 			blobstoreService.serve(modelBlobKey, resp);
 		}
 		
+		resp.setHeader("Access-Control-Allow-Origin", "*");
 		resp.setContentType("application/json");
 		resp.getWriter().println(ServletHelper.ConvertToJson(response));
+	}
+	
+	private BlobKey writeFileToBlob(ClassifierModel model) {
+		try {
+			ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+			ObjectOutputStream oStream = new ObjectOutputStream(bStream);
+			oStream.writeObject(model);
+			
+			FileService fileService = FileServiceFactory.getFileService();
+			AppEngineFile file = fileService.createNewBlobFile("text/plain");
+			FileWriteChannel writeChannel = fileService.openWriteChannel(file, true);			
+			writeChannel.write(ByteBuffer.wrap(bStream.toByteArray()));
+			writeChannel.closeFinally();
+
+			return fileService.getBlobKey(file);
+		} catch(Exception ex) {}
+		
+		return new BlobKey("");
 	}
 	
 	private byte[] readFromBlob(BlobKey key) {
