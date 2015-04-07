@@ -98,14 +98,12 @@ public class TrainingAppServlet extends HttpServlet {
         	response = true;
 		} else if(method.equalsIgnoreCase("download")) {
 			String modelKey = req.getParameter("modelKey");
-			BlobKey modelBlobKey = new BlobKey(modelKey);
-			blobstoreService.serve(modelBlobKey, resp);
+			BlobKey modelBlobKey = new BlobKey(modelKey);			
+			BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(modelBlobKey);
+			resp.setHeader("Content-Disposition", "attachment; filename=" + blobInfo.getFilename());
 			
-//			BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(modelBlobKey);
-//			String encodedFilename = URLEncoder.encode(blobInfo.getFilename(), "utf-8");
-//			encodedFilename.replaceAll("\\+", "%20");
-			resp.setContentType("application/octet-stream");
-			resp.addHeader("Content-Disposition", "attachment; filename*=utf-8");
+			blobstoreService.serve(modelBlobKey, resp);
+			return;
 		}
 
 		resp.getWriter().println(ServletHelper.ConvertToJson(response));
@@ -118,7 +116,7 @@ public class TrainingAppServlet extends HttpServlet {
 			oStream.writeObject(model);
 			
 			FileService fileService = FileServiceFactory.getFileService();
-			AppEngineFile file = fileService.createNewBlobFile("text/plain");
+			AppEngineFile file = fileService.createNewBlobFile("text/plain", "classifier-model-" + model.getVersion() + ".dat");
 			FileWriteChannel writeChannel = fileService.openWriteChannel(file, true);			
 			writeChannel.write(ByteBuffer.wrap(bStream.toByteArray()));
 			writeChannel.closeFinally();
