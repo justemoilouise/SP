@@ -80,17 +80,6 @@ $(function() {
 		});
 	};
 	
-	var readDataset = function() {
-		$.ajax({
-			url: 'trainingapp/readdataset',
-			success: function() {},
-			error: function() {
-				alertType = "error";
-				fxnCallback("Unable to read dataset.");
-			},
-		});
-	};
-	
 	var getPreprocessModel = function() {
 		$.ajax({
 			url: 'trainingapp/preprocess/getmodel',
@@ -120,30 +109,17 @@ $(function() {
 	};
 	
 	$("#content_holder").on("click","#train_build_btn", function() {
-		$.when(readDataset()).done(function() {
-			var pca = $("#train_preprocess_pca").val();
-
-			$.ajax({
-				url: 'trainingapp/preprocess/setpca?pca=' + pca,
-				success: function() {
-					scale();
-				},
-				error: function() {
-					alertType = "warning";
-					fxnCallback("An error occurred in preprocessing the data set.");
-				},
-			});
-		})
-//		$.ajax({
-//			url: 'trainingapp/readdataset',
-//			success: function() {
-//				preprocess();
-//			},
-//			error: function() {
-//				alertType = "error";
-//				fxnCallback("Unable to read dataset.");
-//			},
-//		});
+		$.ajax({
+			url: 'trainingapp/readdataset',
+			async: false,
+			success: function() {
+				preprocess();
+			},
+			error: function() {
+				alertType = "error";
+				fxnCallback("Unable to read dataset.");
+			},
+		});
 	});
 
 	$("#content_holder").on("click","#train_cancel_btn", function() {
