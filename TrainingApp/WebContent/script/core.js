@@ -12,20 +12,21 @@ $(function() {
 	
 	$("#content_holder").on("click", "span", function() {
 		var key = this.id;
-		
-		$.ajax({
-			url: 'trainingapp/download?modelKey=' + key,
-			success: function() {
-				alertType = "success";
-				fxnCallback("Successfully downloading model.");
-			},
-			error: function() {
-				alertType = "error";
-				fxnCallback("An error occurred while retrieving the model. Please try again.");
-			},
-			complete: function() {
-				$('html, body').animate({scrollTop: 0}, 'fast');
-			}
-		});
+		window.location = "trainingapp/download?modelKey=" + key;
+//		
+//		$.ajax({
+//			url: 'trainingapp/download?modelKey=' + key,
+//			success: function() {
+//				alertType = "success";
+//				fxnCallback("Successfully downloading model.");
+//			},
+//			error: function() {
+//				alertType = "error";
+//				fxnCallback("An error occurred while retrieving the model. Please try again.");
+//			},
+//			complete: function() {
+//				$('html, body').animate({scrollTop: 0}, 'fast');
+//			}
+//		});
 	});
 });
