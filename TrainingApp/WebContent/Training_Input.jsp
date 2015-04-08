@@ -48,7 +48,7 @@ $(function() {
 
 <br />
 <div class="input-group col-md-offset-1 col-md-10" id="input_file">
-	<input type="file" width="50" class="col-md-10" id="input_file_fld" />
+	<input type="file" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" width="50" class="col-md-10" id="input_file_fld" />
 	<button type="submit" class="btn btn-primary col-md-2" id="input_file_btn">
 		<span class="glyphicon glyphicon-check"></span>
 	</button>

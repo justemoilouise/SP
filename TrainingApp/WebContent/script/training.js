@@ -1,6 +1,6 @@
 var model = {};
 
-$(function() {	
+$(function() {
 	var readSVMParameters = function() {
 		var params = {};
 		params["type"] = $("#train_svm_type").val();
@@ -11,34 +11,42 @@ $(function() {
 		params["degree"] = $("#svm_degree").val();
 		params["nu"] = $("#svm_nu").val();
 		params["coefficient"] = $("#svm_coef").val();
-
+		
 		return params;
 	};
 	
 	var buildModel = function() {
 		var data = readSVMParameters();
+		var isValid = validate(data);
+		
+		if(!isValid) {
+			alertType = "error";
+			fxnCallback("Invalid input parameters. Please check and try again.");
+			$('html, body').animate({scrollTop: 0}, 'fast');
+		}
+		else {
+			$.ajax({
+				url: 'trainingapp/svm/buildmodel',
+				method: 'POST',
+				data: JSON.stringify(data),
+				contentType: 'json',
+				success: function() {
+					$.when(getPreprocessModel(), getSVMModel()).done(function() {
+						var trainFeature = $('input[name=train_feature]:checked').val();
+						model.isIJUsed = (trainFeature == "IJ") ? true : false;
 
-		$.ajax({
-			url: 'trainingapp/svm/buildmodel',
-			method: 'POST',
-			data: JSON.stringify(data),
-			contentType: 'json',
-			success: function() {
-				$.when(getPreprocessModel(), getSVMModel()).done(function() {
-					var trainFeature = $('input[name=train_feature]:checked').val();
-					model.isIJUsed = (trainFeature == "IJ") ? true : false;
-
-					$('#content_holder').load('Training_Output.jsp');
-				});
-			},
-			error: function() {
-				alertType = "error";
-				fxnCallback("An error occurred in building SVM model.");
-			},
-			complete: function() {
-				$('html, body').animate({scrollTop: 0}, 'fast');
-			}
-		});
+						$('#content_holder').load('Training_Output.jsp');
+					});
+				},
+				error: function() {
+					alertType = "error";
+					fxnCallback("An error occurred in building SVM model.");
+				},
+				complete: function() {
+					$('html, body').animate({scrollTop: 0}, 'fast');
+				}
+			});
+		}
 	};
 	
 	var reduceFeatures = function() {
@@ -70,17 +78,25 @@ $(function() {
 
 	var preprocess = function() {
 		var pca = $("#train_preprocess_pca").val();
-
-		$.ajax({
-			url: 'trainingapp/preprocess/setpca?pca=' + pca,
-			success: function() {
-				scale();
-			},
-			error: function() {
-				alertType = "warning";
-				fxnCallback("An error occurred in preprocessing the data set.");
-			},
-		});
+		var isValid = validate(pca);
+		
+		if(!isValid) {
+			alertType = "error";
+			fxnCallback("Invalid input parameters. Please check and try again.");
+			$('html, body').animate({scrollTop: 0}, 'fast');
+		}
+		else {
+			$.ajax({
+				url: 'trainingapp/preprocess/setpca?pca=' + pca,
+				success: function() {
+					scale();
+				},
+				error: function() {
+					alertType = "warning";
+					fxnCallback("An error occurred in preprocessing the data set.");
+				},
+			});
+		}
 	};
 	
 	var getPreprocessModel = function() {

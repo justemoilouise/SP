@@ -9,6 +9,7 @@
 	<script type="text/javascript" src="script/core.js"></script>
 	<script type="text/javascript" src="script/training.js"></script>
 	<script type="text/javascript" src="script/user.js"></script>
+	<script type="text/javascript" src="script/validation.js"></script>
 </head>
 <body>
 	<div id="alert_holder"></div>	
