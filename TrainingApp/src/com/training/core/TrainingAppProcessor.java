@@ -25,7 +25,6 @@ public class TrainingAppProcessor {
 	
 	public ClassifierModel buildClassifierModel(ClassifierModel model) {
 		model.setCreatedDate(new Date());
-		model.setNotes("YAY!");
 		model.setVersion(version);
 		version++;
 		

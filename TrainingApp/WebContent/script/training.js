@@ -129,7 +129,35 @@ $(function() {
 		$("#content_holder").load("Home.jsp");
 	});
 
+	$("#content_holder").on("click","#train_save_btn", function() {
+		model.notes = $("#train_notes_txt").val();
+		
+		$.ajax({
+			url: "/trainingapp/saveclassifiermodel",
+			method: "POST",
+			data: JSON.stringify(model),
+			async: false,
+			success : function(response) {
+				alertType = "success";
+				fxnCallback("Classifier model file saved successfully.");
+			},
+			error : function() {
+				alertType = "error";
+				fxnCallback("Unable to save file. Please try again.");
+			},
+			complete: function() {
+				$('html, body').animate({scrollTop: 0}, 'fast');
+			}
+		});
+	});
+	
 	$("#content_holder").on("click","#train_rebuild_btn", function() {
 		$("#content_holder").load("Training_Input.jsp");
+	});
+	
+	$("#content_holder").on("click","#train_notes_btn", function() {
+		$("#train_notes").show();
+		$("#train_notes_btn").hide();
+		$("#train_notes_txt").focus();
 	});
 });

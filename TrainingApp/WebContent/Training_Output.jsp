@@ -45,26 +45,8 @@ $(function() {
 	sRow += '<td colspan=' + sModel.classes.length + '>' + sModel.accuracy + '</td>';
 	sRow += '</tr>';
 	$('#tbl_svm').append(sRow);
-	
-	$("#content_holder").on("click","#train_save_btn", function() {
-		$.ajax({
-			url: "/trainingapp/saveclassifiermodel",
-			method: "POST",
-			data: JSON.stringify(model),
-			async: false,
-			success : function(response) {
-				alertType = "success";
-				fxnCallback("Classifier model file saved successfully.");
-			},
-			error : function() {
-				alertType = "error";
-				fxnCallback("Unable to save file. Please try again.");
-			},
-			complete: function() {
-				$('html, body').animate({scrollTop: 0}, 'fast');
-			}
-		});
-	});
+
+	$('#train_notes').hide();
 })
 </script>
 <br />
@@ -111,7 +93,17 @@ $(function() {
 	</div>
 </div>
 <br />
+<div class="panel panel-default col-md-offset-1 col-md-10" id="train_notes">
+	<div class="panel-heading">
+		<h3 class="panel-title">Notes</h3>
+	</div>
+	<div class="panel-body">
+		<textarea id="train_notes_txt" placeholder="Add release notes.." cols="75"></textarea>
+	</div>
+</div>
+<br />
 <div class="btn-group col-md-offset-8 col-md-4">
+	<button class="btn btn-default" id="train_notes_btn">Add notes</button>
 	<button class="btn btn-primary" id="train_save_btn">Save model</button>
 	<button class="btn btn-default" id="train_rebuild_btn">Rebuild model</button>
 </div>
