@@ -17,7 +17,7 @@ $(function() {
 	
 	var buildModel = function() {
 		var data = readSVMParameters();
-		var isValid = validate(data);
+		var isValid = validateObj(data);
 		
 		if(!isValid) {
 			alertType = "error";

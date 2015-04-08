@@ -5,18 +5,33 @@ $(function() {
 		dataType: 'json',
 		success: function(response) {
 			modelList = response;
-			for(var i=0; i<modelList.length; i++) {
-				var classifier = modelList[i].model;
+			
+			if(modelList.length > 0) {
+				for(var i=0; i<modelList.length; i++) {
+					var classifier = modelList[i].model;
+					var features = classifier.isIJUsed 
+							? "Basic texture and shape features" 
+							: "Haralick texture descriptors";
+					
+					var tRow = "<tr>" +
+									"<td>" + classifier.createdDate + "</td>" +
+									"<td>" + classifier.version + "</td>" +
+									"<td>" + classifier.svmmodel.accuracy + "</td>" +
+									"<td>" + features + "</td>" +
+									"<td>" + classifier.notes + "</td>" +
+									"<td><a href=#>" +
+										"<span class=\"glyphicon glyphicon-download-alt\" id=" + modelList[i].key.blobKey + ">" +
+										"</span>" +
+									"</a></td>" + 
+								"</tr>";
+					
+					$("#model_table").append(tRow);
+				}
+			}
+			else {
 				var tRow = "<tr>" +
-								"<td>" + classifier.createdDate + "</td>" +
-								"<td>" + classifier.version + "</td>" +
-								"<td>" + classifier.notes + "</td>" +
-								"<td><a href=#>" +
-									"<span class=\"glyphicon glyphicon-download-alt\" id=" + modelList[i].key.blobKey + ">" +
-									"</span>" +
-								"</a></td>" + 
+								"<td colspan=6><em> No classifier models available for download. </em></td>" +
 							"</tr>";
-				
 				$("#model_table").append(tRow);
 			}
 		},
@@ -40,6 +55,8 @@ $(function() {
 			<tr>
 				<th>Date</th>
 				<th>Version number</th>
+				<th>Classification Accuracy</th>
+				<th>Features used</th>
 				<th>Release notes</th>
 				<th>&nbsp;</th>
 			</tr>

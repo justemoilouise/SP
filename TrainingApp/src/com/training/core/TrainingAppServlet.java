@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +26,6 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.files.AppEngineFile;
-import com.google.appengine.api.files.FileReadChannel;
 import com.google.appengine.api.files.FileService;
 import com.google.appengine.api.files.FileServiceFactory;
 import com.google.appengine.api.files.FileWriteChannel;
@@ -36,7 +34,7 @@ import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.training.helpers.ObjectComparator;
 import com.training.helpers.ServletHelper;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "deprecation" })
 public class TrainingAppServlet extends HttpServlet {
 	private TrainingAppProcessor processor;
 	private BlobstoreService blobstoreService;
@@ -101,7 +99,7 @@ public class TrainingAppServlet extends HttpServlet {
 			BlobKey modelBlobKey = new BlobKey(modelKey);			
 			BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(modelBlobKey);
 			resp.setHeader("Content-type", "application/octet-stream");
-			resp.setHeader("Content-Disposition", "attachment; filename=" + blobInfo.getFilename());
+			resp.setHeader("Content-Disposition", "attachment; filename=\"" + blobInfo.getFilename() +"\"");
 			
 			blobstoreService.serve(modelBlobKey, resp);
 			return;
@@ -117,7 +115,7 @@ public class TrainingAppServlet extends HttpServlet {
 			oStream.writeObject(model);
 			
 			FileService fileService = FileServiceFactory.getFileService();
-			AppEngineFile file = fileService.createNewBlobFile("text/plain", "classifier-model-" + model.getVersion() + ".dat");
+			AppEngineFile file = fileService.createNewBlobFile("application/octet-stream", "classifier-model-" + model.getVersion() + ".dat");
 			FileWriteChannel writeChannel = fileService.openWriteChannel(file, true);			
 			writeChannel.write(ByteBuffer.wrap(bStream.toByteArray()));
 			writeChannel.closeFinally();
