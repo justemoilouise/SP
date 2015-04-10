@@ -12,6 +12,7 @@ $(function() {
 					var features = classifier.isIJUsed 
 							? "Basic texture and shape features" 
 							: "Haralick texture descriptors";
+					var dloadURL = "trainingapp/download?modelKey=" + modelList[i].key.blobKey;
 					
 					var tRow = "<tr>" +
 									"<td>" + classifier.createdDate + "</td>" +
@@ -19,9 +20,8 @@ $(function() {
 									"<td>" + classifier.svmmodel.accuracy + "</td>" +
 									"<td>" + features + "</td>" +
 									"<td>" + classifier.notes + "</td>" +
-									"<td><a href=#>" +
-										"<span class=\"glyphicon glyphicon-download-alt\" id=" + modelList[i].key.blobKey + ">" +
-										"</span>" +
+									"<td><a href=" + dloadURL + ">" +
+										"<span class=\"glyphicon glyphicon-download-alt\"></span>" +
 									"</a></td>" + 
 								"</tr>";
 					
