@@ -21,8 +21,4 @@ public class UserProcessor {
 		}
 		return false;
 	}
-	
-	public boolean LogOut() {
-		return true;
-	}
 }

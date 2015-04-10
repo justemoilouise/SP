@@ -45,11 +45,8 @@ public class UserServlet extends HttpServlet {
 				session.setAttribute("admin", "admin");
 			}
 		} else if(method.equalsIgnoreCase("logout")) {
-			response = processor.LogOut();
-			
-			if((Boolean) response) {
-				session.removeAttribute("admin");
-			}
+			session.removeAttribute("admin");
+			response = true;
 		}
 
 		resp.getWriter().println(response.toString());
