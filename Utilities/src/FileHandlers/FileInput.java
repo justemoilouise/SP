@@ -1,8 +1,10 @@
 package FileHandlers;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -318,6 +320,25 @@ public class FileInput {
 		return setSpecies(name, values);
 	}
 
+	@SuppressWarnings("resource")
+	public static String readFile(String fileName) {
+		File f = new File(fileName);
+		StringBuilder contents = new StringBuilder();
+		
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(f));
+			
+			while(reader.ready()) {
+				contents.append(reader.readLine() + "\n");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			Prompt.PromptError("ERROR_GET_TUTORIAL");
+		}
+
+		return contents.toString();
+	}
+	
 	private static void FillKeys(Row row, boolean skipFirstColumn) {
 		int cCount = 0;
 		int len = row.getPhysicalNumberOfCells()-1;
