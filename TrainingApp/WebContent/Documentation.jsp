@@ -5,7 +5,7 @@
 	</div>
 	<div class="panel-body">
 		<ol>
-			<li>Upload file</li>
+			<li>File upload</li>
 				<ul>
 					<li>Only Excel files are accepted as input.</li>
 					<li>Each file should contain species and its corresponding set of features.</li>
@@ -14,13 +14,16 @@
 			<li>SVM Parameters</li>
 				<ul>
 					<li>SVM Type</li>
-					<li>Kernel function</li>
-					<li>Cost</li>
-					<li>Gamma</li>
-					<li>Epsilon</li>
-					<li>Degree</li>
-					<li>Nu</li>
-					<li>Coefficient</li>
+					<li>Kernel function - used in mapping the training vectors to a high dimensional space</li>
+					<li>Kernel function parameters: </li>
+						<ol>
+							<li>Cost</li>
+							<li>Gamma</li>
+							<li>Epsilon</li>
+							<li>Degree</li>
+							<li>Nu</li>
+							<li>Coefficient</li>
+						</ol>
 				</ul>
 		</ol>
 	</div>
