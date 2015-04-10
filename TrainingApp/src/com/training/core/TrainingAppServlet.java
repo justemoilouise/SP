@@ -193,7 +193,7 @@ public class TrainingAppServlet extends HttpServlet {
 			}
 
 			models.add(modelList);
-			memcacheService.put(cacheModelKey, models);
+			memcacheService.put(cacheModelKey, models, null);
 		}
 	}
 }

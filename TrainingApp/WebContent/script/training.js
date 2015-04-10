@@ -1,5 +1,3 @@
-var model = {};
-
 $(function() {
 	var readSVMParameters = function() {
 		var params = {};
