@@ -30,7 +30,7 @@ $(function() {
 			}
 			else {
 				var tRow = "<tr>" +
-								"<td colspan=6><em> No classifier models available for download. </em></td>" +
+								"<td colspan=6><em><center> No classifier models available for download. </center></em></td>" +
 							"</tr>";
 				$("#model_table").append(tRow);
 			}

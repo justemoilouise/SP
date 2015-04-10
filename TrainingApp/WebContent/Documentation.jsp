@@ -1,7 +1,7 @@
 <br />
 <div class="panel panel-default col-md-offset-1 col-md-10">
 	<div class="panel-heading">
-		<h3 class="panel-title">Training - input</h3>
+		<h3 class="panel-title">Training - Input</h3>
 	</div>
 	<div class="panel-body">
 		<ol>
@@ -31,7 +31,7 @@
 <br />
 <div class="panel panel-default col-md-offset-1 col-md-10">
 	<div class="panel-heading">
-		<h3 class="panel-title">Training - output</h3>
+		<h3 class="panel-title">Training - Output</h3>
 	</div>
 	<div class="panel-body">
 		<ol>

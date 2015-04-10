@@ -12,7 +12,8 @@
 	<script type="text/javascript" src="script/validation.js"></script>
 </head>
 <body>
-	<div id="alert_holder"></div>	
+	<div id="alert_holder"></div>
+	
 	<nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 
@@ -46,6 +47,7 @@
 		</div>
 	</div>
 	</nav>
+	
 	<div id="content_holder"></div>
 	<br /><br />
 </body>
