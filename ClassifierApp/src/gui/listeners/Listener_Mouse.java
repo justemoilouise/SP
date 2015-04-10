@@ -60,7 +60,7 @@ public class Listener_Mouse implements ActionListener {
 			File f = FileInput.uploadModelFile();
 			
 			if(f != null) {
-				ClassifierModel model = FileInput.readModelFromDATFile(f.getAbsolutePath());
+				ClassifierModel model = FileInput.readModelFromDATFile(f);
 				FileOutput.saveToFile(model, model.isIJUsed());
 				FileConfig.updateModelInfo(model);
 				Client.setModel(model);

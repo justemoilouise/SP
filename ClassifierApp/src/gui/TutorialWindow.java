@@ -21,7 +21,7 @@ import javax.swing.text.StyledDocument;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import CoreHandler.Prompt;
-import FileHandlers.FileRead;
+import FileHandlers.FileInput;
 import ImageHandlers.ProcessImage;
 import core.Client;
 
@@ -172,17 +172,17 @@ public class TutorialWindow extends JInternalFrame {
 			props = Client.getProperties();
 		
 		if(key.equals("RadiSS"))
-			contents.put(key, FileRead.readFile(props.getProperty("tutorial.overview")));
+			contents.put(key, FileInput.readFile(props.getProperty("tutorial.overview")));
 		else if(key.equals("Menu bar"))
-			contents.put(key, FileRead.readFile(props.getProperty("tutorial.menubar")));
+			contents.put(key, FileInput.readFile(props.getProperty("tutorial.menubar")));
 		else if(key.equals("Toolbar"))
-			contents.put(key, FileRead.readFile(props.getProperty("tutorial.toolbar")));
+			contents.put(key, FileInput.readFile(props.getProperty("tutorial.toolbar")));
 		else if(key.equals("Workspace"))
-			contents.put(key, FileRead.readFile(props.getProperty("tutorial.workspace")));
+			contents.put(key, FileInput.readFile(props.getProperty("tutorial.workspace")));
 		else if(key.equals("Console Log"))
-			contents.put(key, FileRead.readFile(props.getProperty("tutorial.console")));
+			contents.put(key, FileInput.readFile(props.getProperty("tutorial.console")));
 		else if(key.equals("Error Log"))
-			contents.put(key, FileRead.readFile(props.getProperty("tutorial.error")));
+			contents.put(key, FileInput.readFile(props.getProperty("tutorial.error")));
 	}
 
 	private ImageIcon GetImage(String imgName) {

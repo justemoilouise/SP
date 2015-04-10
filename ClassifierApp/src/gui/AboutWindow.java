@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.text.StyledDocument;
 
-import FileHandlers.FileRead;
+import FileHandlers.FileInput;
 import core.Client;
 
 @SuppressWarnings("serial")
@@ -33,7 +33,7 @@ public class AboutWindow extends JInternalFrame {
 		if(props == null)
 			props = Client.getProperties();
 		
-		content = FileRead.readFile(props.getProperty("about.overview"));
+		content = FileInput.readFile(props.getProperty("about.overview"));
 	}
 	
 	private void setContents() {
