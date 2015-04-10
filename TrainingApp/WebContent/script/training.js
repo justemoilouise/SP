@@ -20,6 +20,7 @@ $(function() {
 		if(!isValid) {
 			alertType = "error";
 			fxnCallback("Invalid input parameters. Please check and try again.");
+			$("#train_build_btn").button('reset');
 			$('html, body').animate({scrollTop: 0}, 'fast');
 		}
 		else {
@@ -126,6 +127,8 @@ $(function() {
 	};
 	
 	$("#content_holder").on("click","#train_build_btn", function() {
+		$("#train_build_btn").button('Building model');
+		
 		$.ajax({
 			url: 'trainingapp/readdataset',
 			async: false,
@@ -144,6 +147,7 @@ $(function() {
 	});
 
 	$("#content_holder").on("click","#train_save_btn", function() {
+		$("#train_save_btn").button('Saving model');
 		model.notes = $("#train_notes_txt").val();
 		
 		$.ajax({
@@ -160,6 +164,7 @@ $(function() {
 				fxnCallback("Unable to save file. Please try again.");
 			},
 			complete: function() {
+				$("#train_save_btn").button('reset');
 				$('html, body').animate({scrollTop: 0}, 'fast');
 			}
 		});
