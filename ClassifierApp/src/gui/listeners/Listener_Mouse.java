@@ -60,10 +60,11 @@ public class Listener_Mouse implements ActionListener {
 			File f = FileInput.uploadModelFile();
 			
 			if(f != null) {
-				ClassifierModel model = FileInput.readModelFromDATFile("");
+				ClassifierModel model = FileInput.readModelFromDATFile(f.getAbsolutePath());
 				FileOutput.saveToFile(model, model.isIJUsed());
 				FileConfig.updateModelInfo(model);
 				Client.setModel(model);
+				Prompt.PromptSuccess("SUCCESS_UPLOAD_FILE");
 			}
 		}
 		else if(command.equals("submit")) {
