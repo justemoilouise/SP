@@ -1,4 +1,4 @@
-package com.training.core;
+package com.training.data;
 
 import java.io.Serializable;
 

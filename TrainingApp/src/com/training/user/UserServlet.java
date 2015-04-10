@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.training.data.LogIn;
 import com.training.helpers.ServletHelper;
 
 @SuppressWarnings("serial")
@@ -27,12 +28,18 @@ public class UserServlet extends HttpServlet {
 		this.session = req.getSession();
 		
 		if(method.equalsIgnoreCase("login")) {
-			ServletConfig config = getServletConfig();
-			Hashtable<String, String> credentials = new Hashtable<String, String>();
-			credentials.put("username", config.getInitParameter("username"));
-			credentials.put("password", config.getInitParameter("password"));
+			if(processor.getCredentials() == null) {
+				ServletConfig config = getServletConfig();
+				Hashtable<String, String> credentials = new Hashtable<String, String>();
+				credentials.put("username", config.getInitParameter("username"));
+				credentials.put("password", config.getInitParameter("password"));
+				
+				processor.setCredentials(credentials);
+			}
 			
-			response = processor.LogIn(credentials, req.getParameter("username"), req.getParameter("password"));
+			String requestBody = ServletHelper.GetRequestBody(req.getReader());
+			LogIn login = ServletHelper.ConvertToObject(requestBody, LogIn.class);
+			response = processor.LogIn(login);
 			
 			if((Boolean) response) {
 				session.setAttribute("admin", "admin");

@@ -2,11 +2,21 @@ package com.training.user;
 
 import java.util.Hashtable;
 
-public class UserProcessor {	
+public class UserProcessor {
+	private Hashtable<String, String> credentials;
+	
 	public UserProcessor() {}
 	
-	public boolean LogIn(Hashtable<String, String> credentials, String username, String password) {
-		if(username.equals(credentials.get("username")) && password.equals(credentials.get("password"))) {
+	public Hashtable<String, String> getCredentials() {
+		return credentials;
+	}
+	
+	public void setCredentials(Hashtable<String, String> credentials) {
+		this.credentials = credentials;
+	}
+	
+	public boolean LogIn(com.training.data.LogIn login) {
+		if(login.getUsername().equals(credentials.get("username")) && login.getPassword().equals(credentials.get("password"))) {
 			return true;
 		}
 		return false;

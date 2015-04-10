@@ -8,11 +8,14 @@ $(function() {
 	}
 	
 	$("#login_form").on("click", "#login_btn",function() {
-		var username = $("#login_username").val();
-		var password = $("#login_password").val();
+		var login = {};
+		login.username = $("#login_username").val();
+		login.password = $("#login_password").val();
 		
 		$.ajax({
-			url: 'trainingapp/user/login?username=' + username + '&password=' + password,
+			url: 'trainingapp/user/login',
+			data: JSON.stringify(login),
+			method: "POST",
 			success: function(response) {
 				if(response.indexOf("true") >= 0) {
 					alertType = "success";

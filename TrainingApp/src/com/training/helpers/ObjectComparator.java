@@ -2,7 +2,7 @@ package com.training.helpers;
 
 import java.util.Comparator;
 
-import com.training.core.ClassifierModelList;
+import com.training.data.ClassifierModelList;
 
 public class ObjectComparator implements Comparator<ClassifierModelList> {
 

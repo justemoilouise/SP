@@ -31,6 +31,7 @@ import com.google.appengine.api.files.FileServiceFactory;
 import com.google.appengine.api.files.FileWriteChannel;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.training.data.ClassifierModelList;
 import com.training.helpers.ObjectComparator;
 import com.training.helpers.ServletHelper;
 
