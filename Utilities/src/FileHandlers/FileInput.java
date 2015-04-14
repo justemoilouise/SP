@@ -341,13 +341,15 @@ public class FileInput {
 	
 	private static void FillKeys(Row row, boolean skipFirstColumn) {
 		int cCount = 0;
-		int len = row.getPhysicalNumberOfCells()-1;
+		int len = row.getPhysicalNumberOfCells();
 		keys = new String[len];
 
 		Iterator<Cell> cellIter = row.iterator();
 		
-		if(skipFirstColumn)
+		if(skipFirstColumn) {
 			cellIter.next();
+			keys = new String[len-1];
+		}
 		
 		while(cellIter.hasNext()) {
 			keys[cCount] = cellIter.next().getStringCellValue();
