@@ -6,11 +6,8 @@
   b. New file..
         This button allows the user to choose and open a new file containing the features of at most 1 species to be classified.
         A window containing the contents of the file will be opened in the workspace region.
-  c. Train..
-    c.1 SVM
-        This gives the user the ability to edit the parameters used by the SVM classifier. By doing so, the classifier will be re-trained to make use of the new parameters set by the user.
-    c.2 SOM
-        This gives the user the ability to edit the parameters used by the SOM clusterer. By doing so, SOM will make use of the new values set by the user the next time it runs.
+  c. Upload classifier model..
+		This allows the user to upload a new classifier model file which includes he scaling factors, principal components and the SVM model which are all used in the classification process.
   d. Quit..
         This closes the application.
 

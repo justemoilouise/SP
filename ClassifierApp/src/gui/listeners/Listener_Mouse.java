@@ -54,6 +54,7 @@ public class Listener_Mouse implements ActionListener {
 				ArrayList<Input> input = FileInput.readInput(f);
 				
 				Client.setInputs(input);
+				Client.displayInput();
 			}
 		}
 		else if(command.equals("upload_model")) {

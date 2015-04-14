@@ -11,5 +11,5 @@
 <img>img/screenshots/workspace_features.png
 
 **Results
-  Image - if any, features, classification and clustering results.
+  Image - if any, features and classification results.
 <img>img/screenshots/workspace_output.png

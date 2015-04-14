@@ -1,4 +1,4 @@
-  RadiSS is a tool that can be used to classify and cluster Radiolarian species. It has for major processes - image feature extraction, preprocessing, classification and clustering.
+  RadiSS is a tool that can be used to classify Radiolarian species. It has for major processes - image feature extraction, preprocessing and classification.
 
 **Image feature extraction
   Classification and clustering of Radiolarian species depends on the characteristics fed into the application. These data are features extracted from an image of a particular Radiolarian species.
@@ -11,6 +11,3 @@
 
 **Classification
   For classification, the application uses Support Vector Machines (SVM). It is a particular kind of machine learning algorithm based on statistical learning theories. The algorithm works by drawing a hyperplane that separates the data points into various classes.
-
-**Clustering
-  Self-Organizing Map was used to determine the natural clustering of the species. It's an unsupervised data visualization technique aiming to find an underlying structure of the given data.
