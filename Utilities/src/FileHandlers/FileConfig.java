@@ -1,7 +1,6 @@
 package FileHandlers;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,24 +11,20 @@ import CoreHandler.Prompt;
 import Data.ClassifierModel;
 
 public class FileConfig {
-	final static String configName = "settings/config.properties";
+	final static String configName = "/resources/settings/config.properties";
 
 	public static Properties readConfig() {
+		Properties props = new Properties();
+		
 		try {
-			File config = new File(configName);
-			InputStream is = new FileInputStream(config);
-			//InputStream is = FileConfig.class.getResourceAsStream(configName);
-			
-			Properties props = new Properties();
-			props.load(is);
-			
-			return props;
+			InputStream is = FileConfig.class.getResourceAsStream(configName);
+			props.load(is);			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return null;
+		return props;
 	}
 	
 	public static void updateModelInfo(ClassifierModel model) {

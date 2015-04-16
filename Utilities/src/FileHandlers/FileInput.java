@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -75,8 +76,9 @@ public class FileInput {
 
 	public static PreprocessModel readPreprocessModelFromDATFile(String filename) {
 		try {
-			FileInputStream fileStream = new FileInputStream(filename);
-			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
+			InputStream stream = FileInput.class.getResourceAsStream(filename);
+			//FileInputStream fileStream = new FileInputStream(filename);
+			ObjectInputStream objectStream = new ObjectInputStream(stream);
 			PreprocessModel model = (PreprocessModel)objectStream.readObject();			
 			objectStream.close();
 
@@ -119,8 +121,9 @@ public class FileInput {
 
 	public static SVMModel readSVMModelFromDATFile(String filename) {
 		try {
-			FileInputStream fileStream = new FileInputStream(filename);
-			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
+			InputStream stream = FileInput.class.getResourceAsStream(filename);
+			//FileInputStream fileStream = new FileInputStream(filename);
+			ObjectInputStream objectStream = new ObjectInputStream(stream);
 			SVMModel model = (SVMModel)objectStream.readObject();			
 			objectStream.close();
 
@@ -163,8 +166,9 @@ public class FileInput {
 
 	public static ClassifierModel readModelFromDATFile(String filename) {
 		try {
-			FileInputStream fileStream = new FileInputStream(filename);
-			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
+			InputStream stream = FileInput.class.getResourceAsStream(filename);
+			//FileInputStream fileStream = new FileInputStream(filename);
+			ObjectInputStream objectStream = new ObjectInputStream(stream);
 			ClassifierModel model = (ClassifierModel)objectStream.readObject();			
 			objectStream.close();
 
@@ -320,13 +324,15 @@ public class FileInput {
 		return setSpecies(name, values);
 	}
 
-	@SuppressWarnings("resource")
+//	@SuppressWarnings("resource")
 	public static String readFile(String fileName) {
-		File f = new File(fileName);
+//		File f = new File(fileName);
 		StringBuilder contents = new StringBuilder();
 		
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(f));
+			InputStream stream = FileInput.class.getResourceAsStream(fileName);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+			//BufferedReader reader = new BufferedReader(new FileReader(f));
 			
 			while(reader.ready()) {
 				contents.append(reader.readLine() + "\n");
