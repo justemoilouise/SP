@@ -49,7 +49,7 @@ public class AboutWindow extends JInternalFrame {
 			e.printStackTrace();
 		}
 		
-		ImageIcon img = new ImageIcon("img/logo.png");
+		ImageIcon img = new ImageIcon("/resources/img/logo.png");
 		JLabel imgLabel = new JLabel(img);
 		
 		JPanel panel = new JPanel();

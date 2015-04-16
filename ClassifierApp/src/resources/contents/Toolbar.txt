@@ -1,0 +1,17 @@
+<img>img/screenshots/toolbar.png
+**Open new image
+  This button allows the user to choose and open a new image file. Any file format is acceptable by the system, regardless of its size and resolution.
+  The chosen image is opened into the workspace region.
+	
+**Open new file
+  This button allows the user to choose and open a new file containing the features of at most 1 species to be classified.
+  A window containing the contents of the file will be opened in the workspace region.
+	
+**Run
+  This triggers the classifiction and clustering of the input species. Once done, the results will be displayed in the workspace area. This includes the image, if present, features extracted, classification and clustering results.
+
+**Stop
+  This stops the currently running classification and/or clustering operations.
+	
+**Selection tools
+  All tools necessary in choosing wich part of the image is to be classified/clustered is in this toolbar.

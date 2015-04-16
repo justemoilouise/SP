@@ -1,0 +1,19 @@
+**File
+<img>img/screenshots/menu_file.png
+  a. New image..
+        This allows the user to choose and open a new image file. Any file format is acceptable by the system, regardless of its size and resolution.
+        The chosen image is opened into the workspace region.
+  b. New file..
+        This button allows the user to choose and open a new file containing the features of at most 1 species to be classified.
+        A window containing the contents of the file will be opened in the workspace region.
+  c. Upload classifier model..
+		This allows the user to upload a new classifier model file which includes he scaling factors, principal components and the SVM model which are all used in the classification process.
+  d. Quit..
+        This closes the application.
+
+**Help
+<img>img/screenshots/menu_help.png
+  a. Tutorial..
+        Overview on how the application functions is presented in the Tutorial section.
+  b. About..
+        Theories and principles behind the functions available in the application can be read in the About section.
