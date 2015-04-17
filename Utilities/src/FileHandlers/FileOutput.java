@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -76,6 +77,8 @@ public class FileOutput extends Thread {
 			objectStream.flush();
 			objectStream.close();
 			
+			setHiddenProperty(f);
+			
 			return true;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -101,6 +104,8 @@ public class FileOutput extends Thread {
 			objectStream.writeObject(model);
 			objectStream.flush();
 			objectStream.close();
+			
+			setHiddenProperty(f);
 			
 			return true;
 		} catch (FileNotFoundException e) {
@@ -248,7 +253,7 @@ public class FileOutput extends Thread {
 			int w = (int)PageSize.LETTER.getWidth();
 			int h = (int)PageSize.LETTER.getHeight();
 			
-			if(!input.getImageName().equals("img/noimg.png")) {
+			if(!input.getImageName().equals("/resources/img_noimg.png")) {
 				img = Image.getInstance(input.getImageName());
 				Dimension d = ProcessImage.getScaledDimension(new Dimension((int) img.getWidth(), (int) img.getHeight()),
 						new Dimension((int) (w*2)/3, (int) (h*2)/3));
@@ -260,5 +265,15 @@ public class FileOutput extends Thread {
 		}
 		
 		return img;
+	}
+	
+	private static void setHiddenProperty(File file) {
+		try {
+			Process p = Runtime.getRuntime().exec("attrib +H " + file.getPath());
+		    p.waitFor();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    
 	}
 }

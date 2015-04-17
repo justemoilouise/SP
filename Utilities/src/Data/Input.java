@@ -14,7 +14,7 @@ public class Input implements Serializable {
 
 	public Input() {
 		this.img = null;
-		this.imageName = "img/noimg.png";
+		this.imageName = "/resources/img_noimg.png";
 		this.svmResult = new ArrayList<SVMResult>();
 	}
 

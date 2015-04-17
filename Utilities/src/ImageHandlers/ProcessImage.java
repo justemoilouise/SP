@@ -71,7 +71,13 @@ public class ProcessImage {
 	}
 
 	public static ImageIcon getScaledImage(String imgName, Dimension dim) {
-		ImageIcon img = new ImageIcon(imgName);
+		ImageIcon img = null;
+		
+		try {
+			img = new ImageIcon(ProcessImage.class.getResource(imgName));
+		} catch(Exception e) {
+			img = new ImageIcon(imgName);
+		}
 		
 		Dimension d = getScaledDimension(new Dimension(img.getIconWidth(), img.getIconHeight()), dim);
 
