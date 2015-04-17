@@ -168,15 +168,14 @@ public class MainWindow extends JFrame {
 
 	private JToolBar setToolbar() {
 		JToolBar toolbar = new JToolBar();
-		ClassLoader loader = this.getClass().getClassLoader();
 		
 		//inputs
-		ImageIcon imgIcon = new ImageIcon(loader.getResource("/resources/img-icon_open-image.png"));
+		ImageIcon imgIcon = new ImageIcon(this.getClass().getResource("/resources/img-icon_open-image.png"));
 		JButton button = new JButton(imgIcon);
 		button.setActionCommand("input_image");
 		button.addActionListener(lm);
 		toolbar.add(button);
-		imgIcon = new ImageIcon(loader.getResource("/resources/img-icon_open-file.png"));
+		imgIcon = new ImageIcon(this.getClass().getResource("/resources/img-icon_open-file.png"));
 		button = new JButton(imgIcon);
 		button.setActionCommand("input_file");
 		button.addActionListener(lm);
@@ -184,12 +183,12 @@ public class MainWindow extends JFrame {
 		toolbar.addSeparator();
 
 		//execute operations
-		imgIcon = new ImageIcon(loader.getResource("/resources/img-icon_run.png"));
+		imgIcon = new ImageIcon(this.getClass().getResource("/resources/img-icon_run.png"));
 		submit = new JButton(imgIcon);
 		submit.setActionCommand("submit");
 		submit.addActionListener(lm);
 		toolbar.add(submit);
-		imgIcon = new ImageIcon(loader.getResource("/resources/img-icon/stop.png"));
+		imgIcon = new ImageIcon(this.getClass().getResource("/resources/img-icon_stop.png"));
 		stop = new JButton(imgIcon);
 		stop.setActionCommand("stop");
 		stop.addActionListener(lm);

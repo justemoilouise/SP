@@ -3,6 +3,7 @@ package gui.listeners;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.nio.file.Files;
 
 import javax.swing.JOptionPane;
 
@@ -19,20 +20,11 @@ public class Listener_Window implements WindowListener {
 		int choice = Prompt.ConfirmExit("main");
 		
 		if(choice == JOptionPane.YES_OPTION) {
-			int count = Client.getCount();
-
-			for(int i=1; i<=count; i++) {
-				File img = new File("img/"+i+".png");
-
-				if(img.exists()) {
-					img.delete();
-				}
-			}
-
-			File somImg = new File("img/species.png");
-
-			if(somImg.exists()) {
-				somImg.delete();
+			File file = new File("tmp");
+			String[]entries = file.list();
+			for(String s: entries){
+			    File currentFile = new File(file.getPath(), s);
+			    currentFile.delete();
 			}
 			
 			System.exit(0);

@@ -71,12 +71,14 @@ public class Initialize implements Runnable {
 
 		boolean isModelUsed = Boolean.getBoolean(props.getProperty("model.used"));
 		if(!isModelUsed) {
-			String[] path = props.getProperty("model.classifier").split(";");
+//			String[] path = props.getProperty("model.classifier").split(";");
+//			
+//			for(int i=0; i<path.length; i++) {
+//				ClassifierModel model = FileInput.readModelFromDATFile(path[i]);
+//				FileOutput.saveToFile(model, model.isIJUsed());
+//			}
 			
-			for(int i=0; i<path.length; i++) {
-				ClassifierModel model = FileInput.readModelFromDATFile(path[i]);
-				FileOutput.saveToFile(model, model.isIJUsed());
-			}
+			DecompressModel();
 		}
 
 		Hashtable<String, Object> models = new Hashtable<String, Object>();
@@ -109,7 +111,7 @@ public class Initialize implements Runnable {
 			Enumeration<?> enu = zipFile.entries();
 			while (enu.hasMoreElements()) {
 				ZipEntry zipEntry = (ZipEntry) enu.nextElement();
-				String name = "/resources/" + zipEntry.getName();
+				String name = "tmp/" + zipEntry.getName();
 
 				File file = new File(name);
 				InputStream is = zipFile.getInputStream(zipEntry);
