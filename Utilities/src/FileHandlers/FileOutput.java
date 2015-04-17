@@ -76,8 +76,6 @@ public class FileOutput extends Thread {
 			objectStream.flush();
 			objectStream.close();
 			
-			setHiddenProperty(f);
-			
 			return true;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -103,8 +101,6 @@ public class FileOutput extends Thread {
 			objectStream.writeObject(model);
 			objectStream.flush();
 			objectStream.close();
-			
-			setHiddenProperty(f);
 			
 			return true;
 		} catch (FileNotFoundException e) {
@@ -264,15 +260,5 @@ public class FileOutput extends Thread {
 		}
 		
 		return img;
-	}
-	
-	private static void setHiddenProperty(File file) {
-		try {
-			Process p = Runtime.getRuntime().exec("attrib +H " + file.getPath());
-		    p.waitFor();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	    
 	}
 }

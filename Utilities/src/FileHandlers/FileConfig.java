@@ -1,8 +1,8 @@
 package FileHandlers;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.Properties;
@@ -11,14 +11,14 @@ import CoreHandler.Prompt;
 import Data.ClassifierModel;
 
 public class FileConfig {
-	final static String configName = "/resources/config.properties";
+	final static String configName = "settings/config.properties";
 
 	public static Properties readConfig() {
 		Properties props = new Properties();
 		
 		try {
-			InputStream is = FileConfig.class.getResourceAsStream(configName);
-			props.load(is);			
+			FileInputStream stream = new FileInputStream(configName);
+			props.load(stream);			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

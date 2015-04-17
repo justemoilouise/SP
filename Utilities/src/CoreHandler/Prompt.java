@@ -5,24 +5,29 @@ import java.awt.Component;
 import UI.DialogBox;
 
 public class Prompt {
+	private static DialogBox dialog;
+	
+	public Prompt() {
+		dialog = new DialogBox();
+	}
 	
 	public static void SetParentComponent(Component comp) {
-		new DialogBox().setParentComponent(comp);
+		dialog.setParentComponent(comp);
 	}
 	
 	public static void PromptError(String key) {
-		new DialogBox().error(key);
+		dialog.error(key);
 	}
 	
 	public static void PromptSuccess(String key) {
-		new DialogBox().success(key);
+		dialog.success(key);
 	}
 	
 	public static boolean chooseFeatures(boolean isIJ) {
-		return new DialogBox().chooseFeatures(isIJ);
+		return dialog.chooseFeatures(isIJ);
 	}
 	
 	public static int ConfirmExit(String mode) {
-		return new DialogBox().confirmExit(mode);
+		return dialog.confirmExit(mode);
 	}
 }
