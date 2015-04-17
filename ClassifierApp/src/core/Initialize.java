@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -70,11 +71,16 @@ public class Initialize implements Runnable {
 
 		boolean isModelUsed = Boolean.getBoolean(props.getProperty("model.used"));
 		if(!isModelUsed) {
-			DecompressModel();
+			String[] path = props.getProperty("model.classifier").split(";");
+			
+			for(int i=0; i<path.length; i++) {
+				ClassifierModel model = FileInput.readModelFromDATFile(path[i]);
+				FileOutput.saveToFile(model, model.isIJUsed());
+			}
 		}
 
 		Hashtable<String, Object> models = new Hashtable<String, Object>();
-		
+
 		// Preprocess models
 		String filename = props.getProperty("model.preprocess.ij");
 		PreprocessModel pModel = FileInput.readPreprocessModelFromDATFile(filename);
@@ -82,7 +88,7 @@ public class Initialize implements Runnable {
 		filename = props.getProperty("model.preprocess.jf");
 		pModel = FileInput.readPreprocessModelFromDATFile(filename);
 		models.put("preprocess_model_JF", pModel);
-		
+
 		// SVM models
 		filename = props.getProperty("model.svm.ij");
 		SVMModel sModel = FileInput.readSVMModelFromDATFile(filename);
@@ -97,13 +103,13 @@ public class Initialize implements Runnable {
 	private void DecompressModel() {
 		String zipPath = props.getProperty("model.classifier.zip");
 		ClassifierModel model = null;
-		
+
 		try {
 			ZipFile zipFile = new ZipFile(zipPath);
 			Enumeration<?> enu = zipFile.entries();
 			while (enu.hasMoreElements()) {
 				ZipEntry zipEntry = (ZipEntry) enu.nextElement();
-				String name = zipEntry.getName();
+				String name = "/resources/" + zipEntry.getName();
 
 				File file = new File(name);
 				InputStream is = zipFile.getInputStream(zipEntry);

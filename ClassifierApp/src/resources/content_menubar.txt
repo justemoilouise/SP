@@ -1,5 +1,5 @@
 **File
-<img>img/screenshots/menu_file.png
+<img>/resources/img-content_menu-file.png
   a. New image..
         This allows the user to choose and open a new image file. Any file format is acceptable by the system, regardless of its size and resolution.
         The chosen image is opened into the workspace region.
@@ -12,7 +12,7 @@
         This closes the application.
 
 **Help
-<img>img/screenshots/menu_help.png
+<img>/resources/img-content_menu-help.png
   a. Tutorial..
         Overview on how the application functions is presented in the Tutorial section.
   b. About..

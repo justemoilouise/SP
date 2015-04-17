@@ -1,15 +1,15 @@
   Input and output windows are displayed in the workspace area.
-<img>img/screenshots/workspace.png
+<img>/resources/img-content_workspace.png
 **Input image
   Image chosen by the user.
-<img>img/screenshots/workspace_input.png
+<img>/resources/img-content_workspace-input.png
 **Input file
   Contents of the file selected by the user.
 
 **Feature options
   Allows users to choose which feature set will be used for both classification and clustering.
-<img>img/screenshots/workspace_features.png
+<img>/resources/img-content_workspace-features.png
 
 **Results
   Image - if any, features and classification results.
-<img>img/screenshots/workspace_output.png
+<img>/resources/img-content_workspace-output.png

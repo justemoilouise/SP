@@ -20,7 +20,7 @@ public class StartScreen extends JWindow implements Runnable {
 	public StartScreen() {
 		this.progress = new JProgressBar();
 		
-		ImageIcon imgIcon = new ImageIcon("img/SplashScreen.png");
+		ImageIcon imgIcon = new ImageIcon(this.getClass().getResource("/resources/img_SplashScreen.png"));
 		JLabel imgLabel = new JLabel(imgIcon);
 		
 		JPanel panel = new JPanel();

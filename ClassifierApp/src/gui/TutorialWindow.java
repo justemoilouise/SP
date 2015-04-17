@@ -142,7 +142,7 @@ public class TutorialWindow extends JInternalFrame {
 					doc.insertString(doc.getLength(), "\n  " + content, doc.getStyle(attributes[2]));
 				}
 				else if(content.startsWith("<img>")) {
-					ImageIcon img = GetImage("/resources/" + content.substring(5, content.length()));
+					ImageIcon img = GetImage(content.substring(5, content.length()));
 					doc.insertString(doc.getLength(), "\n ", doc.getStyle(attributes[0]));
 					text.insertIcon(img);
 				}
