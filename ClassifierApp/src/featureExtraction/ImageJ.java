@@ -1,6 +1,5 @@
 package featureExtraction;
 
-
 import ij.ImagePlus;
 import ij.Prefs;
 import ij.measure.Measurements;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.StringTokenizer;
-
 
 public class ImageJ implements Measurements {	
 	private ArrayList<String> labels = new ArrayList<String>();
