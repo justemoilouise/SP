@@ -11,7 +11,7 @@ import CoreHandler.Prompt;
 import Data.ClassifierModel;
 
 public class FileConfig {
-	final static String configName = "/resources/settings/config.properties";
+	final static String configName = "/resources/config.properties";
 
 	public static Properties readConfig() {
 		Properties props = new Properties();

@@ -187,7 +187,7 @@ public class Client {
 			if(imgPlus !=null) {
 				BufferedImage bi = ProcessImage.getROI(imgPlus);
 
-				String name = "img/"+count+".png";
+				String name = "tmp/img/"+count+".png";
 				ProcessImage.saveImage(bi, name);
 				input.setImg(new ImagePlus(name));
 				input.setImageName(name);
