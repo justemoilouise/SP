@@ -3,12 +3,10 @@ package gui.listeners;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.nio.file.Files;
 
 import javax.swing.JOptionPane;
 
 import CoreHandler.Prompt;
-import core.Client;
 
 public class Listener_Window implements WindowListener {
 
