@@ -16,8 +16,6 @@ import ExceptionHandlers.ThreadException;
 import FileHandlers.FileConfig;
 import FileHandlers.FileOutput;
 import ImageHandlers.ProcessImage;
-import featureExtraction.ImageJ;
-import featureExtraction.JFeature;
 import gui.InputPanel;
 import gui.OutputPanel;
 import gui.StartScreen;
@@ -144,7 +142,7 @@ public class Client {
 		
 	public static void onSubmit(boolean isIJ) {
 		count++;		
-		double[] features = getInputFeatures(isIJ);
+		double[] features = getFeatures(isIJ);
 
 		if(features != null) {
 			progress = new ProgressInfo();
@@ -179,54 +177,7 @@ public class Client {
 			Prompt.PromptError("ERROR_STOP");
 		}
 	}
-		
-	private static double[] getInputFeatures(boolean isIJ) {
-		try {
-			Input input = new Input();
-			
-			if(imgPlus !=null) {
-				BufferedImage bi = ProcessImage.getROI(imgPlus);
 
-				String name = "tmp/"+count+".png";
-				ProcessImage.saveImage(bi, name);
-				input.setImg(new ImagePlus(name));
-				input.setImageName(name);
-
-				Species s = new Species();
-				ImagePlus imgPlus = new ImagePlus(name, bi);
-				
-				if(isIJ) {
-					ImageJ ij = new ImageJ();
-					ij.measure(imgPlus);
-					ij.getTextureFeatures(imgPlus.getProcessor());
-					
-					s.setFeatureLabels(ij.getFeatureLabels());
-					s.setFeatureValues(ij.getFeatureValues());
-				}
-				else {
-					JFeature jf = new JFeature();
-					jf.getHaralickDescriptor(imgPlus.getProcessor());
-					
-					s.setFeatureLabels(jf.getFeatureLabels());
-					s.setFeatureValues(jf.getFeatureValues());
-				}
-				input.setSpecies(s);
-				inputs.add(input);
-			}
-			else {
-				input = inputs.get(inputs.size()-1);
-			}
-			
-			return input.getSpecies().getFeatureValues();
-		}
-		catch(Exception e) {
-			Prompt.PromptError("ERROR_INPUT_FEATURES");
-			printStackTrace(e);
-		}
-		
-		return null;
-	}
-	
 	private static double[] getFeatures(boolean isIJ) {
 		try {
 			Input input = new Input();
