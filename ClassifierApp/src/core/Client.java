@@ -226,6 +226,51 @@ public class Client {
 		
 		return null;
 	}
+	
+	private static double[] getFeatures(boolean isIJ) {
+		try {
+			Input input = new Input();
+			
+			if(imgPlus !=null) {
+				BufferedImage bi = ProcessImage.getROI(imgPlus);
+
+				String name = "tmp/"+count+".png";
+				ProcessImage.saveImage(bi, name);
+				input.setImg(new ImagePlus(name));
+				input.setImageName(name);
+
+				Species s = new Species();
+				ImagePlus imgPlus = new ImagePlus(name, bi);
+				
+				FeatureExtraction featureExtraction = new FeatureExtraction();
+				featureExtraction.getShapeDescriptors(imgPlus);
+				
+				if(isIJ) {
+					featureExtraction.getTextureDescriptors(imgPlus.getProcessor());
+				}
+				else {
+					featureExtraction.getHaralickDescriptors(imgPlus.getProcessor());
+				}
+				
+				s.setFeatureLabels(featureExtraction.getFeatureLabels());
+				s.setFeatureValues(featureExtraction.getFeatureValues());
+				
+				input.setSpecies(s);
+				inputs.add(input);
+			}
+			else {
+				input = inputs.get(inputs.size()-1);
+			}
+			
+			return input.getSpecies().getFeatureValues();
+		}
+		catch(Exception e) {
+			Prompt.PromptError("ERROR_INPUT_FEATURES");
+			printStackTrace(e);
+		}
+		
+		return null;
+	}
 
 	public static void displayInput() {
 		InputPanel input = new InputPanel(inputs.get(inputs.size()-1));
