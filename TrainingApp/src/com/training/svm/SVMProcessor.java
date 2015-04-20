@@ -58,8 +58,8 @@ public class SVMProcessor implements ISVM {
 				correct++;
 			}
 		}
-
-		return 100.0*correct/prob.l;
+		
+		return Math.round(100.0*correct/prob.l)/100.0; 
 	}
 
 	private svm_parameter BuildSVMParameters(SVMParameter params) {		

@@ -57,8 +57,8 @@ $(function() {
 <div class="panel panel-default col-md-offset-1 col-md-10">
 	<div class="panel-heading">Features to use</div>
 	<div class="panel-body">
-		&emsp;<input type="radio" value="IJ" name="train_feature" />&emsp;<label>Basic texture and shape features</label><br />
-		&emsp;<input type="radio" value="JF" name="train_feature" />&emsp;<label>Haralick texture descriptors</label>
+		&emsp;<input type="radio" value="IJ" name="train_feature" />&emsp;<label>Shape and basic texture features</label><br />
+		&emsp;<input type="radio" value="JF" name="train_feature" />&emsp;<label>Shape and Haralick texture descriptors</label>
 	</div>
 </div>
 <br />

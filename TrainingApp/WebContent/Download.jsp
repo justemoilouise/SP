@@ -10,8 +10,8 @@ $(function() {
 				for(var i=0; i<modelList.length; i++) {
 					var classifier = modelList[i].model;
 					var features = classifier.isIJUsed 
-							? "Basic texture and shape features" 
-							: "Haralick texture descriptors";
+							? "Shape and basic texture features" 
+							: "Shape and Haralick texture descriptors";
 					var dloadURL = "trainingapp/download?modelKey=" + modelList[i].key.blobKey;
 					
 					var tRow = "<tr>" +
