@@ -324,11 +324,11 @@ public void run(ImageProcessor ip) {
     // Create a message about this plugin in 'Help|About Plugins' submenu
     // (must also modify IJ_Props.txt and add it to ij.jar for this to show up)
 
-    public static String[] getHeadings() {
+    public String[] getHeadings() {
     	return results.getHeadings();
     }
     
-    public static double[] getValues() {
+    public double[] getValues() {
     	int count = 0;
     	StringTokenizer value = new StringTokenizer(results.getRowAsString(0), "\t");
 		double[] values = new double[value.countTokens()-1];

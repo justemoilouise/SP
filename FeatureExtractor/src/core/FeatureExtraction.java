@@ -54,6 +54,9 @@ public class FeatureExtraction {
 	public void getImageMoments(ImageProcessor ip) {
 		Moment_Calculator moment = new Moment_Calculator();
 		moment.run(ip);
+		
+		addToFeatureLabels(moment.getHeadings());
+		addToFeatureValues(moment.getValues());
 	}
 	
 	public void getTextureDescriptors(ImageProcessor ip) {
