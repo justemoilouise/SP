@@ -9,6 +9,7 @@ import ij.Prefs;
 import ij.measure.ResultsTable;
 import ij.plugin.filter.Analyzer;
 import ij.plugins.GLCM_Texture;
+import ij.plugins.Moment_Calculator;
 import ij.process.ImageProcessor;
 import de.lmu.ifi.dbs.jfeaturelib.features.Haralick;
 
@@ -17,7 +18,10 @@ public class FeatureExtraction {
 	private ArrayList<Double> featureValues;
 	private ArrayList<String> featureLabels;
 	
-	public FeatureExtraction() {}
+	public FeatureExtraction() {
+		this.featureLabels = new ArrayList<String>();
+		this.featureValues = new ArrayList<Double>();
+	}
 	
 	public double[] getFeatureValues() {
 		double[] values = new double[featureValues.size()];
@@ -48,6 +52,14 @@ public class FeatureExtraction {
 		a.measure();
 		
 		parseResultTable(shapeDescriptors);
+	}
+	
+	public void getImageMoments(ImagePlus ip) {
+		Moment_Calculator moment = new Moment_Calculator();
+		moment.run(ip);
+		
+		addToFeatureLabels(moment.getHeadings());
+		addToFeatureValues(moment.getValues());
 	}
 	
 	public void getTextureDescriptors(ImageProcessor ip) {

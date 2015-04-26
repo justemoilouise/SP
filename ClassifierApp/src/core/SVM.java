@@ -1,6 +1,7 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import Data.SVMModel;
 import Data.SVMParameter;
@@ -107,6 +108,22 @@ public class SVM implements ISVM {
 		}
 	}
 
+	public String analyzeResults(ArrayList<SVMResult> results) {
+		String prediction = "Unknown";
+		double max = 0;
+		
+		Iterator<SVMResult> iter = results.iterator();
+		while(iter.hasNext()) {
+			SVMResult result = iter.next();
+			
+			if((result.getProbability() > 0.5) && (result.getProbability() > max)) {
+				prediction = result.getName();
+			}
+		}
+		
+		return prediction;
+	}
+	
 	private ArrayList<SVMResult> saveResults(double[] proby) {
 		ArrayList<SVMResult> results = new ArrayList<SVMResult>();
 		
@@ -120,7 +137,7 @@ public class SVM implements ISVM {
 		
 		return results;
 	}
-
+	
 	@Override
 	public void buildModel(ArrayList<Species> arg0, SVMParameter arg1) {
 		// TODO Auto-generated method stub

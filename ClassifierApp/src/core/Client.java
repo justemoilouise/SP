@@ -154,10 +154,11 @@ public class Client {
 			
 			double[] preprocessedData = preprocess.scale(features);
 			preprocessedData = preprocess.reduceFeatures(preprocessedData);
-			ArrayList<SVMResult> results = svm.classify(preprocessedData, isIJ);
+			ArrayList<SVMResult> results = svm.classify(preprocessedData, isIJ);			
 			
 			Input i = inputs.get(inputs.size()-1);
 			i.setSvmResult(results);
+			i.getSpecies().setName(svm.analyzeResults(results));
 			
 			progress.closeProgressBar();
 			displayOutput();
