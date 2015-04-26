@@ -99,18 +99,19 @@ public class Moment_Calculator implements PlugInFilter, Measurements {
   } // end of 'setup()' method
  
    @SuppressWarnings({ "unused", "deprecation" })
-public void run(ImageProcessor ip) {
+public void run(ImagePlus imp) {
+	   ImageProcessor ip = imp.getProcessor();
     if (done)
       return;
 
-    if (firstTime || Analyzer.getResultsTable().getCounter()==0) {
-      if (Analyzer.resetCounter()) {
-        setMoments(); // similar to Analyze|Set Measurements
-        firstTime = false;
-      } else {
-        return; // user canceled save changes dialog
-      }
-    }
+//    if (firstTime || Analyzer.getResultsTable().getCounter()==0) {
+//      if (Analyzer.resetCounter()) {
+//        setMoments(); // similar to Analyze|Set Measurements
+//        firstTime = false;
+//      } else {
+//        return; // user canceled save changes dialog
+//      }
+//    }
    
     int measurements = Analyzer.getMeasurements(); // defined in Set Measurements dialog
     Analyzer.setMeasurements(measurements);
@@ -378,5 +379,11 @@ public void run(ImageProcessor ip) {
       "                        of the 'long' direction with respect to horizontal (x axis)\n"+
             " \n");
           } // end of 'showAbout()' method
+
+	@Override
+	public void run(ImageProcessor arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
 } // end of 'Moment_Calculator' class

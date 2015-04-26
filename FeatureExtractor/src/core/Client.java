@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
+import CoreHandler.Prompt;
 import ImageHandlers.ProcessImage;
 import gui.MainWindow;
 
@@ -20,7 +21,11 @@ public class Client {
 	private static int count = -1;
 
 	public Client() {
-		pm = new MainWindow();	
+		pm = new MainWindow();
+		pm.setVisible(true);
+		
+		Prompt.SetParentComponent(pm);
+		isIJ = Prompt.chooseFeatures(true);
 	}
 
 	public static void setImgPlus(ImagePlus img) {
@@ -56,7 +61,7 @@ public class Client {
 
 				FeatureExtraction featureExtraction = new FeatureExtraction();
 				featureExtraction.getShapeDescriptors(imgPlus);
-				featureExtraction.getImageMoments(imgPlus.getProcessor());
+				featureExtraction.getImageMoments(imgPlus);
 				
 				if(isIJ) {
 					featureExtraction.getTextureDescriptors(imgPlus.getProcessor());
