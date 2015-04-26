@@ -6,10 +6,8 @@ import ij.process.*;
 import ij.gui.*;
 import ij.measure.*;
 import ij.text.*;
-
 import java.awt.*;
 import java.util.Date;
-import java.util.StringTokenizer;
 
 /* Moment_Calculator plugin
 
@@ -69,7 +67,7 @@ public class Moment_Calculator implements PlugInFilter, Measurements {
   ImagePlus imp;
   boolean done;
    static boolean firstTime = true;
-  static boolean show_imageName = false;
+  static boolean show_imageName = true;
   static boolean show_m00 = true;
   static boolean show_xC = true;
   static boolean show_yC = true;
@@ -87,8 +85,7 @@ public class Moment_Calculator implements PlugInFilter, Measurements {
                                //  (use "0" to include all positive pixel values)
   static double dFactor = 1.0; // default factor                              
                                //  (multiplies pixel values prior to calculations)
-  static ResultsTable results;
-  
+ 
   public int setup(String arg, ImagePlus imp) {
     if (IJ.versionLessThan("1.23k")) // needs the new PluginFilter interface
       return DONE;
@@ -98,20 +95,18 @@ public class Moment_Calculator implements PlugInFilter, Measurements {
     return DOES_ALL+DOES_STACKS+NO_CHANGES;
   } // end of 'setup()' method
  
-   @SuppressWarnings({ "unused", "deprecation" })
-public void run(ImagePlus imp) {
-	   ImageProcessor ip = imp.getProcessor();
+   public void run(ImageProcessor ip) {
     if (done)
       return;
 
-//    if (firstTime || Analyzer.getResultsTable().getCounter()==0) {
-//      if (Analyzer.resetCounter()) {
-//        setMoments(); // similar to Analyze|Set Measurements
-//        firstTime = false;
-//      } else {
-//        return; // user canceled save changes dialog
-//      }
-//    }
+    if (firstTime || Analyzer.getResultsTable().getCounter()==0) {
+      if (Analyzer.resetCounter()) {
+        setMoments(); // similar to Analyze|Set Measurements
+        firstTime = false;
+      } else {
+        return; // user canceled save changes dialog
+      }
+    }
    
     int measurements = Analyzer.getMeasurements(); // defined in Set Measurements dialog
     Analyzer.setMeasurements(measurements);
@@ -228,27 +223,27 @@ public void run(ImagePlus imp) {
     eccentricity = (Math.pow((m20-m02),2.0)+(4.0*m11*m11))/m00;
    
     a.saveResults(stats, roi); // store in system results table
-    results = Analyzer.getResultsTable(); // get the system results table
+    ResultsTable rt=Analyzer.getResultsTable(); // get the system results table
        
-    if (show_imageName) results.addLabel("Image",imageName);
-//    rt.addValue("Cutoff", dCutoff);
-//    rt.addValue("Factor", dFactor);
-    if (show_m00) results.addValue("Mass", m00);
-    if (show_xC) results.addValue("xC", xC);
-    if (show_yC) results.addValue("yC", yC);
-    if (show_xxVar) results.addValue("xxVar", xxVar);
-    if (show_yyVar) results.addValue("yyVar", yyVar);
-    if (show_xyVar) results.addValue("xyVar", xyVar);
-    if (show_xSkew) results.addValue("xSkew", xSkew);
-    if (show_ySkew) results.addValue("ySkew", ySkew);
-    if (show_xKurt) results.addValue("xKurt", xKurt);
-    if (show_yKurt) results.addValue("yKurt", yKurt);
-    if (show_orientation) results.addValue("Orient.", orientation);
-    if (show_eccentricity) results.addValue("Elong.", eccentricity);
+    if (show_imageName) rt.addLabel("Image",imageName);
+    rt.addValue("Cutoff", dCutoff);
+    rt.addValue("Factor", dFactor);
+    if (show_m00) rt.addValue("Mass", m00);
+    if (show_xC) rt.addValue("xC", xC);
+    if (show_yC) rt.addValue("yC", yC);
+    if (show_xxVar) rt.addValue("xxVar", xxVar);
+    if (show_yyVar) rt.addValue("yyVar", yyVar);
+    if (show_xyVar) rt.addValue("xyVar", xyVar);
+    if (show_xSkew) rt.addValue("xSkew", xSkew);
+    if (show_ySkew) rt.addValue("ySkew", ySkew);
+    if (show_xKurt) rt.addValue("xKurt", xKurt);
+    if (show_yKurt) rt.addValue("yKurt", yKurt);
+    if (show_orientation) rt.addValue("Orient.", orientation);
+    if (show_eccentricity) rt.addValue("Elong.", eccentricity);
 
-    int counter = results.getCounter();
+    int counter = rt.getCounter();
     if(counter==1) {
-      updateHeadings(results); // update the worksheet headings
+      updateHeadings(rt); // update the worksheet headings
       Date date = new Date(); //get today's date
       String comment = " [ "+date+" ]";
       IJ.write(comment);
@@ -264,7 +259,7 @@ public void run(ImagePlus imp) {
       }
     }
 
-    IJ.write(results.getRowAsString(counter-1));
+    IJ.write(rt.getRowAsString(counter-1));
 
   } // end of 'run()' method
    
@@ -324,25 +319,7 @@ public void run(ImagePlus imp) {
    
     // Create a message about this plugin in 'Help|About Plugins' submenu
     // (must also modify IJ_Props.txt and add it to ij.jar for this to show up)
-
-    public String[] getHeadings() {
-    	return results.getHeadings();
-    }
-    
-    public double[] getValues() {
-    	int count = 0;
-    	StringTokenizer value = new StringTokenizer(results.getRowAsString(0), "\t");
-		double[] values = new double[value.countTokens()-1];
-    	value.nextToken();
-
-		while(value.hasMoreTokens()) {
-			values[count] = Double.parseDouble(value.nextToken());
-			count++;
-		}
-		
-		return values;
-    }
-    
+   
     void showAbout() {
           IJ.showMessage("About Moment_Calculator...",
             "  This plug-in computes spatial moments up to the 4th order\n" +
@@ -379,11 +356,5 @@ public void run(ImagePlus imp) {
       "                        of the 'long' direction with respect to horizontal (x axis)\n"+
             " \n");
           } // end of 'showAbout()' method
-
-	@Override
-	public void run(ImageProcessor arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 
 } // end of 'Moment_Calculator' class

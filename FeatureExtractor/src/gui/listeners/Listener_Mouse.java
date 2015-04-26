@@ -32,11 +32,9 @@ public class Listener_Mouse implements ActionListener {
 					Image img = ImageIO.read(f);
 					ImagePlus imgPlus = new ImagePlus(f.getName(), img);
 					ImageWindow imgWindow = new ImageWindow(imgPlus);
-
+					
 					Client.setImgPlus(imgPlus);
 					Client.getPm().addToDesktopPane(imgWindow);
-					boolean isIJ = Prompt.chooseFeatures(true);
-					Client.setIsIJ(isIJ);
 				}
 				catch(Exception x) {}
 			}

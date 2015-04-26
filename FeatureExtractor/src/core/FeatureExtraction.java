@@ -18,7 +18,10 @@ public class FeatureExtraction {
 	private ArrayList<Double> featureValues;
 	private ArrayList<String> featureLabels;
 	
-	public FeatureExtraction() {}
+	public FeatureExtraction() {
+		this.featureLabels = new ArrayList<String>();
+		this.featureValues = new ArrayList<Double>();
+	}
 	
 	public double[] getFeatureValues() {
 		double[] values = new double[featureValues.size()];
@@ -51,7 +54,7 @@ public class FeatureExtraction {
 		parseResultTable(shapeDescriptors);
 	}
 	
-	public void getImageMoments(ImageProcessor ip) {
+	public void getImageMoments(ImagePlus ip) {
 		Moment_Calculator moment = new Moment_Calculator();
 		moment.run(ip);
 		
