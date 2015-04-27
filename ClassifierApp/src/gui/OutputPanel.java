@@ -3,9 +3,11 @@ package gui;
 import gui.listeners.Listener_Mouse;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -104,6 +106,7 @@ public class OutputPanel extends JInternalFrame {
 		JPanel panel = new JPanel();
 		
 		JLabel label = new JLabel("PREDICTED CLASS: " + prediction);
+		label.setAlignmentX(Component.LEFT_ALIGNMENT);
 		panel.add(label);
 		
 		if(prediction.equalsIgnoreCase("UNKNOWN")) {
@@ -111,7 +114,9 @@ public class OutputPanel extends JInternalFrame {
 		} else {
 			label = new JLabel("There's a " + getProbability() + "% that it is the unknown's class.");
 		}
+		label.setAlignmentX(Component.LEFT_ALIGNMENT);
 		panel.add(label);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		return new JScrollPane(panel);
 	}
