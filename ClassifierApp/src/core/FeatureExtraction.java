@@ -14,7 +14,6 @@ import ij.process.ImageProcessor;
 import de.lmu.ifi.dbs.jfeaturelib.features.Haralick;
 
 public class FeatureExtraction {
-	private Haralick h;
 	private ArrayList<Double> featureValues;
 	private ArrayList<String> featureLabels;
 	
@@ -75,7 +74,7 @@ public class FeatureExtraction {
 		String[] haralickFeatureLabels = {"Angular second moment", "Contrast", "Correlation", "Sum of Squares: Variance", "Inverse difference moment", "Sum average", "Sum Variance",
 				"Sum entropy", "Entropy", "Difference Variance", "Difference entropy", "Info. measure of Correlation 1", "Info. measure of Correlation 2", "Max. correlation coefficient"};
 		
-		h = new Haralick();
+		Haralick h = new Haralick();
 		h.run(ip);
 		
 		addToFeatureValues(h.getFeatures().get(0));

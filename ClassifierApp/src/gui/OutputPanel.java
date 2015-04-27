@@ -92,13 +92,30 @@ public class OutputPanel extends JInternalFrame {
 	
 	private JTabbedPane getResults() {
 		JTabbedPane tp = new JTabbedPane();
-		
+		tp.addTab("Summary", getSummary());
 		tp.addTab("Measurements", getFeatures());
 		tp.addTab("SVM", getSVMResult());
 		
 		return tp;
 	}
-
+	
+	private JScrollPane getSummary() {
+		String prediction = input.getSpecies().getName();
+		JPanel panel = new JPanel();
+		
+		JLabel label = new JLabel("PREDICTED CLASS: " + prediction);
+		panel.add(label);
+		
+		if(prediction.equalsIgnoreCase("UNKNOWN")) {
+			label = new JLabel("Species doesn't fall in any known class.");
+		} else {
+			label = new JLabel("There's a " + getProbability() + "% that it is the unknown's class.");
+		}
+		panel.add(label);
+		
+		return new JScrollPane(panel);
+	}
+	
 	private JScrollPane getFeatures() {
 		String[] featureLabels = input.getSpecies().getFeatureLabels();
 		double[] featureValues = input.getSpecies().getFeatureValues();
@@ -138,6 +155,19 @@ public class OutputPanel extends JInternalFrame {
 		return (new JScrollPane(table));
 	}
 
+	private double getProbability() {
+		double probability = 0;
+		ArrayList<SVMResult> results = input.getSvmResult();
+		
+		for(SVMResult r : results) {
+			if(r.getProbability() > probability) {
+				probability = r.getProbability();
+			}
+		}
+		
+		return Math.round(probability*100.0)/100.0;
+	}
+	
 	private void addToGroupLayout() {
 		JPanel panel = getImageAndPrediction();
 		JTabbedPane tabbedPane = getResults();
