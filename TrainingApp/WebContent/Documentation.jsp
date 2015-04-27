@@ -14,6 +14,11 @@
 			<li>SVM Parameters</li>
 				<ul>
 					<li>SVM Type</li>
+						<ol>
+							<li>C-SVC - allows the SVM algorithm to clearly separate samples that are separated by a very narrow margin</li>
+							<li>Nu-SVC - the nu parameter controls training errors and the number of support vectors</li>
+							<li>One-class SVM - the SVM algorithm considers the spatial distribution information for each sample to determine whether the sample belongs to the known class</li>
+						</ol>
 					<li>Kernel function - used in mapping the training vectors to a high dimensional space</li>
 					<li>Kernel function parameters: </li>
 						<ol>
