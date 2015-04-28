@@ -130,7 +130,7 @@ public class SVM implements ISVM {
 		for(int i=0; i<proby.length; i++) {
 			SVMResult result = new SVMResult();
 			result.setName(model.getClasses().get(i));
-			result.setProbability(proby[i]);
+			result.setProbability(proby[i]*100);
 			
 			results.add(result);
 		}
