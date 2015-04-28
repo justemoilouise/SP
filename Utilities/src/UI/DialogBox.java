@@ -3,9 +3,9 @@ package UI;
 import java.awt.Component;
 import java.util.Hashtable;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 @SuppressWarnings("serial")
@@ -64,17 +64,15 @@ public class DialogBox extends JDialog {
 		JOptionPane.showInternalMessageDialog(comp, message.get(key));
 	}
 	
-	public boolean chooseFeatures(boolean isIJ) {
-		JRadioButton ij, jf;
-		JPanel panel = new JPanel();
-		
-		ij = new JRadioButton("Shape and basic texture features", isIJ);
-		panel.add(ij);
-		
-		jf = new JRadioButton("Haralick texture descriptors", !isIJ);
-		panel.add(jf);
+	public boolean chooseFeatures(boolean isIJ) {		
+		JRadioButton ij = new JRadioButton("Shape and basic texture features", isIJ);		
+		JRadioButton jf = new JRadioButton("Shape and Haralick texture descriptors", !isIJ);
 
-		JOptionPane.showConfirmDialog(comp, panel, "Choose which features to use:", JOptionPane.OK_CANCEL_OPTION);
+		ButtonGroup btnGrp = new ButtonGroup();
+		btnGrp.add(ij);
+		btnGrp.add(jf);
+		
+		JOptionPane.showConfirmDialog(comp, btnGrp, "Choose which features to use:", JOptionPane.OK_CANCEL_OPTION);
 		
 		return ij.isSelected();
 	}
