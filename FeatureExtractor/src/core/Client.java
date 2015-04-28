@@ -56,7 +56,7 @@ public class Client {
 			if(imgPlus !=null) {
 				FeatureExtraction featureExtraction = new FeatureExtraction();
 				featureExtraction.getShapeDescriptors(imgPlus);
-				featureExtraction.getImageMoments(imgPlus);
+				//featureExtraction.getImageMoments(imgPlus);
 				
 				if(isIJ) {
 					featureExtraction.getTextureDescriptors(imgPlus.getProcessor());
