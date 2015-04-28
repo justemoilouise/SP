@@ -170,7 +170,7 @@ public class OutputPanel extends JInternalFrame {
 			}
 		}
 		
-		return Math.round(probability*100.0)/100.0;
+		return (probability*100);
 	}
 	
 	private void addToGroupLayout() {
