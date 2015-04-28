@@ -2,14 +2,12 @@ package core;
 
 import ij.ImagePlus;
 
-import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
 import CoreHandler.Prompt;
-import ImageHandlers.ProcessImage;
 import gui.MainWindow;
 
 public class Client {
@@ -56,9 +54,6 @@ public class Client {
 	private static double[] getFeatures() {
 		try {			
 			if(imgPlus !=null) {
-				BufferedImage bi = ProcessImage.getROI(imgPlus);
-				ImagePlus imgPlus = new ImagePlus("", bi);
-
 				FeatureExtraction featureExtraction = new FeatureExtraction();
 				featureExtraction.getShapeDescriptors(imgPlus);
 				featureExtraction.getImageMoments(imgPlus);

@@ -190,9 +190,6 @@ public class Client {
 				ProcessImage.saveImage(bi, name);
 				input.setImg(new ImagePlus(name));
 				input.setImageName(name);
-
-				Species s = new Species();
-				ImagePlus imgPlus = new ImagePlus(name, bi);
 				
 				FeatureExtraction featureExtraction = new FeatureExtraction();
 				featureExtraction.getShapeDescriptors(imgPlus);
@@ -204,6 +201,7 @@ public class Client {
 					featureExtraction.getHaralickDescriptors(imgPlus.getProcessor());
 				}
 				
+				Species s = new Species();
 				s.setFeatureLabels(featureExtraction.getFeatureLabels());
 				s.setFeatureValues(featureExtraction.getFeatureValues());
 				

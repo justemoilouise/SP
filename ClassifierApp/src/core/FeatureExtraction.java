@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.StringTokenizer;
 
 import ij.ImagePlus;
-import ij.Prefs;
+import ij.measure.Measurements;
 import ij.measure.ResultsTable;
 import ij.plugin.filter.Analyzer;
 import ij.plugins.GLCM_Texture;
@@ -45,7 +45,8 @@ public class FeatureExtraction {
 	}
 	
 	public void getShapeDescriptors(ImagePlus ip) {
-		int m = Prefs.getInt("measurements", ij.measure.Measurements.SHAPE_DESCRIPTORS);
+		ip.getProcessor().setAutoThreshold("Default");
+		int m = Measurements.SHAPE_DESCRIPTORS;
 		ResultsTable shapeDescriptors = new ResultsTable();
 		Analyzer a = new Analyzer(ip, m, shapeDescriptors);
 		a.measure();
