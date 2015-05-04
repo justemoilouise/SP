@@ -16,7 +16,8 @@ import data.Parameters;
 
 public class Train {
 	final String fileName = "data/results.csv";
-	final String[] inputFile = {"Shape and basic texture.xlsx", "Shape and Haralick texture.xlsx"};
+	final String[] trainingFile = {"Shape and basic texture - Train.xlsx", "Shape and Haralick texture - Train.xlsx"};
+	final String[] testingFile = {"Shape and basic texture - Test.xlsx", "Shape and Haralick texture - Test.xlsx"};
 
 	private Preprocess preprocess;
 	private SVM svm;
@@ -25,18 +26,18 @@ public class Train {
 	public Train() {
 		init();
 		
-		for(int j=0; j<inputFile.length; j++) {
-			readSpecies(j);
-			
-			for(int i = 0; i<500; i++) {
+		for(int j=0; j<trainingFile.length; j++) {
+			for(int i = 0; i<1000; i++) {
 				Parameters p = new Parameters();
 				p.setRandomValues();
 				
-				ArrayList<Species> list = readSpecies(j);
+				ArrayList<Species> list = readSpecies("trainingSet/" + trainingFile[j]);
 				ArrayList<Species> sDataset = preprocess.scale(list);
 				ArrayList<Species> pDataset = preprocess.reduceFeatures(sDataset, p.getPCA());
 				double accuracy = svm.buildModel(pDataset, p.getSvmParameter());
 				
+//				ArrayList<Species> test = readSpecies("testingSet/" + testingFile[j]);
+//				double accuracy = testModel(test);
 				saveToFile(j, p, accuracy);
 			}
 		}
@@ -47,12 +48,12 @@ public class Train {
 		this.svm = new SVM();
 	}
 
-	public ArrayList<Species> readSpecies(int index) {
+	public ArrayList<Species> readSpecies(String filename) {
 		// TODO Auto-generated method stub
 		ArrayList<Species> list = new ArrayList<Species>();
 
 		try {
-			FileInputStream fis = new FileInputStream("trainingSet/" + inputFile[index]);
+			FileInputStream fis = new FileInputStream(filename);
 			XSSFWorkbook workbook = new XSSFWorkbook(fis);
 			XSSFSheet sheet = workbook.getSheetAt(0);
 
@@ -76,6 +77,21 @@ public class Train {
 		return list;
 	}
 
+	public double testModel(ArrayList<Species> list) {
+		int correct = 0;
+		
+		for(Species s : list) {
+			double[] features = s.getFeatureValues();
+			features = preprocess.scale(features);
+			features = preprocess.reduceFeatures(features);
+			String prediction = svm.classify(features);
+			
+			if(prediction.equalsIgnoreCase(s.getName()))
+				correct++;
+		}
+		return 100.0*correct/list.size();
+	}
+	
 	public void saveToFile(int index, Parameters params, double accuracy) {
 		try {
 			File f = new File(fileName);

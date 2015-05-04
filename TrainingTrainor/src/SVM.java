@@ -1,5 +1,5 @@
-
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import libsvm.svm;
 import libsvm.svm_model;
@@ -7,14 +7,25 @@ import libsvm.svm_node;
 import libsvm.svm_parameter;
 import libsvm.svm_problem;
 import data.SVMParameter;
+import data.SVMResult;
 import data.Species;
 
 public class SVM {
 	private ArrayList<String> classes;
+	private svm_model model;
 	
 	public SVM() {}
 	
-	@SuppressWarnings("unused")
+//	public void buildModel(ArrayList<Species> dataset, SVMParameter svmParameter) {
+//		// TODO Auto-generated method stub
+//		this.classes = new ArrayList<String>();
+//		
+//		svm_parameter params = BuildSVMParameters(svmParameter);
+//		svm_problem prob = BuildSVMProblem(dataset);
+//		
+//		model = svm.svm_train(prob, params);		
+//	}
+	
 	public double buildModel(ArrayList<Species> dataset, SVMParameter svmParameter) {
 		// TODO Auto-generated method stub
 		this.classes = new ArrayList<String>();
@@ -22,7 +33,7 @@ public class SVM {
 		svm_parameter params = BuildSVMParameters(svmParameter);
 		svm_problem prob = BuildSVMProblem(dataset);
 		
-		svm_model svmModel = svm.svm_train(prob, params);		
+		model = svm.svm_train(prob, params);		
 		return crossValidate(params, prob);
 	}
 
@@ -39,6 +50,54 @@ public class SVM {
 		}
 		
 		return 100.0*correct/prob.l; 
+	}
+	
+	public String classify(double[] features) {
+		svm_node[] nodes = new svm_node[features.length];
+
+		for(int i=0; i<features.length; i++) {
+			svm_node node = new svm_node();
+			node.index = i;
+			node.value = features[i];
+
+			nodes[i] = node;
+		}
+
+		double proby[] = new double[svm.svm_get_nr_class(model)];
+		svm.svm_predict_probability(model, nodes, proby);
+		ArrayList<SVMResult> svmResults = saveResults(proby);
+
+		return analyzeResults(svmResults);
+	}
+	
+	private ArrayList<SVMResult> saveResults(double[] proby) {
+		ArrayList<SVMResult> results = new ArrayList<SVMResult>();
+		
+		for(int i=0; i<proby.length; i++) {
+			SVMResult result = new SVMResult();
+			result.setName(classes.get(i));
+			result.setProbability(proby[i]*100);
+			
+			results.add(result);
+		}
+		
+		return results;
+	}
+	
+	private String analyzeResults(ArrayList<SVMResult> results) {
+		String prediction = "Unknown";
+		double max = 0;
+		
+		Iterator<SVMResult> iter = results.iterator();
+		while(iter.hasNext()) {
+			SVMResult result = iter.next();
+			
+			if((result.getProbability() > 0.5) && (result.getProbability() > max)) {
+				prediction = result.getName();
+			}
+		}
+		
+		return prediction;
 	}
 
 	private svm_parameter BuildSVMParameters(SVMParameter params) {		

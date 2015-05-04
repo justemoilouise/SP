@@ -7,8 +7,27 @@ import Jama.Matrix;
 import Jama.SingularValueDecomposition;
 
 public class Preprocess {
+	private double[] min, max, mean;
+	private double[][] principalComponents;
 	
 	public Preprocess() {}
+	
+	public double[] scale(double[] features) {		
+		double[] scaled = new double[features.length];
+		
+		for(int i=0; i<features.length; i++) {
+			scaled[i] = (features[i]-min[i])/(max[i]-min[i]);
+		}
+		
+		return scaled;
+	}
+	
+	public double[] reduceFeatures(double[] features) {
+		double[] phi = MathFunctions.MatrixSubtraction(features, mean);
+		double[][] reducedFeatures = MathFunctions.MatrixMultiplication(principalComponents, phi);
+		
+		return MathFunctions.TransposeTo1D(reducedFeatures);
+	}
 	
 	public ArrayList<Species> reduceFeatures(ArrayList<Species> dataset, int PC) {
 		// TODO Auto-generated method stub
@@ -18,7 +37,7 @@ public class Preprocess {
 		double[][] phi = calculatePhi(featureSet);
 		double[][] u = getSVD_U(featureSet);
 		double[][] pc = MathFunctions.GetMatrixColumns(u, 0, PC);
-		double[][] principalComponents = MathFunctions.Transpose(pc);
+		principalComponents = MathFunctions.Transpose(pc);
 		featureSet = MathFunctions.MatrixMultiplication(principalComponents, phi);
 		featureSet = MathFunctions.Transpose(featureSet);
 		return updateDataset(dataset, featureSet);
@@ -30,8 +49,8 @@ public class Preprocess {
 		featureSet = MathFunctions.Transpose(featureSet);
 		
 		//scaling proper
-		double[] min = MathFunctions.GetMinimum(featureSet);
-		double[] max = MathFunctions.GetMaximum(featureSet);
+		min = MathFunctions.GetMinimum(featureSet);
+		max = MathFunctions.GetMaximum(featureSet);
 		
 		for(int i=0; i<featureSet.length; i++) {			
 			for(int j=0; j<dataset.size(); j++) {
@@ -58,7 +77,7 @@ public class Preprocess {
 	}
 	
 	private double[][] calculatePhi(double[][] data) {
-		double[] mean = MathFunctions.GetMatrixMean(data);
+		mean = MathFunctions.GetMatrixMean(data);
 		
 		return MathFunctions.MatrixSubtraction(data, mean);
 	}
