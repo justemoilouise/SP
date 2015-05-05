@@ -66,8 +66,10 @@ public class DialogBox extends JDialog {
 	}
 	
 	public boolean chooseFeatures(boolean isIJ) {		
-		JRadioButton ij = new JRadioButton("Shape and basic texture features");		
+		JRadioButton ij = new JRadioButton("Shape and basic texture features");
+		ij.setActionCommand("true");
 		JRadioButton jf = new JRadioButton("Shape and Haralick texture descriptors");
+		jf.setActionCommand("false");
 
 		ButtonGroup btnGrp = new ButtonGroup();
 		btnGrp.add(ij);
@@ -79,7 +81,7 @@ public class DialogBox extends JDialog {
 		
 		JOptionPane.showConfirmDialog(comp, panel, "Choose which features to use:", JOptionPane.OK_CANCEL_OPTION);
 		
-		return ij.isSelected();
+		return Boolean.parseBoolean(btnGrp.getSelection().getActionCommand());
 	}
 	
 	public int confirmExit(String mode) {
