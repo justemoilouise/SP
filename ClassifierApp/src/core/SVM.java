@@ -116,7 +116,7 @@ public class SVM implements ISVM {
 		while(iter.hasNext()) {
 			SVMResult result = iter.next();
 			
-			if((result.getProbability() > 0.5) && (result.getProbability() > max)) {
+			if((result.getProbability() > 50) && (result.getProbability() > max)) {
 				prediction = result.getName();
 			}
 		}
