@@ -1,7 +1,6 @@
 package core;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import Data.SVMModel;
 import Data.SVMParameter;
@@ -111,12 +110,10 @@ public class SVM implements ISVM {
 	public String analyzeResults(ArrayList<SVMResult> results) {
 		String prediction = "Unknown";
 		double max = 0;
-		
-		Iterator<SVMResult> iter = results.iterator();
-		while(iter.hasNext()) {
-			SVMResult result = iter.next();
-			
+
+		for(SVMResult result : results) {
 			if((result.getProbability() > 50) && (result.getProbability() > max)) {
+				max = result.getProbability();
 				prediction = result.getName();
 			}
 		}
