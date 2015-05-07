@@ -68,15 +68,8 @@ public class Initialize implements Runnable {
 	private Hashtable<String, Object> readModels() {
 		screen.setMessage("Retrieving models..");
 
-		boolean isModelUsed = Boolean.getBoolean(props.getProperty("model.used"));
-		if(!isModelUsed) {
-//			String[] path = props.getProperty("model.classifier").split(";");
-//			
-//			for(int i=0; i<path.length; i++) {
-//				ClassifierModel model = FileInput.readModelFromDATFile(path[i]);
-//				FileOutput.saveToFile(model, model.isIJUsed());
-//			}
-			
+		boolean isModelUsed = Boolean.parseBoolean(props.getProperty("model.used"));
+		if(!isModelUsed) {			
 			DecompressModel();
 		}
 

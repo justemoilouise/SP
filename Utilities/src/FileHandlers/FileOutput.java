@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -70,6 +69,11 @@ public class FileOutput extends Thread {
 				flag = "_JF";
 				
 			File f = new File("models/Preprocess" + flag + ".dat");
+			
+			if(f.exists()) {
+				f.delete();
+			}
+			
 			FileOutputStream fileStream = new FileOutputStream(f);
 			ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
 			objectStream.writeObject(model);
@@ -96,6 +100,11 @@ public class FileOutput extends Thread {
 				flag = "_JF";
 				
 			File f = new File("models/SVM" + flag + ".dat");
+			
+			if(f.exists()) {
+				f.delete();
+			}
+			
 			FileOutputStream fileStream = new FileOutputStream(f);
 			ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
 			objectStream.writeObject(model);
@@ -109,43 +118,6 @@ public class FileOutput extends Thread {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		return false;
-	}
-	
-	public static boolean saveToFile(double[] arr, boolean isIJUsed) {
-		StringBuilder sb = new StringBuilder();
-
-		for(int i=0; i<arr.length; i++) {
-			sb.append(arr[i]+"|");
-		}
-		sb.setLength(sb.length()-1);
-		
-		StringBuilder fileName = new StringBuilder();
-		fileName.append("settings");
-		
-		if(isIJUsed) {
-			fileName.append("_IJ");
-		}
-		else {
-			fileName.append("_JF");
-		}
-		
-		fileName.append("_preprocess.txt");
-		
-		File f = new File(fileName.toString());
-
-		try {
-			PrintWriter pw = new PrintWriter(new FileOutputStream(f, true));
-			pw.print(sb.toString());
-			pw.println();
-			pw.flush();
-			pw.close();
-			
-			return true;
-		} catch (Exception e) {
-			Prompt.PromptError("ERROR_SAVE_SCALE");
 		}
 		
 		return false;
