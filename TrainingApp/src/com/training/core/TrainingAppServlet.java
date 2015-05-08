@@ -45,7 +45,7 @@ public class TrainingAppServlet extends HttpServlet {
 	private BlobstoreService blobstoreService;
 	private GcsService gcsService;
 	private HttpSession session;
-	final GcsFilename gcsFilename = new GcsFilename("radiss-training.appspot.com", "model-keys");
+	final GcsFilename gcsFilename = new GcsFilename("radiss-training.appspot.com", "model-keys.dat");
 	final String cacheModelKey = "model_keys";
 	final String cacheAppKey = "app_keys";
 

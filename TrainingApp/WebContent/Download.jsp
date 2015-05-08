@@ -37,7 +37,7 @@ $(function() {
 		},
 		error: function() {
 			alertType = "warning";
-			fxnCallback("An error occurred in retriving models. Please refresh page.");
+			fxnCallback("An error occurred in retrieving models. Please refresh page.");
 		},
 		complete: function() {
 			$('html, body').animate({scrollTop: 0}, 'fast');
