@@ -1,6 +1,8 @@
 package ImageHandlers;
 
 import ij.ImagePlus;
+import ij.process.BinaryProcessor;
+import ij.process.ByteProcessor;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -15,10 +17,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import CoreHandler.Prompt;
 
 public class ProcessImage {
-	
+
 	public static File upload() {
 		File f = null;
-		
+
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG files", "png");
 		JFileChooser fc = new JFileChooser();
 		fc.setFileFilter(filter);
@@ -31,10 +33,10 @@ public class ProcessImage {
 		catch(Exception e) {
 			Prompt.PromptError("ERROR_UPLOAD_IMAGE");
 		}
-		
+
 		return f;
 	}
-	
+
 	public static BufferedImage getROI(ImagePlus ip) {
 		Rectangle rect = ip.getRoi().getBounds();
 		ImageIcon roiImg = new ImageIcon(ip.getImage());
@@ -45,10 +47,17 @@ public class ProcessImage {
 		g.drawImage(roiImg.getImage(), 0, 0, iWidth, iHeight, null);
 		g.dispose();
 		bi = bi.getSubimage(rect.x, rect.y, rect.width, rect.height);
-		
+
 		return bi;
 	}
-	
+
+	public static ImagePlus convertToBinary(ImagePlus ip) {
+		BinaryProcessor proc = new BinaryProcessor(new ByteProcessor(ip.getImage())); 
+		proc.autoThreshold(); 
+
+		return new ImagePlus(ip.getTitle(), proc); 
+	}
+
 	public static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
 		int original_width = imgSize.width;
 		int original_height = imgSize.height;
@@ -72,23 +81,23 @@ public class ProcessImage {
 
 	public static ImageIcon getScaledImage(String imgName, Dimension dim) {
 		ImageIcon img = null;
-		
+
 		try {
 			img = new ImageIcon(ProcessImage.class.getResource(imgName));
 		} catch(Exception e) {
 			img = new ImageIcon(imgName);
 		}
-		
+
 		Dimension d = getScaledDimension(new Dimension(img.getIconWidth(), img.getIconHeight()), dim);
 
 		BufferedImage bi = new BufferedImage(d.width, d.height, BufferedImage.TYPE_INT_ARGB);
 		Graphics g1 = bi.createGraphics();
 		g1.drawImage(img.getImage(), 0, 0, d.width, d.height, null);
 		g1.dispose();
-		
+
 		return (new ImageIcon(bi));
 	}
-	
+
 	public static void saveImage(BufferedImage img, String imgName) {
 		try {
 			ScreenImage.writeImage(img, imgName);
