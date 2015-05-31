@@ -3,6 +3,7 @@ package core;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import ImageHandlers.ProcessImage;
 import ij.ImagePlus;
 import ij.measure.Measurements;
 import ij.measure.ResultsTable;
@@ -26,17 +27,17 @@ public class ParticleAnalysis {
 	}
 
 	public void analyzeParticles(ImagePlus ip) {
-		ip.getProcessor().findEdges();
+		ImagePlus imp = ProcessImage.convertToBinary(ip);
+		imp.getProcessor().findEdges();
 		ResultsTable rt = new ResultsTable();
 		ParticleAnalyzer pa = new ParticleAnalyzer(ParticleAnalyzer.SHOW_NONE, Measurements.SHAPE_DESCRIPTORS, rt, 0, Double.MAX_VALUE, 0, 1);
-		pa.analyze(ip);
+		pa.analyze(imp);
 		
 		parseResultTable(rt);
 	}
 	
-	private void parseResultTable(ResultsTable rt) {
-		
-		for(int i=0;; i++) {
+	private void parseResultTable(ResultsTable rt) {		
+		for(int i=1;; i++) {
 			if(rt.getRowAsString(i) == null) {
 				break;
 			}
