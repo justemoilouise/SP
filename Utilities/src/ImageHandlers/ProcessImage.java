@@ -1,6 +1,7 @@
 package ImageHandlers;
 
 import ij.ImagePlus;
+import ij.plugin.ImageCalculator;
 import ij.process.BinaryProcessor;
 import ij.process.ByteProcessor;
 
@@ -52,10 +53,32 @@ public class ProcessImage {
 	}
 
 	public static ImagePlus convertToBinary(ImagePlus ip) {
-		BinaryProcessor proc = new BinaryProcessor(new ByteProcessor(ip.getImage())); 
+		BinaryProcessor proc = new BinaryProcessor(new ByteProcessor(ip.getImage()));
 		proc.autoThreshold(); 
 
 		return new ImagePlus(ip.getTitle(), proc); 
+	}
+	
+	public static ImagePlus erode(ImagePlus ip) {
+		BinaryProcessor proc = new BinaryProcessor(new ByteProcessor(ip.duplicate().getImage()));
+		proc.erode();
+		
+		return new ImagePlus(ip.getTitle(), proc);
+	}
+	
+	public static ImagePlus dilate(ImagePlus ip) {
+		BinaryProcessor proc = new BinaryProcessor(new ByteProcessor(ip.duplicate().getImage()));
+		proc.erode();
+		
+		return new ImagePlus(ip.getTitle(), proc);
+	}
+	
+	public static ImagePlus topHatTransform(ImagePlus ip) {
+		ImageCalculator ic = new ImageCalculator();
+		ImagePlus img = ic.run("add", erode(ip.duplicate()), dilate(ip.duplicate()));
+		img = ic.run("subtract", ip.duplicate(), img);
+		
+		return img;
 	}
 
 	public static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
