@@ -47,7 +47,7 @@ public class OutputPanel extends JInternalFrame {
 		setIconifiable(true);
 	}
 	
-	private JPanel getImageAndPrediction() {
+	public JPanel getImageAndPrediction() {
 		JPanel panel = new JPanel();
 		
 		int newWidth = 245;
@@ -92,16 +92,27 @@ public class OutputPanel extends JInternalFrame {
 		return panel;
 	}
 	
-	private JTabbedPane getResults() {
+	public JTabbedPane getResults() {
 		JTabbedPane tp = new JTabbedPane();
 		tp.addTab("Summary", getSummary());
+		tp.addTab("Segmentation", getSegmentation());
 		tp.addTab("Measurements", getFeatures());
+		tp.addTab("Particle analysis", getParticleAnalysis());
 		tp.addTab("SVM", getSVMResult());
 		
 		return tp;
 	}
 	
-	private JScrollPane getSummary() {
+	public JScrollPane getSegmentation() {
+		ImageIcon img = new ImageIcon(input.getSegmentation().getImage());
+		
+		JScrollPane panel = new JScrollPane();
+		panel.add(new JLabel(img));
+		
+		return panel;
+	}
+	
+	public JScrollPane getSummary() {
 		String prediction = input.getSpecies().getName();
 		JPanel panel = new JPanel();
 		
@@ -121,7 +132,7 @@ public class OutputPanel extends JInternalFrame {
 		return new JScrollPane(panel);
 	}
 	
-	private JScrollPane getFeatures() {
+	public JScrollPane getFeatures() {
 		String[] featureLabels = input.getSpecies().getFeatureLabels();
 		double[] featureValues = input.getSpecies().getFeatureValues();
 		
@@ -140,7 +151,27 @@ public class OutputPanel extends JInternalFrame {
 		return (new JScrollPane(table));
 	}
 
-	private JScrollPane getSVMResult() {
+	public JScrollPane getParticleAnalysis() {
+		String[] labels = input.getSpecies().getParticleLabels();
+		ArrayList<double[]> values = input.getSpecies().getParticleValues();
+		
+		String[][] tableData = new String[values.size()][labels.length];
+
+		for(int i=0; i<values.size(); i++) {
+			double[] val = values.get(i);
+			for(int j=0; j<val.length; j++) {
+				tableData[i][j] = Double.toString(val[j]);
+			}
+		}
+		
+		TableModel model = new DefaultTableModel(tableData, labels);
+		JTable table = new JTable(model);
+		table.setEnabled(false);
+
+		return (new JScrollPane(table));
+	}
+	
+	public JScrollPane getSVMResult() {
 		ArrayList<SVMResult> result = input.getSvmResult();
 		
 		String[] headers = {"Class Name", "Probability"};

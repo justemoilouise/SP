@@ -141,28 +141,30 @@ public class Client {
 	}
 		
 	public static void onSubmit(boolean isIJ) {
-		count++;		
-		double[] features = getFeatures(isIJ);
+		count++;
+		segmentImage();
+		extractFeatures(isIJ);
 
-		if(features != null) {
-			progress = new ProgressInfo();
-			progress.setVisible(true);
-			pm.addToDesktopPane(progress);
-			
-			preprocess.setIJ(isIJ);
-			svm.setIJ(isIJ);
-			
-			double[] preprocessedData = preprocess.scale(features);
-			preprocessedData = preprocess.reduceFeatures(preprocessedData);
-			ArrayList<SVMResult> results = svm.classify(preprocessedData, isIJ);			
-			
-			Input i = inputs.get(inputs.size()-1);
-			i.setSvmResult(results);
-			i.getSpecies().setName(svm.analyzeResults(results));
-			
-			progress.closeProgressBar();
-			displayOutput();
-		}
+		progress = new ProgressInfo();
+		progress.setVisible(true);
+		pm.addToDesktopPane(progress);
+		
+		preprocess.setIJ(isIJ);
+		svm.setIJ(isIJ);
+		
+		Input i = inputs.get(inputs.size()-1);
+		Species s = i.getSpecies();
+		double[] features = s.getFeatureValues();
+		
+		double[] preprocessedData = preprocess.scale(features);
+		preprocessedData = preprocess.reduceFeatures(preprocessedData);
+		ArrayList<SVMResult> results = svm.classify(preprocessedData, isIJ);			
+		
+		i.setSvmResult(results);
+		s.setName(svm.analyzeResults(results));
+		
+		progress.closeProgressBar();
+		displayOutput();
 	}
 	
 	public static void stop() {
@@ -179,11 +181,20 @@ public class Client {
 		}
 	}
 
-	private static double[] getFeatures(boolean isIJ) {
-		try {
-			Input input = new Input();
+	private static void segmentImage() {
+		if(imgPlus != null) {
+//			ImagePlus img = ProcessImage.topHatTransform(imgPlus);
 			
+			Input input = new Input();
+			input.setSegmentation(imgPlus);
+			inputs.add(input);
+		}		
+	}
+	
+	private static void extractFeatures(boolean isIJ) {
+		try {
 			if(imgPlus !=null) {
+				Input input = inputs.get(inputs.size()-1);
 				BufferedImage bi = ProcessImage.getROI(imgPlus);
 
 				String name = "tmp/"+count+".png";
@@ -201,25 +212,22 @@ public class Client {
 					featureExtraction.getHaralickDescriptors(imgPlus.getProcessor());
 				}
 				
+				ParticleAnalysis pa = new ParticleAnalysis();
+				pa.analyzeParticles(imgPlus);
+				
 				Species s = new Species();
 				s.setFeatureLabels(featureExtraction.getFeatureLabels());
 				s.setFeatureValues(featureExtraction.getFeatureValues());
+				s.setParticleLabels(pa.getFeatureLabels());
+				s.setParticleValues(pa.getFeatureValues());
 				
 				input.setSpecies(s);
-				inputs.add(input);
 			}
-			else {
-				input = inputs.get(inputs.size()-1);
-			}
-			
-			return input.getSpecies().getFeatureValues();
 		}
 		catch(Exception e) {
 			Prompt.PromptError("ERROR_INPUT_FEATURES");
 			printStackTrace(e);
 		}
-		
-		return null;
 	}
 
 	public static void displayInput() {

@@ -3,18 +3,17 @@ package core;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import ImageHandlers.ProcessImage;
 import ij.ImagePlus;
 import ij.measure.Measurements;
 import ij.measure.ResultsTable;
 import ij.plugin.filter.ParticleAnalyzer;
+import ij.process.ByteProcessor;
 
 public class ParticleAnalysis {
 	private ArrayList<double[]> featureValues;
-	private ArrayList<String> featureLabels;
+	private String[] featureLabels;
 	
 	public ParticleAnalysis() {
-		this.featureLabels = new ArrayList<String>();
 		this.featureValues = new ArrayList<double[]>();
 	}
 	
@@ -22,17 +21,21 @@ public class ParticleAnalysis {
 		return featureValues;
 	}
 
-	public ArrayList<String> getFeatureLabels() {
+	public String[] getFeatureLabels() {
 		return featureLabels;
 	}
 
 	public void analyzeParticles(ImagePlus ip) {
-		ImagePlus imp = ProcessImage.convertToBinary(ip);
-		imp.getProcessor().findEdges();
+		ByteProcessor bp = new ByteProcessor(ip.duplicate().getProcessor(), false);
+		bp.autoThreshold();
+		bp.findEdges();
+		ImagePlus imp = new ImagePlus(ip.getTitle(), bp);
+		imp.show();
+		
 		ResultsTable rt = new ResultsTable();
 		ParticleAnalyzer pa = new ParticleAnalyzer(ParticleAnalyzer.SHOW_NONE, Measurements.SHAPE_DESCRIPTORS, rt, 0, Double.MAX_VALUE, 0, 1);
 		pa.analyze(imp);
-		
+		rt.show("");
 		parseResultTable(rt);
 	}
 	
@@ -41,7 +44,7 @@ public class ParticleAnalysis {
 			if(rt.getRowAsString(i) == null) {
 				break;
 			}
-			
+
 			StringTokenizer value = new StringTokenizer(rt.getRowAsString(i), "\t");
 			double[] v = new double[value.countTokens()];
 			int index = 0;
@@ -54,8 +57,6 @@ public class ParticleAnalysis {
 			featureValues.add(v);
 		}
 		
-		for(String val : rt.getHeadings()) {
-			featureLabels.add(val);
-		}
+		featureLabels = rt.getHeadings();
 	}
 }
