@@ -103,15 +103,6 @@ public class OutputPanel extends JInternalFrame {
 		return tp;
 	}
 	
-	public JScrollPane getSegmentation() {
-		ImageIcon img = new ImageIcon(input.getSegmentation().getImage());
-		
-		JScrollPane panel = new JScrollPane();
-		panel.add(new JLabel(img));
-		
-		return panel;
-	}
-	
 	public JScrollPane getSummary() {
 		String prediction = input.getSpecies().getName();
 		JPanel panel = new JPanel();
@@ -130,6 +121,16 @@ public class OutputPanel extends JInternalFrame {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		return new JScrollPane(panel);
+	}
+	
+	public JScrollPane getSegmentation() {
+		ImageIcon img = new ImageIcon(input.getSegmentation().getImage());
+		
+		JScrollPane panel = new JScrollPane();
+		panel.add(new JLabel(img));
+		panel.setPreferredSize(new Dimension(350, 200));
+		
+		return panel;
 	}
 	
 	public JScrollPane getFeatures() {
@@ -152,7 +153,7 @@ public class OutputPanel extends JInternalFrame {
 	}
 
 	public JScrollPane getParticleAnalysis() {
-		String[] labels = input.getSpecies().getParticleLabels();
+		String[] labels =  input.getSpecies().getParticleLabels();
 		ArrayList<double[]> values = input.getSpecies().getParticleValues();
 		
 		String[][] tableData = new String[values.size()][labels.length];
@@ -168,7 +169,10 @@ public class OutputPanel extends JInternalFrame {
 		JTable table = new JTable(model);
 		table.setEnabled(false);
 
-		return (new JScrollPane(table));
+		JScrollPane pane = new JScrollPane(table);
+		pane.setPreferredSize(new Dimension(350, 200));
+		
+		return pane;
 	}
 	
 	public JScrollPane getSVMResult() {

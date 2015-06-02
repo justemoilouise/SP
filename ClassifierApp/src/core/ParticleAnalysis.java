@@ -3,6 +3,8 @@ package core;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import ij.ImagePlus;
 import ij.measure.Measurements;
 import ij.measure.ResultsTable;
@@ -10,11 +12,17 @@ import ij.plugin.filter.ParticleAnalyzer;
 import ij.process.ByteProcessor;
 
 public class ParticleAnalysis {
+	private ImagePlus img;
 	private ArrayList<double[]> featureValues;
 	private String[] featureLabels;
 	
 	public ParticleAnalysis() {
+		this.featureLabels = new String[] {"No."};
 		this.featureValues = new ArrayList<double[]>();
+	}
+	
+	public ImagePlus getImage() {
+		return img;
 	}
 	
 	public ArrayList<double[]> getFeatureValues() {
@@ -29,18 +37,19 @@ public class ParticleAnalysis {
 		ByteProcessor bp = new ByteProcessor(ip.duplicate().getProcessor(), false);
 		bp.autoThreshold();
 		bp.findEdges();
-		ImagePlus imp = new ImagePlus(ip.getTitle(), bp);
-		imp.show();
+		this.img = new ImagePlus(ip.getTitle(), bp);
 		
 		ResultsTable rt = new ResultsTable();
 		ParticleAnalyzer pa = new ParticleAnalyzer(ParticleAnalyzer.SHOW_NONE, Measurements.SHAPE_DESCRIPTORS, rt, 0, Double.MAX_VALUE, 0, 1);
-		pa.analyze(imp);
+		pa.analyze(img);
 		rt.show("");
 		parseResultTable(rt);
 	}
 	
-	private void parseResultTable(ResultsTable rt) {		
-		for(int i=1;; i++) {
+	private void parseResultTable(ResultsTable rt) {
+		int x = rt.getCounter();
+		
+		for(int i=0; i<x; i++) {
 			if(rt.getRowAsString(i) == null) {
 				break;
 			}
@@ -49,6 +58,7 @@ public class ParticleAnalysis {
 			double[] v = new double[value.countTokens()];
 			int index = 0;
 			
+			value.nextToken();
 			while(value.hasMoreTokens()) {
 				v[index] = Double.parseDouble(value.nextToken());
 				index++;
@@ -57,6 +67,6 @@ public class ParticleAnalysis {
 			featureValues.add(v);
 		}
 		
-		featureLabels = rt.getHeadings();
+		featureLabels = ArrayUtils.addAll(featureLabels, rt.getHeadings());
 	}
 }
