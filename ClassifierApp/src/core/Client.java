@@ -184,7 +184,7 @@ public class Client {
 	private static void segmentImage() {
 		if(imgPlus != null) {
 //			ImagePlus img = ProcessImage.topHatTransform(imgPlus);
-			
+//			img.show();
 			Input input = new Input();
 			input.setSegmentation(imgPlus);
 			inputs.add(input);
