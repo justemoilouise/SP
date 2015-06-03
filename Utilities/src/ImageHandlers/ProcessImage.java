@@ -2,8 +2,10 @@ package ImageHandlers;
 
 import ij.ImagePlus;
 import ij.plugin.ImageCalculator;
-import ij.process.BinaryProcessor;
-import ij.process.ByteProcessor;
+import ij.plugin.filter.BackgroundSubtracter;
+import ij.plugin.filter.RankFilters;
+import ij.process.FloatProcessor;
+import ij.process.ImageProcessor;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -51,36 +53,36 @@ public class ProcessImage {
 
 		return bi;
 	}
-
-	public static ImagePlus convertToBinary(ImagePlus ip) {
-		BinaryProcessor proc = new BinaryProcessor(new ByteProcessor(ip.getImage()));
-		proc.autoThreshold(); 
-
-		return new ImagePlus(ip.getTitle(), proc); 
-	}
-	
-	public static ImagePlus erode(ImagePlus ip) {
-		BinaryProcessor proc = new BinaryProcessor(new ByteProcessor(ip.duplicate().getImage()));
-		proc.erode();
-		
-		return new ImagePlus(ip.getTitle(), proc);
-	}
-	
-	public static ImagePlus dilate(ImagePlus ip) {
-		BinaryProcessor proc = new BinaryProcessor(new ByteProcessor(ip.duplicate().getImage()));
-		proc.erode();
-		
-		return new ImagePlus(ip.getTitle(), proc);
-	}
 	
 	public static ImagePlus topHatTransform(ImagePlus ip) {
-		ImageCalculator ic = new ImageCalculator();
-		ImagePlus img = ic.run("add", erode(ip.duplicate()), dilate(ip.duplicate()));
-		img = ic.run("subtract", ip.duplicate(), img);
+		//ImageProcessor imp = ip.duplicate().getProcessor();
+		FloatProcessor fp = new FloatProcessor(ip.duplicate().getProcessor().getFloatArray());
+		Fast_Filters ff = new Fast_Filters();
+		ff.run(fp);
 		
-		return img;
+		return ip;
 	}
 
+	public static ImagePlus getImageDifference(ImagePlus img1, ImagePlus img2) {
+		ImageCalculator ic = new ImageCalculator();
+		
+		return ic.run("Difference", img1, img2);
+	}
+	
+	public static ImagePlus subtractBackground(ImagePlus ip) {
+		BackgroundSubtracter bs = new BackgroundSubtracter();
+		bs.rollingBallBackground(ip.getProcessor(), 50, false, true, false, false, false);
+		
+		return new ImagePlus(ip.getTitle(), ip.getProcessor());
+	}
+	
+	public static ImageProcessor removeOutliers(ImageProcessor ip) {
+		RankFilters rf = new RankFilters();
+		rf.rank(ip, 15, RankFilters.OUTLIERS);
+		
+		return ip;
+	}
+	
 	public static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
 		int original_width = imgSize.width;
 		int original_height = imgSize.height;
