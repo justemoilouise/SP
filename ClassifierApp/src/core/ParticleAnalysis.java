@@ -34,7 +34,7 @@ public class ParticleAnalysis {
 	}
 
 	public void analyzeParticles(ImagePlus ip) {
-		ByteProcessor bp = new ByteProcessor(ip.duplicate().getProcessor(), false);
+		ByteProcessor bp = ip.duplicate().getProcessor().convertToByteProcessor();
 		bp.autoThreshold();
 		bp.findEdges();
 		this.img = new ImagePlus(ip.getTitle(), bp);
