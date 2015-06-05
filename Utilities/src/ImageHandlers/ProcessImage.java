@@ -59,20 +59,22 @@ public class ProcessImage {
 		Fast_Filters ff = new Fast_Filters();
 		ff.run(fp);
 		
-		return new ImagePlus(ip.getTitle(), fp);
+		return new ImagePlus(ip.getTitle() + " - Top Hat", fp);
 	}
 
 	public static ImagePlus getImageDifference(ImagePlus img1, ImagePlus img2) {
 		ImageCalculator ic = new ImageCalculator();
+		ImagePlus ip = ic.run("Difference", img1, img2); 
+		ip.setTitle("Difference - " + img1.getTitle() + " & " + img2.getTitle());
 		
-		return ic.run("Difference", img1, img2);
+		return ip;
 	}
 	
 	public static ImagePlus subtractBackground(ImagePlus ip) {
 		BackgroundSubtracter bs = new BackgroundSubtracter();
-		bs.rollingBallBackground(ip.getProcessor(), 50, false, true, false, false, false);
+		bs.rollingBallBackground(ip.getProcessor(), 50, false, false, false, false, false);
 		
-		return new ImagePlus(ip.getTitle(), ip.getProcessor());
+		return new ImagePlus(ip.getTitle() + " - Subtract background", ip.getProcessor());
 	}
 	
 	public static ImageProcessor removeOutliers(ImageProcessor ip) {
