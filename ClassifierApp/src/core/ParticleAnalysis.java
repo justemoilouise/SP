@@ -42,7 +42,6 @@ public class ParticleAnalysis {
 		ResultsTable rt = new ResultsTable();
 		ParticleAnalyzer pa = new ParticleAnalyzer(ParticleAnalyzer.SHOW_NONE, Measurements.SHAPE_DESCRIPTORS, rt, 0, Double.MAX_VALUE, 0, 1);
 		pa.analyze(img);
-		rt.show("");
 		parseResultTable(rt);
 	}
 	
@@ -57,8 +56,7 @@ public class ParticleAnalysis {
 			StringTokenizer value = new StringTokenizer(rt.getRowAsString(i), "\t");
 			double[] v = new double[value.countTokens()];
 			int index = 0;
-			
-			value.nextToken();
+
 			while(value.hasMoreTokens()) {
 				v[index] = Double.parseDouble(value.nextToken());
 				index++;

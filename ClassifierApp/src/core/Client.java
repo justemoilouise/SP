@@ -182,11 +182,20 @@ public class Client {
 	}
 
 	private static void segmentImage() {
-		if(imgPlus != null) {
-//			ImagePlus img = ProcessImage.topHatTransform(imgPlus);
-//			img.show();
+		if(imgPlus != null) {			
+			// get base shape
+			ImagePlus img = ProcessImage.topHatTransform(imgPlus.duplicate());
+			img.show();
+			
+//			// isolate protrusions
+			Protrusions p = new Protrusions();
+			p.identifyProtrusions(imgPlus, img);
+//			
+//			// measure protrusions
+//			gp.analyzProtrusions();
+			
 			Input input = new Input();
-			input.setSegmentation(imgPlus);
+			input.setSegmentation(img);
 			inputs.add(input);
 		}		
 	}
