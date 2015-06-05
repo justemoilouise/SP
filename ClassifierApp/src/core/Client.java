@@ -1,8 +1,6 @@
 package core;
 
 import ij.ImagePlus;
-import ij.process.FloatProcessor;
-import imageProcessing.Fast_Filters;
 import imageProcessing.FeatureExtraction;
 import imageProcessing.ParticleAnalysis;
 import imageProcessing.Protrusions;
@@ -189,19 +187,14 @@ public class Client {
 	private static void segmentImage() {
 		if(imgPlus != null) {
 			// get base shape
-//			ImagePlus img = ProcessImage.topHatTransform(imgPlus.duplicate());
-//			img.show();
-			FloatProcessor fp = imgPlus.duplicate().getProcessor().convertToFloatProcessor();		
-			Fast_Filters ff = new Fast_Filters();
-			ff.run(fp);
-			ImagePlus img = new ImagePlus(imgPlus.getTitle() + " - Top Hat", fp);
+			ImagePlus img = ProcessImage.topHatTransform(imgPlus.duplicate());
 			img.show();
 			
-//			// isolate protrusions
+			// isolate protrusions
 			Protrusions p = new Protrusions();
 			p.identifyProtrusions(imgPlus, img);
-//			
-//			// measure protrusions
+		
+			// measure protrusions
 //			p.analyzProtrusions();
 			
 			Input input = new Input();

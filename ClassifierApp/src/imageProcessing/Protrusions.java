@@ -19,13 +19,11 @@ public class Protrusions {
 		// subtract background
 		ImagePlus img1 = ProcessImage.subtractBackground(ip1.duplicate());
 		ImagePlus img2 = ProcessImage.subtractBackground(ip2.duplicate());
-		
 		img1.show();
 		img2.show();
 		
 		// get image difference
 		ImagePlus ip = ProcessImage.getImageDifference(img1, img2);
-		
 		ip.show();
 		
 		// make binary
