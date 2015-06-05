@@ -255,10 +255,23 @@ public class Fast_Filters implements ExtendedPlugInFilter, DialogListener {
         if (subtract) {
             float[] pixels = (float[])ip.getPixels();
             float[] snapPixels = (float[])ip.getSnapshotPixels();
-            float fOffset = (float)offset[impType];
-            for (int y=roiRect.y; y<roiRect.y+roiRect.height; y++)
-                for (int x=roiRect.x, p=x+y*width; x<roiRect.x+roiRect.width; x++,p++)
-                    pixels[p] = snapPixels[p] - pixels[p] + fOffset;
+//            float fOffset = (float)offset[impType];
+            float fOffset = 255;
+            
+            if(snapPixels == null) {
+            	for (int y=0; y<height; y++)
+                    for (int x=0, p=x+y*width; x<width; x++,p++)
+                        pixels[p] = pixels[p] + fOffset;
+            }
+            else {
+            	for (int y=roiRect.y; y<roiRect.y+roiRect.height; y++)
+                  for (int x=roiRect.x, p=x+y*width; x<roiRect.x+roiRect.width; x++,p++)
+                      pixels[p] = snapPixels[p] - pixels[p] + fOffset;
+//            	for (int y=roiRect.y; y<roiRect.y+roiRect.height; y++)
+//                    for (int x=roiRect.x, p=x+y*width; x<roiRect.x+roiRect.width; x++,p++)
+//                        pixels[p] = snapPixels[p] - pixels[p] + fOffset;
+            }
+
             if (Thread.currentThread().isInterrupted()) return;
         }
         if (roiRect.height!=height || roiRect.width!=width)

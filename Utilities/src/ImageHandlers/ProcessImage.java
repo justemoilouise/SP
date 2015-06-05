@@ -55,11 +55,11 @@ public class ProcessImage {
 	}
 	
 	public static ImagePlus topHatTransform(ImagePlus ip) {
-		FloatProcessor fp = ip.duplicate().getProcessor().convertToFloatProcessor();
+		FloatProcessor fp = ip.duplicate().getProcessor().convertToFloatProcessor();		
 		Fast_Filters ff = new Fast_Filters();
 		ff.run(fp);
 		
-		return ip;
+		return new ImagePlus(ip.getTitle(), fp);
 	}
 
 	public static ImagePlus getImageDifference(ImagePlus img1, ImagePlus img2) {
@@ -77,7 +77,7 @@ public class ProcessImage {
 	
 	public static ImageProcessor removeOutliers(ImageProcessor ip) {
 		RankFilters rf = new RankFilters();
-		rf.rank(ip, 15, RankFilters.OUTLIERS, RankFilters.DARK_OUTLIERS, 15);
+		rf.rank(ip, 15, RankFilters.OUTLIERS, RankFilters.DARK_OUTLIERS, 50);
 		
 		return ip;
 	}
