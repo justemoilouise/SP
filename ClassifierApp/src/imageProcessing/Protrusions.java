@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import ImageHandlers.ProcessImage;
 import ij.ImagePlus;
-import ij.plugin.ImageCalculator;
 import ij.process.ByteProcessor;
 
 public class Protrusions {
@@ -46,7 +45,7 @@ public class Protrusions {
 		imp2.show();
 
 		// get image difference
-		ImagePlus ip = getImageDifference(imp1, imp2);
+		ImagePlus ip = ProcessImage.getImageDifference(imp1, imp2);
 		ip.show();
 
 		// make binary
@@ -79,13 +78,5 @@ public class Protrusions {
 
 	public String[] getFeatureLabels() {
 		return pa.getFeatureLabels();
-	}
-
-	private ImagePlus getImageDifference(ImagePlus img1, ImagePlus img2) {
-		ImageCalculator ic = new ImageCalculator();
-		ImagePlus ip = ic.run("Difference", img1, img2); 
-		ip.setTitle("Difference - " + img1.getTitle() + " & " + img2.getTitle());
-
-		return ip;
 	}
 }
