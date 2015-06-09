@@ -66,7 +66,7 @@ public class ProcessImage {
 
 	public static ImagePlus getImageDifference(ImagePlus img1, ImagePlus img2) {
 		ImageCalculator ic = new ImageCalculator();
-		ImagePlus ip = ic.run("Difference", img1, img2); 
+		ImagePlus ip = ic.run("difference create", img1, img2); 
 		ip.setTitle("Difference - " + img1.getTitle() + " & " + img2.getTitle());
 		
 		return ip;
