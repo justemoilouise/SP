@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ImageHandlers.ProcessImage;
 import ij.ImagePlus;
+import ij.process.BinaryProcessor;
 import ij.process.ByteProcessor;
 
 public class Protrusions {
@@ -21,18 +22,18 @@ public class Protrusions {
 		imp.show();
 
 		// make binary
-		ByteProcessor bp = new ByteProcessor(imp.duplicate().getProcessor(), false);
-		bp.autoThreshold();
-
-		(new ImagePlus(imp.getTitle() + " - Binary", bp)).show();
+		ByteProcessor bp = imp.duplicate().getProcessor().convertToByteProcessor();
+//		bp.autoThreshold();
+		BinaryProcessor bin = new BinaryProcessor(bp);
+		(new ImagePlus(imp.getTitle() + " - Binary", bin)).show();
 
 		// remove outliers
-		bp = (ByteProcessor) ProcessImage.removeOutliers(bp);
+		bp = (ByteProcessor) ProcessImage.removeOutliers(bin);
 
 		// smoothen
 		bp.smooth();
 
-		this.img = new ImagePlus(imp.getTitle() + " - Smooth", bp);
+		this.img = new ImagePlus(imp.getTitle() + " - Smooth", bin);
 		img.show();
 	}
 
