@@ -130,11 +130,11 @@ public class Fast_Filters implements ExtendedPlugInFilter, DialogListener {
     // F i l t e r   p a r a m e t e r s
     // Note that this makes it impossible to run the filter in parallel threads with different filter parameters!
     private static int type = MEAN;             // Filter type
-    private static int xRadius = 100;             // The kernel radius in x direction
-    private static int yRadius = 100;             // The kernel radius in x direction
+    private static int xRadius = 3;             // The kernel radius in x direction
+    private static int yRadius = 3;             // The kernel radius in x direction
     private static boolean linkXY = true;       // Whether to use the same radius in x&y
     private static int preProcess = 0;          // Preprocessing type
-    private static boolean subtract = true;    // Whether output should be the original minus filtered
+    private static boolean subtract = false;    // Whether output should be the original minus filtered
     private static double[] offset = new double[] {  // When subtracting, this will be added to the result.
         128, 32768, 0, 128, 128                 // Array for image types GRAY8, GRAY16, GRAY32, COLOR_256, COLOR_RGB
     };

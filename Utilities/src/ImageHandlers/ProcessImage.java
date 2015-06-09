@@ -57,6 +57,7 @@ public class ProcessImage {
 	public static ImagePlus topHatTransform(ImagePlus ip) {
 		FloatProcessor fp = ip.duplicate().getProcessor().convertToFloatProcessor();
 		fp.snapshot();
+		
 		Fast_Filters ff = new Fast_Filters();
 		ff.run(fp);
 		
