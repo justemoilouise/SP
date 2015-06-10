@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ImageHandlers.ProcessImage;
 import ij.ImagePlus;
+import ij.plugin.ImageCalculator;
 import ij.process.BinaryProcessor;
 import ij.process.ByteProcessor;
 
@@ -38,7 +39,7 @@ public class Protrusions {
 	}
 
 	public void identifyProtrusions(ImagePlus ip1, ImagePlus ip2) {
-
+		
 		// subtract background
 		ImagePlus imp1 = ProcessImage.subtractBackground(ip1.duplicate());
 		imp1.show();
@@ -46,22 +47,27 @@ public class Protrusions {
 		imp2.show();
 
 		// get image difference
-		ImagePlus ip = ProcessImage.getImageDifference(imp1, imp2);
+//		ImagePlus ip = ProcessImage.getImageDifference(imp1, imp2);
+//		ip.show();
+		
+		ImageCalculator ic = new ImageCalculator();
+		ImagePlus ip = ic.run("and create", imp1, imp2); 
+		ip.setTitle("AND - " + imp1.getTitle() + " & " + imp2.getTitle());
 		ip.show();
 
 		// make binary
 		ByteProcessor bp = new ByteProcessor(ip.duplicate().getProcessor(), false);
-		bp.autoThreshold();
-
-		(new ImagePlus(ip.getTitle() + " - Binary", bp)).show();
+		BinaryProcessor bin = new BinaryProcessor(bp);
+		bin.autoThreshold();
+		(new ImagePlus(ip.getTitle() + " - Binary", bin)).show();
 
 		// remove outliers
-		bp = (ByteProcessor) ProcessImage.removeOutliers(bp);
+		bin = (BinaryProcessor) ProcessImage.removeOutliers(bin);
 
 		// smoothen
-		bp.smooth();
+		bin.smooth();
 
-		this.img = new ImagePlus(ip.getTitle() + " - Smooth", bp);
+		this.img = new ImagePlus(ip.getTitle() + " - Smooth", bin);
 		img.show();
 	}
 

@@ -185,7 +185,7 @@ public class Client {
 	}
 
 	private static void segmentImage() {
-		if(imgPlus != null) {
+		if(imgPlus != null) {			
 			// get base shape
 			ImagePlus img = ProcessImage.topHatTransform(imgPlus.duplicate());
 			img.show();
