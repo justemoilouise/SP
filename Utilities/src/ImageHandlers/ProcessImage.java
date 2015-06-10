@@ -54,11 +54,21 @@ public class ProcessImage {
 		return bi;
 	}
 	
+	public static ImagePlus filterMedian(ImagePlus ip) {
+		FloatProcessor fp = ip.duplicate().getProcessor().convertToFloatProcessor();
+		fp.snapshot();
+		
+		Fast_Filters ff = new Fast_Filters(2);
+		ff.run(fp);
+		
+		return new ImagePlus(ip.getTitle() + " - Median", fp);
+	}
+	
 	public static ImagePlus topHatTransform(ImagePlus ip) {
 		FloatProcessor fp = ip.duplicate().getProcessor().convertToFloatProcessor();
 		fp.snapshot();
 		
-		Fast_Filters ff = new Fast_Filters();
+		Fast_Filters ff = new Fast_Filters(8);
 		ff.run(fp);
 		
 		return new ImagePlus(ip.getTitle() + " - Top Hat", fp);

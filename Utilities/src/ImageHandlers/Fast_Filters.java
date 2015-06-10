@@ -146,8 +146,8 @@ public class Fast_Filters implements ExtendedPlugInFilter, DialogListener {
     // Multithreading-related
     private int maxThreads = Runtime.getRuntime().availableProcessors();  // number of threads for filtering
 
-    public Fast_Filters() {
-    	type = 8;
+    public Fast_Filters(int type) {
+    	Fast_Filters.type = type;
     }
     
     /**
