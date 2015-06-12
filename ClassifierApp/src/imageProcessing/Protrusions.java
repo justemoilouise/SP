@@ -12,6 +12,7 @@ public class Protrusions {
 	private ParticleAnalysis pa;
 
 	public Protrusions() {
+		this.img = null;
 		this.pa = new ParticleAnalysis();
 	}
 
@@ -41,9 +42,9 @@ public class Protrusions {
 		
 		// subtract background
 		ImagePlus imp1 = ProcessImage.subtractBackground(ip1.duplicate());
-		imp1.show();
+//		imp1.show();
 		ImagePlus imp2 = ProcessImage.subtractBackground(ip2.duplicate());
-		imp2.show();
+//		imp2.show();
 
 		// get image difference
 		ImagePlus ip = ProcessImage.getImageDifference(imp1, imp2);
@@ -53,7 +54,7 @@ public class Protrusions {
 		ByteProcessor bp = new ByteProcessor(ip.duplicate().getProcessor(), false);
 		BinaryProcessor bin = new BinaryProcessor(bp);
 		bin.autoThreshold();
-		(new ImagePlus(ip.getTitle() + " - Binary", bin)).show();
+//		(new ImagePlus(ip.getTitle() + " - Binary", bin)).show();
 
 		// remove outliers then smooth
 		bin = (BinaryProcessor) ProcessImage.removeOutliers(bin);
@@ -63,8 +64,8 @@ public class Protrusions {
 		img.show();
 	}
 
-	public void analyzProtrusions() {
-		pa.analyzeParticles(img);
+	public void analyzeProtrusions() {
+		pa.analyzeParticleShapeAndLocation(img);
 	}
 
 	public ImagePlus getImage() {

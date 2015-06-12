@@ -1,9 +1,6 @@
 package core;
 
 import ij.ImagePlus;
-import imageProcessing.FeatureExtraction;
-import imageProcessing.ParticleAnalysis;
-import imageProcessing.Protrusions;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -32,6 +29,7 @@ public class Client {
 	private static MainWindow pm;
 	private static ProgressInfo progress;
 	
+	private static ImageProcessing ip;
 	private static Preprocess preprocess;
 	private static SVM svm;
 	private static ClassifierModel model;
@@ -43,6 +41,7 @@ public class Client {
 	public Client() {
 		inputs = new ArrayList<Input>();
 		props = FileConfig.readConfig();
+		ip = new ImageProcessing();
 		preprocess = new Preprocess();
 		svm = new SVM();
 		pm = new MainWindow();	
@@ -112,6 +111,14 @@ public class Client {
 		Client.svm = svm;
 	}
 
+	public static ImageProcessing getIp() {
+		return ip;
+	}
+
+	public static void setIp(ImageProcessing ip) {
+		Client.ip = ip;
+	}
+
 	public static ClassifierModel getModel() {
 		return model;
 	}
@@ -145,8 +152,10 @@ public class Client {
 		
 	public static void onSubmit(boolean isIJ) {
 		count++;
-		segmentImage();
-		extractFeatures(isIJ);
+		
+		if(imgPlus != null) {
+			processImage(isIJ);
+		}
 
 		progress = new ProgressInfo();
 		progress.setVisible(true);
@@ -170,6 +179,27 @@ public class Client {
 		displayOutput();
 	}
 	
+	private static void processImage(boolean isIJ) {
+		Input input = new Input();
+		
+		ip = new ImageProcessing(imgPlus);
+		ImagePlus p = ip.getImageProtrusions();
+		ImagePlus b = ip.getImageBaseShape(p);
+		
+		input.setProtrusions(p);
+		input.setBase(b);
+		input.setSpecies(ip.extractFeatures(isIJ));
+		
+		// save ROI
+		BufferedImage bi = ProcessImage.getROI(imgPlus);		
+		String name = "tmp/"+count+".png";
+		ProcessImage.saveImage(bi, name);
+		input.setImg(new ImagePlus(name));
+		input.setImageName(name);
+		
+		inputs.add(input);
+	}
+	
 	public static void stop() {
 		if(t != null) {
 			if(t.getState() == Thread.State.RUNNABLE) {
@@ -181,64 +211,6 @@ public class Client {
 		}
 		else {
 			Prompt.PromptError("ERROR_STOP");
-		}
-	}
-
-	private static void segmentImage() {
-		if(imgPlus != null) {			
-			// get base shape
-			ImagePlus img = ProcessImage.topHatTransform(imgPlus.duplicate());
-			img.show();
-			
-			// isolate protrusions
-			Protrusions p = new Protrusions();
-			p.identifyProtrusions(imgPlus, img);
-		
-			// measure protrusions
-//			p.analyzProtrusions();
-			
-			Input input = new Input();
-			input.setSegmentation(img);
-			inputs.add(input);
-		}		
-	}
-	
-	private static void extractFeatures(boolean isIJ) {
-		try {
-			if(imgPlus !=null) {
-				Input input = inputs.get(inputs.size()-1);
-				BufferedImage bi = ProcessImage.getROI(imgPlus);
-
-				String name = "tmp/"+count+".png";
-				ProcessImage.saveImage(bi, name);
-				input.setImg(new ImagePlus(name));
-				input.setImageName(name);
-				
-				FeatureExtraction featureExtraction = new FeatureExtraction();
-				featureExtraction.getShapeDescriptors(imgPlus);
-				
-				if(isIJ) {
-					featureExtraction.getTextureDescriptors(imgPlus.getProcessor());
-				}
-				else {
-					featureExtraction.getHaralickDescriptors(imgPlus.getProcessor());
-				}
-				
-				ParticleAnalysis pa = new ParticleAnalysis();
-				pa.analyzeParticles(imgPlus);
-				
-				Species s = new Species();
-				s.setFeatureLabels(featureExtraction.getFeatureLabels());
-				s.setFeatureValues(featureExtraction.getFeatureValues());
-				s.setParticleLabels(pa.getFeatureLabels());
-				s.setParticleValues(pa.getFeatureValues());
-				
-				input.setSpecies(s);
-			}
-		}
-		catch(Exception e) {
-			Prompt.PromptError("ERROR_INPUT_FEATURES");
-			printStackTrace(e);
 		}
 	}
 

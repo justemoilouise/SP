@@ -95,7 +95,7 @@ public class OutputPanel extends JInternalFrame {
 	public JTabbedPane getResults() {
 		JTabbedPane tp = new JTabbedPane();
 		tp.addTab("Summary", getSummary());
-		tp.addTab("Segmentation", getSegmentation());
+		tp.addTab("Segmentation", getProtrusions());
 		tp.addTab("Measurements", getFeatures());
 		tp.addTab("Particle analysis", getParticleAnalysis());
 		tp.addTab("SVM", getSVMResult());
@@ -123,8 +123,8 @@ public class OutputPanel extends JInternalFrame {
 		return new JScrollPane(panel);
 	}
 	
-	public JScrollPane getSegmentation() {
-		ImageIcon img = new ImageIcon(input.getSegmentation().getImage());
+	public JScrollPane getProtrusions() {
+		ImageIcon img = new ImageIcon(input.getProtrusions().getImage());
 		
 		JScrollPane panel = new JScrollPane();
 		panel.add(new JLabel(img));
