@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import ImageHandlers.ProcessImage;
 import ij.ImagePlus;
-import ij.plugin.ImageCalculator;
 import ij.process.BinaryProcessor;
 import ij.process.ByteProcessor;
 
@@ -47,12 +46,7 @@ public class Protrusions {
 		imp2.show();
 
 		// get image difference
-//		ImagePlus ip = ProcessImage.getImageDifference(imp1, imp2);
-//		ip.show();
-		
-		ImageCalculator ic = new ImageCalculator();
-		ImagePlus ip = ic.run("and create", imp1, imp2); 
-		ip.setTitle("AND - " + imp1.getTitle() + " & " + imp2.getTitle());
+		ImagePlus ip = ProcessImage.getImageDifference(imp1, imp2);
 		ip.show();
 
 		// make binary
@@ -61,10 +55,8 @@ public class Protrusions {
 		bin.autoThreshold();
 		(new ImagePlus(ip.getTitle() + " - Binary", bin)).show();
 
-		// remove outliers
+		// remove outliers then smooth
 		bin = (BinaryProcessor) ProcessImage.removeOutliers(bin);
-
-		// smoothen
 		bin.smooth();
 
 		this.img = new ImagePlus(ip.getTitle() + " - Smooth", bin);
