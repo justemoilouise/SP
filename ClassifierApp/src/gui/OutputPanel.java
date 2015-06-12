@@ -22,6 +22,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import Data.Feature;
 import Data.Input;
 import Data.SVMResult;
 import ImageHandlers.ProcessImage;
@@ -95,8 +96,10 @@ public class OutputPanel extends JInternalFrame {
 	public JTabbedPane getResults() {
 		JTabbedPane tp = new JTabbedPane();
 		tp.addTab("Summary", getSummary());
-		tp.addTab("Segmentation", getProtrusions());
-		tp.addTab("Measurements", getFeatures());
+		tp.addTab("Protrusions", getProtrusions());
+		tp.addTab("Base shape", getBaseShape());
+		tp.addTab("Features", getFeatures());
+		tp.addTab("Measurements", getImageFeatures());
 		tp.addTab("Particle analysis", getParticleAnalysis());
 		tp.addTab("SVM", getSVMResult());
 		
@@ -133,7 +136,38 @@ public class OutputPanel extends JInternalFrame {
 		return panel;
 	}
 	
+	public JScrollPane getBaseShape() {
+		ImageIcon img = new ImageIcon(input.getBase().getImage());
+		
+		JScrollPane panel = new JScrollPane();
+		panel.add(new JLabel(img));
+		panel.setPreferredSize(new Dimension(350, 200));
+		
+		return panel;
+	}
+	
 	public JScrollPane getFeatures() {
+		ArrayList<Feature> features = input.getSpecies().getFeatures();
+		
+		String[] headers = {"Feature", "Description"};
+		String[][] tableData = new String[features.size()][2];
+		
+		int index = 0;
+		for(Feature f : features) {
+			tableData[index][0] = f.getName();
+			tableData[index][1] = "description";
+			
+			index++;
+		}
+		
+		TableModel model = new DefaultTableModel(tableData, headers);
+		JTable table = new JTable(model);
+		table.setEnabled(false);
+
+		return (new JScrollPane(table));
+	}
+	
+	public JScrollPane getImageFeatures() {
 		String[] featureLabels = input.getSpecies().getFeatureLabels();
 		double[] featureValues = input.getSpecies().getFeatureValues();
 		

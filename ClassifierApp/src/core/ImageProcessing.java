@@ -1,5 +1,8 @@
 package core;
 
+import java.util.ArrayList;
+
+import Data.Feature;
 import Data.Species;
 import ImageHandlers.ProcessImage;
 import ij.ImagePlus;
@@ -25,20 +28,50 @@ public class ImageProcessing {
 		ImagePlus img = ProcessImage.topHatTransform(originalImg.duplicate());
 		//img.show();
 
-		// isolate protrusions
 		Protrusions p = new Protrusions();
 		p.identifyProtrusions(originalImg, img);
-
-		// measure protrusions
 		p.analyzeProtrusions();
+
+		ArrayList<double[]> values = p.getFeatureValues();
+		if(values.size() > 0) {
+			// horns
+			Feature f = new Feature("Horn");
+			f.setmLabels(p.getFeatureLabels());
+			f.setmValues(values);
+			f.setCount(values.size());
+
+			species.getFeatures().add(f);
+		}
 
 		return p.getImage();	
 	}
-	
+
+	@SuppressWarnings("null")
 	public ImagePlus getImageBaseShape(ImagePlus p) {
 		BaseShape bs = new BaseShape();
 		bs.identifyBaseShape(originalImg, p);
 		bs.analyzeBaseShape();
+
+		double[] bValues = bs.getBaseFeatureValues();
+		if(bValues != null || bValues.length > 0) {
+			// shell
+			Feature f = new Feature("Shell");
+			f.setmLabels(bs.getBaseFeatureLabels());
+			f.getmValues().add(bValues);
+
+			species.getFeatures().add(f);
+		}
+		
+		ArrayList<double[]> pValues = bs.getParticleFeatureValues();
+		if(pValues.size() > 0) {
+			// pores
+			Feature f = new Feature("Pore");
+			f.setmLabels(bs.getParticleFeatureLabels());
+			f.setmValues(pValues);
+
+			species.getFeatures().add(f);
+		}
+
 		return bs.getImage();
 	}
 
@@ -61,7 +94,7 @@ public class ImageProcessing {
 		species.setParticleLabels(pa.getFeatureLabels());
 		species.setParticleValues(pa.getFeatureValues());
 	}
-	
+
 	public Species getSpecies() {
 		return species;
 	}

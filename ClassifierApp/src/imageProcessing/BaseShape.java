@@ -1,5 +1,7 @@
 package imageProcessing;
 
+import java.util.ArrayList;
+
 import ImageHandlers.ProcessImage;
 import ij.ImagePlus;
 import ij.process.BinaryProcessor;
@@ -8,10 +10,12 @@ import ij.process.ImageProcessor;
 public class BaseShape {
 	private ImagePlus img;
 	private FeatureExtraction fe;
+	private ParticleAnalysis pa;
 
 	public BaseShape() {
 		this.img = null;
 		this.fe = new FeatureExtraction();
+		this.pa = new ParticleAnalysis();
 	}
 
 	public void identifyBaseShape(ImagePlus ip1, ImagePlus ip2) {
@@ -41,17 +45,26 @@ public class BaseShape {
 
 	public void analyzeBaseShape() {
 		fe.getShapeDescriptors(img);
+		pa.analyzeParticleShape(img);
 	}
 
 	public ImagePlus getImage() {
 		return img;
 	}
 
-	public String[] getFeatureLabels() {
+	public String[] getBaseFeatureLabels() {
 		return fe.getFeatureLabels();
 	}
 
-	public double[] getFeatureValues() {
+	public double[] getBaseFeatureValues() {
 		return fe.getFeatureValues();
+	}
+	
+	public ArrayList<double[]> getParticleFeatureValues() {
+		return pa.getFeatureValues();
+	}
+
+	public String[] getParticleFeatureLabels() {
+		return pa.getFeatureLabels();
 	}
 }
