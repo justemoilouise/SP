@@ -6,7 +6,7 @@ import java.util.Hashtable;
 
 @SuppressWarnings("serial")
 public class Species implements Serializable {
-	private String name;
+	private String name, svmName, dTreeName;
 	private String[] featureLabels;
 	private double[] featureValues;
 	private String[] particleLabels;
@@ -28,6 +28,18 @@ public class Species implements Serializable {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getSvmName() {
+		return svmName;
+	}
+	public void setSvmName(String svmName) {
+		this.svmName = svmName;
+	}
+	public String getdTreeName() {
+		return dTreeName;
+	}
+	public void setdTreeName(String dTreeName) {
+		this.dTreeName = dTreeName;
 	}
 	public String[] getFeatureLabels() {
 		return featureLabels;

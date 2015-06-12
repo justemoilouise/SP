@@ -7,7 +7,6 @@ public class Feature {
 	private int count;
 	private String[] mLabels;
 	private ArrayList<double[]> mValues;
-	private FeatureProperties properties;
 	private String description;
 	
 	public Feature() {
@@ -49,14 +48,6 @@ public class Feature {
 
 	public void setmValues(ArrayList<double[]> mValues) {
 		this.mValues = mValues;
-	}
-
-	public FeatureProperties getProperties() {
-		return properties;
-	}
-
-	public void setProperties(FeatureProperties properties) {
-		this.properties = properties;
 	}
 
 	public String getDescription() {
