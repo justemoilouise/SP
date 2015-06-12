@@ -124,6 +124,17 @@ public class ProcessImage {
 
 		return new Dimension(new_width, new_height);
 	}
+	
+	public static ImageIcon getScaledImage(ImageIcon img, Dimension dim) {
+		Dimension d = getScaledDimension(new Dimension(img.getIconWidth(), img.getIconHeight()), dim);
+
+		BufferedImage bi = new BufferedImage(d.width, d.height, BufferedImage.TYPE_INT_ARGB);
+		Graphics g1 = bi.createGraphics();
+		g1.drawImage(img.getImage(), 0, 0, d.width, d.height, null);
+		g1.dispose();
+
+		return (new ImageIcon(bi));
+	}
 
 	public static ImageIcon getScaledImage(String imgName, Dimension dim) {
 		ImageIcon img = null;
