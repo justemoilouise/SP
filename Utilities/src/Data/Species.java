@@ -10,10 +10,12 @@ public class Species implements Serializable {
 	private double[] featureValues;
 	private String[] particleLabels;
 	private ArrayList<double[]> particleValues;
+	private ArrayList<Feature> features;
 	
 	public Species () {
 		this.name = "";
 		this.particleValues = new ArrayList<double[]>();
+		this.features = new ArrayList<Feature>();
 	}	
 	public Species(String name, String[] featureLabels, double[] featureValues) {
 		this.name = name;
@@ -49,5 +51,11 @@ public class Species implements Serializable {
 	}
 	public void setParticleValues(ArrayList<double[]> particleValues) {
 		this.particleValues = particleValues;
+	}
+	public ArrayList<Feature> getFeatures() {
+		return features;
+	}
+	public void setFeatures(ArrayList<Feature> features) {
+		this.features = features;
 	}
 }

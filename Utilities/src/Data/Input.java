@@ -7,14 +7,15 @@ import ij.ImagePlus;
 
 @SuppressWarnings("serial")
 public class Input implements Serializable {
-	private ImagePlus img, segmentation;
+	private ImagePlus img, protrusions, base;
 	private String imageName;
 	private Species species;
 	private ArrayList<SVMResult> svmResult;
 
 	public Input() {
 		this.img = null;
-		this.segmentation = null;
+		this.protrusions = null;
+		this.base = null;
 		this.imageName = "/resources/img_noimg.png";
 		this.svmResult = new ArrayList<SVMResult>();
 	}
@@ -27,12 +28,20 @@ public class Input implements Serializable {
 		this.img = img;
 	}
 
-	public ImagePlus getSegmentation() {
-		return segmentation;
+	public ImagePlus getProtrusions() {
+		return protrusions;
 	}
 
-	public void setSegmentation(ImagePlus segmentation) {
-		this.segmentation = segmentation;
+	public void setProtrusions(ImagePlus protrusions) {
+		this.protrusions = protrusions;
+	}
+
+	public ImagePlus getBase() {
+		return base;
+	}
+
+	public void setBase(ImagePlus base) {
+		this.base = base;
 	}
 
 	public String getImageName() {
