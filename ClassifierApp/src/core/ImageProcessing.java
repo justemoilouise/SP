@@ -10,11 +10,15 @@ import imageProcessing.Protrusions;
 
 public class ImageProcessing {
 	private ImagePlus originalImg;
+	private Species species;
 
-	public ImageProcessing() {}
+	public ImageProcessing() {
+		this.species = new Species();
+	}
 
 	public ImageProcessing(ImagePlus originalImg) {
 		this.originalImg = originalImg;
+		this.species = new Species();
 	}
 
 	public ImagePlus getImageProtrusions() {
@@ -38,7 +42,7 @@ public class ImageProcessing {
 		return bs.getImage();
 	}
 
-	public Species extractFeatures(boolean isIJ) {
+	public void extractFeatures(boolean isIJ) {
 		FeatureExtraction featureExtraction = new FeatureExtraction();
 		featureExtraction.getShapeDescriptors(originalImg);
 
@@ -52,12 +56,13 @@ public class ImageProcessing {
 		ParticleAnalysis pa = new ParticleAnalysis();
 		pa.analyzeParticleShape(originalImg);
 
-		Species s = new Species();
-		s.setFeatureLabels(featureExtraction.getFeatureLabels());
-		s.setFeatureValues(featureExtraction.getFeatureValues());
-		s.setParticleLabels(pa.getFeatureLabels());
-		s.setParticleValues(pa.getFeatureValues());
-		
-		return s;
+		species.setFeatureLabels(featureExtraction.getFeatureLabels());
+		species.setFeatureValues(featureExtraction.getFeatureValues());
+		species.setParticleLabels(pa.getFeatureLabels());
+		species.setParticleValues(pa.getFeatureValues());
+	}
+	
+	public Species getSpecies() {
+		return species;
 	}
 }

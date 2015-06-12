@@ -183,12 +183,13 @@ public class Client {
 		Input input = new Input();
 		
 		ip = new ImageProcessing(imgPlus);
+		ip.extractFeatures(isIJ);
 		ImagePlus p = ip.getImageProtrusions();
 		ImagePlus b = ip.getImageBaseShape(p);
 		
 		input.setProtrusions(p);
 		input.setBase(b);
-		input.setSpecies(ip.extractFeatures(isIJ));
+		input.setSpecies(ip.getSpecies());
 		
 		// save ROI
 		BufferedImage bi = ProcessImage.getROI(imgPlus);		

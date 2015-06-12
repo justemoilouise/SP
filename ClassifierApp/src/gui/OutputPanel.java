@@ -42,7 +42,7 @@ public class OutputPanel extends JInternalFrame {
 		
 		setTitle("Output (" + count + ")");;
 		setName("Output");
-		setBounds(10, 10, 800, 450);
+		setBounds(10, 10, 1000, 550);
 		setClosable(true);
 		setIconifiable(true);
 	}
@@ -219,7 +219,7 @@ public class OutputPanel extends JInternalFrame {
 					.addContainerGap()
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 520, GroupLayout.PREFERRED_SIZE)
+					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 720, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -228,8 +228,7 @@ public class OutputPanel extends JInternalFrame {
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
 						.addComponent(tabbedPane, Alignment.LEADING)
-						//.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE))
-						.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
+						.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE))
 					.addContainerGap(13, Short.MAX_VALUE))
 		);
 		
