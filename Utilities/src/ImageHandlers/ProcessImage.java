@@ -39,7 +39,7 @@ public class ProcessImage {
 
 		return f;
 	}
-
+	
 	public static BufferedImage getROI(ImagePlus ip) {
 		Rectangle rect = ip.getRoi().getBounds();
 		ImageIcon roiImg = new ImageIcon(ip.getImage());
