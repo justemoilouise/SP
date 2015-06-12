@@ -195,7 +195,7 @@ public class Client {
 		input.setBase(b);
 		input.setSpecies(ip.getSpecies());
 		
-		// save ROI
+		// save images		
 		BufferedImage bi = ProcessImage.getROI(imgPlus);		
 		String name = "tmp/"+count+".png";
 		ProcessImage.saveImage(bi, name);

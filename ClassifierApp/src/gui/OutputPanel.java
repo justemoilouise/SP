@@ -128,22 +128,22 @@ public class OutputPanel extends JInternalFrame {
 		return new JScrollPane(panel);
 	}
 	
-	public JScrollPane getProtrusions() {
+	public JPanel getProtrusions() {
 		ImageIcon img = new ImageIcon(input.getProtrusions().getImage());
-		
-		JScrollPane panel = new JScrollPane();
-		panel.add(new JLabel(img));
-		panel.setPreferredSize(new Dimension(350, 200));
+		img = ProcessImage.getScaledImage(img, new Dimension(450, 450));
+		JLabel label = new JLabel(img);
+		JPanel panel = new JPanel();
+		panel.add(label);
 		
 		return panel;
 	}
 	
-	public JScrollPane getBaseShape() {
+	public JPanel getBaseShape() {
 		ImageIcon img = new ImageIcon(input.getBase().getImage());
-		
-		JScrollPane panel = new JScrollPane();
-		panel.add(new JLabel(img));
-		panel.setPreferredSize(new Dimension(350, 200));
+		img = ProcessImage.getScaledImage(img, new Dimension(450, 450));
+		JLabel label = new JLabel(img);
+		JPanel panel = new JPanel();
+		panel.add(label);
 		
 		return panel;
 	}
