@@ -130,8 +130,8 @@ public class Fast_Filters implements ExtendedPlugInFilter, DialogListener {
     // F i l t e r   p a r a m e t e r s
     // Note that this makes it impossible to run the filter in parallel threads with different filter parameters!
     private static int type = MEAN;             // Filter type
-    private static int xRadius = 3;             // The kernel radius in x direction
-    private static int yRadius = 3;             // The kernel radius in x direction
+    private static int xRadius = 100;             // The kernel radius in x direction
+    private static int yRadius = 100;             // The kernel radius in x direction
     private static boolean linkXY = true;       // Whether to use the same radius in x&y
     private static int preProcess = 0;          // Preprocessing type
     private static boolean subtract = false;    // Whether output should be the original minus filtered
@@ -145,9 +145,14 @@ public class Fast_Filters implements ExtendedPlugInFilter, DialogListener {
     private int pass;                           // Current pass
     // Multithreading-related
     private int maxThreads = Runtime.getRuntime().availableProcessors();  // number of threads for filtering
+    private float fOffset;
 
-    public Fast_Filters(int type) {
+    public Fast_Filters(int type, boolean subtract, float fOffset, int x, int y) {
     	Fast_Filters.type = type;
+    	Fast_Filters.subtract = subtract;
+    	this.fOffset = fOffset;
+    	xRadius = x;
+    	yRadius = y;
     }
     
     /**
@@ -257,7 +262,6 @@ public class Fast_Filters implements ExtendedPlugInFilter, DialogListener {
             float[] pixels = (float[])ip.getPixels();
             float[] snapPixels = (float[])ip.getSnapshotPixels();
             //float fOffset = (float)offset[impType];
-            float fOffset = 255;
             
             for (int y=roiRect.y; y<roiRect.y+roiRect.height; y++)
                 for (int x=roiRect.x, p=x+y*width; x<roiRect.x+roiRect.width; x++,p++)

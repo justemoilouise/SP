@@ -58,7 +58,7 @@ public class ProcessImage {
 		FloatProcessor fp = ip.duplicate().getProcessor().convertToFloatProcessor();
 		fp.snapshot();
 		
-		Fast_Filters ff = new Fast_Filters(2);
+		Fast_Filters ff = new Fast_Filters(2, false, 0, 3, 3);
 		ff.run(fp);
 		
 		return new ImagePlus(ip.getTitle() + " - Median", fp);
@@ -68,7 +68,7 @@ public class ProcessImage {
 		FloatProcessor fp = ip.duplicate().getProcessor().convertToFloatProcessor();
 		fp.snapshot();
 		
-		Fast_Filters ff = new Fast_Filters(8);
+		Fast_Filters ff = new Fast_Filters(8, true, 255, 25, 25);
 		ff.run(fp);
 		
 		return new ImagePlus(ip.getTitle() + " - Top Hat", fp);
