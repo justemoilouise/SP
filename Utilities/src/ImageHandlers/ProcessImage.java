@@ -82,6 +82,14 @@ public class ProcessImage {
 		return ip;
 	}
 	
+	public static ImagePlus getImageSubtract(ImagePlus img1, ImagePlus img2) {
+		ImageCalculator ic = new ImageCalculator();
+		ImagePlus ip = ic.run("subtract create", img1, img2); 
+		ip.setTitle("Subtract - " + img1.getTitle() + " & " + img2.getTitle());
+		
+		return ip;
+	}
+	
 	public static ImagePlus subtractBackground(ImagePlus ip) {
 		BackgroundSubtracter bs = new BackgroundSubtracter();
 		bs.rollingBallBackground(ip.getProcessor(), 50, false, false, false, false, false);
