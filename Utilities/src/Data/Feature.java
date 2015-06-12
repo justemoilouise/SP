@@ -9,10 +9,13 @@ public class Feature {
 	private ArrayList<double[]> mValues;
 	private FeatureProperties properties;
 	
-	public Feature() {}
+	public Feature() {
+		this.mValues = new ArrayList<double[]>();
+	}
 	
 	public Feature(String name) {
 		this.name = name;
+		this.mValues = new ArrayList<double[]>();
 	}
 
 	public String getName() {
