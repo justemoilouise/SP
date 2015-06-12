@@ -4,7 +4,8 @@ public class FeatureProperties {
 
 	public enum Shell {
 		Spherical,
-		Globular
+		Globular,
+		Conical
 	}
 	
 	public enum PoreFrames {
