@@ -91,7 +91,7 @@ public class ProcessImage {
 	
 	public static ImageProcessor removeOutliers(ImageProcessor ip) {
 		RankFilters rf = new RankFilters();
-		rf.rank(ip, 15, RankFilters.OUTLIERS, RankFilters.DARK_OUTLIERS, 50);
+		rf.rank(ip, 20, RankFilters.OUTLIERS, RankFilters.BRIGHT_OUTLIERS, 50);
 		
 		return ip;
 	}

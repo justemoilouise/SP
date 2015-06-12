@@ -59,7 +59,7 @@ public class Protrusions {
 		bin = (BinaryProcessor) ProcessImage.removeOutliers(bin);
 		bin.smooth();
 
-		this.img = new ImagePlus(ip.getTitle() + " - Smooth", bin);
+		this.img = new ImagePlus(ip.getTitle() + " - Remove outliers and Smooth", bin);
 		img.show();
 	}
 
