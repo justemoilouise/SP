@@ -32,6 +32,7 @@ public class Client {
 	private static ImageProcessing ip;
 	private static Preprocess preprocess;
 	private static SVM svm;
+	private static DecisionTree dTree;
 	private static ClassifierModel model;
 
 	private static ImagePlus imgPlus;
@@ -44,6 +45,7 @@ public class Client {
 		ip = new ImageProcessing();
 		preprocess = new Preprocess();
 		svm = new SVM();
+		dTree = new DecisionTree();
 		pm = new MainWindow();	
 		Prompt.SetParentComponent(pm.getDesktoPane());
 		
@@ -171,9 +173,11 @@ public class Client {
 		double[] preprocessedData = preprocess.scale(features);
 		preprocessedData = preprocess.reduceFeatures(preprocessedData);
 		ArrayList<SVMResult> results = svm.classify(preprocessedData, isIJ);			
+		String dtResult = dTree.classify(s);
 		
 		i.setSvmResult(results);
-		s.setName(svm.analyzeResults(results));
+		s.setSvmName(svm.analyzeResults(results));
+		s.setdTreeName(dtResult);
 		
 		progress.closeProgressBar();
 		displayOutput();

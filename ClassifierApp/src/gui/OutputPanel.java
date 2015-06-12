@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
@@ -102,12 +103,13 @@ public class OutputPanel extends JInternalFrame {
 		tp.addTab("Measurements", getImageFeatures());
 		tp.addTab("Particle analysis", getParticleAnalysis());
 		tp.addTab("SVM", getSVMResult());
+		tp.addTab("Decision tree", getDecisionTreeResult());
 		
 		return tp;
 	}
 	
 	public JScrollPane getSummary() {
-		String prediction = input.getSpecies().getName();
+		String prediction = input.getSpecies().getSvmName();
 		JPanel panel = new JPanel();
 		
 		JLabel label = new JLabel("PREDICTED CLASS: " + prediction);
@@ -147,15 +149,15 @@ public class OutputPanel extends JInternalFrame {
 	}
 	
 	public JScrollPane getFeatures() {
-		ArrayList<Feature> features = input.getSpecies().getFeatures();
+		Hashtable<String, Feature> features = input.getSpecies().getFeatures();
 		
 		String[] headers = {"Feature", "Description"};
 		String[][] tableData = new String[features.size()][2];
 		
 		int index = 0;
-		for(Feature f : features) {
+		for(Feature f : features.values()) {
 			tableData[index][0] = f.getName();
-			tableData[index][1] = "description";
+			tableData[index][1] = Integer.toString(f.getCount());
 			
 			index++;
 		}
@@ -227,6 +229,15 @@ public class OutputPanel extends JInternalFrame {
 		table.setEnabled(false);
 		
 		return (new JScrollPane(table));
+	}
+	
+	public JScrollPane getDecisionTreeResult() {
+		JLabel label = new JLabel(input.getSpecies().getdTreeName());
+		
+		JPanel panel = new JPanel();
+		panel.add(label);
+		
+		return new JScrollPane(panel); 
 	}
 
 	private double getProbability() {

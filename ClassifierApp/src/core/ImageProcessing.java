@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import Data.Feature;
 import Data.Species;
 import ImageHandlers.ProcessImage;
+import helpers.ArrayHelper;
+import helpers.ValueHelper;
 import ij.ImagePlus;
 import imageProcessing.BaseShape;
 import imageProcessing.FeatureExtraction;
@@ -34,13 +36,26 @@ public class ImageProcessing {
 
 		ArrayList<double[]> values = p.getFeatureValues();
 		if(values.size() > 0) {
-			// horns
-			Feature f = new Feature("Horn");
-			f.setmLabels(p.getFeatureLabels());
-			f.setmValues(values);
-			f.setCount(values.size());
-
-			species.getFeatures().add(f);
+			Feature f = new Feature();
+			
+			if(values.size() == 2) {
+				// spines
+				f.setName("Spine");
+				f.setmLabels(p.getFeatureLabels());
+				f.setmValues(values);
+				f.setCount(values.size());
+				
+				species.getFeatures().put(f.getName(), f);
+			}
+			else if(values.size() == 3) {
+				// horns
+				f.setName("Horn");
+				f.setmLabels(p.getFeatureLabels());
+				f.setmValues(values);
+				f.setCount(values.size());
+				
+				species.getFeatures().put(f.getName(), f);
+			}
 		}
 
 		return p.getImage();	
@@ -54,12 +69,17 @@ public class ImageProcessing {
 
 		double[] bValues = bs.getBaseFeatureValues();
 		if(bValues != null || bValues.length > 0) {
-			// shell
-			Feature f = new Feature("Shell");
+			// shape
+			int index = ArrayHelper.GetIndexOf(bs.getBaseFeatureLabels(), "Circ.");
+			int shape = ValueHelper.GetShape(bValues[index]);
+			
+			Feature f = new Feature("Shape");
 			f.setmLabels(bs.getBaseFeatureLabels());
 			f.getmValues().add(bValues);
+			f.setCount(1);
+			f.setDescription(shape == 1 ? "Spherical" : "Conical");
 
-			species.getFeatures().add(f);
+			species.getFeatures().put(f.getName(), f);
 		}
 		
 		ArrayList<double[]> pValues = bs.getParticleFeatureValues();
@@ -68,8 +88,9 @@ public class ImageProcessing {
 			Feature f = new Feature("Pore");
 			f.setmLabels(bs.getParticleFeatureLabels());
 			f.setmValues(pValues);
+			f.setCount(pValues.size());
 
-			species.getFeatures().add(f);
+			species.getFeatures().put(f.getName(), f);
 		}
 
 		return bs.getImage();
