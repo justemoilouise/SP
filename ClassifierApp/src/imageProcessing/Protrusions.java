@@ -3,6 +3,7 @@ package imageProcessing;
 import java.util.ArrayList;
 
 import ImageHandlers.ProcessImage;
+import helpers.ValueHelper;
 import ij.ImagePlus;
 import ij.process.BinaryProcessor;
 import ij.process.ByteProcessor;
@@ -10,10 +11,12 @@ import ij.process.ByteProcessor;
 public class Protrusions {
 	private ImagePlus img;
 	private ParticleAnalysis pa;
+	private ArrayList<double[]> features;
 
 	public Protrusions() {
 		this.img = null;
 		this.pa = new ParticleAnalysis();
+		this.features = new ArrayList<double[]>();
 	}
 
 	public void identifyProtrusions(ImagePlus ip) {
@@ -24,14 +27,12 @@ public class Protrusions {
 
 		// make binary
 		ByteProcessor bp = imp.duplicate().getProcessor().convertToByteProcessor();
-//		bp.autoThreshold();
 		BinaryProcessor bin = new BinaryProcessor(bp);
+		bin.autoThreshold();
 		(new ImagePlus(imp.getTitle() + " - Binary", bin)).show();
 
-		// remove outliers
+		// remove outliers then smooth
 		bp = (ByteProcessor) ProcessImage.removeOutliers(bin);
-
-		// smoothen
 		bp.smooth();
 
 		this.img = new ImagePlus(imp.getTitle() + " - Smooth", bin);
@@ -42,9 +43,7 @@ public class Protrusions {
 		
 		// subtract background
 		ImagePlus imp1 = ProcessImage.subtractBackground(ip1.duplicate());
-//		imp1.show();
 		ImagePlus imp2 = ProcessImage.subtractBackground(ip2.duplicate());
-//		imp2.show();
 
 		// get image difference
 		ImagePlus ip = ProcessImage.getImageDifference(imp1, imp2);
@@ -54,7 +53,6 @@ public class Protrusions {
 		ByteProcessor bp = new ByteProcessor(ip.duplicate().getProcessor(), false);
 		BinaryProcessor bin = new BinaryProcessor(bp);
 		bin.autoThreshold();
-//		(new ImagePlus(ip.getTitle() + " - Binary", bin)).show();
 
 		// remove outliers then smooth
 		bin = (BinaryProcessor) ProcessImage.removeOutliers(bin);
@@ -65,7 +63,14 @@ public class Protrusions {
 	}
 
 	public void analyzeProtrusions() {
-		pa.analyzeParticleShapeAndLocation(img);
+		pa.analyzeParticleAreaShapeAndLocation(img);
+		
+		ArrayList<double[]> f = pa.getFeatureValues();
+		for(double[] arr : f) {
+			if(ValueHelper.IsValidFeature(arr)) {
+				features.add(arr);
+			}
+		}
 	}
 
 	public ImagePlus getImage() {
@@ -73,7 +78,7 @@ public class Protrusions {
 	}
 
 	public ArrayList<double[]> getFeatureValues() {
-		return pa.getFeatureValues();
+		return features;
 	}
 
 	public String[] getFeatureLabels() {

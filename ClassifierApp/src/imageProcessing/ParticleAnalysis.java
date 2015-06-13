@@ -45,14 +45,14 @@ public class ParticleAnalysis {
 		parseResultTable(rt);
 	}
 	
-	public void analyzeParticleShapeAndLocation(ImagePlus ip) {
+	public void analyzeParticleAreaShapeAndLocation(ImagePlus ip) {
 		ByteProcessor bp = ip.duplicate().getProcessor().convertToByteProcessor();
 		bp.autoThreshold();
 		bp.findEdges();
 		this.img = new ImagePlus(ip.getTitle(), bp);
 		
 		ResultsTable rt = new ResultsTable();
-		ParticleAnalyzer pa = new ParticleAnalyzer(ParticleAnalyzer.SHOW_NONE, Measurements.SHAPE_DESCRIPTORS + Measurements.CENTROID, rt, 0, Double.MAX_VALUE, 0, 1);
+		ParticleAnalyzer pa = new ParticleAnalyzer(ParticleAnalyzer.SHOW_NONE, Measurements.SHAPE_DESCRIPTORS + Measurements.CENTROID + Measurements.AREA, rt, 0, Double.MAX_VALUE, 0, 1);
 		pa.analyze(img);
 		parseResultTable(rt);
 	}
@@ -60,15 +60,17 @@ public class ParticleAnalysis {
 	private void parseResultTable(ResultsTable rt) {
 		int x = rt.getCounter();
 		
-		for(int i=0; i<x; i++) {
+		for(int i=1; i<x; i++) {
 			if(rt.getRowAsString(i) == null) {
 				break;
 			}
 
 			StringTokenizer value = new StringTokenizer(rt.getRowAsString(i), "\t");
 			double[] v = new double[value.countTokens()];
-			int index = 0;
-
+			int index = 1;
+			value.nextToken();
+			
+			v[0] = i;
 			while(value.hasMoreTokens()) {
 				v[index] = Double.parseDouble(value.nextToken());
 				index++;

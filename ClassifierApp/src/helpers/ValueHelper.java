@@ -9,4 +9,11 @@ public class ValueHelper {
 		
 		return conical;
 	}
+	
+	public static boolean IsValidFeature(double[] arr) {
+		if(arr[1] > 1000) {
+			return true;
+		}
+		return false;
+	}
 }

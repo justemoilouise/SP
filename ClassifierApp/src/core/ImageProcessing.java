@@ -28,7 +28,6 @@ public class ImageProcessing {
 
 	public ImagePlus getImageProtrusions() {
 		ImagePlus img = ProcessImage.topHatTransform(originalImg.duplicate());
-		//img.show();
 
 		Protrusions p = new Protrusions();
 		p.identifyProtrusions(originalImg, img);
@@ -47,7 +46,7 @@ public class ImageProcessing {
 				
 				species.getFeatures().put(f.getName(), f);
 			}
-			else if(values.size() == 3) {
+			else {//if(values.size() == 3) {
 				// horns
 				f.setName("Horn");
 				f.setmLabels(p.getFeatureLabels());
