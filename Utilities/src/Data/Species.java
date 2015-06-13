@@ -12,6 +12,7 @@ public class Species implements Serializable {
 	private String[] particleLabels;
 	private ArrayList<double[]> particleValues;
 	private Hashtable<String, Feature> features;
+	private Attributes attr;
 	
 	public Species () {
 		this.name = "";
@@ -70,5 +71,11 @@ public class Species implements Serializable {
 	}
 	public void setFeatures(Hashtable<String, Feature> features) {
 		this.features = features;
+	}
+	public Attributes getAttr() {
+		return attr;
+	}
+	public void setAttr(Attributes attr) {
+		this.attr = attr;
 	}
 }
