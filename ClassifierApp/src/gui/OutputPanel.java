@@ -150,23 +150,43 @@ public class OutputPanel extends JInternalFrame {
 	
 	public JScrollPane getFeatures() {
 		Hashtable<String, Feature> features = input.getSpecies().getFeatures();
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		JLabel label;
 		
-		String[] headers = {"Feature", "Description"};
-		String[][] tableData = new String[features.size()][2];
-		
-		int index = 0;
 		for(Feature f : features.values()) {
-			tableData[index][0] = f.getName();
-			tableData[index][1] = Integer.toString(f.getCount());
+			label = new JLabel(f.getName());
+			label.setAlignmentX(LEFT_ALIGNMENT);
 			
-			index++;
+			String[] headers = f.getmLabels();
+			String[][] tableData = new String[f.getCount()][headers.length];
+			ArrayList<double[]> values = f.getmValues();
+			int index = 0;
+			
+			for(double[] v : values) {
+				for(int i=0; i<v.length; i++) {
+					tableData[index][i] = Double.toString(v[i]);
+				}
+				index++;
+			}
+			
+			TableModel model = new DefaultTableModel(tableData, headers);
+			JTable table = new JTable(model);
+			table.setEnabled(false);
+			table.setAlignmentX(LEFT_ALIGNMENT);
+			
+			JPanel p = new JPanel();
+			p.add(label);
+			p.add(table);
+			p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+			p.setAlignmentX(LEFT_ALIGNMENT);
+			panel.add(p);
 		}
 		
-		TableModel model = new DefaultTableModel(tableData, headers);
-		JTable table = new JTable(model);
-		table.setEnabled(false);
-
-		return (new JScrollPane(table));
+		JScrollPane pane = new JScrollPane(panel);
+		pane.setPreferredSize(new Dimension(350, 200));
+		
+		return pane;
 	}
 	
 	public JScrollPane getImageFeatures() {
