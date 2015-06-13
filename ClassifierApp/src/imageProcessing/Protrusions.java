@@ -23,20 +23,17 @@ public class Protrusions {
 
 		// subtract background
 		ImagePlus imp = ProcessImage.subtractBackground(ip.duplicate());
-		imp.show();
 
 		// make binary
 		ByteProcessor bp = imp.duplicate().getProcessor().convertToByteProcessor();
 		BinaryProcessor bin = new BinaryProcessor(bp);
 		bin.autoThreshold();
-		(new ImagePlus(imp.getTitle() + " - Binary", bin)).show();
 
 		// remove outliers then smooth
 		bp = (ByteProcessor) ProcessImage.removeOutliers(bin);
 		bp.smooth();
 
 		this.img = new ImagePlus(imp.getTitle() + " - Smooth", bin);
-		img.show();
 	}
 
 	public void identifyProtrusions(ImagePlus ip1, ImagePlus ip2) {
@@ -47,7 +44,6 @@ public class Protrusions {
 
 		// get image difference
 		ImagePlus ip = ProcessImage.getImageDifference(imp1, imp2);
-		ip.show();
 
 		// make binary
 		ByteProcessor bp = new ByteProcessor(ip.duplicate().getProcessor(), false);
@@ -59,7 +55,6 @@ public class Protrusions {
 		bin.smooth();
 
 		this.img = new ImagePlus(ip.getTitle() + " - Remove outliers and Smooth", bin);
-		img.show();
 	}
 
 	public void analyzeProtrusions() {

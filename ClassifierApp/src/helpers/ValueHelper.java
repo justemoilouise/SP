@@ -19,7 +19,7 @@ public class ValueHelper {
 	}
 	
 	public static boolean IsValidFeature(double[] arr) {
-		if(arr[1] > 1000) {
+		if(arr[1] > 5000) {
 			return true;
 		}
 		return false;
