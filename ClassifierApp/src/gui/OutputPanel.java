@@ -17,13 +17,16 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import Data.Attributes;
 import Data.Feature;
 import Data.Input;
 import Data.SVMResult;
@@ -178,6 +181,7 @@ public class OutputPanel extends JInternalFrame {
 
 			JPanel p = new JPanel();
 			p.add(label);
+			panel.add(new JSeparator(SwingConstants.HORIZONTAL));
 			p.add(table);
 			p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 			p.setAlignmentX(LEFT_ALIGNMENT);
@@ -254,11 +258,39 @@ public class OutputPanel extends JInternalFrame {
 		return (new JScrollPane(table));
 	}
 
-	public JScrollPane getDecisionTreeResult() {
-		JLabel label = new JLabel(input.getSpecies().getdTreeName());
+	public JScrollPane getDecisionTreeResult() {		
+		JLabel label = new JLabel("PREDICTED CLASS: " + input.getSpecies().getdTreeName());
 
+		Attributes a = input.getSpecies().getAttr();
+		String[] attr = a.getAttr();
+		
+		String[] headers = {"Attribute", "Description"};
+		String[][] tableData = new String[attr.length][2];
+
+		for(int i=0; i<attr.length; i++) {		
+			String desc = "None";
+			if(attr[i].equalsIgnoreCase("shape")) {
+				desc = a.isSphericalShape() ? "Spherical" : "Conical";
+			} else if(attr[i].equalsIgnoreCase("horns")) {
+				desc = a.hasHorns() ? Integer.toString(a.getHornCount()) : "None";
+			} else if(attr[i].equalsIgnoreCase("spines")) {
+				desc = a.hasSpines() ? Integer.toString(a.getSpineCount()) : "None";
+			} else if(attr[i].equalsIgnoreCase("pores")) {
+				desc = a.getPoreShape() == 1 ? "Spherical" : "Conical";
+			}
+			
+			tableData[i][0] = attr[i];
+			tableData[i][1] = desc;
+		}
+
+		TableModel model = new DefaultTableModel(tableData, headers);
+		JTable table = new JTable(model);
+		table.setEnabled(false);
+		
 		JPanel panel = new JPanel();
-		panel.add(label);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.add(label, Component.LEFT_ALIGNMENT);
+		panel.add(table, Component.LEFT_ALIGNMENT);
 
 		return new JScrollPane(panel); 
 	}

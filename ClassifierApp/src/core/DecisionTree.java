@@ -2,6 +2,7 @@ package core;
 
 import java.util.Hashtable;
 
+import Data.Attributes;
 import Data.Feature;
 import Data.Species;
 
@@ -11,26 +12,36 @@ public class DecisionTree {
 	
 	public String classify(Species s) {
 		Hashtable<String, Feature> features = s.getFeatures();
+		Attributes attr = new Attributes();
+		String name = "UNKNOWN";
 		
 		// shell shape
 		if(features.containsKey("Shape")) {
 			if(features.get("Shape").getDescription().equals("Conical")) {
-				return "Triassocampe coronata Bragin";
+				attr.setSphericalShape(false);
+				name = "Triassocampe coronata Bragin";
 			} else if(features.get("Shape").getDescription().equals("Spherical")) {
+				attr.setSphericalShape(true);
 				if(features.containsKey("Horn")) {
-					return "Eptingium manfredi Dumitrica";
+					attr.setHasHorns(true);
+					attr.setHornCount(features.get("Horn").getCount());
+					name = "Eptingium manfredi Dumitrica";
 				}
 				else if(features.containsKey("Spine")) {
-					return "Pseudostylosphaera compacta or Pseudostylosphaera japonica";
+					attr.setHasSpines(true);
+					if(features.get("Spine").getDescription().equals("Spherical")) {
+						attr.setPoreShape(1);
+						name = "Pseudostylosphaera compacta";
+					}
+					else if(features.get("Spine").getDescription().equals("Conical")) {
+						attr.setPoreShape(2);
+						name = "Pseudostylosphaera japonica";
+					}
 				}
-				else {
-					return "UNKNOWN";
-				}
-			} else {
-				return "UNKNOWN";
 			}
 		}
 		
-		return "UNKNOWN";
+		s.setAttr(attr);
+		return name;
 	}
 }

@@ -2,7 +2,6 @@ package core;
 
 import java.util.ArrayList;
 
-import CoreHandler.MathFunctions;
 import Data.Feature;
 import Data.Species;
 import ImageHandlers.ProcessImage;
@@ -39,7 +38,7 @@ public class ImageProcessing {
 			Feature f = new Feature();
 			
 			int index = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "Circ.");
-			double mean= ArrayHelper.GetFeatureAverage(values, index);
+			double mean = ArrayHelper.GetFeatureAverage(values, index);
 			String name = ValueHelper.GetProtrusion(mean) == 1 ? "Horn" : "Spine";
 			
 			f.setName(name);
@@ -77,10 +76,15 @@ public class ImageProcessing {
 		ArrayList<double[]> pValues = bs.getParticleFeatureValues();
 		if(pValues.size() > 0) {
 			// pores
+			int index = ArrayHelper.GetIndexOf(bs.getParticleFeatureLabels(), "Circ.");
+			double mean = ArrayHelper.GetFeatureAverage(pValues, index);
+			int shape = ValueHelper.GetShape(mean);
+			
 			Feature f = new Feature("Pore");
 			f.setmLabels(bs.getParticleFeatureLabels());
 			f.setmValues(pValues);
 			f.setCount(pValues.size());
+			f.setDescription(shape == 1 ? "Spherical" : "Conical");
 
 			species.getFeatures().put(f.getName(), f);
 		}
