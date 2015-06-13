@@ -2,6 +2,7 @@ package core;
 
 import java.util.ArrayList;
 
+import CoreHandler.MathFunctions;
 import Data.Feature;
 import Data.Species;
 import ImageHandlers.ProcessImage;
@@ -37,24 +38,16 @@ public class ImageProcessing {
 		if(values.size() > 0) {
 			Feature f = new Feature();
 			
-			if(values.size() == 2) {
-				// spines
-				f.setName("Spine");
-				f.setmLabels(p.getFeatureLabels());
-				f.setmValues(values);
-				f.setCount(values.size());
-				
-				species.getFeatures().put(f.getName(), f);
-			}
-			else {//if(values.size() == 3) {
-				// horns
-				f.setName("Horn");
-				f.setmLabels(p.getFeatureLabels());
-				f.setmValues(values);
-				f.setCount(values.size());
-				
-				species.getFeatures().put(f.getName(), f);
-			}
+			int index = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "Circ.");
+			double mean= ArrayHelper.GetFeatureAverage(values, index);
+			String name = ValueHelper.GetProtrusion(mean) == 1 ? "Horn" : "Spine";
+			
+			f.setName(name);
+			f.setmLabels(p.getFeatureLabels());
+			f.setmValues(values);
+			f.setCount(values.size());
+			
+			species.getFeatures().put(f.getName(), f);
 		}
 
 		return p.getImage();	

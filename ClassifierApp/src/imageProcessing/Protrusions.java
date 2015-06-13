@@ -54,7 +54,7 @@ public class Protrusions {
 		BinaryProcessor bin = new BinaryProcessor(bp);
 		bin.autoThreshold();
 
-		// remove outliers then smooth
+		// remove outliers, smooth
 		bin = (BinaryProcessor) ProcessImage.removeOutliers(bin);
 		bin.smooth();
 
