@@ -1,7 +1,7 @@
 <br />
 <div class="col-md-offset-1 col-md-10 jumbotron">
-	<h1>&emsp; RadiSS</h1>
-	<p>&emsp; A tool for classifying Radiolarian species.</p>
+	<h1>&emsp; <img alt="RadiSS" src="resources/logo.png" /> RadiSS</h1>
+	<p>&emsp; A tool for classifying Radiolarian species using Support Vector Machine and Decision Tree.</p>
 </div>
 <br />
 <div class="col-md-offset-1 col-md-10 panel-body">
