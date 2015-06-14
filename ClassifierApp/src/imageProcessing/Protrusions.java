@@ -58,7 +58,7 @@ public class Protrusions {
 	}
 
 	public void analyzeProtrusions() {
-		pa.analyzeParticleAreaShapeAndLocation(img);
+		pa.analyzeParticleAreaPerimeterAndShape(img);
 		
 		ArrayList<double[]> f = pa.getFeatureValues();
 		for(double[] arr : f) {

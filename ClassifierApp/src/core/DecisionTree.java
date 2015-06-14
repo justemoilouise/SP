@@ -29,11 +29,12 @@ public class DecisionTree {
 				}
 				else if(features.containsKey("Spine")) {
 					attr.setHasSpines(true);
-					if(features.get("Spine").getDescription().equals("Spherical")) {
+					attr.setSpineCount(features.get("Spine").getCount());
+					if(features.get("Pore").getDescription().equals("Spherical")) {
 						attr.setPoreShape(1);
 						name = "Pseudostylosphaera compacta";
 					}
-					else if(features.get("Spine").getDescription().equals("Conical")) {
+					else if(features.get("Pore").getDescription().equals("Conical")) {
 						attr.setPoreShape(2);
 						name = "Pseudostylosphaera japonica";
 					}

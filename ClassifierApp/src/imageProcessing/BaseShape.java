@@ -40,7 +40,6 @@ public class BaseShape {
 		img2.smooth();
 
 		this.img = new ImagePlus(img1.getTitle() + " - Remove outliers and Smooth", img2);
-		img.show();
 	}
 
 	public void analyzeBaseShape() {

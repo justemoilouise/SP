@@ -45,14 +45,14 @@ public class ParticleAnalysis {
 		parseResultTable(rt);
 	}
 	
-	public void analyzeParticleAreaShapeAndLocation(ImagePlus ip) {
+	public void analyzeParticleAreaPerimeterAndShape(ImagePlus ip) {
 		ByteProcessor bp = ip.duplicate().getProcessor().convertToByteProcessor();
 		bp.autoThreshold();
 		bp.findEdges();
 		this.img = new ImagePlus(ip.getTitle(), bp);
 		
 		ResultsTable rt = new ResultsTable();
-		ParticleAnalyzer pa = new ParticleAnalyzer(ParticleAnalyzer.SHOW_NONE, Measurements.SHAPE_DESCRIPTORS + Measurements.CENTROID + Measurements.AREA, rt, 0, Double.MAX_VALUE, 0, 1);
+		ParticleAnalyzer pa = new ParticleAnalyzer(ParticleAnalyzer.SHOW_NONE, Measurements.SHAPE_DESCRIPTORS + Measurements.PERIMETER + Measurements.AREA, rt, 0, Double.MAX_VALUE, 0, 1);
 		pa.analyze(img);
 		parseResultTable(rt);
 	}

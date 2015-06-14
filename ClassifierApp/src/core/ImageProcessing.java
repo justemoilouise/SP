@@ -37,9 +37,14 @@ public class ImageProcessing {
 		if(values.size() > 0) {
 			Feature f = new Feature();
 			
-			int index = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "Circ.");
-			double mean = ArrayHelper.GetFeatureAverage(values, index);
-			String name = ValueHelper.GetProtrusion(mean) == 1 ? "Horn" : "Spine";
+			
+			int i1 = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "Circ.");
+			double circularity = ArrayHelper.GetFeatureAverage(values, i1);
+			
+			int i2 = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "Perim.");
+			double perimeter = ArrayHelper.GetFeatureAverage(values, i2);
+			
+			String name = ValueHelper.GetProtrusion(circularity, perimeter) == 1 ? "Horn" : "Spine";
 			
 			f.setName(name);
 			f.setmLabels(p.getFeatureLabels());

@@ -11,8 +11,8 @@ public class ValueHelper {
 		return conical;
 	}
 	
-	public static int GetProtrusion(double circularity) {
-		if(circularity < 0.2)
+	public static int GetProtrusion(double circularity, double perimeter) {
+		if(circularity < 0.5 && (perimeter > 600 && perimeter < 700))
 			return spine;
 		
 		return horn;
