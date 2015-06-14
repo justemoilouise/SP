@@ -646,5 +646,4 @@ public class Fast_Filters implements ExtendedPlugInFilter, DialogListener {
         if (anyGood) pixels[p] = max*sign;
         return anyNaN ? Float.NaN : max;
     }
-
 }

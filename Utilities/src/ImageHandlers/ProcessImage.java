@@ -65,10 +65,10 @@ public class ProcessImage {
 	}
 	
 	public static ImagePlus topHatTransform(ImagePlus ip) {
-		FloatProcessor fp = ip.duplicate().getProcessor().convertToFloatProcessor();
+		ImageProcessor fp = ip.duplicate().getProcessor().convertToFloat();
 		fp.snapshot();
 		
-		Fast_Filters ff = new Fast_Filters(8, true, 255, 25, 25);
+		Fast_Filters ff = new Fast_Filters(8, true, 255, 18, 18);
 		ff.run(fp);
 		
 		return new ImagePlus(ip.getTitle() + " - Top Hat", fp);
