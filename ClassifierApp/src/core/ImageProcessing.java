@@ -36,22 +36,30 @@ public class ImageProcessing {
 		ArrayList<double[]> values = p.getFeatureValues();
 		if(values.size() > 0) {
 			Feature f = new Feature();
-			
-			
+
+
 			int i1 = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "Circ.");
 			double circularity = ArrayHelper.GetFeatureAverage(values, i1);
-			
+
 			int i2 = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "Perim.");
 			double perimeter = ArrayHelper.GetFeatureAverage(values, i2);
-			
-			String name = ValueHelper.GetProtrusion(circularity, perimeter) == 1 ? "Horn" : "Spine";
-			
-			f.setName(name);
-			f.setmLabels(p.getFeatureLabels());
-			f.setmValues(values);
-			f.setCount(values.size());
-			
-			species.getFeatures().put(f.getName(), f);
+
+			String name = "";
+			int pr = ValueHelper.GetProtrusion(circularity, perimeter);
+			switch(pr) {
+			case 1: name = "Horn"; break;
+			case 2: name = "Spine"; break;
+			default: break;
+			}
+
+			if(!name.equals("")) {
+				f.setName(name);
+				f.setmLabels(p.getFeatureLabels());
+				f.setmValues(values);
+				f.setCount(values.size());
+
+				species.getFeatures().put(f.getName(), f);
+			}
 		}
 
 		return p.getImage();	
@@ -68,7 +76,7 @@ public class ImageProcessing {
 			// shape
 			int index = ArrayHelper.GetIndexOf(bs.getBaseFeatureLabels(), "Circ.");
 			int shape = ValueHelper.GetShape(bValues[index]);
-			
+
 			Feature f = new Feature("Shape");
 			f.setmLabels(bs.getBaseFeatureLabels());
 			f.getmValues().add(bValues);
@@ -77,14 +85,14 @@ public class ImageProcessing {
 
 			species.getFeatures().put(f.getName(), f);
 		}
-		
+
 		ArrayList<double[]> pValues = bs.getParticleFeatureValues();
 		if(pValues.size() > 0) {
 			// pores
 			int index = ArrayHelper.GetIndexOf(bs.getParticleFeatureLabels(), "Circ.");
 			double mean = ArrayHelper.GetFeatureAverage(pValues, index);
 			int shape = ValueHelper.GetShape(mean);
-			
+
 			Feature f = new Feature("Pore");
 			f.setmLabels(bs.getParticleFeatureLabels());
 			f.setmValues(pValues);
