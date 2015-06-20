@@ -4,7 +4,6 @@ import ij.ImagePlus;
 import ij.plugin.ImageCalculator;
 import ij.plugin.filter.BackgroundSubtracter;
 import ij.plugin.filter.RankFilters;
-import ij.process.FloatProcessor;
 import ij.process.ImageProcessor;
 
 import java.awt.Dimension;
@@ -54,24 +53,31 @@ public class ProcessImage {
 		return bi;
 	}
 	
-	public static ImagePlus filterMedian(ImagePlus ip) {
-		FloatProcessor fp = ip.duplicate().getProcessor().convertToFloatProcessor();
-		fp.snapshot();
-		
-		Fast_Filters ff = new Fast_Filters(2, false, 0, 3, 3);
-		ff.run(fp);
-		
-		return new ImagePlus(ip.getTitle() + " - Median", fp);
-	}
+//	public static ImagePlus filterMedian(ImagePlus ip) {
+//		FloatProcessor fp = ip.duplicate().getProcessor().convertToFloatProcessor();
+//		fp.snapshot();
+//		
+//		Fast_Filters ff = new Fast_Filters(2, false, 0, 3, 3);
+//		ff.run(fp);
+//		
+//		return new ImagePlus(ip.getTitle() + " - Median", fp);
+//	}
 	
 	public static ImagePlus topHatTransform(ImagePlus ip) {
 		ImageProcessor fp = ip.duplicate().getProcessor().convertToFloat();
 		fp.snapshot();
+//		
+//		Fast_Filters ff = new Fast_Filters(8, true, 255, 18, 18);
+//		Fast_Filters ff = new Fast_Filters();
+//		ff.run(fp);
 		
-		Fast_Filters ff = new Fast_Filters(8, true, 255, 18, 18);
-		ff.run(fp);
+//		IJ.runPlugIn(ip, "Fast_Filters", "filter=8 x=100 y=100 preprocessing=none subtract=true offset=255");
+//		return ip;
 		
-		return new ImagePlus(ip.getTitle() + " - Top Hat", fp);
+		TopHat th = new TopHat(100, 100, true, 255);
+		th.transform(fp, 8);
+//		
+		return new ImagePlus(ip.getTitle() + " - Top Hat", fp.convertToRGB());
 	}
 
 	public static ImagePlus getImageDifference(ImagePlus img1, ImagePlus img2) {
