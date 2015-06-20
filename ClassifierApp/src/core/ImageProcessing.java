@@ -7,11 +7,16 @@ import Data.Species;
 import ImageHandlers.ProcessImage;
 import helpers.ArrayHelper;
 import helpers.ValueHelper;
+import ij.IJ;
 import ij.ImagePlus;
+import ij.plugin.ChannelSplitter;
+import ij.plugin.RGBStackMerge;
+import ij.process.ImageProcessor;
 import imageProcessing.BaseShape;
 import imageProcessing.FeatureExtraction;
 import imageProcessing.ParticleAnalysis;
 import imageProcessing.Protrusions;
+import imageProcessing.TopHat;
 
 public class ImageProcessing {
 	private ImagePlus originalImg;
@@ -26,7 +31,32 @@ public class ImageProcessing {
 		this.species = new Species();
 	}
 
+	@SuppressWarnings("static-access")
 	public ImagePlus getImageProtrusions() {
+//		ChannelSplitter cs = new ChannelSplitter();
+//		ImagePlus imgRGB[] = cs.split(originalImg.duplicate());
+//		
+//		for(ImagePlus i : imgRGB) {
+//			ImageProcessor fp = i.getProcessor().convertToFloat();
+//			fp.snapshot();
+//			TopHat th = new TopHat(10, 10, true, 255);
+//			th.transform(fp, 8);
+//			
+//			i = new ImagePlus(i.getTitle() + " - Top Hat", fp.convertToByteProcessor());
+//			i.show();
+//		}
+//
+//		RGBStackMerge sm = new RGBStackMerge();
+//		ImagePlus img = sm.mergeHyperstacks(imgRGB, false);
+//		img.getProcessor().convertToRGB();
+		
+//		ImageProcessor fp = originalImg.duplicate().getProcessor().convertToFloat();
+//		fp.snapshot();
+//		TopHat th = new TopHat(18, 18, true, 255);
+//		th.transform(fp, 8);
+//		
+//		ImagePlus img = new ImagePlus(originalImg.getTitle() + " - Top Hat", fp.convertToByteProcessor());
+		
 		ImagePlus img = ProcessImage.topHatTransform(originalImg.duplicate());
 
 		Protrusions p = new Protrusions();
