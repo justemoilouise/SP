@@ -17,12 +17,10 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -154,14 +152,9 @@ public class OutputPanel extends JInternalFrame {
 
 	public JScrollPane getFeatures() {
 		Hashtable<String, Feature> features = input.getSpecies().getFeatures();
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		JLabel label;
-
+		JTabbedPane tp = new JTabbedPane();
+		
 		for(Feature f : features.values()) {
-			label = new JLabel(f.getName());
-			label.setAlignmentX(LEFT_ALIGNMENT);
-
 			String[] headers = f.getmLabels();
 			String[][] tableData = new String[f.getCount()][headers.length];
 			ArrayList<double[]> values = f.getmValues();
@@ -177,18 +170,11 @@ public class OutputPanel extends JInternalFrame {
 			TableModel model = new DefaultTableModel(tableData, headers);
 			JTable table = new JTable(model);
 			table.setEnabled(false);
-			table.setAlignmentX(LEFT_ALIGNMENT);
-
-			JPanel p = new JPanel();
-			p.add(label);
-			panel.add(new JSeparator(SwingConstants.HORIZONTAL));
-			p.add(table);
-			p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-			p.setAlignmentX(LEFT_ALIGNMENT);
-			panel.add(p);
+		
+			tp.addTab(f.getName(), table);
 		}
 
-		JScrollPane pane = new JScrollPane(panel);
+		JScrollPane pane = new JScrollPane(tp);
 		pane.setPreferredSize(new Dimension(300, 0));
 		pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		
@@ -258,7 +244,7 @@ public class OutputPanel extends JInternalFrame {
 		return (new JScrollPane(table));
 	}
 
-	public JScrollPane getDecisionTreeResult() {		
+	public JScrollPane getDecisionTreeResult() {
 		JLabel label = new JLabel("PREDICTED CLASS: " + input.getSpecies().getdTreeName());
 
 		Attributes a = input.getSpecies().getAttr();
