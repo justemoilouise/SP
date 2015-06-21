@@ -1,9 +1,12 @@
 package ImageHandlers;
 
 import ij.ImagePlus;
+import ij.Undo;
 import ij.plugin.ImageCalculator;
 import ij.plugin.filter.BackgroundSubtracter;
+import ij.plugin.filter.PlugInFilterRunner;
 import ij.plugin.filter.RankFilters;
+import ij.process.FloatProcessor;
 import ij.process.ImageProcessor;
 
 import java.awt.Dimension;
@@ -19,7 +22,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import CoreHandler.Prompt;
 
 public class ProcessImage {
-
+	
 	public static File upload() {
 		File f = null;
 
@@ -53,31 +56,19 @@ public class ProcessImage {
 		return bi;
 	}
 	
-//	public static ImagePlus filterMedian(ImagePlus ip) {
-//		FloatProcessor fp = ip.duplicate().getProcessor().convertToFloatProcessor();
-//		fp.snapshot();
-//		
-//		Fast_Filters ff = new Fast_Filters(2, false, 0, 3, 3);
-//		ff.run(fp);
-//		
-//		return new ImagePlus(ip.getTitle() + " - Median", fp);
-//	}
-	
-	public static ImagePlus topHatTransform(ImagePlus ip) {
-		ImageProcessor fp = ip.duplicate().getProcessor().convertToFloat();
-		fp.snapshot();
-//		
-//		Fast_Filters ff = new Fast_Filters(8, true, 255, 18, 18);
-//		Fast_Filters ff = new Fast_Filters();
-//		ff.run(fp);
+	public static ImagePlus topHatTransform(ImagePlus imp) {		
+		Fast_Filters ff = new Fast_Filters();
+		PlugInFilterRunner pfr = new PlugInFilterRunner(ff, "Fast filters", "");		
+//		FloatProcessor fp = null;
+//		ImageProcessor ip = imp.duplicate().getProcessor();
+//		ip.snapshot();
+//		processOneImage(ip, fp, true, 8);
+//		Undo.setup(Undo.FILTER, imp);
+//		ip.resetBinaryThreshold();
+//		imp.changes = true;
+//		imp.updateAndDraw();
 		
-//		IJ.runPlugIn(ip, "Fast_Filters", "filter=8 x=100 y=100 preprocessing=none subtract=true offset=255");
-//		return ip;
-		
-		TopHat th = new TopHat(100, 100, true, 255);
-		th.transform(fp, 8);
-//		
-		return new ImagePlus(ip.getTitle() + " - Top Hat", fp.convertToRGB());
+		return imp;
 	}
 
 	public static ImagePlus getImageDifference(ImagePlus img1, ImagePlus img2) {
@@ -168,4 +159,23 @@ public class ProcessImage {
 			Prompt.PromptError("ERROR_SAVE_IMAGE");
 		}
 	}
+
+	private static void processOneImage(ImageProcessor ip, FloatProcessor fp, boolean snapshotDone, int filterType) {
+		TopHat th = new TopHat(100, 100, true, 255);
+		boolean convertToFloat = true;
+		
+		if (convertToFloat) {
+			for (int i=0; i<ip.getNChannels(); i++) {
+				fp = ip.toFloat(i, fp);
+				fp.setSliceNumber(ip.getSliceNumber());
+				fp.snapshot();
+				
+				th.transform(fp, filterType);
+
+				ip.setPixels(i, fp);
+			}
+		} else {
+			th.transform(fp, filterType);
+		}
+   }
 }

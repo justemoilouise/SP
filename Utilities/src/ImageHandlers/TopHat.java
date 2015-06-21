@@ -6,6 +6,13 @@ import ij.IJ;
 import ij.plugin.filter.RankFilters;
 import ij.process.ImageProcessor;
 
+/**
+ * 
+ * 
+ * This is based on the ImageJ plugin Fast_Filters by Michael Schmid
+ *
+ */
+
 public class TopHat {
 	private int x, y;
 	private boolean subtract;
