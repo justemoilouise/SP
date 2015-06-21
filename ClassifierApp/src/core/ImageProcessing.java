@@ -73,8 +73,8 @@ public class ImageProcessing {
 		double[] bValues = bs.getBaseFeatureValues();
 		if(bValues != null || bValues.length > 0) {
 			// shape
-			int index = ArrayHelper.GetIndexOf(bs.getBaseFeatureLabels(), "Circ.");
-			int shape = ValueHelper.GetShape(bValues[index]);
+			int index = ArrayHelper.GetIndexOf(bs.getBaseFeatureLabels(), "Round");
+			int shape = ValueHelper.GetRoundness(bValues[index]);
 
 			Feature f = new Feature("Shape");
 			f.setmLabels(bs.getBaseFeatureLabels());
@@ -90,7 +90,7 @@ public class ImageProcessing {
 			// pores
 			int index = ArrayHelper.GetIndexOf(bs.getParticleFeatureLabels(), "Circ.");
 			double mean = ArrayHelper.GetFeatureAverage(pValues, index);
-			int shape = ValueHelper.GetShape(mean);
+			int shape = ValueHelper.GetCircularity(mean);
 
 			Feature f = new Feature("Pore");
 			f.setmLabels(bs.getParticleFeatureLabels());

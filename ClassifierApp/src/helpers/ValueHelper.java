@@ -4,11 +4,18 @@ public class ValueHelper {
 	private final static int circular = 1, conical = 2;		//shapes
 	private final static int unknown = 0, horn = 1, spine = 2;
 	
-	public static int GetShape(double circularity) {
+	public static int GetCircularity(double circularity) {
 		if(circularity > 0.5)
 			return circular;
 		
 		return conical;
+	}
+	
+	public static int GetRoundness(double round) {
+		if(round > 0.5 && round < 0.6)
+			return conical;
+		
+		return circular;
 	}
 	
 	public static int GetProtrusion(double circularity, double perimeter) {
