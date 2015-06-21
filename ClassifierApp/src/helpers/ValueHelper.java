@@ -12,16 +12,16 @@ public class ValueHelper {
 	}
 	
 	public static int GetProtrusion(double circularity, double perimeter) {
-		if(circularity < 0.4 && (perimeter > 600 && perimeter < 700))
+		if(circularity < 0.4 && (perimeter > 500 && perimeter < 700))
 			return spine;
-		else if(circularity > 0.5 && (perimeter > 200 && perimeter < 300))
+		else if(circularity > 0.4 && (perimeter > 200 && perimeter < 500))
 			return horn;
 		
 		return unknown;
 	}
 	
 	public static boolean IsValidFeature(double[] arr) {
-		if(arr[1] > 5000) {
+		if(arr[1] > 1000) {
 			return true;
 		}
 		return false;

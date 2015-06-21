@@ -34,7 +34,7 @@ public class DecisionTree {
 					attr.setHasSpines(true);
 					attr.setSpineCount(features.get("Spine").getCount());
 
-					//if(features.get("Spine").getCount()==2) {
+					if(features.get("Spine").getCount()==2) {
 						if(features.get("Pore").getDescription().equals("Spherical")) {
 							attr.setPoreShape(1);
 							name = "Pseudostylosphaera compacta";
@@ -43,7 +43,7 @@ public class DecisionTree {
 							attr.setPoreShape(2);
 							name = "Pseudostylosphaera japonica";
 						}
-					//}
+					}
 				}
 			}
 		}
