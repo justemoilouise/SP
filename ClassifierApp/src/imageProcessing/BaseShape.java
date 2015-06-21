@@ -44,6 +44,7 @@ public class BaseShape {
 
 	public void analyzeBaseShape() {
 		fe.getShapeDescriptors(img);
+		fe.getTextureDescriptors(img.getProcessor());
 		pa.analyzeParticleShape(img);
 	}
 
