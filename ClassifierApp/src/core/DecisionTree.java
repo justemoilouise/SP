@@ -35,11 +35,11 @@ public class DecisionTree {
 					attr.setSpineCount(features.get("Spine").getCount());
 
 					if(features.get("Spine").getCount()==2) {
-						if(features.get("Pore").getDescription().equals("Spherical")) {
+						if(features.get("Meshwork").getDescription().equals("Fine")) {
 							attr.setPoreShape(1);
 							name = "Pseudostylosphaera compacta";
 						}
-						else if(features.get("Pore").getDescription().equals("Conical")) {
+						else if(features.get("Meshwork").getDescription().equals("Spongy")) {
 							attr.setPoreShape(2);
 							name = "Pseudostylosphaera japonica";
 						}

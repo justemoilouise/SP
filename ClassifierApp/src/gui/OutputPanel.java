@@ -261,8 +261,8 @@ public class OutputPanel extends JInternalFrame {
 				desc = a.hasHorns() ? Integer.toString(a.getHornCount()) : "None";
 			} else if(attr[i].equalsIgnoreCase("spines")) {
 				desc = a.hasSpines() ? Integer.toString(a.getSpineCount()) : "None";
-			} else if(attr[i].equalsIgnoreCase("pores")) {
-				desc = a.getPoreShape() == 1 ? "Spherical" : "Conical";
+			} else if(attr[i].equalsIgnoreCase("meshwork")) {
+				desc = a.getPoreShape() == 1 ? "Fine" : "Spongy";
 			}
 			
 			tableData[i][0] = attr[i];

@@ -1,8 +1,16 @@
 package helpers;
 
 public class ValueHelper {
-	private final static int circular = 1, conical = 2;		//shapes
-	private final static int unknown = 0, horn = 1, spine = 2;
+	private final static int circular = 1, conical = 2;			//shapes
+	private final static int unknown = 0, horn = 1, spine = 2;	// protrusions
+	private final static int smooth = 0, rough = 1;				// texture
+	
+	public static int GetShape(double circularity, double round) {
+		if(circularity < 0.5 && round > 0.5)
+			return conical;
+		
+		return circular;
+	}
 	
 	public static int GetCircularity(double circularity) {
 		if(circularity > 0.5)
@@ -16,6 +24,13 @@ public class ValueHelper {
 			return conical;
 		
 		return circular;
+	}
+	
+	public static int GetTexture(double t) {
+		if(t < 0.6)
+			return rough;
+		
+		return smooth;
 	}
 	
 	public static int GetProtrusion(double circularity, double perimeter) {

@@ -26,9 +26,9 @@ public class ImageProcessing {
 		this.species = new Species();
 	}
 
-	public ImagePlus getImageProtrusions() {		
+	public ImagePlus getImageProtrusions() {
 		ImagePlus img = ProcessImage.topHatTransform(originalImg.duplicate());
-		
+
 		Protrusions p = new Protrusions();
 		p.identifyProtrusions(originalImg, img);
 		p.analyzeProtrusions();
@@ -83,23 +83,35 @@ public class ImageProcessing {
 			f.setDescription(shape == 1 ? "Spherical" : "Conical");
 
 			species.getFeatures().put(f.getName(), f);
-		}
 
-		ArrayList<double[]> pValues = bs.getParticleFeatureValues();
-		if(pValues.size() > 0) {
-			// pores
-			int index = ArrayHelper.GetIndexOf(bs.getParticleFeatureLabels(), "Circ.");
-			double mean = ArrayHelper.GetFeatureAverage(pValues, index);
-			int shape = ValueHelper.GetCircularity(mean);
+			// meshwork
+			index = ArrayHelper.GetIndexOf(bs.getBaseFeatureLabels(), "Angular Second Moment");
+			int mw = ValueHelper.GetTexture(bValues[index]);
 
-			Feature f = new Feature("Pore");
-			f.setmLabels(bs.getParticleFeatureLabels());
-			f.setmValues(pValues);
-			f.setCount(pValues.size());
-			f.setDescription(shape == 1 ? "Spherical" : "Conical");
+			f = new Feature("Meshwork");
+			f.setmLabels(bs.getBaseFeatureLabels());
+			f.getmValues().add(bValues);
+			f.setCount(1);
+			f.setDescription(mw == 1 ? "Fine" : "Spongy");
 
 			species.getFeatures().put(f.getName(), f);
 		}
+
+		//		ArrayList<double[]> pValues = bs.getParticleFeatureValues();
+		//		if(pValues.size() > 0) {
+		//			// pores
+		//			int index = ArrayHelper.GetIndexOf(bs.getParticleFeatureLabels(), "Circ.");
+		//			double mean = ArrayHelper.GetFeatureAverage(pValues, index);
+		//			int shape = ValueHelper.GetCircularity(mean);
+		//
+		//			Feature f = new Feature("Pore");
+		//			f.setmLabels(bs.getParticleFeatureLabels());
+		//			f.setmValues(pValues);
+		//			f.setCount(pValues.size());
+		//			f.setDescription(shape == 1 ? "Spherical" : "Conical");
+		//
+		//			species.getFeatures().put(f.getName(), f);
+		//		}
 
 		return bs.getImage();
 	}
