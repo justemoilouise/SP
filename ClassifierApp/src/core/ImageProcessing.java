@@ -1,6 +1,7 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import Data.Feature;
 import Data.Species;
@@ -72,13 +73,15 @@ public class ImageProcessing {
 
 		double[] bValues = bs.getBaseFeatureValues();
 		if(bValues != null || bValues.length > 0) {
+			String[] labels = bs.getBaseFeatureLabels();
+
 			// shape
 			int index = ArrayHelper.GetIndexOf(bs.getBaseFeatureLabels(), "Round");
 			int shape = ValueHelper.GetRoundness(bValues[index]);
 
 			Feature f = new Feature("Shape");
-			f.setmLabels(bs.getBaseFeatureLabels());
-			f.getmValues().add(bValues);
+			f.setmLabels(Arrays.copyOfRange(labels, 0, 4));
+			f.getmValues().add(Arrays.copyOfRange(bValues, 0, 4));
 			f.setCount(1);
 			f.setDescription(shape == 1 ? "Spherical" : "Conical");
 
@@ -89,8 +92,8 @@ public class ImageProcessing {
 			int mw = ValueHelper.GetTexture(bValues[index]);
 
 			f = new Feature("Meshwork");
-			f.setmLabels(bs.getBaseFeatureLabels());
-			f.getmValues().add(bValues);
+			f.setmLabels(Arrays.copyOfRange(labels, 4, labels.length));
+			f.getmValues().add(Arrays.copyOfRange(bValues, 4, bValues.length));
 			f.setCount(1);
 			f.setDescription(mw == 1 ? "Fine" : "Spongy");
 
