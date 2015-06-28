@@ -1,12 +1,10 @@
 package ImageHandlers;
 
 import ij.ImagePlus;
-import ij.Undo;
 import ij.plugin.ImageCalculator;
 import ij.plugin.filter.BackgroundSubtracter;
 import ij.plugin.filter.PlugInFilterRunner;
 import ij.plugin.filter.RankFilters;
-import ij.process.FloatProcessor;
 import ij.process.ImageProcessor;
 
 import java.awt.Dimension;
@@ -58,7 +56,7 @@ public class ProcessImage {
 	
 	public static ImagePlus topHatTransform(ImagePlus imp) {		
 		Fast_Filters ff = new Fast_Filters();
-		PlugInFilterRunner pfr = new PlugInFilterRunner(ff, "Fast filters", "");		
+		new PlugInFilterRunner(ff, "Fast filters", "");		
 //		FloatProcessor fp = null;
 //		ImageProcessor ip = imp.duplicate().getProcessor();
 //		ip.snapshot();
@@ -160,22 +158,22 @@ public class ProcessImage {
 		}
 	}
 
-	private static void processOneImage(ImageProcessor ip, FloatProcessor fp, boolean snapshotDone, int filterType) {
-		TopHat th = new TopHat(100, 100, true, 255);
-		boolean convertToFloat = true;
-		
-		if (convertToFloat) {
-			for (int i=0; i<ip.getNChannels(); i++) {
-				fp = ip.toFloat(i, fp);
-				fp.setSliceNumber(ip.getSliceNumber());
-				fp.snapshot();
-				
-				th.transform(fp, filterType);
-
-				ip.setPixels(i, fp);
-			}
-		} else {
-			th.transform(fp, filterType);
-		}
-   }
+//	private static void processOneImage(ImageProcessor ip, FloatProcessor fp, boolean snapshotDone, int filterType) {
+//		TopHat th = new TopHat(100, 100, true, 255);
+//		boolean convertToFloat = true;
+//		
+//		if (convertToFloat) {
+//			for (int i=0; i<ip.getNChannels(); i++) {
+//				fp = ip.toFloat(i, fp);
+//				fp.setSliceNumber(ip.getSliceNumber());
+//				fp.snapshot();
+//				
+//				th.transform(fp, filterType);
+//
+//				ip.setPixels(i, fp);
+//			}
+//		} else {
+//			th.transform(fp, filterType);
+//		}
+//   }
 }
