@@ -34,7 +34,7 @@ $(function() {
 						var trainFeature = $('input[name=train_feature]:checked').val();
 						model.isIJUsed = (trainFeature == "IJ") ? true : false;
 
-						$('#content_holder').load('Training_Output.jsp');
+						$('#content_holder').load('SVM_Training_Output.jsp');
 					});
 				},
 				error: function() {
@@ -171,7 +171,7 @@ $(function() {
 	});
 	
 	$("#content_holder").on("click","#train_rebuild_btn", function() {
-		$("#content_holder").load("Training_Input.jsp");
+		$("#content_holder").load("SVM_Training_Input.jsp");
 	});
 	
 	$("#content_holder").on("click","#train_notes_btn", function() {

@@ -15,7 +15,7 @@ $(function() {
 		$("#content_holder").load("About.jsp");
 	});
 	
-	$("#nav_training").on("click", function() {
-		$("#content_holder").load("Training_Input.jsp");
+	$("#nav_svm").on("click", function() {
+		$("#content_holder").load("SVM_Training_Input.jsp");
 	});
 });
