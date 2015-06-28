@@ -20,7 +20,7 @@ public class ValueHelper {
 	}
 
 	public static int GetRoundness(double round) {
-		if(round > 0.5 && round < 0.6)
+		if(round > 0.5)
 			return conical;
 
 		return circular;
@@ -49,8 +49,15 @@ public class ValueHelper {
 		return unknown;
 	}
 
-	public static boolean IsValidFeature(double[] arr) {
+	public static boolean IsValidProtrusionFeature(double[] arr) {
 		if(arr[1] > 1000) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean IsValidBaseShapeFeature(double[] arr) {
+		if(arr[1] > 400) {
 			return true;
 		}
 		return false;

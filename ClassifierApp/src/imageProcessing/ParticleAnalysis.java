@@ -45,6 +45,19 @@ public class ParticleAnalysis {
 		parseResultTable(rt);
 	}
 	
+	public void analyzeParticleShapeAndAreaWithHoles(ImagePlus ip) {
+		ByteProcessor bp = ip.duplicate().getProcessor().convertToByteProcessor();
+		bp.autoThreshold();
+		bp.findEdges();
+		this.img = new ImagePlus(ip.getTitle(), bp);
+		
+		ResultsTable rt = new ResultsTable();
+		ParticleAnalyzer pa = new ParticleAnalyzer(ParticleAnalyzer.EXCLUDE_EDGE_PARTICLES, 
+				Measurements.SHAPE_DESCRIPTORS + Measurements.AREA, rt, 0, Double.MAX_VALUE, 0, 1);
+		pa.analyze(img);
+		parseResultTable(rt);
+	}
+	
 	public void analyzeParticleAreaPerimeterAndShape(ImagePlus ip) {
 		ByteProcessor bp = ip.duplicate().getProcessor().convertToByteProcessor();
 		bp.autoThreshold();

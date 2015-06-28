@@ -62,7 +62,7 @@ public class Protrusions {
 		
 		ArrayList<double[]> f = pa.getFeatureValues();
 		for(double[] arr : f) {
-			if(ValueHelper.IsValidFeature(arr)) {
+			if(ValueHelper.IsValidProtrusionFeature(arr)) {
 				features.add(arr);
 			}
 		}

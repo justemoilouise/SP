@@ -1,8 +1,10 @@
 package imageProcessing;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import ImageHandlers.ProcessImage;
+import helpers.ValueHelper;
 import ij.ImagePlus;
 import ij.process.BinaryProcessor;
 import ij.process.ImageProcessor;
@@ -11,11 +13,13 @@ public class BaseShape {
 	private ImagePlus img;
 	private FeatureExtraction fe;
 	private ParticleAnalysis pa;
+	ArrayList<double[]> features;
 
 	public BaseShape() {
 		this.img = null;
 		this.fe = new FeatureExtraction();
 		this.pa = new ParticleAnalysis();
+		this.features = new ArrayList<double[]>();
 	}
 
 	public void identifyBaseShape(ImagePlus ip1, ImagePlus ip2) {
@@ -43,9 +47,18 @@ public class BaseShape {
 	}
 
 	public void analyzeBaseShape() {
-		fe.getShapeAndAreaDescriptors(img);
+//		fe.getShapeAndAreaDescriptors(img);
 		fe.getTextureDescriptors(img.getProcessor());
+		pa.analyzeParticleShapeAndAreaWithHoles(img);
 //		pa.analyzeParticleShape(img);
+		
+		ArrayList<double[]> f = pa.getFeatureValues();
+		for(double[] arr : f) {
+			if(ValueHelper.IsValidBaseShapeFeature(arr)) {
+				features.add(arr);
+			}
+		}
+		
 	}
 
 	public ImagePlus getImage() {
@@ -61,10 +74,12 @@ public class BaseShape {
 	}
 	
 	public ArrayList<double[]> getParticleFeatureValues() {
-		return pa.getFeatureValues();
+		return features;
 	}
 
 	public String[] getParticleFeatureLabels() {
-		return pa.getFeatureLabels();
+		String[] labels = pa.getFeatureLabels();
+		
+		return Arrays.copyOfRange(labels, 1, labels.length);
 	}
 }

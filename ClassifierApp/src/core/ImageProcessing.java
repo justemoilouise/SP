@@ -1,7 +1,6 @@
 package core;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import Data.Feature;
 import Data.Species;
@@ -38,17 +37,17 @@ public class ImageProcessing {
 		if(values.size() > 0) {
 			Feature f = new Feature();
 
-//			int i1 = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "Circ.");
-//			double circularity = ArrayHelper.GetFeatureAverage(values, i1);
-//
-//			int i2 = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "Perim.");
-//			double perimeter = ArrayHelper.GetFeatureAverage(values, i2);
-			
+			//			int i1 = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "Circ.");
+			//			double circularity = ArrayHelper.GetFeatureAverage(values, i1);
+			//
+			//			int i2 = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "Perim.");
+			//			double perimeter = ArrayHelper.GetFeatureAverage(values, i2);
+
 			int i3 = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "AR");
 			double ar = ArrayHelper.GetFeatureAverage(values, i3);
 
 			String name = "";
-//			int pr = ValueHelper.GetProtrusion(circularity, perimeter);
+			//			int pr = ValueHelper.GetProtrusion(circularity, perimeter);
 			int pr = ValueHelper.GetProtrusion(ar);
 			switch(pr) {
 			case 1: name = "Horn"; break;
@@ -78,47 +77,48 @@ public class ImageProcessing {
 		double[] bValues = bs.getBaseFeatureValues();
 		if(bValues != null || bValues.length > 0) {
 			String[] labels = bs.getBaseFeatureLabels();
-			
+
 			// shape
-			int index = ArrayHelper.GetIndexOf(bs.getBaseFeatureLabels(), "Round");
-			int shape = ValueHelper.GetRoundness(bValues[index]);
-
-			Feature f = new Feature("Shape");
-			f.setmLabels(Arrays.copyOfRange(labels, 0, 19));
-			f.getmValues().add(Arrays.copyOfRange(bValues, 0, 19));
-			f.setCount(1);
-			f.setDescription(shape == 1 ? "Spherical" : "Conical");
-
-			species.getFeatures().put(f.getName(), f);
+			//			int index = ArrayHelper.GetIndexOf(bs.getBaseFeatureLabels(), "Round");
+			//			int shape = ValueHelper.GetRoundness(bValues[index]);
+			//
+			//			Feature f = new Feature("Shape");
+			//			f.setmLabels(Arrays.copyOfRange(labels, 0, 19));
+			//			f.getmValues().add(Arrays.copyOfRange(bValues, 0, 19));
+			//			f.setCount(1);
+			//			f.setDescription(shape == 1 ? "Spherical" : "Conical");
+			//
+			//			species.getFeatures().put(f.getName(), f);
 
 			// meshwork
-			index = ArrayHelper.GetIndexOf(bs.getBaseFeatureLabels(), "Angular Second Moment");
+			int index = ArrayHelper.GetIndexOf(bs.getBaseFeatureLabels(), "Angular Second Moment");
 			int mw = ValueHelper.GetTexture(bValues[index]);
 
-			f = new Feature("Meshwork");
-			f.setmLabels(Arrays.copyOfRange(labels, 19, labels.length));
-			f.getmValues().add(Arrays.copyOfRange(bValues, 19, bValues.length));
+			Feature f = new Feature("Meshwork");
+			f.setmLabels(labels);
+			f.getmValues().add(bValues);
 			f.setCount(1);
 			f.setDescription(mw == 1 ? "Fine" : "Spongy");
 
 			species.getFeatures().put(f.getName(), f);
 		}
 
-		//		ArrayList<double[]> pValues = bs.getParticleFeatureValues();
-		//		if(pValues.size() > 0) {
-		//			// pores
-		//			int index = ArrayHelper.GetIndexOf(bs.getParticleFeatureLabels(), "Circ.");
-		//			double mean = ArrayHelper.GetFeatureAverage(pValues, index);
-		//			int shape = ValueHelper.GetCircularity(mean);
-		//
-		//			Feature f = new Feature("Pore");
-		//			f.setmLabels(bs.getParticleFeatureLabels());
-		//			f.setmValues(pValues);
-		//			f.setCount(pValues.size());
-		//			f.setDescription(shape == 1 ? "Spherical" : "Conical");
-		//
-		//			species.getFeatures().put(f.getName(), f);
-		//		}
+		ArrayList<double[]> pValues = bs.getParticleFeatureValues();
+		if(pValues.size() > 0) {
+			// shape
+			double[] features = ArrayHelper.GetFeatureAverage(pValues);
+			
+			int index = ArrayHelper.GetIndexOf(bs.getParticleFeatureLabels(), "Round");
+			int shape = ValueHelper.GetRoundness(features[index]);
+
+			Feature f = new Feature("Shape");
+			f.setmLabels(bs.getParticleFeatureLabels());
+			f.getmValues().add(features);
+			f.setCount(1);
+			f.setDescription(shape == 1 ? "Spherical" : "Conical");
+
+			species.getFeatures().put(f.getName(), f);
+		}
 
 		return bs.getImage();
 	}
