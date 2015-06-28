@@ -38,14 +38,18 @@ public class ImageProcessing {
 		if(values.size() > 0) {
 			Feature f = new Feature();
 
-			int i1 = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "Circ.");
-			double circularity = ArrayHelper.GetFeatureAverage(values, i1);
-
-			int i2 = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "Perim.");
-			double perimeter = ArrayHelper.GetFeatureAverage(values, i2);
+//			int i1 = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "Circ.");
+//			double circularity = ArrayHelper.GetFeatureAverage(values, i1);
+//
+//			int i2 = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "Perim.");
+//			double perimeter = ArrayHelper.GetFeatureAverage(values, i2);
+			
+			int i3 = ArrayHelper.GetIndexOf(p.getFeatureLabels(), "AR");
+			double ar = ArrayHelper.GetFeatureAverage(values, i3);
 
 			String name = "";
-			int pr = ValueHelper.GetProtrusion(circularity, perimeter);
+//			int pr = ValueHelper.GetProtrusion(circularity, perimeter);
+			int pr = ValueHelper.GetProtrusion(ar);
 			switch(pr) {
 			case 1: name = "Horn"; break;
 			case 2: name = "Spine"; break;
@@ -74,14 +78,14 @@ public class ImageProcessing {
 		double[] bValues = bs.getBaseFeatureValues();
 		if(bValues != null || bValues.length > 0) {
 			String[] labels = bs.getBaseFeatureLabels();
-
+			
 			// shape
 			int index = ArrayHelper.GetIndexOf(bs.getBaseFeatureLabels(), "Round");
 			int shape = ValueHelper.GetRoundness(bValues[index]);
 
 			Feature f = new Feature("Shape");
-			f.setmLabels(Arrays.copyOfRange(labels, 0, 4));
-			f.getmValues().add(Arrays.copyOfRange(bValues, 0, 4));
+			f.setmLabels(Arrays.copyOfRange(labels, 0, 19));
+			f.getmValues().add(Arrays.copyOfRange(bValues, 0, 19));
 			f.setCount(1);
 			f.setDescription(shape == 1 ? "Spherical" : "Conical");
 
@@ -92,8 +96,8 @@ public class ImageProcessing {
 			int mw = ValueHelper.GetTexture(bValues[index]);
 
 			f = new Feature("Meshwork");
-			f.setmLabels(Arrays.copyOfRange(labels, 4, labels.length));
-			f.getmValues().add(Arrays.copyOfRange(bValues, 4, bValues.length));
+			f.setmLabels(Arrays.copyOfRange(labels, 19, labels.length));
+			f.getmValues().add(Arrays.copyOfRange(bValues, 19, bValues.length));
 			f.setCount(1);
 			f.setDescription(mw == 1 ? "Fine" : "Spongy");
 

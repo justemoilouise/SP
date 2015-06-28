@@ -38,12 +38,12 @@ public class BaseShape {
 		// remove outliers then smooth
 		ImageProcessor img2 = ProcessImage.removeOutliers(img1.getProcessor());
 		img2.smooth();
-
+		
 		this.img = new ImagePlus(img1.getTitle() + " - Remove outliers and Smooth", img2);
 	}
 
 	public void analyzeBaseShape() {
-		fe.getShapeDescriptors(img);
+		fe.getShapeAndAreaDescriptors(img);
 		fe.getTextureDescriptors(img.getProcessor());
 //		pa.analyzeParticleShape(img);
 	}

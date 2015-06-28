@@ -44,6 +44,17 @@ public class FeatureExtraction {
 		return labels;
 	}
 	
+	public void getShapeAndAreaDescriptors(ImagePlus ip) {
+		ip.getProcessor().setAutoThreshold("Default");
+		int m = Measurements.SHAPE_DESCRIPTORS + Measurements.AREA + Measurements.PERIMETER + 
+				Measurements.ELLIPSE + Measurements.RECT + Measurements.FERET;
+		ResultsTable shapeDescriptors = new ResultsTable();
+		Analyzer a = new Analyzer(ip, m, shapeDescriptors);
+		a.measure();
+		
+		parseResultTable(shapeDescriptors);
+	}
+	
 	public void getShapeDescriptors(ImagePlus ip) {
 		ip.getProcessor().setAutoThreshold("Default");
 		int m = Measurements.SHAPE_DESCRIPTORS;
