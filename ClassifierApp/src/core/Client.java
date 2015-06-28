@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import CoreHandler.ImageProcessing;
 import CoreHandler.Prompt;
 import Data.ClassifierModel;
 import Data.Input;
