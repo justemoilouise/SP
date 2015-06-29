@@ -12,21 +12,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Data.Species;
+
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.tools.cloudstorage.GcsService;
 import com.training.helpers.ServletHelper;
 
 public class DecisionTreeServlet {
 	private DecisionTreeProcessor processor;
 	private BlobstoreService blobstoreService;
+	private GcsService gcsService;
 	private HttpSession session;
+	private String gcsBucket = "radiss-training.appspot.com/imageset";
 	
 	public DecisionTreeServlet() {
 		this.processor = new DecisionTreeProcessor();
 		this.blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		Object response = null;
 		String method = ServletHelper.ExtractMethod(req.getRequestURI());
@@ -39,12 +45,16 @@ public class DecisionTreeServlet {
 			if (blobKeys == null || blobKeys.isEmpty()) {
 				response = false;
 			} else {
-				session.setAttribute("dt_key", blobKeys.get(0));
+				ArrayList<BlobKey> keys = new ArrayList<BlobKey>();
+				
+				if(session.getAttribute("dt_key") != null) {
+					keys = (ArrayList<BlobKey>) session.getAttribute("dt_key");
+				}
+				session.setAttribute("dt_key", keys.add(blobKeys.get(0)));
 				response = true;
 			}
 		} else if(method.equalsIgnoreCase("readimageset")) {
-			InputStream stream = readFileFromBlob((BlobKey) session.getAttribute("dt_key"));
-			ArrayList<Object> dataset = processor.readImageSet(stream);
+			ArrayList<Species> dataset = readFilesFromBlob((ArrayList<BlobKey>) session.getAttribute("dt_key"));
 
 			if(!dataset.isEmpty()) {
 				session.setAttribute("imageset", dataset);
@@ -93,5 +103,15 @@ public class DecisionTreeServlet {
 			return new ByteArrayInputStream(filebytes);
 
 		return null;
+	}
+	
+	private ArrayList<Species> readFilesFromBlob(ArrayList<BlobKey> list) {
+		ArrayList<Species> dataset = new ArrayList<Species>();
+		
+		for(BlobKey key : list) {
+			InputStream stream = readFileFromBlob(key);
+		}
+		
+		return dataset;
 	}
 }

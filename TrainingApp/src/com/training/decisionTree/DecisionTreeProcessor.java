@@ -3,6 +3,7 @@ package com.training.decisionTree;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import Data.Species;
 import Interfaces.IDECISIONTREE;
 
 public class DecisionTreeProcessor implements IDECISIONTREE {
@@ -14,7 +15,7 @@ public class DecisionTreeProcessor implements IDECISIONTREE {
 	}
 
 	@Override
-	public ArrayList<Object> readImageSet(InputStream arg0) {
+	public ArrayList<Species> readImageSet(InputStream arg0) {
 		// TODO Auto-generated method stub
 		return null;
 	}
