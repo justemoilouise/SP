@@ -1,11 +1,14 @@
 package Data;
 
+import ij.ImagePlus;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
 @SuppressWarnings("serial")
 public class Species implements Serializable {
+	private ImagePlus img, protrusions, base;
 	private String name, svmName, dTreeName;
 	private String[] featureLabels;
 	private double[] featureValues;
@@ -16,6 +19,9 @@ public class Species implements Serializable {
 	
 	public Species () {
 		this.name = "";
+		this.img = null;
+		this.protrusions = null;
+		this.base = null;
 		this.particleValues = new ArrayList<double[]>();
 		this.features = new Hashtable<String, Feature>();
 	}	
@@ -23,6 +29,24 @@ public class Species implements Serializable {
 		this.name = name;
 		this.featureLabels = featureLabels;
 		this.featureValues = featureValues;
+	}
+	public ImagePlus getImg() {
+		return img;
+	}
+	public void setImg(ImagePlus img) {
+		this.img = img;
+	}
+	public ImagePlus getProtrusions() {
+		return protrusions;
+	}
+	public void setProtrusions(ImagePlus protrusions) {
+		this.protrusions = protrusions;
+	}
+	public ImagePlus getBase() {
+		return base;
+	}
+	public void setBase(ImagePlus base) {
+		this.base = base;
 	}
 	public String getName() {
 		return name;
