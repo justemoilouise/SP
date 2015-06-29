@@ -3,9 +3,11 @@ package Interfaces;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import Data.Species;
+
 public interface IDECISIONTREE {
 
-	public ArrayList<Object> readImageSet(InputStream stream);
+	public ArrayList<Species> readImageSet(InputStream stream);
 	
 	public double crossValidate();
 }
