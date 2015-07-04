@@ -13,6 +13,12 @@
     <servlet-class>com.training.core.TrainingAppServlet</servlet-class>
   </servlet>
   <servlet>
+    <description>DecisionTreeServlet</description>
+    <display-name>DecisionTreeServlet</display-name>
+    <servlet-name>DecisionTreeServlet</servlet-name>
+    <servlet-class>com.training.decisionTree.DecisionTreeServlet</servlet-class>
+  </servlet>
+  <servlet>
     <description>SVMServlet</description>
     <display-name>SVMServlet</display-name>
     <servlet-name>SVMServlet</servlet-name>
@@ -45,6 +51,10 @@
   <servlet-mapping>
     <servlet-name>TrainingAppServlet</servlet-name>
     <url-pattern>/trainingapp/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DecisionTreeServlet</servlet-name>
+    <url-pattern>/trainingapp/decisiontree/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>SVMServlet</servlet-name>

@@ -1,13 +1,17 @@
 package com.training.decisionTree;
 
+import ij.ImagePlus;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,15 +21,13 @@ import Data.Species;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-import com.google.appengine.tools.cloudstorage.GcsService;
 import com.training.helpers.ServletHelper;
 
-public class DecisionTreeServlet {
+@SuppressWarnings("serial")
+public class DecisionTreeServlet extends HttpServlet {
 	private DecisionTreeProcessor processor;
-	private BlobstoreService blobstoreService;
-	private GcsService gcsService;
 	private HttpSession session;
-	private String gcsBucket = "radiss-training.appspot.com/imageset";
+	private BlobstoreService blobstoreService;
 	
 	public DecisionTreeServlet() {
 		this.processor = new DecisionTreeProcessor();
@@ -39,20 +41,21 @@ public class DecisionTreeServlet {
 		this.session = req.getSession();
 		
 		if(method.equalsIgnoreCase("upload")) {
-			Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
-			List<BlobKey> blobKeys = blobs.get("imageset");
-
-			if (blobKeys == null || blobKeys.isEmpty()) {
-				response = false;
-			} else {
-				ArrayList<BlobKey> keys = new ArrayList<BlobKey>();
-				
-				if(session.getAttribute("dt_key") != null) {
-					keys = (ArrayList<BlobKey>) session.getAttribute("dt_key");
-				}
-				session.setAttribute("dt_key", keys.add(blobKeys.get(0)));
-				response = true;
-			}
+			response = true;
+//			Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
+//			List<BlobKey> blobKeys = blobs.get("imageset");
+//
+//			if (blobKeys == null || blobKeys.isEmpty()) {
+//				response = false;
+//			} else {
+//				ArrayList<BlobKey> keys = new ArrayList<BlobKey>();
+//				
+//				if(session.getAttribute("dt_key") != null) {
+//					keys = (ArrayList<BlobKey>) session.getAttribute("dt_key");
+//				}
+//				session.setAttribute("dt_key", keys.add(blobKeys.get(0)));
+//				response = true;
+//			}
 		} else if(method.equalsIgnoreCase("readimageset")) {
 			ArrayList<Species> dataset = readFilesFromBlob((ArrayList<BlobKey>) session.getAttribute("dt_key"));
 
@@ -109,7 +112,25 @@ public class DecisionTreeServlet {
 		ArrayList<Species> dataset = new ArrayList<Species>();
 		
 		for(BlobKey key : list) {
-			InputStream stream = readFileFromBlob(key);
+			try {
+				InputStream stream = readFileFromBlob(key);
+				ObjectInputStream oStream = new ObjectInputStream(stream);
+
+				ImagePlus img = (ImagePlus) oStream.readObject();
+				String name = img.getTitle().trim();
+				
+				Species s = new Species();
+				s.setImg(img);
+				s.setName(name);
+				
+				dataset.add(s);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return dataset;
