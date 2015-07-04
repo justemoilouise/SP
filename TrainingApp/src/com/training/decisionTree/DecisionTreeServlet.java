@@ -41,21 +41,20 @@ public class DecisionTreeServlet extends HttpServlet {
 		this.session = req.getSession();
 		
 		if(method.equalsIgnoreCase("upload")) {
-			response = true;
-//			Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
-//			List<BlobKey> blobKeys = blobs.get("imageset");
-//
-//			if (blobKeys == null || blobKeys.isEmpty()) {
-//				response = false;
-//			} else {
-//				ArrayList<BlobKey> keys = new ArrayList<BlobKey>();
-//				
-//				if(session.getAttribute("dt_key") != null) {
-//					keys = (ArrayList<BlobKey>) session.getAttribute("dt_key");
-//				}
-//				session.setAttribute("dt_key", keys.add(blobKeys.get(0)));
-//				response = true;
-//			}
+			Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
+			List<BlobKey> blobKeys = blobs.get("imageset");
+
+			if (blobKeys == null || blobKeys.isEmpty()) {
+				response = false;
+			} else {
+				ArrayList<BlobKey> keys = new ArrayList<BlobKey>();
+				
+				if(session.getAttribute("dt_key") != null) {
+					keys = (ArrayList<BlobKey>) session.getAttribute("dt_key");
+				}
+				session.setAttribute("dt_key", keys.add(blobKeys.get(0)));
+				response = true;
+			}
 		} else if(method.equalsIgnoreCase("readimageset")) {
 			ArrayList<Species> dataset = readFilesFromBlob((ArrayList<BlobKey>) session.getAttribute("dt_key"));
 

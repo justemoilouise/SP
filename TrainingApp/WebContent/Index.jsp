@@ -7,6 +7,7 @@
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="script/navigation.js"></script>
 	<script type="text/javascript" src="script/core.js"></script>
+	<script type="text/javascript" src="script/dt_training.js"></script>
 	<script type="text/javascript" src="script/svm_training.js"></script>
 	<script type="text/javascript" src="script/user.js"></script>
 	<script type="text/javascript" src="script/validation.js"></script>

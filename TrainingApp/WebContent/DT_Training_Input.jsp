@@ -1,18 +1,20 @@
 <%@ page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory" %>
 <%@ page import="com.google.appengine.api.blobstore.BlobstoreService" %>
-<%! BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService(); %>
+<%! BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService(); %> 
 
 <script type="text/javascript">
 $(function() {	
-	$("#input_file").on("click", "#input_files_btn", function(){
-		var files = $("#input_files_fld").get(0);
+	$("#input_files").on("click", "#input_files_btn", function(){
+		var files = $("#input_files_fld").get(0).files;
+		console.log(files);
+		var fileCount = 0;
 		
-		for(var file in files) {
+		for(var i=0; i<files.length; i++) {
 			var data = new FormData();
-			data.append("imageset", file);
-			
+			data.append("imageset", files[i]);
+
 			$.ajax({
-				url: '<%= blobstoreService.createUploadUrl("/decisiontree/upload") %>',
+				url: '<%= blobstoreService.createUploadUrl("/trainingapp/decisiontree/upload") %>',
 				method: "POST",
 				contentType: false,
 				processData: false,
@@ -20,14 +22,12 @@ $(function() {
 				dataType: "json",
 				async: false,
 				success: function(response) {
-					alertType = "success";
-					fxnCallback("File uploaded successfully.");
-				},
-				error: function() {
-					alertType = "error";
-					fxnCallback("Unable to upload file. Please try again.");
+					if(response===true)
+						fileCount++;
 				},
 				complete: function() {
+					alertType = "success";
+					fxnCallback(fileCount + " files uploaded successfully.");
 					$('html, body').animate({scrollTop: 0}, 'fast');
 				}
 			});
@@ -35,7 +35,7 @@ $(function() {
 	});
 });
 </script>
-
+ 
 <br />
 <div class="input-group col-md-offset-1 col-md-10 col-xs-offset-1 col-xs-10" id="input_files">
 	<input type="file" name="files[]" class="col-md-10 col-xs-10" id="input_files_fld" multiple="multiple" webkitdirectory />
