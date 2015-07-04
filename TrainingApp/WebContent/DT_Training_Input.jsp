@@ -3,35 +3,39 @@
 <%! BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService(); %> 
 
 <script type="text/javascript">
-$(function() {	
+$(function() {
+	var fileCount = 0;
+	
+	var uploadFile = function(data) {
+		$.ajax({
+			url: '<%= blobstoreService.createUploadUrl("/trainingapp/decisiontree/upload") %>',
+			method: "POST",
+			contentType: false,
+			processData: false,
+			data: data,
+			dataType: "json",
+			async: false,
+			success: function(response) {
+				if(response===true)
+					fileCount++;
+			}
+		});
+	};
+	
 	$("#input_files").on("click", "#input_files_btn", function(){
 		var files = $("#input_files_fld").get(0).files;
-		console.log(files);
-		var fileCount = 0;
+		fileCount = 0;
 		
 		for(var i=0; i<files.length; i++) {
 			var data = new FormData();
 			data.append("imageset", files[i]);
 
-			$.ajax({
-				url: '<%= blobstoreService.createUploadUrl("/trainingapp/decisiontree/upload") %>',
-				method: "POST",
-				contentType: false,
-				processData: false,
-				data: data,
-				dataType: "json",
-				async: false,
-				success: function(response) {
-					if(response===true)
-						fileCount++;
-				},
-				complete: function() {
-					alertType = "success";
-					fxnCallback(fileCount + " files uploaded successfully.");
-					$('html, body').animate({scrollTop: 0}, 'fast');
-				}
-			});
+			uploadFile(data);
 		}
+		
+		alertType = "info";
+		fxnCallback(fileCount + " out of " + files.length + " files uploaded successfully.");
+		$('html, body').animate({scrollTop: 0}, 'fast');
 	});
 });
 </script>
