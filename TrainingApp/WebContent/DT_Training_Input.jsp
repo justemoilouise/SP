@@ -64,7 +64,7 @@ $(function() {
 	</div>
 </div>
 <br />
-<div class="btn-group col-md-offset-9 col-md-3 col-xs-offset-9 col-xs-3 id="train_form">
+<div class="btn-group col-md-offset-9 col-md-3 col-xs-offset-9 col-xs-3" id="train_form">
 	<button class="btn btn-primary" id="dt_train_build_btn">Train model</button>
 	<button class="btn btn-default" id="dt_train_cancel_btn">Cancel</button>
 </div>
