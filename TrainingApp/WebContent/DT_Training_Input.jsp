@@ -6,22 +6,6 @@
 $(function() {
 	var fileCount = 0;
 	
-	var uploadFile = function(data) {
-		$.ajax({
-			url: '<%= blobstoreService.createUploadUrl("/trainingapp/decisiontree/upload") %>',
-			method: "POST",
-			contentType: false,
-			processData: false,
-			data: data,
-			dataType: "json",
-			async: false,
-			success: function(response) {
-				if(response===true)
-					fileCount++;
-			}
-		});
-	};
-	
 	$("#input_files").on("click", "#input_files_btn", function(){
 		var files = $("#input_files_fld").get(0).files;
 		fileCount = 0;
@@ -30,13 +14,33 @@ $(function() {
 			var data = new FormData();
 			data.append("imageset", files[i]);
 
-			uploadFile(data);
+			$.ajax({
+				url: '<%= blobstoreService.createUploadUrl("/trainingapp/decisiontree/upload") %>',
+				method: "POST",
+				contentType: false,
+				processData: false,
+				data: data,
+				dataType: "json",
+				async: false,
+				success: function(response) {
+					if(response===true) {
+						fileCount++;
+						fileSuccess.push(files[i]);
+					}
+					else {
+						fileError.push(files[i]);
+					}
+				},
+				error: function(response) {
+					fileError.push(files[i]);
+				}
+			});
 		}
-		
-		alertType = "info";
-		fxnCallback(fileCount + " out of " + files.length + " files uploaded successfully.");
-		$('html, body').animate({scrollTop: 0}, 'fast');
+		showFileUploadResult();
 	});
+	
+	$("#files_success_panel").hide();
+	$("#files_error_panel").hide();
 });
 </script>
  
@@ -48,7 +52,19 @@ $(function() {
 	</button>
 </div>
 <br />
-<div class="btn-group col-md-9 col-md-3 col-xs-9 col-xs-3" id="train_form">
+<div class="panel panel-default col-md-offset-1 col-md-10" id="files_success_panel">
+	<div class="panel-heading">Successul file upload:</div>
+	<div class="panel-body" id="files_success">
+	</div>
+</div>
+<br />
+<div class="panel panel-default col-md-offset-1 col-md-10" id="files_error_panel">
+	<div class="panel-heading">Unsuccessful file upload:</div>
+	<div class="panel-body" id="files_error">
+	</div>
+</div>
+<br />
+<div class="btn-group col-md-offset-9 col-md-3 col-xs-offset-9 col-xs-3 id="train_form">
 	<button class="btn btn-primary" id="dt_train_build_btn">Train model</button>
 	<button class="btn btn-default" id="dt_train_cancel_btn">Cancel</button>
 </div>
