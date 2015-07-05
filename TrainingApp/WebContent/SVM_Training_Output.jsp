@@ -46,7 +46,7 @@ $(function() {
 	sRow += '</tr>';
 	$('#tbl_svm').append(sRow);
 
-	$('#train_notes').hide();
+	$('#svm_train_notes').hide();
 })
 </script>
 <br />
@@ -93,18 +93,18 @@ $(function() {
 	</div>
 </div>
 <br />
-<div class="panel panel-default col-md-offset-1 col-md-10" id="train_notes">
+<div class="panel panel-default col-md-offset-1 col-md-10" id="svm_train_notes">
 	<div class="panel-heading">
 		<h3 class="panel-title">Notes</h3>
 	</div>
 	<div class="panel-body">
-		<textarea id="train_notes_txt" placeholder="Add release notes.." cols="75"></textarea>
+		<textarea id="svm_train_notes_txt" placeholder="Add release notes.." cols="75"></textarea>
 	</div>
 </div>
 <br />
 <div class="btn-group col-md-offset-8 col-md-4">
-	<button class="btn btn-default" id="train_notes_btn">Add notes</button>
-	<button class="btn btn-primary" id="train_save_btn">Save model</button>
-	<button class="btn btn-default" id="train_rebuild_btn">Rebuild model</button>
+	<button class="btn btn-default" id="svm_train_notes_btn">Add notes</button>
+	<button class="btn btn-primary" id="svm_train_save_btn">Save model</button>
+	<button class="btn btn-default" id="svm_train_rebuild_btn">Rebuild model</button>
 </div>
 <br />

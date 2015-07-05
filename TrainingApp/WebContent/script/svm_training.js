@@ -20,7 +20,7 @@ $(function() {
 		if(!isValid) {
 			alertType = "error";
 			fxnCallback("Invalid input parameters. Please check and try again.");
-			$("#train_build_btn").button('reset');
+			$("#svm_train_build_btn").button('reset');
 			$('html, body').animate({scrollTop: 0}, 'fast');
 		}
 		else {
@@ -126,8 +126,8 @@ $(function() {
 		});
 	};
 	
-	$("#content_holder").on("click","#train_build_btn", function() {
-		$("#train_build_btn").button('Building model');
+	$("#content_holder").on("click","#svm_train_build_btn", function() {
+		$("#svm_train_build_btn").button('Building model');
 		
 		$.ajax({
 			url: 'trainingapp/readdataset',
@@ -142,13 +142,13 @@ $(function() {
 		});
 	});
 
-	$("#content_holder").on("click","#train_cancel_btn", function() {
+	$("#content_holder").on("click","#svm_train_cancel_btn", function() {
 		$("#content_holder").load("Home.jsp");
 	});
 
-	$("#content_holder").on("click","#train_save_btn", function() {
+	$("#content_holder").on("click","#svm_train_save_btn", function() {
 		$("#train_save_btn").button('Saving model');
-		model.notes = $("#train_notes_txt").val();
+		model.notes = $("#svm_train_notes_txt").val();
 		
 		$.ajax({
 			url: "/trainingapp/saveclassifiermodel",
@@ -164,19 +164,19 @@ $(function() {
 				fxnCallback("Unable to save file. Please try again.");
 			},
 			complete: function() {
-				$("#train_save_btn").button('reset');
+				$("#svm_train_save_btn").button('reset');
 				$('html, body').animate({scrollTop: 0}, 'fast');
 			}
 		});
 	});
 	
-	$("#content_holder").on("click","#train_rebuild_btn", function() {
+	$("#content_holder").on("click","#svm_train_rebuild_btn", function() {
 		$("#content_holder").load("SVM_Training_Input.jsp");
 	});
 	
-	$("#content_holder").on("click","#train_notes_btn", function() {
-		$("#train_notes").show();
-		$("#train_notes_btn").hide();
-		$("#train_notes_txt").focus();
+	$("#content_holder").on("click","#svm_train_notes_btn", function() {
+		$("#svm_train_notes").show();
+		$("#svm_train_notes_btn").hide();
+		$("#svm_train_notes_txt").focus();
 	});
 });

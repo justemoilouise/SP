@@ -119,7 +119,7 @@ $(function() {
 </div>
 <br />
 <div class="btn-group col-md-offset-9 col-md-3 col-xs-offset-9 col-xs-3" id="train_form">
-	<button class="btn btn-primary" id="train_build_btn">Build model</button>
-	<button class="btn btn-default" id="train_cancel_btn">Cancel</button>
+	<button class="btn btn-primary" id="svm_train_build_btn">Build model</button>
+	<button class="btn btn-default" id="svm_train_cancel_btn">Cancel</button>
 </div>
 <br /><br />
