@@ -1,30 +1,45 @@
-$(function() {	
-//	$("#input_files").on("click", "#input_files_btn", function(){
-//		var files = $("#input_files_fld").get(0);
-//		var fileCount = 0;
-//		
-//		for(var file in files) {
-//			var data = new FormData();
-//			data.append("imageset", file);
-//			
-//			$.ajax({
-//				url: '/trainingapp/decisiontree/upload',
-//				method: "POST",
-//				contentType: false,
-//				processData: false,
-//				data: data,
-//				dataType: "json",
-//				async: false,
-//				success: function(response) {
-//					if(response==="true")
-//						fileCount++;
-//				},
-//				complete: function() {
-//					alertType = "success";
-//					fxnCallback(fileCount + " files uploaded successfully.");
-//					$('html, body').animate({scrollTop: 0}, 'fast');
-//				}
-//			});
-//		}
-//	});
+$(function() {
+	var crossvalidate = function() {
+		$.ajax({
+			url: 'trainingapp/decisiontree/crossvalidate',
+			async: false,
+			success: function() {
+				// load output page
+			},
+			error: function() {
+				alertType = "error";
+				fxnCallback("An error occurred in cross validating decision tree model.");
+			},
+		});
+	};
+	
+	var processImage = function() {
+		$.ajax({
+			url: 'trainingapp/decisiontree/processimageset',
+			async: false,
+			success: function() {
+				crossvalidate();
+			},
+			error: function() {
+				alertType = "error";
+				fxnCallback("Unable to process imageset.");
+			},
+		});
+	};
+	
+	$("#content_holder").on("click", "#dt_train_build_btn", function() {
+		$("#dt_train_build_btn").button('Cross-validating model');
+
+		$.ajax({
+			url: 'trainingapp/decisiontree/readimageset',
+			async: false,
+			success: function() {
+				processImage();
+			},
+			error: function() {
+				alertType = "error";
+				fxnCallback("Unable to read imageset.");
+			},
+		});
+	});
 });

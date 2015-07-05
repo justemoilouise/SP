@@ -64,8 +64,14 @@ public class DecisionTreeServlet extends HttpServlet {
 			} else {
 				response = false;
 			}
+		} else if(method.equalsIgnoreCase("processimageset")) {
+			ArrayList<Species> dataset = (ArrayList<Species>) session.getAttribute("imageset");
+			dataset = processor.processImageSet(dataset);
+			session.setAttribute("dataset", dataset);
+			response = true;
 		} else if(method.equalsIgnoreCase("crossvalidate")) {
-			response = processor.crossValidate();
+			ArrayList<Species> dataset = (ArrayList<Species>) session.getAttribute("imageset");
+			response = processor.crossValidate(dataset);
 		}
 		
 		resp.setContentType("application/json");
