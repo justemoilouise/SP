@@ -21,6 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import CoreHandler.Prompt;
 import Data.ClassifierModel;
+import Data.DecisionTreeModel;
 import Data.Input;
 import Data.PreprocessModel;
 import Data.SVMModel;
@@ -122,6 +123,50 @@ public class FileInput {
 			FileInputStream fileStream = new FileInputStream(filename);
 			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
 			SVMModel model = (SVMModel)objectStream.readObject();			
+			objectStream.close();
+
+			return model;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
+	public static DecisionTreeModel readDeisionTreeModelFromDATFile(File f) {
+		try {
+			FileInputStream fileStream = new FileInputStream(f);
+			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
+			DecisionTreeModel model = (DecisionTreeModel)objectStream.readObject();			
+			objectStream.close();
+
+			return model;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public static DecisionTreeModel readDeisionTreeModelFromDATFile(String filename) {
+		try {
+			FileInputStream fileStream = new FileInputStream(filename);
+			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
+			DecisionTreeModel model = (DecisionTreeModel)objectStream.readObject();			
 			objectStream.close();
 
 			return model;

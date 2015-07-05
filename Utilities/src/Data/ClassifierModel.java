@@ -10,7 +10,7 @@ public class ClassifierModel implements Serializable {
 	private String notes;
 	private PreprocessModel preprocessModel;
 	private SVMModel svmmodel;
-	private double DTAccuracy;
+	private DecisionTreeModel decisionTreeModel;
 	private boolean isIJUsed;
 	
 	public ClassifierModel() {}
@@ -55,12 +55,12 @@ public class ClassifierModel implements Serializable {
 		this.svmmodel = svmmodel;
 	}
 
-	public double getDTAccuracy() {
-		return DTAccuracy;
+	public DecisionTreeModel getDecisionTreeModel() {
+		return decisionTreeModel;
 	}
 
-	public void setDTAccuracy(double dTAccuracy) {
-		DTAccuracy = dTAccuracy;
+	public void setDecisionTreeModel(DecisionTreeModel decisionTreeModel) {
+		this.decisionTreeModel = decisionTreeModel;
 	}
 
 	public boolean isIJUsed() {
