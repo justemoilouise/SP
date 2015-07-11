@@ -2,6 +2,9 @@ package com.training.helpers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.poi.util.IOUtils;
 
 import com.google.gson.Gson;
 
@@ -21,6 +24,10 @@ public class ServletHelper {
 	    }
 
 		return buffer.toString();
+	}
+	
+	public static byte[] GetRequestBody(InputStream stream) throws IOException {
+		return IOUtils.toByteArray(stream);
 	}
 	
 	public static <T> T ConvertToObject(String obj, Class<T> classObj) {

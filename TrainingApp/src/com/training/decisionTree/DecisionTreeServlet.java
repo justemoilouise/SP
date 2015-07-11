@@ -96,7 +96,7 @@ public class DecisionTreeServlet extends HttpServlet {
 
 		do {
 			try {
-				byte[] b = blobstoreService.fetchData(key, start, BlobstoreService.MAX_BLOB_FETCH_SIZE);
+				byte[] b = blobstoreService.fetchData(key, start, end);
 				out.write(b);
 
 				if (b.length < 1024)
