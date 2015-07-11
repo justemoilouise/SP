@@ -92,4 +92,7 @@ public class MainWindow extends JFrame {
 		}
 	}
 
+	public void setTitle(String title) {
+		this.setTitle(title);
+	}
 }
