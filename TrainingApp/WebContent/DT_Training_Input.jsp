@@ -3,9 +3,7 @@
 <%! BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService(); %> 
 
 <script type="text/javascript">
-$(function() {
-	var fileCount = 0;
-	
+$(function() {	
 	$("#input_files").on("click", "#input_files_btn", function(){
 		var files = $("#input_files_fld").get(0).files;
 		fileCount = 0;
@@ -24,7 +22,6 @@ $(function() {
 				async: false,
 				success: function(response) {
 					if(response===true) {
-						fileCount++;
 						fileSuccess.push(files[i]);
 					}
 					else {
