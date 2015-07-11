@@ -54,24 +54,24 @@ $(function() {
 		});
 	};
 
-	$("#content_holder").on("click", "#dt_train_build_btn", function() {
-		$("#dt_train_build_btn").button('Cross-validating model');
-
-		$.ajax({
-			url: 'trainingapp/decisiontree/readimageset',
-			async: false,
-			success: function(response) {
-				if(response===true)
-					processImage();
-				else {
-					alertType = "error";
-					fxnCallback("Unable to read imageset.");
-				}
-			},
-			error: function() {
-				alertType = "error";
-				fxnCallback("Unable to read imageset.");
-			},
-		});
-	});
+//	$("#content_holder").on("click", "#dt_train_build_btn", function() {
+//		$("#dt_train_build_btn").button('Cross-validating model');
+//
+//		$.ajax({
+//			url: 'trainingapp/decisiontree/readimageset',
+//			async: false,
+//			success: function(response) {
+//				if(response===true)
+//					processImage();
+//				else {
+//					alertType = "error";
+//					fxnCallback("Unable to read imageset.");
+//				}
+//			},
+//			error: function() {
+//				alertType = "error";
+//				fxnCallback("Unable to read imageset.");
+//			},
+//		});
+//	});
 });
