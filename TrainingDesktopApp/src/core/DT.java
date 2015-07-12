@@ -2,7 +2,6 @@ package core;
 
 import ij.ImagePlus;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import CoreHandler.DecisionTree;
@@ -21,7 +20,23 @@ public class DT implements IDECISIONTREE, Runnable {
 	public void setDataSet(ArrayList<Species> dataset) {
 		this.dataset = dataset;
 	}
+
+	@Override
+	public double crossValidate(ArrayList<Species> dataset) {
+		// TODO Auto-generated method stub
+		int correct = 0;
+
+		for(Species s : dataset) {
+			String predictedName = classifier.classify(s);
+
+			if(predictedName.equalsIgnoreCase(s.getName()))
+				correct++;
+		}
+
+		return 100.0*correct/dataset.size();
+	}
 	
+	@Override
 	public ArrayList<Species> processImageSet() {
 		// TODO Auto-generated method stub
 		ArrayList<Species> processed = new ArrayList<Species>();
@@ -40,21 +55,6 @@ public class DT implements IDECISIONTREE, Runnable {
 		}
 
 		return processed;
-	}
-
-	@Override
-	public double crossValidate(ArrayList<Species> dataset) {
-		// TODO Auto-generated method stub
-		int correct = 0;
-
-		for(Species s : dataset) {
-			String predictedName = classifier.classify(s);
-
-			if(predictedName.equalsIgnoreCase(s.getName()))
-				correct++;
-		}
-
-		return 100.0*correct/dataset.size();
 	}
 
 	@Override
@@ -77,13 +77,7 @@ public class DT implements IDECISIONTREE, Runnable {
 
 		return processed;
 	}
-
-	@Override
-	public ArrayList<Species> readImageSet(InputStream stream) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
