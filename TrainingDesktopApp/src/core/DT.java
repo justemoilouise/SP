@@ -11,7 +11,7 @@ import Data.Species;
 import Interfaces.IDECISIONTREE;
 
 public class DT implements IDECISIONTREE, Runnable {
-	private DecisionTreeModel model;
+	private DecisionTreeModel model = null;
 	private DecisionTree classifier;
 	private ArrayList<Species> dataset;
 

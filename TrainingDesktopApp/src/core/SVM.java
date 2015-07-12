@@ -14,7 +14,7 @@ import Data.Species;
 import Interfaces.ISVM;
 
 public class SVM implements ISVM {
-	private SVMModel model;
+	private SVMModel model = null;
 	private ArrayList<String> classes;
 	
 	public SVM() {}

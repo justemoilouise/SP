@@ -1,33 +1,35 @@
 package gui;
 
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+
+import Data.ClassifierModel;
 
 @SuppressWarnings("serial")
 public class OutputPanel extends JTabbedPane {
 	private JTabbedPane tabbedPane;
+	private ClassifierModel model;
 	
-	public OutputPanel(int[] mode) {
-		tabbedPane = new JTabbedPane();
+	public OutputPanel(ClassifierModel model) {
+		this.model = model;
+		this.tabbedPane = new JTabbedPane();
 		
-		for(int i=0; i<mode.length; i++) {
-			if(mode[i]==1) {
-				tabbedPane.add("Decision Tree", decisionTreeOutputPanel());
-			} else {
-				tabbedPane.add("SVM", svmOutputPanel());
-			}
-		}
+		decisionTreeOutputPanel();
+		svmOutputPanel();
 	}
 	
 	public JTabbedPane getOutputPanel() {
 		return tabbedPane;
 	}
 
-	private JPanel decisionTreeOutputPanel() {
-		return null;
+	private void decisionTreeOutputPanel() {
+		if(model.getDecisionTreeModel() != null) {
+			
+		}
 	}
 
-	private JPanel svmOutputPanel() {
-		return null;
+	private void svmOutputPanel() {
+		if(model.getSvmmodel() != null) {
+			
+		}
 	}
 }

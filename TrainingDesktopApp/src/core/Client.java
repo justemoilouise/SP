@@ -67,7 +67,7 @@ public class Client {
 			showInputPanels();
 		}
 		else {
-			OutputPanel output = new OutputPanel(mode);
+			OutputPanel output = new OutputPanel(buildClassifierModel());
 			main.addOutputPanel(output);
 		}
 	}
@@ -76,7 +76,7 @@ public class Client {
 		Client.dataset = dataset;
 	}
 
-	public static ClassifierModel getClassifierModel() {
+	public static ClassifierModel buildClassifierModel() {
 		ClassifierModel model = new ClassifierModel();
 		model.setDecisionTreeModel(decisionTree.getModel());
 		model.setPreprocessModel(preprocess.getPreprocessModel());
