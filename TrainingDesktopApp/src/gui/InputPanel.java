@@ -1,5 +1,6 @@
 package gui;
 
+import gui.listeners.Listener_Mouse;
 import helpers.SVMHelper;
 
 import java.awt.BorderLayout;
@@ -19,8 +20,11 @@ public class InputPanel {
 	private JTextField[] svmParameters;
 	private JButton btnSubmit, btnCancel;
 	private JComboBox<String> svmTypes, kernel;
+	private Listener_Mouse lm;
 
 	public InputPanel(int mode) {
+		this.lm = new Listener_Mouse();
+		
 		switch(mode) {
 		case 1:
 			panel = decisionTreeInputPanel();
@@ -41,6 +45,8 @@ public class InputPanel {
 		JTextField textBox = new JTextField();
 		textBox.setColumns(15);
 		JButton btn = new JButton("Upload");
+		btn.setActionCommand("input_image");
+		btn.addActionListener(lm);
 		
 		JPanel A = new JPanel();
 		A.add(label);
@@ -60,6 +66,8 @@ public class InputPanel {
 		JTextField textBox = new JTextField();
 		textBox.setColumns(15);
 		JButton btn = new JButton("Upload");
+		btn.setActionCommand("input_excel");
+		btn.addActionListener(lm);
 		
 		JPanel A = new JPanel();
 		A.add(label);
@@ -105,6 +113,14 @@ public class InputPanel {
 	}
 	
 	private JPanel getButtonPanel() {
+		btnSubmit = new JButton("Submt");
+		btnSubmit.setActionCommand("submit");
+		btnSubmit.addActionListener(lm);
+		
+		btnCancel = new JButton("Cancel");
+		btnCancel.setActionCommand("cancel");
+		btnCancel.addActionListener(lm);
+		
 		JPanel panel = new JPanel();
 		panel.add(btnSubmit);
 		panel.add(btnCancel);
