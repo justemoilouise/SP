@@ -97,11 +97,14 @@ public class MainWindow extends JFrame {
 		cards = new JPanel(new CardLayout());
 		cards.add(new InputPanel(1).getInputPanel());
 		cards.add(new InputPanel(2).getInputPanel());
-		// add output panels
 	}
 	
 	public void showCard(String name) {
 		CardLayout cl = (CardLayout)(cards.getLayout());
 	    cl.show(cards, name);
+	}
+	
+	public void addOutputPanel(OutputPanel output) {
+		
 	}
 }

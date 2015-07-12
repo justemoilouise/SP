@@ -2,11 +2,14 @@ package core;
 
 import gui.InitialWindow;
 import gui.MainWindow;
+import gui.OutputPanel;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JCheckBox;
 
+import Data.ClassifierModel;
 import Data.Species;
 
 public class Client {
@@ -63,14 +66,26 @@ public class Client {
 			currentMode = mode[1];
 			showInputPanels();
 		}
-		
-		// else, show output
+		else {
+			OutputPanel output = new OutputPanel(mode);
+			main.addOutputPanel(output);
+		}
 	}
 
 	public static void setDataset(ArrayList<Species> dataset) {
 		Client.dataset = dataset;
 	}
 
+	public static ClassifierModel getClassifierModel() {
+		ClassifierModel model = new ClassifierModel();
+		model.setDecisionTreeModel(decisionTree.getModel());
+		model.setPreprocessModel(preprocess.getPreprocessModel());
+		model.setSvmmodel(svm.getSVMModel());
+		model.setCreatedDate(new Date());
+		
+		return model;
+	}
+	
 	public static void trainClassifier() {
 		if(currentMode == 1) {
 			trainDecisionTree();
