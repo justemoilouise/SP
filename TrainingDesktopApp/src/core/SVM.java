@@ -18,7 +18,7 @@ public class SVM implements ISVM {
 	private ArrayList<String> classes;
 	
 	public SVM() {}
-
+	
 	public SVMModel getSVMModel() {
 		return model;
 	}
