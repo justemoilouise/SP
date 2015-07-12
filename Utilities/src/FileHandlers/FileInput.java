@@ -1,5 +1,8 @@
 package FileHandlers;
 
+import ij.ImagePlus;
+
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -249,6 +253,29 @@ public class FileInput {
 
 		return null;
 	}
+	
+	public static File[] uploadImageFiles() {
+		// TODO Auto-generated method stub		
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", "jpg, jpeg, png");
+		JFileChooser fc = new JFileChooser();
+		fc.setFileFilter(filter);
+		fc.setMultiSelectionEnabled(true);
+		int status = fc.showDialog(null, "Choose files");
+		fc.setVisible(true);
+
+		try {
+			if (status == JFileChooser.APPROVE_OPTION) {
+				File[] file = fc.getSelectedFiles();
+				return file;
+			}
+			else if (status == JFileChooser.CANCEL_OPTION);
+		}
+		catch(Exception x) {
+			Prompt.PromptError("ERROR_UPLOAD_FILE");
+		}
+
+		return null;
+	}
 
 	public static ArrayList<Input> readInput(File f) {
 		// TODO Auto-generated method stub
@@ -338,6 +365,30 @@ public class FileInput {
 		return list;
 	}
 
+	public static ArrayList<Species> readSpecies(File[] f) {
+		// TODO Auto-generated method stub
+		ArrayList<Species> list = new ArrayList<Species>();
+
+		try {
+			for(int i=0; i<f.length; i++) {
+				int i1 = f[i].getName().indexOf("-");
+				int i2 = f[i].getName().lastIndexOf("\\");
+				String name = f[i].getName().substring(i1 + 1, i2);
+				System.out.println(name);
+				BufferedImage img = ImageIO.read(f[i]);
+				ImagePlus imp = new ImagePlus(name, img);
+				
+				Species s = new Species();
+				s.setImg(imp);
+				s.setName(name);
+				
+				list.add(s);
+			}
+		} catch (Exception e) {}
+
+		return list;
+	}
+	
 	public static Input parseInput(Row row, int rowNumber) {
 		// TODO Auto-generated method stub
 		double[] values = new double[keys.length];
