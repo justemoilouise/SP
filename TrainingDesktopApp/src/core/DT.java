@@ -10,11 +10,36 @@ import CoreHandler.ImageProcessing;
 import Data.Species;
 import Interfaces.IDECISIONTREE;
 
-public class DT implements IDECISIONTREE {
+public class DT implements IDECISIONTREE, Runnable {
 	private DecisionTree classifier;
+	private ArrayList<Species> dataset;
 
 	public DT() {
 		this.classifier = new DecisionTree();
+	}
+	
+	public void setDataSet(ArrayList<Species> dataset) {
+		this.dataset = dataset;
+	}
+	
+	public ArrayList<Species> processImageSet() {
+		// TODO Auto-generated method stub
+		ArrayList<Species> processed = new ArrayList<Species>();
+
+		for(Species s : dataset) {
+			ImageProcessing ip = new ImageProcessing(s.getImg());
+			ip.extractFeatures(true);
+			ImagePlus p = ip.getImageProtrusions();
+			ImagePlus b = ip.getImageBaseShape(p);
+
+			Species sp = ip.getSpecies();
+			sp.setProtrusions(p);
+			sp.setBase(b);
+
+			processed.add(sp);
+		}
+
+		return processed;
 	}
 
 	@Override
@@ -57,5 +82,12 @@ public class DT implements IDECISIONTREE {
 	public ArrayList<Species> readImageSet(InputStream stream) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		ArrayList<Species> processed = processImageSet();
+		crossValidate(processed);
 	}
 }

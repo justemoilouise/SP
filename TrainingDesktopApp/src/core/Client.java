@@ -42,7 +42,8 @@ public class Client {
 	}
 	
 	private static void trainDecisionTree() {
-		decisionTree.crossValidate(dataset);
+		decisionTree.setDataSet(dataset);
+		decisionTree.run();
 	}
 	
 	private static void trainSVM() {
