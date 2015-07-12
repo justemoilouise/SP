@@ -1,8 +1,11 @@
 package core;
 
+import gui.InitialWindow;
 import gui.MainWindow;
 
 import java.util.ArrayList;
+
+import javax.swing.JCheckBox;
 
 import Data.Species;
 
@@ -15,6 +18,7 @@ public class Client {
 	private static int[] mode;
 	private static int currentMode;
 	
+	private static InitialWindow initial;
 	private static MainWindow main;
 	
 	public Client() {
@@ -23,10 +27,31 @@ public class Client {
 		svm = new SVM();
 		dataset = new ArrayList<Species>();
 		main = new MainWindow();
+		
+		initial = new InitialWindow();
+		initial.setVisible(true);
+	}
+	
+	public static JCheckBox[] getModes() {
+		return initial.getCheckBoxes();
 	}
 	
 	public static void setMode(int[] mode) {
 		Client.mode =  mode;
+	}
+	
+	public static void showMainWindow() {
+		currentMode = mode[0];
+		main.setVisible(true);
+		showInputPanels();
+	}
+	
+	public static void showInputPanels() {
+		if(currentMode == 1) {
+			main.showCard("DT");
+		} else if(currentMode == 2) {
+			main.showCard("SVM");
+		}
 	}
 	
 	public static void setDataset(ArrayList<Species> dataset) {

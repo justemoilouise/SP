@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
+import javax.swing.JCheckBox;
+
 import core.Client;
 import Data.Species;
 import FileHandlers.FileInput;
@@ -18,7 +20,21 @@ public class Listener_Mouse implements ActionListener {
 		// TODO Auto-generated method stub
 		String command = e.getActionCommand();
 		
-		if(command.equals("input_excel")) {
+		if(command.equals("init_cancel")) {
+			System.exit(0);
+		} else if(command.equals("init_ok")) {
+			JCheckBox[] cb = Client.getModes();
+			
+			if(cb[0].isSelected() && cb[1].isSelected()) {
+				Client.setMode(new int[] {1, 2});
+			} else if(cb[0].isSelected()) {
+				Client.setMode(new int[] {1});
+			} else {
+				Client.setMode(new int[] {2});
+			}
+			
+			
+		} else if(command.equals("input_excel")) {
 			File f = FileInput.uploadExcelFile();
 			
 			if(f != null) {

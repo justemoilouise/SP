@@ -1,9 +1,13 @@
 package gui;
 
-import java.awt.Color;
+import gui.listeners.Listener_Mouse;
 
-import javax.swing.ButtonGroup;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,7 +22,15 @@ public class InitialWindow extends JFrame {
 	final static String LOOKANDFEEL = "System";
 	final static String THEME = "Test";
 	
+	private Listener_Mouse lm;
+	private JCheckBox[] cb = {
+			new JCheckBox("Decision tree"),
+			new JCheckBox("Support Vector Machine")
+	};
+	
 	public InitialWindow() {
+		this.lm = new Listener_Mouse();
+		
 		initLookAndFeel();
 		
 		ImageIcon img = new ImageIcon("img/logo.png");
@@ -93,20 +105,36 @@ public class InitialWindow extends JFrame {
 		}
 	}
 
-	private JPanel chooseModelOptions() {
-		JCheckBox dt = new JCheckBox("Shape and basic texture features");
-		//dt.setActionCommand("true");
-		JCheckBox svm = new JCheckBox("Shape and Haralick texture descriptors");
-		//svm.setActionCommand("false");
-
-		ButtonGroup btnGrp = new ButtonGroup();
-		btnGrp.add(dt);
-		btnGrp.add(svm);
-		
+	private JPanel chooseModelOptions() {		
 		JPanel panel = new JPanel();
-		panel.add(dt);
-		panel.add(svm);
+		
+		for(JCheckBox c : cb) {
+			panel.add(c);
+		}
+		
+		panel.add(getButtonPanel(), BorderLayout.SOUTH);
 
 		return panel;
+	}
+	
+	private JPanel getButtonPanel() {
+		JButton btnSubmit = new JButton("OK");
+		btnSubmit.setActionCommand("init_ok");
+		btnSubmit.addActionListener(lm);
+		
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setActionCommand("init_cancel");
+		btnCancel.addActionListener(lm);
+		
+		JPanel panel = new JPanel();
+		panel.add(btnSubmit);
+		panel.add(btnCancel);
+		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		
+		return panel;
+	}
+	
+	public JCheckBox[] getCheckBoxes() {
+		return cb;
 	}
 }
