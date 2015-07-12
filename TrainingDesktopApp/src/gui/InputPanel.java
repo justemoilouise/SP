@@ -57,6 +57,7 @@ public class InputPanel {
 		JPanel input = new JPanel();
 		input.add(A);
 		input.add(getButtonPanel());
+		input.setName("input_dt");
 		
 		return input;
 	}
@@ -108,17 +109,18 @@ public class InputPanel {
 		input.add(A);
 		input.add(B);
 		input.add(getButtonPanel());
+		input.setName("input_svm");
 		
 		return input;
 	}
 	
 	private JPanel getButtonPanel() {
-		btnSubmit = new JButton("Submt");
-		btnSubmit.setActionCommand("submit");
+		btnSubmit = new JButton("Next >>");
+		btnSubmit.setActionCommand("next");
 		btnSubmit.addActionListener(lm);
 		
-		btnCancel = new JButton("Cancel");
-		btnCancel.setActionCommand("cancel");
+		btnCancel = new JButton("<< Previous");
+		btnCancel.setActionCommand("prev");
 		btnCancel.addActionListener(lm);
 		
 		JPanel panel = new JPanel();

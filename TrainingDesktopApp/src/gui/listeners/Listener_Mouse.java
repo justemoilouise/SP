@@ -34,9 +34,9 @@ public class Listener_Mouse implements ActionListener {
 				
 				Client.setDataset(dataset);
 			}
-		} else if(command.equals("submit")) {
+		} else if(command.equals("next")) {
 			Client.trainClassifier();
-		} else if(command.equals("cancel")) {
+		} else if(command.equals("prev")) {
 			
 		}
 	}

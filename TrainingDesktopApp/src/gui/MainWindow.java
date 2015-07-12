@@ -1,9 +1,11 @@
 package gui;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.metal.DefaultMetalTheme;
@@ -15,12 +17,11 @@ public class MainWindow extends JFrame {
 	final static String LOOKANDFEEL = "System";
 	final static String THEME = "Test";
 	
-	private boolean mode;
+	private JPanel cards;
 	
-	public MainWindow(boolean mode) {
-		this.mode = mode;
-		
+	public MainWindow() {		
 		initLookAndFeel();
+		initCards();
 		
 		ImageIcon img = new ImageIcon("img/logo.png");
 		
@@ -92,7 +93,15 @@ public class MainWindow extends JFrame {
 		}
 	}
 
-	public void setTitle(String title) {
-		this.setTitle(title);
+	private void initCards() {
+		cards = new JPanel(new CardLayout());
+		cards.add(new InputPanel(1).getInputPanel());
+		cards.add(new InputPanel(2).getInputPanel());
+		// add output panels
+	}
+	
+	public void showCard(String name) {
+		CardLayout cl = (CardLayout)(cards.getLayout());
+	    cl.show(cards, name);
 	}
 }
