@@ -4,6 +4,11 @@ import gui.InitialWindow;
 import gui.MainWindow;
 import gui.OutputPanel;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -13,6 +18,8 @@ import Data.ClassifierModel;
 import Data.Species;
 
 public class Client {
+	private final static String uploadURL = "http://radiss-training.appspot.com/trainingapp/saveclassifiermodel";
+
 	private static DT decisionTree;
 	private static Preprocess preprocess;
 	private static SVM svm;
@@ -82,8 +89,35 @@ public class Client {
 		model.setPreprocessModel(preprocess.getPreprocessModel());
 		model.setSvmmodel(svm.getSVMModel());
 		model.setCreatedDate(new Date());
-		
+
 		return model;
+	}
+
+	public static boolean uploadModel(ClassifierModel model) {
+		try {
+			URL url = new URL(uploadURL);
+			URLConnection conn = url.openConnection();
+			conn.setDoOutput(true);
+			conn.setDoInput(true);
+
+			ObjectOutputStream out = new ObjectOutputStream(conn.getOutputStream());
+			out.writeObject(model);
+			out.flush();
+			out.close();
+
+			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			
+			String result;
+			while ((result = in.readLine()) != null) {}
+			in.close();
+			
+			return Boolean.parseBoolean(result);
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return false;
 	}
 	
 	public static void trainClassifier() {
@@ -92,7 +126,7 @@ public class Client {
 		} else if(currentMode == 2) {
 			trainSVM();
 		}
-		
+
 		next();
 	}
 
