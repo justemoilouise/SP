@@ -54,6 +54,10 @@ public class Listener_Mouse implements ActionListener {
 			Client.trainClassifier();
 		} else if(command.equals("prev")) {
 			
+		} else if(command.equals("save")) {
+			Client.uploadModel();
+		} else if(command.equals("cancel")) {
+			
 		}
 	}
 

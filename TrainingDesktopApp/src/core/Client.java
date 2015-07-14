@@ -23,6 +23,7 @@ public class Client {
 	private static DT decisionTree;
 	private static Preprocess preprocess;
 	private static SVM svm;
+	private static ClassifierModel model;
 
 	private static ArrayList<Species> dataset;
 	private static int[] mode;
@@ -74,7 +75,8 @@ public class Client {
 			showInputPanels();
 		}
 		else {
-			OutputPanel output = new OutputPanel(buildClassifierModel());
+			buildClassifierModel();
+			OutputPanel output = new OutputPanel(model);
 			main.addOutputPanel(output);
 		}
 	}
@@ -83,17 +85,15 @@ public class Client {
 		Client.dataset = dataset;
 	}
 
-	public static ClassifierModel buildClassifierModel() {
-		ClassifierModel model = new ClassifierModel();
+	public static void buildClassifierModel() {
+		model = new ClassifierModel();
 		model.setDecisionTreeModel(decisionTree.getModel());
 		model.setPreprocessModel(preprocess.getPreprocessModel());
 		model.setSvmmodel(svm.getSVMModel());
 		model.setCreatedDate(new Date());
-
-		return model;
 	}
 
-	public static boolean uploadModel(ClassifierModel model) {
+	public static boolean uploadModel() {
 		try {
 			URL url = new URL(uploadURL);
 			URLConnection conn = url.openConnection();
@@ -106,7 +106,6 @@ public class Client {
 			out.close();
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			
 			String result;
 			while ((result = in.readLine()) != null) {}
 			in.close();
