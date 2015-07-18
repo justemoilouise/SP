@@ -43,6 +43,8 @@ public class DT implements IDECISIONTREE, Runnable {
 		double accuracy = 100.0*correct/dataset.size();
 		model.setAccuracy(accuracy);
 		
+		System.out.println(accuracy);
+		
 		return accuracy;
 	}
 	
@@ -57,6 +59,7 @@ public class DT implements IDECISIONTREE, Runnable {
 				classes.add(s.getName());
 			}
 			
+			s.getImg().show();
 			ImageProcessing ip = new ImageProcessing(s.getImg());
 			ip.extractFeatures(true);
 			ImagePlus p = ip.getImageProtrusions();
@@ -65,6 +68,8 @@ public class DT implements IDECISIONTREE, Runnable {
 			Species sp = ip.getSpecies();
 			sp.setProtrusions(p);
 			sp.setBase(b);
+			sp.setImg(s.getImg());
+			sp.setName(s.getName());
 
 			processed.add(sp);
 		}
