@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -18,9 +20,12 @@ public class MainWindow extends JFrame {
 	final static String THEME = "Test";
 	
 	private JPanel cards;
+	private InputPanel currentPanel;
+	private Hashtable<String, InputPanel> inputPanels;
 	
 	public MainWindow() {		
 		initLookAndFeel();
+		initInputPanels();
 		initCards();
 		
 		ImageIcon img = new ImageIcon("img/logo.png");
@@ -95,15 +100,30 @@ public class MainWindow extends JFrame {
 		}
 	}
 
+	
+	private void initInputPanels() {
+		this.inputPanels = new Hashtable<String, InputPanel>();
+		inputPanels.put("input_dt", new InputPanel(1));
+		inputPanels.put("input_svm", new InputPanel(2));
+	}
 	private void initCards() {
 		cards = new JPanel(new CardLayout());
-		cards.add(new InputPanel(1).getInputPanel(), "input_dt");
-		cards.add(new InputPanel(2).getInputPanel(), "input_svm");
+		
+		Enumeration<String> keys = inputPanels.keys();
+		while(keys.hasMoreElements()) {
+			String key = keys.nextElement();
+			cards.add(inputPanels.get(key).getInputPanel(), key);
+		}
 	}
 	
 	public void showCard(String name) {
 		CardLayout cl = (CardLayout)(cards.getLayout());
 	    cl.show(cards, name);
+	    this.currentPanel = inputPanels.get(name);
+	}
+	
+	public void enableButtonPanel() {
+		currentPanel.enableButtonPanel(true);
 	}
 	
 	@SuppressWarnings("deprecation")

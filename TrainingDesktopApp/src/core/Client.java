@@ -69,6 +69,10 @@ public class Client {
 			main.showCard("input_svm");
 		}
 	}
+	
+	public static void enableButtonPanels() {
+		main.enableButtonPanel();
+	}
 
 	public static void next() {
 		if(currentMode != mode[mode.length - 1]) {

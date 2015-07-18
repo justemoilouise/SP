@@ -16,14 +16,14 @@ import javax.swing.JTextField;
 import Data.SVMParameter;
 
 public class InputPanel {
-	private JPanel panel;
+	private JPanel panel, buttonPanel;
 	private JTextField[] svmParameters;
-	private JButton btnSubmit, btnCancel;
 	private JComboBox<String> svmTypes, kernel;
 	private Listener_Mouse lm;
 
 	public InputPanel(int mode) {
 		this.lm = new Listener_Mouse();
+		this.buttonPanel = initButtonPanel();
 		
 		switch(mode) {
 		case 1:
@@ -56,7 +56,7 @@ public class InputPanel {
 		
 		JPanel input = new JPanel();
 		input.add(A);
-		input.add(getButtonPanel());
+		input.add(buttonPanel);
 		input.setName("input_dt");
 		
 		return input;
@@ -111,18 +111,22 @@ public class InputPanel {
 		JPanel input = new JPanel();
 		input.add(A);
 		input.add(B);
-		input.add(getButtonPanel());
+		input.add(buttonPanel);
 		input.setName("input_svm");
 		
 		return input;
 	}
 	
-	private JPanel getButtonPanel() {
-		btnSubmit = new JButton("Next >>");
+	public void enableButtonPanel(boolean isEnabled) {
+		buttonPanel.setEnabled(isEnabled);
+	}
+	
+	private JPanel initButtonPanel() {
+		JButton btnSubmit = new JButton("Next >>");
 		btnSubmit.setActionCommand("next");
 		btnSubmit.addActionListener(lm);
 		
-		btnCancel = new JButton("<< Previous");
+		JButton btnCancel = new JButton("<< Previous");
 		btnCancel.setActionCommand("prev");
 		btnCancel.addActionListener(lm);
 		
@@ -130,6 +134,7 @@ public class InputPanel {
 		panel.add(btnCancel);
 		panel.add(btnSubmit);
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		panel.setEnabled(false);
 		
 		return panel;
 	}

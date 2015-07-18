@@ -41,6 +41,7 @@ public class Listener_Mouse implements ActionListener {
 				ArrayList<Species> dataset = FileInput.readSpecies(f);
 				
 				Client.setDataset(dataset);
+				Client.enableButtonPanels();
 			}
 		} else if(command.equals("input_image")) {
 			File[] f = FileInput.uploadImageFiles();
@@ -49,6 +50,7 @@ public class Listener_Mouse implements ActionListener {
 				ArrayList<Species> dataset = FileInput.readSpecies(f);
 				
 				Client.setDataset(dataset);
+				Client.enableButtonPanels();
 			}
 		} else if(command.equals("next")) {
 			Client.trainClassifier();
