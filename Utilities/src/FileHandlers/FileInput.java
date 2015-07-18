@@ -371,10 +371,9 @@ public class FileInput {
 
 		try {
 			for(int i=0; i<f.length; i++) {
-				int i1 = f[i].getName().indexOf("-");
-				int i2 = f[i].getName().lastIndexOf("\\");
-				String name = f[i].getName().substring(i1 + 1, i2);
-				System.out.println(name);
+				int index = f[i].getName().indexOf("-");
+				String name = f[i].getName().substring(0, index-1);
+
 				BufferedImage img = ImageIO.read(f[i]);
 				ImagePlus imp = new ImagePlus(name, img);
 				

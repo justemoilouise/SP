@@ -3,8 +3,6 @@ package ImageProcessing;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import ij.ImagePlus;
 import ij.measure.Measurements;
 import ij.measure.ResultsTable;
@@ -92,6 +90,6 @@ public class ParticleAnalysis {
 			featureValues.add(v);
 		}
 		
-		featureLabels = ArrayUtils.addAll(featureLabels, rt.getHeadings());
+		featureLabels = rt.getHeadings();
 	}
 }
