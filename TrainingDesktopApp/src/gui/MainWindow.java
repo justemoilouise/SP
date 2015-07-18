@@ -25,7 +25,9 @@ public class MainWindow extends JFrame {
 		
 		ImageIcon img = new ImageIcon("img/logo.png");
 		
-		setSize(500, 750);
+		add(cards);
+		
+		setSize(300, 400);
 		setIconImage(img.getImage());
 		setTitle("RadiSS");
 		setBackground(Color.DARK_GRAY);
@@ -95,8 +97,8 @@ public class MainWindow extends JFrame {
 
 	private void initCards() {
 		cards = new JPanel(new CardLayout());
-		cards.add(new InputPanel(1).getInputPanel());
-		cards.add(new InputPanel(2).getInputPanel());
+		cards.add(new InputPanel(1).getInputPanel(), "input_dt");
+		cards.add(new InputPanel(2).getInputPanel(), "input_svm");
 	}
 	
 	public void showCard(String name) {
@@ -104,7 +106,9 @@ public class MainWindow extends JFrame {
 	    cl.show(cards, name);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void addOutputPanel(OutputPanel output) {
-		
+		CardLayout cl = (CardLayout)(cards.getLayout());
+		cl.addLayoutComponent("output", output);
 	}
 }

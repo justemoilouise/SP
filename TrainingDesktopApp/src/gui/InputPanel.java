@@ -5,8 +5,8 @@ import helpers.SVMHelper;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.util.Arrays;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -90,14 +90,17 @@ public class InputPanel {
 		B2.add(kernel);
 		
 		JPanel B = new JPanel();
+		B.setLayout(new BoxLayout(B, BoxLayout.Y_AXIS));
 		B.add(B1);
 		B.add(B2);
 		
 		String[] parameters = SVMHelper.GetParametrs();
 		this.svmParameters = new JTextField[parameters.length];
-		Arrays.fill(svmParameters, new JTextField());
 		
 		for(int i=0; i<parameters.length; i++) {
+			svmParameters[i] = new JTextField();
+			svmParameters[i].setColumns(5);
+			
 			JPanel B3 = new JPanel();
 			B3.add(new JLabel(parameters[i]), BorderLayout.WEST);
 			B3.add(svmParameters[i], BorderLayout.EAST);
@@ -124,8 +127,8 @@ public class InputPanel {
 		btnCancel.addActionListener(lm);
 		
 		JPanel panel = new JPanel();
-		panel.add(btnSubmit);
 		panel.add(btnCancel);
+		panel.add(btnSubmit);
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
 		return panel;

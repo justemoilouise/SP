@@ -33,7 +33,7 @@ public class Listener_Mouse implements ActionListener {
 				Client.setMode(new int[] {2});
 			}
 			
-			
+			Client.showMainWindow();
 		} else if(command.equals("input_excel")) {
 			File f = FileInput.uploadExcelFile();
 			

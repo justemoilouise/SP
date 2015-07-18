@@ -56,6 +56,7 @@ public class Client {
 	}
 
 	public static void showMainWindow() {
+		initial.dispose();
 		currentMode = mode[0];
 		main.setVisible(true);
 		showInputPanels();
@@ -63,9 +64,9 @@ public class Client {
 
 	public static void showInputPanels() {
 		if(currentMode == 1) {
-			main.showCard("DT");
+			main.showCard("input_dt");
 		} else if(currentMode == 2) {
-			main.showCard("SVM");
+			main.showCard("input_svm");
 		}
 	}
 

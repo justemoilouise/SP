@@ -37,7 +37,7 @@ public class InitialWindow extends JFrame {
 		
 		add(chooseModelOptions());
 		
-		setSize(100, 200);
+		setSize(200, 150);
 		setIconImage(img.getImage());
 		setTitle("RadiSS");
 		setBackground(Color.DARK_GRAY);
