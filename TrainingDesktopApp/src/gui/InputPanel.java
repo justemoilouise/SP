@@ -4,6 +4,7 @@ import gui.listeners.Listener_Mouse;
 import helpers.SVMHelper;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 
 import javax.swing.BoxLayout;
@@ -118,6 +119,9 @@ public class InputPanel {
 	}
 	
 	public void enableButtonPanel(boolean isEnabled) {
+		for(Component c : buttonPanel.getComponents()) {
+			c.setEnabled(isEnabled);
+		}
 		buttonPanel.setEnabled(isEnabled);
 	}
 	
@@ -125,10 +129,12 @@ public class InputPanel {
 		JButton btnSubmit = new JButton("Next >>");
 		btnSubmit.setActionCommand("next");
 		btnSubmit.addActionListener(lm);
+		btnSubmit.setEnabled(false);
 		
 		JButton btnCancel = new JButton("<< Previous");
 		btnCancel.setActionCommand("prev");
 		btnCancel.addActionListener(lm);
+		btnCancel.setEnabled(false);
 		
 		JPanel panel = new JPanel();
 		panel.add(btnCancel);
