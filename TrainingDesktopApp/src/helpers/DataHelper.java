@@ -12,9 +12,7 @@ public class DataHelper {
 			b.append(", ");
 		}
 		
-		b.substring(0, b.length() - 2);
-		
-		return b.toString();
+		return b.substring(0, b.length() - 2);
 	}
 	
 	public static String ConvertArrayToString(double[] arr) {
@@ -25,9 +23,7 @@ public class DataHelper {
 			b.append(", ");
 		}
 		
-		b.substring(0, b.length() - 2);
-		
-		return b.toString();
+		return b.substring(0, b.length() - 2);
 	}
 	
 	public static String AddTableRow(String label, Object value) {
