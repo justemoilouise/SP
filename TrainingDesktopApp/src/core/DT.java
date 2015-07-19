@@ -70,6 +70,8 @@ public class DT implements IDECISIONTREE, Runnable {
 			sp.setBase(b);
 			sp.setImg(s.getImg());
 			sp.setName(s.getName());
+			
+			s.getImg().hide();
 
 			processed.add(sp);
 		}

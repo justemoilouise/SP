@@ -18,20 +18,20 @@ import javax.swing.plaf.metal.OceanTheme;
 public class MainWindow extends JFrame {
 	final static String LOOKANDFEEL = "System";
 	final static String THEME = "Test";
-	
+
 	private JPanel cards;
 	private InputPanel currentPanel;
 	private Hashtable<String, InputPanel> inputPanels;
-	
+
 	public MainWindow() {		
 		initLookAndFeel();
 		initInputPanels();
 		initCards();
-		
+
 		ImageIcon img = new ImageIcon("img/logo.png");
-		
+
 		add(cards);
-		
+
 		setSize(300, 400);
 		setIconImage(img.getImage());
 		setTitle("RadiSS");
@@ -39,7 +39,7 @@ public class MainWindow extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
-	
+
 	private void initLookAndFeel() {
 		String lookAndFeel = null;
 
@@ -100,35 +100,36 @@ public class MainWindow extends JFrame {
 		}
 	}
 
-	
 	private void initInputPanels() {
 		this.inputPanels = new Hashtable<String, InputPanel>();
 		inputPanels.put("input_dt", new InputPanel(1));
 		inputPanels.put("input_svm", new InputPanel(2));
 	}
+
 	private void initCards() {
 		cards = new JPanel(new CardLayout());
-		
+
 		Enumeration<String> keys = inputPanels.keys();
 		while(keys.hasMoreElements()) {
 			String key = keys.nextElement();
 			cards.add(inputPanels.get(key).getInputPanel(), key);
 		}
 	}
-	
-	public void showCard(String name) {
+
+	public void showCard(String name, boolean isInput) {
 		CardLayout cl = (CardLayout)(cards.getLayout());
-	    cl.show(cards, name);
-	    this.currentPanel = inputPanels.get(name);
+		cl.show(cards, name);
+
+		if(isInput) {
+			this.currentPanel = inputPanels.get(name);
+		}
 	}
-	
+
 	public void enableButtonPanel() {
 		currentPanel.enableButtonPanel(true);
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	public void addOutputPanel(OutputPanel output) {
-		CardLayout cl = (CardLayout)(cards.getLayout());
-		cl.addLayoutComponent("output", output);
+		cards.add(output, "Output");
 	}
 }

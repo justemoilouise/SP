@@ -64,9 +64,9 @@ public class Client {
 
 	public static void showInputPanels() {
 		if(currentMode == 1) {
-			main.showCard("input_dt");
+			main.showCard("input_dt", true);
 		} else if(currentMode == 2) {
-			main.showCard("input_svm");
+			main.showCard("input_svm", true);
 		}
 	}
 	
@@ -83,6 +83,7 @@ public class Client {
 			buildClassifierModel();
 			OutputPanel output = new OutputPanel(model);
 			main.addOutputPanel(output);
+			main.showCard("Output", false);
 		}
 	}
 

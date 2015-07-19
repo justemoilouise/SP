@@ -4,6 +4,7 @@ import gui.listeners.Listener_Mouse;
 import helpers.DataHelper;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -11,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
 
 import Data.ClassifierModel;
 
@@ -27,6 +29,9 @@ public class OutputPanel extends JTabbedPane {
 		this.tabbedPane = new JTabbedPane();
 		this.lm = new Listener_Mouse();
 
+		//panel.setPreferredSize(new Dimension(300, 400));
+		//tabbedPane.setPreferredSize(new Dimension(300, 300));
+		
 		decisionTreeOutputPanel();
 		svmOutputPanel();
 
@@ -45,13 +50,18 @@ public class OutputPanel extends JTabbedPane {
 			try {
 				textPane.setPage(this.getClass().getResource("/resources/DecisionTreeOutput.html"));
 				replaceOutputResults(1, textPane);
+				textPane.setCaretPosition(0);
 			}
 			catch(Exception ex) {
 				ex.printStackTrace();
 			}
 
-			JPanel panel = new JPanel();
-			panel.add(textPane);
+			JScrollPane panel = new JScrollPane();
+			panel.setViewportView(textPane);
+			panel.revalidate();
+			panel.repaint();
+			panel.setPreferredSize(new Dimension(300, 0));
+			panel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 			tabbedPane.add("Decision Tree", panel);
 		}
