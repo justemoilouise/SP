@@ -1,8 +1,8 @@
 package core;
 
 import gui.InitialWindow;
-import gui.MainWindow;
-import gui.OutputPanel;
+import gui.InputWindow;
+import gui.OutputWindow;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -30,14 +30,14 @@ public class Client {
 	private static int currentMode;
 
 	private static InitialWindow initial;
-	private static MainWindow main;
+	private static InputWindow input;
 
 	public Client() {
 		decisionTree = new DT();
 		preprocess = new Preprocess();
 		svm = new SVM();
 		dataset = new ArrayList<Species>();
-		main = new MainWindow();
+		input = new InputWindow();
 
 		initial = new InitialWindow();
 		initial.setVisible(true);
@@ -58,20 +58,20 @@ public class Client {
 	public static void showMainWindow() {
 		initial.dispose();
 		currentMode = mode[0];
-		main.setVisible(true);
+		input.setVisible(true);
 		showInputPanels();
 	}
 
 	public static void showInputPanels() {
 		if(currentMode == 1) {
-			main.showCard("input_dt", true);
+			input.showCard("input_dt");
 		} else if(currentMode == 2) {
-			main.showCard("input_svm", true);
+			input.showCard("input_svm");
 		}
 	}
 	
 	public static void enableButtonPanels() {
-		main.enableButtonPanel();
+		input.enableButtonPanel();
 	}
 
 	public static void next() {
@@ -81,9 +81,9 @@ public class Client {
 		}
 		else {
 			buildClassifierModel();
-			OutputPanel output = new OutputPanel(model);
-			main.addOutputPanel(output);
-			main.showCard("Output", false);
+			input.dispose();
+			OutputWindow output = new OutputWindow(model);
+			output.setVisible(true);
 		}
 	}
 

@@ -3,7 +3,7 @@ package gui;
 import gui.listeners.Listener_Mouse;
 import helpers.DataHelper;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.io.BufferedReader;
@@ -11,7 +11,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -21,27 +24,32 @@ import javax.swing.ScrollPaneConstants;
 import Data.ClassifierModel;
 
 @SuppressWarnings("serial")
-public class OutputPanel extends JTabbedPane {
-	private JPanel panel;
+public class OutputWindow extends JFrame {
 	private JTabbedPane tabbedPane;
 	private Listener_Mouse lm;
 	private ClassifierModel model;
 
-	public OutputPanel(ClassifierModel model) {
+	public OutputWindow(ClassifierModel model) {
 		this.model = model;
-		this.panel = new JPanel();
 		this.tabbedPane = new JTabbedPane();
 		this.lm = new Listener_Mouse();
 
 		decisionTreeOutputPanel();
 		svmOutputPanel();
 
-		panel.add(tabbedPane, BorderLayout.CENTER);
-		panel.add(getButtonPanel(), BorderLayout.SOUTH);
-	}
-
-	public JPanel getOutputPanel() {
-		return panel;
+		JPanel panel = new JPanel(); 
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setName("Output");
+		panel.add(tabbedPane);
+		panel.add(getButtonPanel());
+		add(panel);
+		
+		setSize(500, 300);
+		setIconImage(new ImageIcon("img/logo.png").getImage());
+		setTitle("RadiSS");
+		setBackground(Color.DARK_GRAY);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 
 	private void decisionTreeOutputPanel() {
@@ -50,9 +58,11 @@ public class OutputPanel extends JTabbedPane {
 
 			try {
 				String content = getContents(1, this.getClass().getResource("/resources/DecisionTreeOutput.html"));
+				System.out.println(content);
 				textPane.setText(content);
 				textPane.setContentType("text/html");
 				textPane.setCaretPosition(0);
+				textPane.setEditable(false);
 			}
 			catch(Exception ex) {
 				ex.printStackTrace();
@@ -62,8 +72,9 @@ public class OutputPanel extends JTabbedPane {
 			panel.setViewportView(textPane);
 			panel.revalidate();
 			panel.repaint();
-			panel.setPreferredSize(new Dimension(275, 0));
+			panel.setPreferredSize(new Dimension(500, 0));
 			panel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+			panel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 			tabbedPane.add("Decision Tree", panel);
 		}
@@ -75,9 +86,11 @@ public class OutputPanel extends JTabbedPane {
 
 			try {
 				String content = getContents(2, this.getClass().getResource("/resources/SVMOutput.html"));
+				System.out.println(content);
 				textPane.setText(content);
 				textPane.setContentType("text/html");
 				textPane.setCaretPosition(0);
+				textPane.setEditable(false);
 			}
 			catch(Exception ex) {
 				ex.printStackTrace();
@@ -87,8 +100,9 @@ public class OutputPanel extends JTabbedPane {
 			panel.setViewportView(textPane);
 			panel.revalidate();
 			panel.repaint();
-			panel.setPreferredSize(new Dimension(275, 0));
+			panel.setPreferredSize(new Dimension(500, 0));
 			panel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+			panel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 			tabbedPane.add("SVM", panel);
 		}

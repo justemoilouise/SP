@@ -15,7 +15,7 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
 
 @SuppressWarnings("serial")
-public class MainWindow extends JFrame {
+public class InputWindow extends JFrame {
 	final static String LOOKANDFEEL = "System";
 	final static String THEME = "Test";
 
@@ -23,17 +23,15 @@ public class MainWindow extends JFrame {
 	private InputPanel currentPanel;
 	private Hashtable<String, InputPanel> inputPanels;
 
-	public MainWindow() {		
+	public InputWindow() {		
 		initLookAndFeel();
 		initInputPanels();
 		initCards();
 
-		ImageIcon img = new ImageIcon("img/logo.png");
-
 		add(cards);
 
 		setSize(300, 400);
-		setIconImage(img.getImage());
+		setIconImage(new ImageIcon("img/logo.png").getImage());
 		setTitle("RadiSS");
 		setBackground(Color.DARK_GRAY);
 		setLocationRelativeTo(null);
@@ -116,20 +114,13 @@ public class MainWindow extends JFrame {
 		}
 	}
 
-	public void showCard(String name, boolean isInput) {
+	public void showCard(String name) {
 		CardLayout cl = (CardLayout)(cards.getLayout());
 		cl.show(cards, name);
-
-		if(isInput) {
-			this.currentPanel = inputPanels.get(name);
-		}
+		this.currentPanel = inputPanels.get(name);
 	}
 
 	public void enableButtonPanel() {
 		currentPanel.enableButtonPanel(true);
-	}
-
-	public void addOutputPanel(OutputPanel output) {
-		cards.add(output, "Output");
 	}
 }
