@@ -64,7 +64,7 @@ public class DT implements IDECISIONTREE, Runnable {
 			ip.extractFeatures(true);
 			ImagePlus p = ip.getImageProtrusions();
 			ImagePlus b = ip.getImageBaseShape(p);
-
+				
 			Species sp = ip.getSpecies();
 			sp.setProtrusions(p);
 			sp.setBase(b);
