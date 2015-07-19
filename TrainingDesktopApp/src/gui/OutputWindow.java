@@ -71,7 +71,6 @@ public class OutputWindow extends JFrame {
 
 		try {
 			String content = getContents(mode, this.getClass().getResource(resourceName[mode]));
-			System.out.println(content);
 			textPane.setText(content);
 			textPane.setContentType("text/html");
 			textPane.setCaretPosition(0);
@@ -166,6 +165,6 @@ public class OutputWindow extends JFrame {
 			}
 		}
 		
-		return content;
+		return content.replace("\t", "");
 	}
 }
