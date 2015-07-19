@@ -25,22 +25,22 @@ import Data.ClassifierModel;
 
 @SuppressWarnings("serial")
 public class OutputWindow extends JFrame {
-	private JTabbedPane tabbedPane;
 	private Listener_Mouse lm;
 	private ClassifierModel model;
+	
+	private String[] resourceName = {
+			"/resources/DecisionTreeOutput.html",
+			"/resources/SVMOutput.html"
+	};
 
 	public OutputWindow(ClassifierModel model) {
 		this.model = model;
-		this.tabbedPane = new JTabbedPane();
 		this.lm = new Listener_Mouse();
-
-		decisionTreeOutputPanel();
-		svmOutputPanel();
 
 		JPanel panel = new JPanel(); 
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.setName("Output");
-		panel.add(tabbedPane);
+		panel.add(getResults());
 		panel.add(getButtonPanel());
 		add(panel);
 		
@@ -51,63 +51,47 @@ public class OutputWindow extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
-
-	private void decisionTreeOutputPanel() {
+	
+	private JTabbedPane getResults() {
+		JTabbedPane pane = new JTabbedPane();
+		
 		if(model.getDecisionTreeModel() != null) {
-			JTextPane textPane = new JTextPane();
-
-			try {
-				String content = getContents(1, this.getClass().getResource("/resources/DecisionTreeOutput.html"));
-				System.out.println(content);
-				textPane.setText(content);
-				textPane.setContentType("text/html");
-				textPane.setCaretPosition(0);
-				textPane.setEditable(false);
-			}
-			catch(Exception ex) {
-				ex.printStackTrace();
-			}
-
-			JScrollPane panel = new JScrollPane();
-			panel.setViewportView(textPane);
-			panel.revalidate();
-			panel.repaint();
-			panel.setPreferredSize(new Dimension(500, 0));
-			panel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-			panel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-			tabbedPane.add("Decision Tree", panel);
+			pane.add("Decision Tree", getModelOutput(0));
 		}
-	}
-
-	private void svmOutputPanel() {
+		
 		if(model.getSvmmodel() != null) {
-			JTextPane textPane = new JTextPane();
-
-			try {
-				String content = getContents(2, this.getClass().getResource("/resources/SVMOutput.html"));
-				System.out.println(content);
-				textPane.setText(content);
-				textPane.setContentType("text/html");
-				textPane.setCaretPosition(0);
-				textPane.setEditable(false);
-			}
-			catch(Exception ex) {
-				ex.printStackTrace();
-			}
-
-			JScrollPane panel = new JScrollPane();
-			panel.setViewportView(textPane);
-			panel.revalidate();
-			panel.repaint();
-			panel.setPreferredSize(new Dimension(500, 0));
-			panel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-			panel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-			tabbedPane.add("SVM", panel);
+			pane.add("SVM", getModelOutput(1));
 		}
+		
+		return pane;
 	}
+	
+	private JScrollPane getModelOutput(int mode) {
+		JTextPane textPane = new JTextPane();
 
+		try {
+			String content = getContents(mode, this.getClass().getResource(resourceName[mode]));
+			System.out.println(content);
+			textPane.setText(content);
+			textPane.setContentType("text/html");
+			textPane.setCaretPosition(0);
+			textPane.setEditable(false);
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+
+		JScrollPane panel = new JScrollPane();
+		panel.setViewportView(textPane);
+		panel.revalidate();
+		panel.repaint();
+		panel.setPreferredSize(new Dimension(500, 0));
+		panel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		panel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
+		return panel;
+	}
+	
 	private JPanel getButtonPanel() {
 		JButton btnSubmit = new JButton("Save model");
 		btnSubmit.setActionCommand("save");
@@ -148,7 +132,7 @@ public class OutputWindow extends JFrame {
 
 	private String replaceOutputResults(int mode, String content) {		
 		if(!content.isEmpty()) {
-			if(mode == 1) {
+			if(mode == 0) {
 				StringBuilder strBuilder = new StringBuilder();
 				strBuilder.append(DataHelper.AddTableRow("Classes", 
 						DataHelper.ConvertArrayListToString(model.getDecisionTreeModel().getClasses())));
