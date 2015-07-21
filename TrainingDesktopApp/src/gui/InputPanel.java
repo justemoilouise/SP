@@ -126,19 +126,19 @@ public class InputPanel {
 	}
 	
 	private JPanel initButtonPanel() {
-		JButton btnSubmit = new JButton("Next >>");
-		btnSubmit.setActionCommand("next");
-		btnSubmit.addActionListener(lm);
-		btnSubmit.setEnabled(false);
+		JButton btnNext = new JButton("Next >>");
+		btnNext.setActionCommand("next");
+		btnNext.addActionListener(lm);
+		btnNext.setEnabled(false);
 		
-		JButton btnCancel = new JButton("<< Previous");
-		btnCancel.setActionCommand("prev");
-		btnCancel.addActionListener(lm);
-		btnCancel.setEnabled(false);
+		JButton btnPrev = new JButton("<< Previous");
+		btnPrev.setActionCommand("prev");
+		btnPrev.addActionListener(lm);
+		btnPrev.setEnabled(true);
 		
 		JPanel panel = new JPanel();
-		panel.add(btnCancel);
-		panel.add(btnSubmit);
+		panel.add(btnPrev);
+		panel.add(btnNext);
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panel.setEnabled(false);
 		

@@ -6,8 +6,10 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 
 import core.Client;
+import CoreHandler.Prompt;
 import Data.Species;
 import FileHandlers.FileInput;
 
@@ -59,7 +61,11 @@ public class Listener_Mouse implements ActionListener {
 		} else if(command.equals("save")) {
 			Client.uploadModel();
 		} else if(command.equals("cancel")) {
+			int choice = Prompt.ConfirmExit("cancel");
 			
+			if(choice == JOptionPane.YES_OPTION) {
+				Client.showMainWindow();
+			}
 		}
 	}
 
