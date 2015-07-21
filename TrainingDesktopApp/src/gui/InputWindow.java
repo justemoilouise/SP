@@ -1,5 +1,7 @@
 package gui;
 
+import gui.listeners.Listener_Window;
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.util.Enumeration;
@@ -29,7 +31,7 @@ public class InputWindow extends JFrame {
 		initCards();
 
 		add(cards);
-
+		addWindowListener(new Listener_Window());
 		setSize(300, 400);
 		setIconImage(new ImageIcon("img/logo.png").getImage());
 		setTitle("RadiSS");

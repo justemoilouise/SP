@@ -1,6 +1,7 @@
 package gui;
 
 import gui.listeners.Listener_Mouse;
+import gui.listeners.Listener_Window;
 import helpers.DataHelper;
 
 import java.awt.Color;
@@ -43,7 +44,7 @@ public class OutputWindow extends JFrame {
 		panel.add(getResults());
 		panel.add(getButtonPanel());
 		add(panel);
-		
+		addWindowListener(new Listener_Window());
 		setSize(500, 300);
 		setIconImage(new ImageIcon("img/logo.png").getImage());
 		setTitle("RadiSS");
