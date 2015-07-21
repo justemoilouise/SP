@@ -56,7 +56,7 @@ public class Client {
 	}
 
 	public static void showMainWindow() {
-		initial.dispose();
+		initial.setVisible(false);
 		currentMode = mode[0];
 		input.setVisible(true);
 		showInputPanels();
@@ -73,15 +73,28 @@ public class Client {
 	public static void enableButtonPanels() {
 		input.enableButtonPanel();
 	}
+	
+	public static void prev() {
+		if(currentMode == mode[0]) {
+			input.setVisible(false);
+			initial.setVisible(true);
+		}
+		else {
+			currentMode = mode[0];
+			showInputPanels();
+		}
+	}
 
 	public static void next() {
+		trainClassifier();
+		
 		if(currentMode != mode[mode.length - 1]) {
 			currentMode = mode[1];
 			showInputPanels();
 		}
 		else {
 			buildClassifierModel();
-			input.dispose();
+			input.setVisible(false);
 			OutputWindow output = new OutputWindow(model);
 			output.setVisible(true);
 		}
@@ -125,14 +138,12 @@ public class Client {
 		return false;
 	}
 	
-	public static void trainClassifier() {
+	private static void trainClassifier() {
 		if(currentMode == 1) {
 			trainDecisionTree();
 		} else if(currentMode == 2) {
 			trainSVM();
 		}
-
-		next();
 	}
 
 	private static void trainDecisionTree() {
