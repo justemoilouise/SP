@@ -131,7 +131,7 @@ public class OutputPanel extends JInternalFrame {
 	}
 
 	public JPanel getProtrusions() {
-		ImageIcon img = new ImageIcon(input.getProtrusions().getImage());
+		ImageIcon img = new ImageIcon(input.getSpecies().getProtrusions().getImage());
 		img = ProcessImage.getScaledImage(img, new Dimension(450, 450));
 		JLabel label = new JLabel(img);
 		JPanel panel = new JPanel();
@@ -141,7 +141,7 @@ public class OutputPanel extends JInternalFrame {
 	}
 
 	public JPanel getBaseShape() {
-		ImageIcon img = new ImageIcon(input.getBase().getImage());
+		ImageIcon img = new ImageIcon(input.getSpecies().getBase().getImage());
 		img = ProcessImage.getScaledImage(img, new Dimension(450, 450));
 		JLabel label = new JLabel(img);
 		JPanel panel = new JPanel();

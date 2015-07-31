@@ -193,16 +193,18 @@ public class Client {
 		ImagePlus p = ip.getImageProtrusions();
 		ImagePlus b = ip.getImageBaseShape(p);
 		
-		input.setProtrusions(p);
-		input.setBase(b);
-		input.setSpecies(ip.getSpecies());
-		
 		// save images		
 		BufferedImage bi = ProcessImage.getROI(imgPlus);		
 		String name = "tmp/"+count+".png";
-		ProcessImage.saveImage(bi, name);
-		input.setImg(new ImagePlus(name));
+		ProcessImage.saveImage(bi, name);		
+		
+		Species sp = ip.getSpecies();
+		sp.setProtrusions(p);
+		sp.setBase(b);
+		sp.setImg(new ImagePlus(name));
+
 		input.setImageName(name);
+		input.setSpecies(sp);
 		
 		inputs.add(input);
 	}
