@@ -2,7 +2,6 @@ package com.training.decisionTree;
 
 import ij.ImagePlus;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import CoreHandler.DecisionTree;
@@ -54,7 +53,7 @@ public class DecisionTreeProcessor implements IDECISIONTREE {
 	}
 
 	@Override
-	public ArrayList<Species> readImageSet(InputStream stream) {
+	public ArrayList<Species> processImageSet() {
 		// TODO Auto-generated method stub
 		return null;
 	}
