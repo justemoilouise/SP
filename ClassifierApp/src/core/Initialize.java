@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import Data.ClassifierModel;
+import Data.DecisionTreeModel;
 import Data.PreprocessModel;
 import Data.SVMModel;
 import FileHandlers.FileConfig;
@@ -90,6 +91,11 @@ public class Initialize implements Runnable {
 		filename = props.getProperty("model.svm.ij");
 		sModel = FileInput.readSVMModelFromDATFile(filename);
 		models.put("svm_model_JF", sModel);
+		
+		// Decision tree model
+		filename = props.getProperty("model.decisionTree");
+		DecisionTreeModel dModel = FileInput.readDeisionTreeModelFromDATFile(filename);
+		models.put("dt_model", dModel);
 
 		return models;
 	}
