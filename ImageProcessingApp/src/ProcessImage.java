@@ -3,6 +3,7 @@ import ij.plugin.ImageCalculator;
 import ij.plugin.filter.BackgroundSubtracter;
 import ij.plugin.filter.PlugInFilterRunner;
 import ij.plugin.filter.RankFilters;
+import ij.process.FloatProcessor;
 import ij.process.ImageProcessor;
 
 import java.awt.Dimension;
@@ -53,7 +54,14 @@ public class ProcessImage {
 	
 	public static ImagePlus topHatTransform(ImagePlus imp) {		
 		Fast_Filters ff = new Fast_Filters();
-		new PlugInFilterRunner(ff, "Fast filters", "");		
+		new PlugInFilterRunner(ff, "Fast filters", "");
+		
+//		FloatProcessor fp = imp.duplicate().getProcessor().convertToFloatProcessor();
+//		fp.snapshot();
+//		TopHat th = new TopHat(100, 100, true, 255);
+//		th.transform(fp, 8);
+//		ImagePlus imp = new ImagePlus("Top hat", fp);
+		
 //		FloatProcessor fp = null;
 //		ImageProcessor ip = imp.duplicate().getProcessor();
 //		ip.snapshot();
