@@ -1,9 +1,21 @@
 package helpers;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class DataHelper {
 
+	public static String GetFileNames(File[] arr) {
+		StringBuilder b = new StringBuilder();
+		
+		for(File f : arr) {
+			b.append(f.getName());
+			b.append(", ");
+		}
+		
+		return b.substring(0, b.length() - 2);
+	}
+	
 	public static String ConvertArrayListToString(ArrayList<String> arr) {
 		StringBuilder b = new StringBuilder();
 		

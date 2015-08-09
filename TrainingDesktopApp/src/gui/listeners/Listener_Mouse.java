@@ -1,5 +1,7 @@
 package gui.listeners;
 
+import helpers.DataHelper;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -40,6 +42,8 @@ public class Listener_Mouse implements ActionListener {
 			File f = FileInput.uploadExcelFile();
 			
 			if(f != null) {
+				Client.setTextFieldText(f.getName());
+				
 				ArrayList<Species> dataset = FileInput.readSpecies(f);
 				
 				Client.setDataset(dataset);
@@ -49,6 +53,8 @@ public class Listener_Mouse implements ActionListener {
 			File[] f = FileInput.uploadImageFiles();
 			
 			if(f != null) {
+				Client.setTextFieldText(DataHelper.GetFileNames(f));
+				
 				ArrayList<Species> dataset = FileInput.readSpecies(f);
 				
 				Client.setDataset(dataset);

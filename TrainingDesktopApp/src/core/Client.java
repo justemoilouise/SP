@@ -68,6 +68,12 @@ public class Client {
 		} else if(currentMode == 2) {
 			input.showCard("input_svm");
 		}
+		
+		setTextFieldText("");
+	}
+	
+	public static void setTextFieldText(String text) {
+		input.getCurrentPanel().setTextBoxText(text);
 	}
 	
 	public static void enableButtonPanels() {

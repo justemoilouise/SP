@@ -121,6 +121,10 @@ public class InputWindow extends JFrame {
 		cl.show(cards, name);
 		this.currentPanel = inputPanels.get(name);
 	}
+	
+	public InputPanel getCurrentPanel() {
+		return currentPanel;
+	}
 
 	public void enableButtonPanel() {
 		currentPanel.enableButtonPanel(true);

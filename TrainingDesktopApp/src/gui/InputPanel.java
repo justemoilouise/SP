@@ -18,6 +18,7 @@ import Data.SVMParameter;
 
 public class InputPanel {
 	private JPanel panel, buttonPanel;
+	private JTextField textBox;
 	private JTextField[] svmParameters;
 	private JComboBox<String> svmTypes, kernel;
 	private Listener_Mouse lm;
@@ -40,10 +41,14 @@ public class InputPanel {
 	public JPanel getInputPanel() {
 		return panel;
 	}
+	
+	public void setTextBoxText(String text) {
+		textBox.setText(text);
+	}
 
 	private JPanel decisionTreeInputPanel() {
 		JLabel label = new JLabel("Data set: ");
-		JTextField textBox = new JTextField();
+		textBox = new JTextField();
 		textBox.setColumns(15);
 		JButton btn = new JButton("Upload");
 		btn.setActionCommand("input_image");
