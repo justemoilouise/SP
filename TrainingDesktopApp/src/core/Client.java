@@ -124,6 +124,7 @@ public class Client {
 			URLConnection conn = url.openConnection();
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
+			conn.connect();
 
 			ObjectOutputStream out = new ObjectOutputStream(conn.getOutputStream());
 			out.writeObject(model);
