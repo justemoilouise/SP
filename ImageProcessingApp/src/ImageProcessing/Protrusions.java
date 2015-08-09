@@ -1,4 +1,9 @@
+package ImageProcessing;
+
 import java.util.ArrayList;
+
+import Helpers.ProcessImage;
+import Helpers.ValueHelper;
 import ij.ImagePlus;
 import ij.process.BinaryProcessor;
 import ij.process.ByteProcessor;
