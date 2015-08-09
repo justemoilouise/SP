@@ -71,9 +71,9 @@ public class OutputWindow extends JFrame {
 		JTextPane textPane = new JTextPane();
 
 		try {
+			textPane.setContentType("text/html");
 			String content = getContents(mode, this.getClass().getResource(resourceName[mode]));
 			textPane.setText(content);
-			textPane.setContentType("text/html");
 			textPane.setCaretPosition(0);
 			textPane.setEditable(false);
 		}
@@ -81,8 +81,8 @@ public class OutputWindow extends JFrame {
 			ex.printStackTrace();
 		}
 
-		JScrollPane panel = new JScrollPane();
-		panel.setViewportView(textPane);
+		JScrollPane panel = new JScrollPane(textPane);
+//		panel.setViewportView(textPane);
 		panel.revalidate();
 		panel.repaint();
 		panel.setPreferredSize(new Dimension(500, 0));
