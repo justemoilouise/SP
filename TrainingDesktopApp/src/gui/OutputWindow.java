@@ -97,8 +97,8 @@ public class OutputWindow extends JFrame {
 		btnSubmit.setActionCommand("save");
 		btnSubmit.addActionListener(lm);
 
-		JButton btnCancel = new JButton("Cancel");
-		btnCancel.setActionCommand("cancel");
+		JButton btnCancel = new JButton("Close");
+		btnCancel.setActionCommand("close");
 		btnCancel.addActionListener(lm);
 
 		JPanel panel = new JPanel();

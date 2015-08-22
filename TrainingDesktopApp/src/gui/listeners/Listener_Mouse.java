@@ -72,6 +72,12 @@ public class Listener_Mouse implements ActionListener {
 			if(choice == JOptionPane.YES_OPTION) {
 				Client.showMainWindow();
 			}
+		} else if(command.equals("close")) {
+			int choice = Prompt.ConfirmExit("main");
+			
+			if(choice == JOptionPane.YES_OPTION) {			
+				System.exit(0);
+			}
 		}
 	}
 
