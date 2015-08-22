@@ -1,3 +1,4 @@
+package IJ.Plugins;
 
 
 import ij.plugin.filter.ExtendedPlugInFilter;
