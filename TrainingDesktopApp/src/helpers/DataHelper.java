@@ -3,6 +3,8 @@ package helpers;
 import java.io.File;
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
+
 public class DataHelper {
 
 	public static String GetFileNames(File[] arr) {
@@ -67,5 +69,12 @@ public class DataHelper {
 		sb.append("</tr>");
 		
 		return sb.toString();
+	}
+	
+	public static String ConvertToJson(Object o) {
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(o);
+		
+		return jsonString;
 	}
 }

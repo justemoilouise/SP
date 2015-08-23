@@ -3,10 +3,12 @@ package core;
 import gui.InitialWindow;
 import gui.InputWindow;
 import gui.OutputWindow;
+import helpers.DataHelper;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -115,19 +117,22 @@ public class Client {
 		model.setDecisionTreeModel(decisionTree.getModel());
 		model.setPreprocessModel(preprocess.getPreprocessModel());
 		model.setSvmmodel(svm.getSVMModel());
-		model.setCreatedDate(new Date());
+//		model.setCreatedDate(new Date());
 	}
 
 	public static boolean uploadModel() {
 		try {
 			URL url = new URL(uploadURL);
-			URLConnection conn = url.openConnection();
+			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Content-Type", "application/json");
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
 			conn.connect();
 
+			String modelObj = DataHelper.ConvertToJson(model);
 			ObjectOutputStream out = new ObjectOutputStream(conn.getOutputStream());
-			out.writeObject(model);
+			out.writeObject(modelObj.getBytes());
 			out.flush();
 			out.close();
 
@@ -135,6 +140,8 @@ public class Client {
 			String result;
 			while ((result = in.readLine()) != null) {}
 			in.close();
+			
+			conn.disconnect();
 			
 			return Boolean.parseBoolean(result);
 		}
