@@ -70,9 +70,9 @@ public class ProcessImage {
 //		imp.updateAndDraw();
 		
 		FloatProcessor fp = null;
-		ImageProcessor img = imp.duplicate().getProcessor().toFloat(1, fp);
+		fp = imp.duplicate().getProcessor().toFloat(1, fp);
 		fp.snapshot();
-		TopHat th = new TopHat(100, 100, true, 255);
+		TopHat th = new TopHat(25, 25, true, 255);
 		th.transform(fp, 8);
 		imp = new ImagePlus("Top hat", fp);
 		

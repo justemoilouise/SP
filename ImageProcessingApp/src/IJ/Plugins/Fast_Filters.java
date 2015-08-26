@@ -131,8 +131,8 @@ public class Fast_Filters implements ExtendedPlugInFilter, DialogListener {
     // F i l t e r   p a r a m e t e r s
     // Note that this makes it impossible to run the filter in parallel threads with different filter parameters!
     private static int type = 8;             // Filter type
-    private static int xRadius = 100;             // The kernel radius in x direction
-    private static int yRadius = 100;             // The kernel radius in x direction
+    private static int xRadius = 25;             // The kernel radius in x direction
+    private static int yRadius = 25;             // The kernel radius in x direction
     private static boolean linkXY = true;       // Whether to use the same radius in x&y
     private static int preProcess = 0;          // Preprocessing type
     private static boolean subtract = true;    // Whether output should be the original minus filtered
