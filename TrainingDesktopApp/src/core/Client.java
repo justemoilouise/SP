@@ -16,6 +16,9 @@ import java.util.Date;
 
 import javax.swing.JCheckBox;
 
+import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
+import com.google.appengine.tools.remoteapi.RemoteApiOptions;
+
 import Data.ClassifierModel;
 import Data.Species;
 
@@ -122,10 +125,20 @@ public class Client {
 
 	public static boolean uploadModel() {
 		try {
+//			RemoteApiOptions options = new RemoteApiOptions()
+//			    .server("radiss-training.appspot.com", 80);
+//			    //.credentials(username, password);
+//	
+//			RemoteApiInstaller installer = new RemoteApiInstaller();
+//			installer.install(options);
+//			// ... all API calls executed remotely
+//			installer.uninstall();
+		
 			URL url = new URL(uploadURL);
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json");
+			conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36");
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
 			conn.connect();
