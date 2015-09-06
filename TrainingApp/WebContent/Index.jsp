@@ -26,7 +26,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#" id="nav_home">
+			<a class="navbar-brand" href="#" id="nav_logo">
 				<img alt="RadiSS" src="resources/logo.png" width="25" height="25" />
 			</a>
 		</div>

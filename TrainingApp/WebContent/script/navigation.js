@@ -1,4 +1,8 @@
 $(function() {
+	$("#nav_logo").on("click", function() {
+		$("#content_holder").load("Home.jsp");
+	});
+	
 	$("#nav_home").on("click", function() {
 		$("#content_holder").load("Home.jsp");
 	});
