@@ -19,6 +19,8 @@ import javax.servlet.http.HttpSession;
 import Data.ClassifierModel;
 import Data.Species;
 
+import com.google.appengine.api.appidentity.AppIdentityService;
+import com.google.appengine.api.appidentity.AppIdentityServiceFactory;
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
@@ -30,6 +32,9 @@ import com.google.appengine.tools.cloudstorage.GcsInputChannel;
 import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
 import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
+import com.google.appengine.tools.cloudstorage.ListItem;
+import com.google.appengine.tools.cloudstorage.ListOptions;
+import com.google.appengine.tools.cloudstorage.ListResult;
 import com.google.appengine.tools.cloudstorage.RetryParams;
 import com.training.data.ClassifierModelList;
 import com.training.helpers.ServletHelper;
@@ -39,6 +44,7 @@ public class TrainingAppServlet extends HttpServlet {
 	private TrainingAppProcessor processor;
 	private BlobstoreService blobstoreService;
 	private GcsService gcsService;
+	private AppIdentityService appIdentity;
 	private HttpSession session;
 	final String gcsBucket = "radiss-training.appspot.com";
 	final String modelKeysFilename = "model-keys.dat";
@@ -49,6 +55,7 @@ public class TrainingAppServlet extends HttpServlet {
 		this.processor = new TrainingAppProcessor();
 		this.blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 		this.gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
+		this.appIdentity = AppIdentityServiceFactory.getAppIdentityService();
 	}
 
 	public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -222,13 +229,32 @@ public class TrainingAppServlet extends HttpServlet {
 	
 	private ArrayList<ClassifierModelList> getClassifierModels() {
 		ArrayList<ClassifierModelList> models = new ArrayList<ClassifierModelList>();
-		
-		ArrayList<BlobKey> keys = readModelKeysFromGCS();
-		for(BlobKey key : keys) {
-			ClassifierModel model = readModelFromBlob(key);
-			ClassifierModelList modelList = new ClassifierModelList(key, model);
-			models.add(modelList);
+
+		try {
+			ListResult result = gcsService.list(appIdentity.getDefaultGcsBucketName(), ListOptions.DEFAULT);
+			while (result.hasNext()){
+			    ListItem l = result.next();
+			    String name = l.getName();
+			    
+			    GcsFilename gcsFilename = new GcsFilename(gcsBucket, name);
+				GcsInputChannel readChannel = gcsService.openPrefetchingReadChannel(gcsFilename, 0, 1024 * 1024);
+				ObjectInputStream iStream = new ObjectInputStream(Channels.newInputStream(readChannel));
+				ClassifierModelList modelList = (ClassifierModelList) iStream.readObject();
+				
+				models.add(modelList);
+			}
 		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+//		ArrayList<BlobKey> keys = readModelKeysFromGCS();
+//		for(BlobKey key : keys) {
+//			ClassifierModel model = readModelFromBlob(key);
+//			ClassifierModelList modelList = new ClassifierModelList(key, model);
+//			models.add(modelList);
+//		}
+		
 		return models;
 	}
 }
