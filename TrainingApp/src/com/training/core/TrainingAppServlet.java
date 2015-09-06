@@ -225,9 +225,12 @@ public class TrainingAppServlet extends HttpServlet {
 
 	private ArrayList<ClassifierModelList> getClassifierModels() {
 		ArrayList<ClassifierModelList> models = new ArrayList<ClassifierModelList>();
-
+		ArrayList<BlobKey> keys = readModelKeysFromGCS();
+		
 		try {
+			int index = 0;
 			ListResult result = gcsService.list(gcsBucket, ListOptions.DEFAULT);
+			result.next();
 			while (result.hasNext()){
 				ListItem l = result.next();
 				String name = l.getName();
@@ -236,9 +239,10 @@ public class TrainingAppServlet extends HttpServlet {
 					GcsFilename gcsFilename = new GcsFilename(gcsBucket, name);
 					GcsInputChannel readChannel = gcsService.openPrefetchingReadChannel(gcsFilename, 0, 1024 * 1024);
 					ObjectInputStream iStream = new ObjectInputStream(Channels.newInputStream(readChannel));
-					ClassifierModelList modelList = (ClassifierModelList) iStream.readObject();
-
+					ClassifierModel model = (ClassifierModel) iStream.readObject();
+					ClassifierModelList modelList = new ClassifierModelList(keys.get(index), model);
 					models.add(modelList);
+					index++;
 				}
 			}
 		}
