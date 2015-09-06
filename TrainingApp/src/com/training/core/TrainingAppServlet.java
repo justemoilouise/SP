@@ -19,8 +19,6 @@ import javax.servlet.http.HttpSession;
 import Data.ClassifierModel;
 import Data.Species;
 
-import com.google.appengine.api.appidentity.AppIdentityService;
-import com.google.appengine.api.appidentity.AppIdentityServiceFactory;
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
@@ -44,7 +42,6 @@ public class TrainingAppServlet extends HttpServlet {
 	private TrainingAppProcessor processor;
 	private BlobstoreService blobstoreService;
 	private GcsService gcsService;
-	private AppIdentityService appIdentity;
 	private HttpSession session;
 	final String gcsBucket = "radiss-training.appspot.com";
 	final String modelKeysFilename = "model-keys.dat";
@@ -55,7 +52,6 @@ public class TrainingAppServlet extends HttpServlet {
 		this.processor = new TrainingAppProcessor();
 		this.blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 		this.gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
-		this.appIdentity = AppIdentityServiceFactory.getAppIdentityService();
 	}
 
 	public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -118,20 +114,20 @@ public class TrainingAppServlet extends HttpServlet {
 			ObjectOutputStream oStream = new ObjectOutputStream(Channels.newOutputStream(outputChannel));
 			oStream.writeObject(model);
 			oStream.close();
-			
+
 			return blobstoreService.createGsBlobKey(fileName);
-			
-//			ByteArrayOutputStream bStream = new ByteArrayOutputStream();
-//			ObjectOutputStream oStream = new ObjectOutputStream(bStream);
-//			oStream.writeObject(model);
-//
-//			FileService fileService = FileServiceFactory.getFileService();
-//			AppEngineFile file = fileService.createNewBlobFile("application/octet-stream", "classifier-model-" + model.getVersion() + ".dat");
-//			FileWriteChannel writeChannel = fileService.openWriteChannel(file, true);			
-//			writeChannel.write(ByteBuffer.wrap(bStream.toByteArray()));
-//			writeChannel.closeFinally();
-//
-//			return fileService.getBlobKey(file);
+
+			//			ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+			//			ObjectOutputStream oStream = new ObjectOutputStream(bStream);
+			//			oStream.writeObject(model);
+			//
+			//			FileService fileService = FileServiceFactory.getFileService();
+			//			AppEngineFile file = fileService.createNewBlobFile("application/octet-stream", "classifier-model-" + model.getVersion() + ".dat");
+			//			FileWriteChannel writeChannel = fileService.openWriteChannel(file, true);			
+			//			writeChannel.write(ByteBuffer.wrap(bStream.toByteArray()));
+			//			writeChannel.closeFinally();
+			//
+			//			return fileService.getBlobKey(file);
 		} catch(Exception ex) {}
 
 		return new BlobKey("");
@@ -174,23 +170,23 @@ public class TrainingAppServlet extends HttpServlet {
 
 	private ClassifierModel readModelFromBlob(BlobKey key) {
 		byte[] objBytes = readFromBlob(key);
-        
-        if(objBytes.length > 0) {
+
+		if(objBytes.length > 0) {
 			try {
 				ByteArrayInputStream in = new ByteArrayInputStream(objBytes);
-	            ObjectInputStream is = new ObjectInputStream(in);
-	            ClassifierModel model = (ClassifierModel) is.readObject();
-	            
-	            return model;
+				ObjectInputStream is = new ObjectInputStream(in);
+				ClassifierModel model = (ClassifierModel) is.readObject();
+
+				return model;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-        }
-        
-        return null;
+		}
+
+		return null;
 	}
-        
+
 	@SuppressWarnings("unchecked")
 	private ArrayList<BlobKey> readModelKeysFromGCS() {
 		ArrayList<BlobKey> modelKeys = new ArrayList<BlobKey>();
@@ -207,10 +203,10 @@ public class TrainingAppServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return modelKeys;
 	}
-	
+
 	private void saveModelToGCS(BlobKey key) {
 		ArrayList<BlobKey> modelKeys = readModelKeysFromGCS();
 		modelKeys.add(key);
@@ -226,35 +222,37 @@ public class TrainingAppServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private ArrayList<ClassifierModelList> getClassifierModels() {
 		ArrayList<ClassifierModelList> models = new ArrayList<ClassifierModelList>();
 
 		try {
-			ListResult result = gcsService.list(appIdentity.getDefaultGcsBucketName(), ListOptions.DEFAULT);
+			ListResult result = gcsService.list(gcsBucket, ListOptions.DEFAULT);
 			while (result.hasNext()){
-			    ListItem l = result.next();
-			    String name = l.getName();
-			    
-			    GcsFilename gcsFilename = new GcsFilename(gcsBucket, name);
-				GcsInputChannel readChannel = gcsService.openPrefetchingReadChannel(gcsFilename, 0, 1024 * 1024);
-				ObjectInputStream iStream = new ObjectInputStream(Channels.newInputStream(readChannel));
-				ClassifierModelList modelList = (ClassifierModelList) iStream.readObject();
-				
-				models.add(modelList);
+				ListItem l = result.next();
+				String name = l.getName();
+
+				if(!name.contains("keys")) {
+					GcsFilename gcsFilename = new GcsFilename(gcsBucket, name);
+					GcsInputChannel readChannel = gcsService.openPrefetchingReadChannel(gcsFilename, 0, 1024 * 1024);
+					ObjectInputStream iStream = new ObjectInputStream(Channels.newInputStream(readChannel));
+					ClassifierModelList modelList = (ClassifierModelList) iStream.readObject();
+
+					models.add(modelList);
+				}
 			}
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-//		ArrayList<BlobKey> keys = readModelKeysFromGCS();
-//		for(BlobKey key : keys) {
-//			ClassifierModel model = readModelFromBlob(key);
-//			ClassifierModelList modelList = new ClassifierModelList(key, model);
-//			models.add(modelList);
-//		}
-		
+
+		//		ArrayList<BlobKey> keys = readModelKeysFromGCS();
+		//		for(BlobKey key : keys) {
+		//			ClassifierModel model = readModelFromBlob(key);
+		//			ClassifierModelList modelList = new ClassifierModelList(key, model);
+		//			models.add(modelList);
+		//		}
+
 		return models;
 	}
 }
