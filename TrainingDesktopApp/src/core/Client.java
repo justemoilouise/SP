@@ -16,6 +16,8 @@ import java.util.Date;
 
 import javax.swing.JCheckBox;
 
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
 import com.google.appengine.tools.remoteapi.RemoteApiOptions;
 
@@ -124,38 +126,43 @@ public class Client {
 	}
 
 	public static boolean uploadModel() {
-		try {
-//			RemoteApiOptions options = new RemoteApiOptions()
-//			    .server("radiss-training.appspot.com", 80);
-//			    //.credentials(username, password);
-//	
-//			RemoteApiInstaller installer = new RemoteApiInstaller();
-//			installer.install(options);
-//			// ... all API calls executed remotely
-//			installer.uninstall();
+		String result = "false";
 		
-			URL url = new URL(uploadURL);
-			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Accept", "application/json");
-			conn.setRequestProperty("Content-Type", "application/xml");
-			conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36");
-			conn.setDoOutput(true);
-			conn.setDoInput(true);
-			conn.connect();
-
-			String modelObj = DataHelper.ConvertToJson(model);
-			ObjectOutputStream out = new ObjectOutputStream(conn.getOutputStream());
-			out.writeObject(modelObj.getBytes());
-			out.flush();
-			out.close();
-
-			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			String result;
-			while ((result = in.readLine()) != null) {}
-			in.close();
+		try {
+			RemoteApiOptions options = new RemoteApiOptions()
+			    .server("radiss-training.appspot.com", 80);
+			    //.credentials(username, password);
+	
+			RemoteApiInstaller installer = new RemoteApiInstaller();
+			installer.install(options);
+			// ... all API calls executed remotely
+			BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+			GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
 			
-			conn.disconnect();
+			installer.uninstall();
+		
+//			URL url = new URL(uploadURL);
+//			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+//			conn.setRequestMethod("POST");
+//			conn.setRequestProperty("Accept", "application/json");
+//			conn.setRequestProperty("Content-Type", "application/xml");
+//			conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36");
+//			conn.setDoOutput(true);
+//			conn.setDoInput(true);
+//			conn.connect();
+//
+//			String modelObj = DataHelper.ConvertToJson(model);
+//			ObjectOutputStream out = new ObjectOutputStream(conn.getOutputStream());
+//			out.writeObject(modelObj.getBytes());
+//			out.flush();
+//			out.close();
+//
+//			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//			String result;
+//			while ((result = in.readLine()) != null) {}
+//			in.close();
+//			
+//			conn.disconnect();
 			
 			return Boolean.parseBoolean(result);
 		}
