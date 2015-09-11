@@ -3,7 +3,7 @@ package core;
 import gui.InitialWindow;
 import gui.InputWindow;
 import gui.OutputWindow;
-import helpers.DataHelper;
+import helpers.ServerHelper;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,6 +16,7 @@ import java.util.Date;
 
 import javax.swing.JCheckBox;
 
+import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.tools.cloudstorage.GcsService;
@@ -28,7 +29,7 @@ import Data.ClassifierModel;
 import Data.Species;
 
 public class Client {
-	private final static String uploadURL = "http://radiss-training.appspot.com/trainingapp/saveclassifiermodel";
+//	private final static String uploadURL = "http://radiss-training.appspot.com/trainingapp/saveclassifiermodel";
 
 	private static DT decisionTree;
 	private static Preprocess preprocess;
@@ -43,6 +44,8 @@ public class Client {
 	private static InputWindow input;
 
 	public Client() {
+		ServerHelper.Init();
+		
 		decisionTree = new DT();
 		preprocess = new Preprocess();
 		svm = new SVM();
@@ -122,6 +125,7 @@ public class Client {
 
 	public static void buildClassifierModel() {
 		model = new ClassifierModel();
+		model.setVersion(1);
 		model.setDecisionTreeModel(decisionTree.getModel());
 		model.setPreprocessModel(preprocess.getPreprocessModel());
 		model.setSvmmodel(svm.getSVMModel());
@@ -129,18 +133,25 @@ public class Client {
 	}
 
 	public static boolean uploadModel() {
-		String result = "false";
+		boolean uploadResult = false;
 		
 		try {
 			RemoteApiOptions options = new RemoteApiOptions()
-			    .server("radiss-training.appspot.com", 80);
-			    //.credentials(username, password);
+			    .server("radiss-training.appspot.com", 80)
+			    .useApplicationDefaultCredential();
 	
 			RemoteApiInstaller installer = new RemoteApiInstaller();
 			installer.install(options);
-			// ... all API calls executed remotely
-			BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-			GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
+			
+			BlobKey key = ServerHelper.writeFileToBlob(model);
+			
+			if(key != null) {
+				ServerHelper.saveModelKeyToGCS(key);
+				uploadResult = true;
+			}
+			else {
+				uploadResult = false;
+			}
 			
 			installer.uninstall();
 		
@@ -166,14 +177,14 @@ public class Client {
 //			in.close();
 //			
 //			conn.disconnect();
-			
-			return Boolean.parseBoolean(result);
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
+			
+			uploadResult = false;
 		}
 
-		return false;
+		return uploadResult;
 	}
 	
 	private static void trainClassifier() {
