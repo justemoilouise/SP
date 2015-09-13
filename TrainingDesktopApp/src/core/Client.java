@@ -138,7 +138,8 @@ public class Client {
 		try {
 			RemoteApiOptions options = new RemoteApiOptions()
 			    .server("radiss-training.appspot.com", 80)
-			    .useApplicationDefaultCredential();
+			    .useDevelopmentServerCredential();
+//			    .useApplicationDefaultCredential();
 	
 			RemoteApiInstaller installer = new RemoteApiInstaller();
 			installer.install(options);
