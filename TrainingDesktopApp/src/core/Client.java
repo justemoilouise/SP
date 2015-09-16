@@ -138,7 +138,8 @@ public class Client {
 		try {
 			RemoteApiOptions options = new RemoteApiOptions()
 			    .server("radiss-training.appspot.com", 80)
-			    .useDevelopmentServerCredential();
+			    .credentials("louiseann.gsa@gmail.com", "L0ui$eGSA!");
+//			    .useDevelopmentServerCredential();
 //			    .useApplicationDefaultCredential();
 	
 			RemoteApiInstaller installer = new RemoteApiInstaller();
@@ -181,7 +182,6 @@ public class Client {
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
-			
 			uploadResult = false;
 		}
 
