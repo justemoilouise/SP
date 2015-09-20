@@ -144,38 +144,38 @@ public class Client {
 			installer.install(options);
 			options.reuseCredentials("louiseann.gsa@gmail.com", installer.serializeCredentials());
 			
-			URL url = new URL(uploadURL);
-			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Accept", "application/json");
-			conn.setRequestProperty("Content-Type", "application/xml");
-			conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36");
-			conn.setDoOutput(true);
-			conn.setDoInput(true);
-			conn.connect();
-
-			String modelObj = DataHelper.ConvertToJson(model);
-			ObjectOutputStream out = new ObjectOutputStream(conn.getOutputStream());
-			out.writeObject(modelObj.getBytes());
-			out.flush();
-			out.close();
-
-			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			String result;
-			while ((result = in.readLine()) != null) {}
-			in.close();
-			
-			conn.disconnect();
-			
-//			BlobKey key = ServerHelper.writeFileToBlob(model);
+//			URL url = new URL(uploadURL);
+//			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+//			conn.setRequestMethod("POST");
+//			conn.setRequestProperty("Accept", "application/json");
+//			conn.setRequestProperty("Content-Type", "application/xml");
+//			conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36");
+//			conn.setDoOutput(true);
+//			conn.setDoInput(true);
+//			conn.connect();
+//
+//			String modelObj = DataHelper.ConvertToJson(model);
+//			ObjectOutputStream out = new ObjectOutputStream(conn.getOutputStream());
+//			out.writeObject(modelObj.getBytes());
+//			out.flush();
+//			out.close();
+//
+//			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//			String result;
+//			while ((result = in.readLine()) != null) {}
+//			in.close();
 //			
-//			if(key != null) {
-//				ServerHelper.saveModelKeyToGCS(key);
-//				uploadResult = true;
-//			}
-//			else {
-//				uploadResult = false;
-//			}
+//			conn.disconnect();
+			
+			BlobKey key = ServerHelper.writeFileToBlob(model);
+			
+			if(key != null) {
+				ServerHelper.saveModelKeyToGCS(key);
+				uploadResult = true;
+			}
+			else {
+				uploadResult = false;
+			}
 			
 			installer.uninstall();
 		}
