@@ -1,11 +1,6 @@
 package ImageHandlers;
 
 import ij.ImagePlus;
-import ij.plugin.ImageCalculator;
-import ij.plugin.filter.BackgroundSubtracter;
-import ij.plugin.filter.RankFilters;
-import ij.process.FloatProcessor;
-import ij.process.ImageProcessor;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -23,7 +18,7 @@ public class ProcessImage {
 	
 	public static File upload() {
 		File f = null;
-
+		
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG files", "png");
 		JFileChooser fc = new JFileChooser();
 		fc.setFileFilter(filter);
@@ -36,7 +31,7 @@ public class ProcessImage {
 		catch(Exception e) {
 			Prompt.PromptError("ERROR_UPLOAD_IMAGE");
 		}
-
+		
 		return f;
 	}
 	
@@ -50,49 +45,8 @@ public class ProcessImage {
 		g.drawImage(roiImg.getImage(), 0, 0, iWidth, iHeight, null);
 		g.dispose();
 		bi = bi.getSubimage(rect.x, rect.y, rect.width, rect.height);
-
+		
 		return bi;
-	}
-	
-	public static ImagePlus topHatTransform(ImagePlus imp) {		
-		FloatProcessor fp = null;
-		fp = imp.duplicate().getProcessor().toFloat(1, fp);
-		fp.snapshot();
-		TopHat th = new TopHat(25, 25, true, 255);
-		th.transform(fp, 8);
-		imp = new ImagePlus("Top hat", fp);
-		
-		return imp;
-	}
-
-	public static ImagePlus getImageDifference(ImagePlus img1, ImagePlus img2) {
-		ImageCalculator ic = new ImageCalculator();
-		ImagePlus ip = ic.run("difference create", img1, img2); 
-		ip.setTitle("Difference - " + img1.getTitle() + " & " + img2.getTitle());
-		
-		return ip;
-	}
-	
-	public static ImagePlus getImageSubtract(ImagePlus img1, ImagePlus img2) {
-		ImageCalculator ic = new ImageCalculator();
-		ImagePlus ip = ic.run("subtract create", img1, img2); 
-		ip.setTitle("Subtract - " + img1.getTitle() + " & " + img2.getTitle());
-		
-		return ip;
-	}
-	
-	public static ImagePlus subtractBackground(ImagePlus ip) {
-		BackgroundSubtracter bs = new BackgroundSubtracter();
-		bs.rollingBallBackground(ip.getProcessor(), 50, false, false, false, false, false);
-		
-		return new ImagePlus(ip.getTitle() + " - Subtract background", ip.getProcessor());
-	}
-	
-	public static ImageProcessor removeOutliers(ImageProcessor ip) {
-		RankFilters rf = new RankFilters();
-		rf.rank(ip, 20, RankFilters.OUTLIERS, RankFilters.BRIGHT_OUTLIERS, 50);
-		
-		return ip;
 	}
 	
 	public static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
@@ -115,37 +69,26 @@ public class ProcessImage {
 
 		return new Dimension(new_width, new_height);
 	}
-	
-	public static ImageIcon getScaledImage(ImageIcon img, Dimension dim) {
-		Dimension d = getScaledDimension(new Dimension(img.getIconWidth(), img.getIconHeight()), dim);
-
-		BufferedImage bi = new BufferedImage(d.width, d.height, BufferedImage.TYPE_INT_ARGB);
-		Graphics g1 = bi.createGraphics();
-		g1.drawImage(img.getImage(), 0, 0, d.width, d.height, null);
-		g1.dispose();
-
-		return (new ImageIcon(bi));
-	}
 
 	public static ImageIcon getScaledImage(String imgName, Dimension dim) {
 		ImageIcon img = null;
-
+		
 		try {
 			img = new ImageIcon(ProcessImage.class.getResource(imgName));
 		} catch(Exception e) {
 			img = new ImageIcon(imgName);
 		}
-
+		
 		Dimension d = getScaledDimension(new Dimension(img.getIconWidth(), img.getIconHeight()), dim);
 
 		BufferedImage bi = new BufferedImage(d.width, d.height, BufferedImage.TYPE_INT_ARGB);
 		Graphics g1 = bi.createGraphics();
 		g1.drawImage(img.getImage(), 0, 0, d.width, d.height, null);
 		g1.dispose();
-
+		
 		return (new ImageIcon(bi));
 	}
-
+	
 	public static void saveImage(BufferedImage img, String imgName) {
 		try {
 			ScreenImage.writeImage(img, imgName);

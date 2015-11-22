@@ -1,70 +1,26 @@
 package Data;
 
-import ij.ImagePlus;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Hashtable;
 
 @SuppressWarnings("serial")
 public class Species implements Serializable {
-	private ImagePlus img, protrusions, base;
-	private String name, svmName, dTreeName;
+	private String name;
 	private String[] featureLabels;
 	private double[] featureValues;
-	private String[] particleLabels;
-	private ArrayList<double[]> particleValues;
-	private Hashtable<String, Feature> features;
-	private Attributes attr;
 	
 	public Species () {
 		this.name = "";
-		this.img = null;
-		this.protrusions = null;
-		this.base = null;
-		this.particleValues = new ArrayList<double[]>();
-		this.features = new Hashtable<String, Feature>();
 	}	
 	public Species(String name, String[] featureLabels, double[] featureValues) {
 		this.name = name;
 		this.featureLabels = featureLabels;
 		this.featureValues = featureValues;
 	}
-	public ImagePlus getImg() {
-		return img;
-	}
-	public void setImg(ImagePlus img) {
-		this.img = img;
-	}
-	public ImagePlus getProtrusions() {
-		return protrusions;
-	}
-	public void setProtrusions(ImagePlus protrusions) {
-		this.protrusions = protrusions;
-	}
-	public ImagePlus getBase() {
-		return base;
-	}
-	public void setBase(ImagePlus base) {
-		this.base = base;
-	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public String getSvmName() {
-		return svmName;
-	}
-	public void setSvmName(String svmName) {
-		this.svmName = svmName;
-	}
-	public String getdTreeName() {
-		return dTreeName;
-	}
-	public void setdTreeName(String dTreeName) {
-		this.dTreeName = dTreeName;
 	}
 	public String[] getFeatureLabels() {
 		return featureLabels;
@@ -77,29 +33,5 @@ public class Species implements Serializable {
 	}
 	public void setFeatureValues(double[] featureValues) {
 		this.featureValues = featureValues;
-	}
-	public String[] getParticleLabels() {
-		return particleLabels;
-	}
-	public void setParticleLabels(String[] particleLabels) {
-		this.particleLabels = particleLabels;
-	}
-	public ArrayList<double[]> getParticleValues() {
-		return particleValues;
-	}
-	public void setParticleValues(ArrayList<double[]> particleValues) {
-		this.particleValues = particleValues;
-	}
-	public Hashtable<String, Feature> getFeatures() {
-		return features;
-	}
-	public void setFeatures(Hashtable<String, Feature> features) {
-		this.features = features;
-	}
-	public Attributes getAttr() {
-		return attr;
-	}
-	public void setAttr(Attributes attr) {
-		this.attr = attr;
 	}
 }

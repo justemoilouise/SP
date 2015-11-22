@@ -1,8 +1,5 @@
 package FileHandlers;
 
-import ij.ImagePlus;
-
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,7 +11,6 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -25,7 +21,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import CoreHandler.Prompt;
 import Data.ClassifierModel;
-import Data.DecisionTreeModel;
 import Data.Input;
 import Data.PreprocessModel;
 import Data.SVMModel;
@@ -144,50 +139,6 @@ public class FileInput {
 		return null;
 	}
 	
-	public static DecisionTreeModel readDeisionTreeModelFromDATFile(File f) {
-		try {
-			FileInputStream fileStream = new FileInputStream(f);
-			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
-			DecisionTreeModel model = (DecisionTreeModel)objectStream.readObject();			
-			objectStream.close();
-
-			return model;
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
-	public static DecisionTreeModel readDeisionTreeModelFromDATFile(String filename) {
-		try {
-			FileInputStream fileStream = new FileInputStream(filename);
-			ObjectInputStream objectStream = new ObjectInputStream(fileStream);
-			DecisionTreeModel model = (DecisionTreeModel)objectStream.readObject();			
-			objectStream.close();
-
-			return model;
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-	
 	public static ClassifierModel readModelFromDATFile(File f) {
 		try {
 			FileInputStream fileStream = new FileInputStream(f);
@@ -243,29 +194,6 @@ public class FileInput {
 		try {
 			if (status == JFileChooser.APPROVE_OPTION) {
 				File file = fc.getSelectedFile();
-				return file;
-			}
-			else if (status == JFileChooser.CANCEL_OPTION);
-		}
-		catch(Exception x) {
-			Prompt.PromptError("ERROR_UPLOAD_FILE");
-		}
-
-		return null;
-	}
-	
-	public static File[] uploadImageFiles() {
-		// TODO Auto-generated method stub		
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", "jpg, jpeg, png");
-		JFileChooser fc = new JFileChooser();
-		fc.setFileFilter(filter);
-		fc.setMultiSelectionEnabled(true);
-		int status = fc.showDialog(null, "Choose files");
-		fc.setVisible(true);
-
-		try {
-			if (status == JFileChooser.APPROVE_OPTION) {
-				File[] file = fc.getSelectedFiles();
 				return file;
 			}
 			else if (status == JFileChooser.CANCEL_OPTION);
@@ -365,29 +293,6 @@ public class FileInput {
 		return list;
 	}
 
-	public static ArrayList<Species> readSpecies(File[] f) {
-		// TODO Auto-generated method stub
-		ArrayList<Species> list = new ArrayList<Species>();
-
-		try {
-			for(int i=0; i<f.length; i++) {
-				int index = f[i].getName().indexOf("-");
-				String name = f[i].getName().substring(0, index-1);
-
-				BufferedImage img = ImageIO.read(f[i]);
-				ImagePlus imp = new ImagePlus(name, img);
-				
-				Species s = new Species();
-				s.setImg(imp);
-				s.setName(name);
-				
-				list.add(s);
-			}
-		} catch (Exception e) {}
-
-		return list;
-	}
-	
 	public static Input parseInput(Row row, int rowNumber) {
 		// TODO Auto-generated method stub
 		double[] values = new double[keys.length];

@@ -8,8 +8,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -54,10 +52,8 @@ public class MainWindow extends JFrame {
 
 		ImageIcon img = new ImageIcon("img/logo.png");
 		
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		
-		setSize((int)screenSize.getWidth(), (int)screenSize.getHeight());
-		setIconImage(img.getImage());		
+		setIconImage(img.getImage());
+		setSize(1000, 600);
 		setJMenuBar(setMenubar());
 		setTitle("RadiSS");
 		setBackground(Color.DARK_GRAY);

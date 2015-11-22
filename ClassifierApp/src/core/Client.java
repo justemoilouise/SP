@@ -6,8 +6,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import CoreHandler.DecisionTree;
-import CoreHandler.ImageProcessing;
 import CoreHandler.Prompt;
 import Data.ClassifierModel;
 import Data.Input;
@@ -31,10 +29,8 @@ public class Client {
 	private static MainWindow pm;
 	private static ProgressInfo progress;
 	
-	private static ImageProcessing ip;
 	private static Preprocess preprocess;
 	private static SVM svm;
-	private static DecisionTree dTree;
 	private static ClassifierModel model;
 
 	private static ImagePlus imgPlus;
@@ -44,10 +40,8 @@ public class Client {
 	public Client() {
 		inputs = new ArrayList<Input>();
 		props = FileConfig.readConfig();
-		ip = new ImageProcessing();
 		preprocess = new Preprocess();
 		svm = new SVM();
-		dTree = new DecisionTree();
 		pm = new MainWindow();	
 		Prompt.SetParentComponent(pm.getDesktoPane());
 		
@@ -115,14 +109,6 @@ public class Client {
 		Client.svm = svm;
 	}
 
-	public static ImageProcessing getIp() {
-		return ip;
-	}
-
-	public static void setIp(ImageProcessing ip) {
-		Client.ip = ip;
-	}
-
 	public static ClassifierModel getModel() {
 		return model;
 	}
@@ -155,58 +141,28 @@ public class Client {
 	}
 		
 	public static void onSubmit(boolean isIJ) {
-		count++;
-		
-		if(imgPlus != null) {
-			processImage(isIJ);
+		count++;		
+		double[] features = getFeatures(isIJ);
+
+		if(features != null) {
+			progress = new ProgressInfo();
+			progress.setVisible(true);
+			pm.addToDesktopPane(progress);
+			
+			preprocess.setIJ(isIJ);
+			svm.setIJ(isIJ);
+			
+			double[] preprocessedData = preprocess.scale(features);
+			preprocessedData = preprocess.reduceFeatures(preprocessedData);
+			ArrayList<SVMResult> results = svm.classify(preprocessedData, isIJ);			
+			
+			Input i = inputs.get(inputs.size()-1);
+			i.setSvmResult(results);
+			i.getSpecies().setName(svm.analyzeResults(results));
+			
+			progress.closeProgressBar();
+			displayOutput();
 		}
-
-		progress = new ProgressInfo();
-		progress.setVisible(true);
-		pm.addToDesktopPane(progress);
-		
-		preprocess.setIJ(isIJ);
-		svm.setIJ(isIJ);
-		
-		Input i = inputs.get(inputs.size()-1);
-		Species s = i.getSpecies();
-		double[] features = s.getFeatureValues();
-		
-		double[] preprocessedData = preprocess.scale(features);
-		preprocessedData = preprocess.reduceFeatures(preprocessedData);
-		ArrayList<SVMResult> results = svm.classify(preprocessedData, isIJ);			
-		String dtResult = dTree.classify(s);
-		
-		i.setSvmResult(results);
-		s.setSvmName(svm.analyzeResults(results));
-		s.setdTreeName(dtResult);
-		
-		progress.closeProgressBar();
-		displayOutput();
-	}
-	
-	private static void processImage(boolean isIJ) {
-		Input input = new Input();
-		
-		ip = new ImageProcessing(imgPlus);
-		ip.extractFeatures(isIJ);
-		ImagePlus p = ip.getImageProtrusions();
-		ImagePlus b = ip.getImageBaseShape(p);
-		
-		// save images		
-		BufferedImage bi = ProcessImage.getROI(imgPlus);		
-		String name = "tmp/"+count+".png";
-		ProcessImage.saveImage(bi, name);		
-		
-		Species sp = ip.getSpecies();
-		sp.setProtrusions(p);
-		sp.setBase(b);
-		sp.setImg(new ImagePlus(name));
-
-		input.setImageName(name);
-		input.setSpecies(sp);
-		
-		inputs.add(input);
 	}
 	
 	public static void stop() {
@@ -221,6 +177,49 @@ public class Client {
 		else {
 			Prompt.PromptError("ERROR_STOP");
 		}
+	}
+
+	private static double[] getFeatures(boolean isIJ) {
+		try {
+			Input input = new Input();
+			
+			if(imgPlus !=null) {
+				BufferedImage bi = ProcessImage.getROI(imgPlus);
+
+				String name = "tmp/"+count+".png";
+				ProcessImage.saveImage(bi, name);
+				input.setImg(new ImagePlus(name));
+				input.setImageName(name);
+				
+				FeatureExtraction featureExtraction = new FeatureExtraction();
+				featureExtraction.getShapeDescriptors(imgPlus);
+				
+				if(isIJ) {
+					featureExtraction.getTextureDescriptors(imgPlus.getProcessor());
+				}
+				else {
+					featureExtraction.getHaralickDescriptors(imgPlus.getProcessor());
+				}
+				
+				Species s = new Species();
+				s.setFeatureLabels(featureExtraction.getFeatureLabels());
+				s.setFeatureValues(featureExtraction.getFeatureValues());
+				
+				input.setSpecies(s);
+				inputs.add(input);
+			}
+			else {
+				input = inputs.get(inputs.size()-1);
+			}
+			
+			return input.getSpecies().getFeatureValues();
+		}
+		catch(Exception e) {
+			Prompt.PromptError("ERROR_INPUT_FEATURES");
+			printStackTrace(e);
+		}
+		
+		return null;
 	}
 
 	public static void displayInput() {

@@ -10,7 +10,6 @@ public class ClassifierModel implements Serializable {
 	private String notes;
 	private PreprocessModel preprocessModel;
 	private SVMModel svmmodel;
-	private DecisionTreeModel decisionTreeModel;
 	private boolean isIJUsed;
 	
 	public ClassifierModel() {}
@@ -53,14 +52,6 @@ public class ClassifierModel implements Serializable {
 
 	public void setSvmmodel(SVMModel svmmodel) {
 		this.svmmodel = svmmodel;
-	}
-
-	public DecisionTreeModel getDecisionTreeModel() {
-		return decisionTreeModel;
-	}
-
-	public void setDecisionTreeModel(DecisionTreeModel decisionTreeModel) {
-		this.decisionTreeModel = decisionTreeModel;
 	}
 
 	public boolean isIJUsed() {

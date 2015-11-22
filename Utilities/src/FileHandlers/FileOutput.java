@@ -11,7 +11,6 @@ import java.util.Iterator;
 
 import CoreHandler.Prompt;
 import Data.ClassifierModel;
-import Data.DecisionTreeModel;
 import Data.Input;
 import Data.PreprocessModel;
 import Data.SVMModel;
@@ -60,7 +59,6 @@ public class FileOutput extends Thread {
 	public static void saveToFile(ClassifierModel model, boolean isIJ) {
 		saveToFile(model.getPreprocessModel(), isIJ);
 		saveToFile(model.getSvmmodel(), isIJ);
-		saveToFile(model.getDecisionTreeModel());
 	}
 	
 	public static boolean saveToFile(PreprocessModel model, boolean isIJ) {
@@ -102,32 +100,6 @@ public class FileOutput extends Thread {
 				flag = "_JF";
 				
 			File f = new File("models/SVM" + flag + ".dat");
-			
-			if(f.exists()) {
-				f.delete();
-			}
-			
-			FileOutputStream fileStream = new FileOutputStream(f);
-			ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
-			objectStream.writeObject(model);
-			objectStream.flush();
-			objectStream.close();
-			
-			return true;
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return false;
-	}
-	
-	public static boolean saveToFile(DecisionTreeModel model) {
-		try {				
-			File f = new File("models/DecisionTree.dat");
 			
 			if(f.exists()) {
 				f.delete();

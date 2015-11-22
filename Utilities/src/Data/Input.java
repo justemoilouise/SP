@@ -3,16 +3,28 @@ package Data;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import ij.ImagePlus;
+
 @SuppressWarnings("serial")
 public class Input implements Serializable {
+	private ImagePlus img;
 	private String imageName;
 	private Species species;
 	private ArrayList<SVMResult> svmResult;
 
 	public Input() {
+		this.img = null;
 		this.imageName = "/resources/img_noimg.png";
 		this.svmResult = new ArrayList<SVMResult>();
-	}	
+	}
+
+	public ImagePlus getImg() {
+		return img;
+	}
+
+	public void setImg(ImagePlus img) {
+		this.img = img;
+	}
 
 	public String getImageName() {
 		return imageName;
