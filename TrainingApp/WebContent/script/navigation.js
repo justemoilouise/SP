@@ -22,8 +22,4 @@ $(function() {
 	$("#nav_svm").on("click", function() {
 		$("#content_holder").load("SVM_Training_Input.jsp");
 	});
-	
-	$("#nav_decisiontree").on("click", function() {
-		$("#content_holder").load("DT_Training_Input.jsp");
-	});
 });

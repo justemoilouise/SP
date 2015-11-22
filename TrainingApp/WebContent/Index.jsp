@@ -7,7 +7,6 @@
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="script/navigation.js"></script>
 	<script type="text/javascript" src="script/core.js"></script>
-	<script type="text/javascript" src="script/dt_training.js"></script>
 	<script type="text/javascript" src="script/svm_training.js"></script>
 	<script type="text/javascript" src="script/user.js"></script>
 	<script type="text/javascript" src="script/validation.js"></script>
@@ -36,16 +35,10 @@
 			<ul class="nav navbar-nav">
 				<li><a href="#" id="nav_home">Home</a></li>
 				<li><a href="#" id="nav_download">Downloads</a></li>
-				<% if(session.getAttribute("admin") != null) { %>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Train <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="#" id="nav_decisiontree">Decision Tree</a></li>
-						<li><a href="#" id="nav_svm">SVM</a></li>
-					</ul>
-		        </li>
+				<% //if(session.getAttribute("admin") != null) { %>
+				<li><a href="#" id="nav_svm">Train SVM</a></li>
 				<li><a href="#" id="nav_documentation">Documentation</a></li>
-				<% } %>
+				<% //} %>
 				<li><a href="#" id="nav_about">About</a></li>
 			</ul>
 			
