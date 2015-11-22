@@ -7,7 +7,7 @@
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="script/navigation.js"></script>
 	<script type="text/javascript" src="script/core.js"></script>
-	<script type="text/javascript" src="script/svm_training.js"></script>
+	<script type="text/javascript" src="script/training.js"></script>
 	<script type="text/javascript" src="script/user.js"></script>
 	<script type="text/javascript" src="script/validation.js"></script>
 </head>
@@ -25,20 +25,17 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#" id="nav_logo">
-				<img alt="RadiSS" src="resources/logo.png" width="25" height="25" />
-			</a>
+			<a class="navbar-brand" href="#" id="nav_home">RadiSS</a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="#" id="nav_home">Home</a></li>
 				<li><a href="#" id="nav_download">Downloads</a></li>
-				<% //if(session.getAttribute("admin") != null) { %>
-				<li><a href="#" id="nav_svm">Train SVM</a></li>
+				<% if(session.getAttribute("admin") != null) { %>
+				<li><a href="#" id="nav_training">Train</a></li>
 				<li><a href="#" id="nav_documentation">Documentation</a></li>
-				<% //} %>
+				<% } %>
 				<li><a href="#" id="nav_about">About</a></li>
 			</ul>
 			

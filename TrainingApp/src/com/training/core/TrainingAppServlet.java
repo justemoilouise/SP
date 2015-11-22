@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,27 +25,27 @@ import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.files.AppEngineFile;
+import com.google.appengine.api.files.FileService;
+import com.google.appengine.api.files.FileServiceFactory;
+import com.google.appengine.api.files.FileWriteChannel;
 import com.google.appengine.tools.cloudstorage.GcsFileOptions;
 import com.google.appengine.tools.cloudstorage.GcsFilename;
 import com.google.appengine.tools.cloudstorage.GcsInputChannel;
 import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
 import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
-import com.google.appengine.tools.cloudstorage.ListItem;
-import com.google.appengine.tools.cloudstorage.ListOptions;
-import com.google.appengine.tools.cloudstorage.ListResult;
 import com.google.appengine.tools.cloudstorage.RetryParams;
 import com.training.data.ClassifierModelList;
 import com.training.helpers.ServletHelper;
 
-@SuppressWarnings({ "serial" })
+@SuppressWarnings({ "serial", "deprecation" })
 public class TrainingAppServlet extends HttpServlet {
 	private TrainingAppProcessor processor;
 	private BlobstoreService blobstoreService;
 	private GcsService gcsService;
 	private HttpSession session;
-	final String gcsBucket = "radiss-training.appspot.com";
-	final String modelKeysFilename = "model-keys.dat";
+	final GcsFilename gcsFilename = new GcsFilename("radiss-training.appspot.com", "model-keys.dat");
 	final String cacheModelKey = "model_keys";
 	final String cacheAppKey = "app_keys";
 
@@ -108,26 +109,17 @@ public class TrainingAppServlet extends HttpServlet {
 
 	private BlobKey writeFileToBlob(ClassifierModel model) {
 		try {
-			String fileName = "classifier-model-" + model.getVersion() + ".dat";
-			GcsFilename gcsFilename = new GcsFilename(gcsBucket, fileName);
-			GcsOutputChannel outputChannel = gcsService.createOrReplace(gcsFilename, GcsFileOptions.getDefaultInstance());
-			ObjectOutputStream oStream = new ObjectOutputStream(Channels.newOutputStream(outputChannel));
+			ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+			ObjectOutputStream oStream = new ObjectOutputStream(bStream);
 			oStream.writeObject(model);
-			oStream.close();
 
-			return blobstoreService.createGsBlobKey(fileName);
+			FileService fileService = FileServiceFactory.getFileService();
+			AppEngineFile file = fileService.createNewBlobFile("application/octet-stream", "classifier-model-" + model.getVersion() + ".dat");
+			FileWriteChannel writeChannel = fileService.openWriteChannel(file, true);			
+			writeChannel.write(ByteBuffer.wrap(bStream.toByteArray()));
+			writeChannel.closeFinally();
 
-			//			ByteArrayOutputStream bStream = new ByteArrayOutputStream();
-			//			ObjectOutputStream oStream = new ObjectOutputStream(bStream);
-			//			oStream.writeObject(model);
-			//
-			//			FileService fileService = FileServiceFactory.getFileService();
-			//			AppEngineFile file = fileService.createNewBlobFile("application/octet-stream", "classifier-model-" + model.getVersion() + ".dat");
-			//			FileWriteChannel writeChannel = fileService.openWriteChannel(file, true);			
-			//			writeChannel.write(ByteBuffer.wrap(bStream.toByteArray()));
-			//			writeChannel.closeFinally();
-			//
-			//			return fileService.getBlobKey(file);
+			return fileService.getBlobKey(file);
 		} catch(Exception ex) {}
 
 		return new BlobKey("");
@@ -170,29 +162,28 @@ public class TrainingAppServlet extends HttpServlet {
 
 	private ClassifierModel readModelFromBlob(BlobKey key) {
 		byte[] objBytes = readFromBlob(key);
-
-		if(objBytes.length > 0) {
+        
+        if(objBytes.length > 0) {
 			try {
 				ByteArrayInputStream in = new ByteArrayInputStream(objBytes);
-				ObjectInputStream is = new ObjectInputStream(in);
-				ClassifierModel model = (ClassifierModel) is.readObject();
-
-				return model;
+	            ObjectInputStream is = new ObjectInputStream(in);
+	            ClassifierModel model = (ClassifierModel) is.readObject();
+	            
+	            return model;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-
-		return null;
+        }
+        
+        return null;
 	}
-
+        
 	@SuppressWarnings("unchecked")
 	private ArrayList<BlobKey> readModelKeysFromGCS() {
 		ArrayList<BlobKey> modelKeys = new ArrayList<BlobKey>();
 
 		try {
-			GcsFilename gcsFilename = new GcsFilename(gcsBucket, modelKeysFilename);
 			GcsInputChannel readChannel = gcsService.openPrefetchingReadChannel(gcsFilename, 0, 1024 * 1024);
 			ObjectInputStream iStream = new ObjectInputStream(Channels.newInputStream(readChannel));
 			modelKeys = (ArrayList<BlobKey>) iStream.readObject();
@@ -203,16 +194,15 @@ public class TrainingAppServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		return modelKeys;
 	}
-
+	
 	private void saveModelToGCS(BlobKey key) {
 		ArrayList<BlobKey> modelKeys = readModelKeysFromGCS();
 		modelKeys.add(key);
 
 		try {
-			GcsFilename gcsFilename = new GcsFilename(gcsBucket, modelKeysFilename);
 			GcsOutputChannel outputChannel = gcsService.createOrReplace(gcsFilename, GcsFileOptions.getDefaultInstance());
 			ObjectOutputStream oStream = new ObjectOutputStream(Channels.newOutputStream(outputChannel));
 			oStream.writeObject(modelKeys);
@@ -222,41 +212,16 @@ public class TrainingAppServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private ArrayList<ClassifierModelList> getClassifierModels() {
 		ArrayList<ClassifierModelList> models = new ArrayList<ClassifierModelList>();
-		ArrayList<BlobKey> keys = readModelKeysFromGCS();
 		
-		try {
-			int index = 0;
-			ListResult result = gcsService.list(gcsBucket, ListOptions.DEFAULT);
-			result.next();
-			while (result.hasNext()){
-				ListItem l = result.next();
-				String name = l.getName();
-
-				if(!name.contains("keys")) {
-					GcsFilename gcsFilename = new GcsFilename(gcsBucket, name);
-					GcsInputChannel readChannel = gcsService.openPrefetchingReadChannel(gcsFilename, 0, 1024 * 1024);
-					ObjectInputStream iStream = new ObjectInputStream(Channels.newInputStream(readChannel));
-					ClassifierModel model = (ClassifierModel) iStream.readObject();
-					ClassifierModelList modelList = new ClassifierModelList(keys.get(index), model);
-					models.add(modelList);
-					index++;
-				}
-			}
+		ArrayList<BlobKey> keys = readModelKeysFromGCS();
+		for(BlobKey key : keys) {
+			ClassifierModel model = readModelFromBlob(key);
+			ClassifierModelList modelList = new ClassifierModelList(key, model);
+			models.add(modelList);
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		//		ArrayList<BlobKey> keys = readModelKeysFromGCS();
-		//		for(BlobKey key : keys) {
-		//			ClassifierModel model = readModelFromBlob(key);
-		//			ClassifierModelList modelList = new ClassifierModelList(key, model);
-		//			models.add(modelList);
-		//		}
-
 		return models;
 	}
 }

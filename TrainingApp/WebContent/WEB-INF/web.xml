@@ -1,85 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	id="radiss-training" version="2.5">
-	<display-name>TrainingApp</display-name>
-	<welcome-file-list>
-		<welcome-file>Index.jsp</welcome-file>
-	</welcome-file-list>
-
-	<!-- Servlets -->
-	<servlet>
-		<description>TrainingAppServlet</description>
-		<display-name>TrainingAppServlet</display-name>
-		<servlet-name>TrainingAppServlet</servlet-name>
-		<servlet-class>com.training.core.TrainingAppServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<description>DecisionTreeServlet</description>
-		<display-name>DecisionTreeServlet</display-name>
-		<servlet-name>DecisionTreeServlet</servlet-name>
-		<servlet-class>com.training.decisionTree.DecisionTreeServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<description>SVMServlet</description>
-		<display-name>SVMServlet</display-name>
-		<servlet-name>SVMServlet</servlet-name>
-		<servlet-class>com.training.svm.SVMServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<description>PreprocessServlet</description>
-		<display-name>PreprocessServlet</display-name>
-		<servlet-name>PreprocessServlet</servlet-name>
-		<servlet-class>com.training.preprocess.PreprocessServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<description>UserServlet</description>
-		<display-name>UserServlet</display-name>
-		<servlet-name>UserServlet</servlet-name>
-		<servlet-class>com.training.user.UserServlet</servlet-class>
-
-		<!-- admin credentials -->
-		<init-param>
-			<param-name>username</param-name>
-			<param-value>admin</param-value>
-		</init-param>
-		<init-param>
-			<param-name>password</param-name>
-			<param-value>UN5qGb5awt</param-value>
-		</init-param>
-	</servlet>
-	<!-- Remote API Servlet -->
-	<servlet>
-		<display-name>Remote API Servlet</display-name>
-		<servlet-name>RemoteApiServlet</servlet-name>
-		<servlet-class>com.google.apphosting.utils.remoteapi.RemoteApiServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-
-	<!-- Servlet mappings -->
-	<servlet-mapping>
-		<servlet-name>TrainingAppServlet</servlet-name>
-		<url-pattern>/trainingapp/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>DecisionTreeServlet</servlet-name>
-		<url-pattern>/trainingapp/decisiontree/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>SVMServlet</servlet-name>
-		<url-pattern>/trainingapp/svm/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>PreprocessServlet</servlet-name>
-		<url-pattern>/trainingapp/preprocess/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>UserServlet</servlet-name>
-		<url-pattern>/trainingapp/user/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>RemoteApiServlet</servlet-name>
-		<url-pattern>/remote_api</url-pattern>
-	</servlet-mapping>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>TrainingApp</display-name>
+  <welcome-file-list>
+  	<welcome-file>Index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!-- Servlets -->
+  <servlet>
+    <description>TrainingAppServlet</description>
+    <display-name>TrainingAppServlet</display-name>
+    <servlet-name>TrainingAppServlet</servlet-name>
+    <servlet-class>com.training.core.TrainingAppServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>SVMServlet</description>
+    <display-name>SVMServlet</display-name>
+    <servlet-name>SVMServlet</servlet-name>
+    <servlet-class>com.training.svm.SVMServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>PreprocessServlet</description>
+    <display-name>PreprocessServlet</display-name>
+    <servlet-name>PreprocessServlet</servlet-name>
+    <servlet-class>com.training.preprocess.PreprocessServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>UserServlet</description>
+    <display-name>UserServlet</display-name>
+    <servlet-name>UserServlet</servlet-name>
+    <servlet-class>com.training.user.UserServlet</servlet-class>
+    
+    <!-- admin credentials -->
+    <init-param>
+    	<param-name>username</param-name>
+        <param-value>admin</param-value>
+     </init-param>
+     <init-param>
+        <param-name>password</param-name>
+        <param-value>UN5qGb5awt</param-value>
+     </init-param>
+  </servlet>
+  
+  <!-- Servlet mappings --> 
+  <servlet-mapping>
+    <servlet-name>TrainingAppServlet</servlet-name>
+    <url-pattern>/trainingapp/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SVMServlet</servlet-name>
+    <url-pattern>/trainingapp/svm/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PreprocessServlet</servlet-name>
+    <url-pattern>/trainingapp/preprocess/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserServlet</servlet-name>
+    <url-pattern>/trainingapp/user/*</url-pattern>
+  </servlet-mapping>
 </web-app>
