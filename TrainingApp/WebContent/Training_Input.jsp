@@ -18,6 +18,7 @@ $(function() {
 	}
 	
 	$("#input_file").on("click", "#input_file_btn", function(){
+		toggleProgress();
 		var file = $("#input_file_fld").get(0).files[0];
 		var data = new FormData();
 		data.append("file", file);
@@ -41,6 +42,7 @@ $(function() {
 			},
 			complete: function() {
 				$('html, body').animate({scrollTop: 0}, 'fast');
+				toggleProgress();
 			}
 		});
 	});

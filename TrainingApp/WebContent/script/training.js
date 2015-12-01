@@ -43,6 +43,7 @@ $(function() {
 				},
 				complete: function() {
 					$('html, body').animate({scrollTop: 0}, 'fast');
+					toggleProgress();
 				}
 			});
 		}
@@ -127,6 +128,7 @@ $(function() {
 	};
 	
 	$("#content_holder").on("click","#train_build_btn", function() {
+		toggleProgress();
 		$("#train_build_btn").button('Building model');
 		
 		$.ajax({
@@ -147,6 +149,7 @@ $(function() {
 	});
 
 	$("#content_holder").on("click","#train_save_btn", function() {
+		toggleProgress();
 		$("#train_save_btn").button('Saving model');
 		model.notes = $("#train_notes_txt").val();
 		

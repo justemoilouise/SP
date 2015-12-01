@@ -49,5 +49,15 @@
 	
 	<div id="content_holder"></div>
 	<br /><br />
+	<!-- Progress modal -->	
+	<div class="modal fade" id="progressModal" tabindex="-1" role="dialog">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8">
+	        	<br /><br />
+	            <h2>&emsp;Wait for it... </h2>
+	            <br /><br />
+	        </div>
+	    </div>
+	</div>
 </body>
 </html>
