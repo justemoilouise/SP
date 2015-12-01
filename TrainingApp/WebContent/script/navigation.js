@@ -7,10 +7,6 @@ $(function() {
 		$("#content_holder").load("Download.jsp");
 	});
 	
-	$("#nav_documentation").on("click", function() {
-		$("#content_holder").load("Documentation.jsp");
-	});
-	
 	$("#nav_about").on("click", function() {
 		$("#content_holder").load("About.jsp");
 	});
