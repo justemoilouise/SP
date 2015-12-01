@@ -1,4 +1,4 @@
-Radiolarian SVM-SOM
+Radiolarian Support System
 
 Version: 1.0
 
