@@ -46,7 +46,6 @@
 		</div>
 	</div>
 	</nav>
-	
 	<div id="content_holder"></div>
 	<br /><br />
 	<!-- Progress modal -->	

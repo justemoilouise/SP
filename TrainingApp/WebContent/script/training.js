@@ -182,4 +182,9 @@ $(function() {
 		$("#train_notes_btn").hide();
 		$("#train_notes_txt").focus();
 	});
+	
+	$("#content_holder").on("click","#btn_training", function() {
+		// check session
+		$("#content_holder").load("Training_Input.jsp");
+	});
 });
