@@ -117,7 +117,7 @@ $(function() {
 				<tr>
 					<td>Degree</td>
 					<td><input type="text" id="svm_degree" /></td>
-					<td><em>(suggested: -1.7 for basic texture features, 1.6 for Haralick)</em></td>
+					<td><em>(suggested: -2 for basic texture features, 2 for Haralick)</em></td>
 				</tr>
 				<tr>
 					<td>Nu</td>
