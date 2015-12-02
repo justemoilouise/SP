@@ -1,0 +1,23 @@
+  Shape and texture descriptors are extracted from the image which are used to classify the species' class.
+
+** Shape descriptors
+  a. Circularity - a value of 1.0 means it’s a perfect circle while a value approaching 0.0 indicates that the shape of the object is increasingly elongated
+  b. Aspect ratio - aspect ratio based on the object’s fitted ellipse 
+  c. Round - inverse of the aspect ratio
+  d. Solidity - described by the area over convex area
+
+** Texture descriptors
+  a. Angular second moment - measure of the image’s homogeneity or the similarity of each pixel in the image
+  b. Contrast - represents if a pixel is similar to its neighboring pixel
+  c. Correlation - measure of the linear dependency of two neighboring pixels over the whole image
+  d. Entropy - indicates the amount of information necessary for image compression
+  e. Inverse difference moment - measures the closeness of the distribution of elements in the GLCM to those in the diagonal of the matrix
+  f. Sum average
+  g. Sum variance
+  h. Sum entropy
+  i. Sum of squares: variance
+  j. Difference variance
+  k. Difference entropy
+  l. Info. Measure of correlation 1
+  m. Info. Measure of correlation 2
+  n. Maximum correlation coefficient

@@ -8,6 +8,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -40,7 +42,8 @@ public class MainWindow extends JFrame {
 		pl = new LogPanel();
 		
 		initLookAndFeel();
-
+		Rectangle bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+		
 		dp.setBackground(Color.GRAY);
 		Container c = getContentPane();
 		c.add(setToolbar(), BorderLayout.NORTH);
@@ -53,7 +56,7 @@ public class MainWindow extends JFrame {
 		ImageIcon img = new ImageIcon("img/logo.png");
 		
 		setIconImage(img.getImage());
-		setSize(1000, 600);
+		setSize(bounds.width, bounds.height);
 		setJMenuBar(setMenubar());
 		setTitle("RadiSS");
 		setBackground(Color.DARK_GRAY);

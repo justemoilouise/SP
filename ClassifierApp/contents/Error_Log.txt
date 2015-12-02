@@ -1,2 +1,0 @@
-  Errors, if any, are printed in this window. Complete stack trace and information about the error is prompted to the user.
-<img>img/screenshots/log_error.png

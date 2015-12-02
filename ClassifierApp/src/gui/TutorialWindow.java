@@ -110,6 +110,9 @@ public class TutorialWindow extends JInternalFrame {
 		category = new DefaultMutableTreeNode("Error Log");
 		root.add(category);
 		
+		category = new DefaultMutableTreeNode("Features");
+		root.add(category);
+		
 		JTree tree = new JTree(root);
 		tree.addTreeSelectionListener(new Listener_TreeContent(this, tree));
 		
@@ -183,12 +186,11 @@ public class TutorialWindow extends JInternalFrame {
 			contents.put(key, FileInput.readFile(props.getProperty("tutorial.console")));
 		else if(key.equals("Error Log"))
 			contents.put(key, FileInput.readFile(props.getProperty("tutorial.error")));
+		else if(key.equals("Features"))
+			contents.put(key, FileInput.readFile(props.getProperty("tutorial.features")));
 	}
 
 	private ImageIcon GetImage(String imgName) {
-		ImageIcon img = ProcessImage.getScaledImage(imgName,
-				new Dimension(560, 450));
-		
-		return img;
+		return ProcessImage.getScaledImage(imgName, new Dimension(560, 450));
 	}
 }

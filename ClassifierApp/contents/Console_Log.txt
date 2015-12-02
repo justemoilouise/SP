@@ -1,2 +1,0 @@
-  Updates on the running operations, i.e. started/stopped classification and clustering, are being displayed in this window.
-<img>img/screenshots/log_console.png
