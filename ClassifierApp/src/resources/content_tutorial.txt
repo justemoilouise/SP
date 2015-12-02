@@ -1,13 +1,19 @@
-  RadiSS is a tool that can be used to classify Radiolarian species. It has for major processes - image feature extraction, preprocessing and classification.
-
-**Image feature extraction
+<br />
+RadiSS is a tool that can be used to classify Radiolarian species. It has three major processes - image feature extraction, preprocessing and classification.
+<ol>
+	<li>Image feature extraction</li>
+	<li>Preprocessing</li>
+	<li>Classification</li>
+</ol>
+<br />
+<h3>Image feature extraction</h3>
   Classification and clustering of Radiolarian species depends on the characteristics fed into the application. These data are features extracted from an image of a particular Radiolarian species.
   Feature extraction is a way of getting visual contents from a digital image.
   In this application, ImageJ is the primary tools used for this process. Two different sets of features can be obtained from an image - ImageJ's shape descriptors and texture features, and JFeatureLib's Haralick texture descriptors. These values, once retrieved from the image, will then be used to classify and cluster the input.
-
-**Preprocessing
+<br /><br />
+<h3>Preprocessing</h3>
   It employs two preprocessing techniques - scaling and PCA. During scaling, the value of each feature is calculated to only have a range of 0 to 1. As soon as the features are scaled, it immediately undergoes feature reduction through Principal Components Analysis.
   Principal Components Analysis (PCA) is a statistical method mainly used for the purpose of dimensionality reduction. It works by rotating the original set of variables in such a way that the result, known as the principal components, maximizes the variance such that no information is lost after the transformation. This process is important to reduce computational cost.
-
-**Classification
+<br /><br />
+<h3>Classification</h3>
   For classification, the application uses Support Vector Machines (SVM). It is a particular kind of machine learning algorithm based on statistical learning theories. The algorithm works by drawing a hyperplane that separates the data points into various classes.

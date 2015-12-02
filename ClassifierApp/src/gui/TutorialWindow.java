@@ -115,7 +115,6 @@ public class TutorialWindow extends JInternalFrame {
 		
 		JTree tree = new JTree(root);
 		tree.addTreeSelectionListener(new Listener_TreeContent(this, tree));
-		
 		return tree;
 	}
 	
@@ -123,46 +122,48 @@ public class TutorialWindow extends JInternalFrame {
 		if(!contents.containsKey(key))
 			getContent(key);
 
-		StyledDocument doc = text.getStyledDocument();
-		addStylesToDocument(doc);
+//		StyledDocument doc = text.getStyledDocument();
+//		addStylesToDocument(doc);
+//		
+//		try {
+//			if(doc.getLength() > 0)
+//				doc.remove(0, doc.getLength());
+//			
+//			doc.insertString(0, key, doc.getStyle(attributes[1]));
+//			doc.insertString(doc.getLength(), "\n", doc.getStyle(attributes[0]));
+//			
+//			int count = 1;
+//			StringTokenizer token = new StringTokenizer(contents.get(key), "\n");
+//			while(token.hasMoreTokens()) {
+//				String content = token.nextToken();
+//				
+//				if(content.startsWith("**")) {
+//					content = count + ". " + content.substring(2, content.length());
+//					count++;
+//					
+//					doc.insertString(doc.getLength(), "\n  " + content, doc.getStyle(attributes[2]));
+//				}
+//				else if(content.startsWith("<img>")) {
+//					ImageIcon img = GetImage(content.substring(5, content.length()));
+//					doc.insertString(doc.getLength(), "\n ", doc.getStyle(attributes[0]));
+//					text.insertIcon(img);
+//				}
+//				else {
+//					doc.insertString(doc.getLength(), "    " + content, doc.getStyle(attributes[0]));
+//				}
+//				doc.insertString(doc.getLength(), "\n", doc.getStyle(attributes[0]));
+//			}
+//			doc.insertString(doc.getLength(), "\n", doc.getStyle(attributes[0]));
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			Prompt.PromptError("ERROR_GET_TUTORIAL");
+//			Client.printStackTrace(e);
+//		}
 		
-		try {
-			if(doc.getLength() > 0)
-				doc.remove(0, doc.getLength());
-			
-			doc.insertString(0, key, doc.getStyle(attributes[1]));
-			doc.insertString(doc.getLength(), "\n", doc.getStyle(attributes[0]));
-			
-			int count = 1;
-			StringTokenizer token = new StringTokenizer(contents.get(key), "\n");
-			while(token.hasMoreTokens()) {
-				String content = token.nextToken();
-				
-				if(content.startsWith("**")) {
-					content = count + ". " + content.substring(2, content.length());
-					count++;
-					
-					doc.insertString(doc.getLength(), "\n  " + content, doc.getStyle(attributes[2]));
-				}
-				else if(content.startsWith("<img>")) {
-					ImageIcon img = GetImage(content.substring(5, content.length()));
-					doc.insertString(doc.getLength(), "\n ", doc.getStyle(attributes[0]));
-					text.insertIcon(img);
-				}
-				else {
-					doc.insertString(doc.getLength(), "    " + content, doc.getStyle(attributes[0]));
-				}
-				doc.insertString(doc.getLength(), "\n", doc.getStyle(attributes[0]));
-			}
-			doc.insertString(doc.getLength(), "\n", doc.getStyle(attributes[0]));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Prompt.PromptError("ERROR_GET_TUTORIAL");
-			Client.printStackTrace(e);
-		}
-		
+		text.setContentType("text/html");
 		text.setEditable(false);
 		text.setCaretPosition(0);
+		text.setText(contents.get(key));
 
 		mainPanel.setPreferredSize(new Dimension(550, 505));
 		mainPanel.setViewportView(text);
