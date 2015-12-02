@@ -169,6 +169,7 @@ $(function() {
 			complete: function() {
 				$("#train_save_btn").button('reset');
 				$('html, body').animate({scrollTop: 0}, 'fast');
+				toggleProgress();
 			}
 		});
 	});
