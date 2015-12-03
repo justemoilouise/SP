@@ -1,11 +1,11 @@
 <br />
 Input and output windows are displayed in the workspace area.
 <br />
-<img src="/resources/img-content_workspace.png" />
+<img src='/resources/img-content_workspace.png' />
 <h2>Input image</h2>
   Image chosen by the user.
   <br />
-<img src="/resources/img-content_workspace-input.png" />
+<img src='/img-content_workspace-input.png' />
 <br />
 <h2>Input file</h2>
   Contents of the file selected by the user.
@@ -13,9 +13,9 @@ Input and output windows are displayed in the workspace area.
 <h2>Feature options</h2>
   Allows users to choose which feature set will be used for both classification and clustering.
   <br />
-<img src="/resources/img-content_workspace-features.png" />
+<img src='this.getClass().getClass().getResource(\"/resources/img-content_workspace-features.png\")' />
 <br />
 <h2>Results</h2>
   Image - if any, features and classification results.
   <br />
-<img src="/resources/img-content_workspace-output.png" />
+<img src='file:img-content_workspace-output.png' />
