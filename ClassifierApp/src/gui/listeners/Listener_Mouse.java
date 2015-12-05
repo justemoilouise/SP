@@ -114,5 +114,8 @@ public class Listener_Mouse implements ActionListener {
 				System.exit(0);
 			}
 		}
+		else if(command.equals("adjust_threshold")) {
+			// show dialog box (slider? textbox?)
+		}
 	}
 }

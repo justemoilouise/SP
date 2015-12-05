@@ -146,6 +146,11 @@ public class MainWindow extends JFrame {
 		item.setActionCommand("upload_model");
 		item.addActionListener(lm);
 		menu.add(item);
+		
+		item = new JMenuItem("Adjust classification threshold");
+		item.setActionCommand("adjust_threshold");
+		item.addActionListener(lm);
+		menu.add(item);
 		menu.addSeparator();
 
 		item = new JMenuItem("Quit");
@@ -177,11 +182,13 @@ public class MainWindow extends JFrame {
 		JButton button = new JButton(imgIcon);
 		button.setActionCommand("input_image");
 		button.addActionListener(lm);
+		button.setToolTipText("Input image");
 		toolbar.add(button);
 		imgIcon = new ImageIcon(this.getClass().getResource("/resources/img-icon_open-file.png"));
 		button = new JButton(imgIcon);
 		button.setActionCommand("input_file");
 		button.addActionListener(lm);
+		button.setToolTipText("Input Excel file");
 		toolbar.add(button);
 		toolbar.addSeparator();
 
@@ -190,11 +197,13 @@ public class MainWindow extends JFrame {
 		submit = new JButton(imgIcon);
 		submit.setActionCommand("submit");
 		submit.addActionListener(lm);
+		submit.setToolTipText("Classify");
 		toolbar.add(submit);
 		imgIcon = new ImageIcon(this.getClass().getResource("/resources/img-icon_stop.png"));
 		stop = new JButton(imgIcon);
 		stop.setActionCommand("stop");
 		stop.addActionListener(lm);
+		stop.setToolTipText("Stop");
 		toolbar.add(stop);
 		toolbar.addSeparator();
 

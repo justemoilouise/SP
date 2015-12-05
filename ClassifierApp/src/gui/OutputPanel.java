@@ -102,6 +102,7 @@ public class OutputPanel extends JInternalFrame {
 	}
 	
 	private JScrollPane getSummary() {
+		// include model details (features used, accuracy)
 		String prediction = input.getSpecies().getName();
 		JPanel panel = new JPanel();
 		
