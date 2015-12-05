@@ -39,7 +39,7 @@ public class InputPanel extends JInternalFrame {
 		JPanel panel = new JPanel();
 		
 		int newWidth = 250;
-		ImageIcon img = ProcessImage.getScaledImage("img/noimg.png",
+		ImageIcon img = ProcessImage.getScaledImage("/resources/img_noimg.png",
 				new Dimension(newWidth, newWidth));
 		JLabel imgLabel = new JLabel(img);	
 		

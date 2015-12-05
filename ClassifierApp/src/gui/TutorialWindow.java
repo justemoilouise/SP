@@ -94,9 +94,9 @@ public class TutorialWindow extends JInternalFrame {
 			getContent(key);
 		
 		text.setContentType("text/html");
+		text.setText(contents.get(key));
 		text.setEditable(false);
 		text.setCaretPosition(0);
-		text.setText(contents.get(key));
 
 		mainPanel.setPreferredSize(new Dimension(550, 455));
 		mainPanel.setViewportView(text);
