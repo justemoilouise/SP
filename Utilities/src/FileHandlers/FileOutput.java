@@ -233,19 +233,20 @@ public class FileOutput extends Thread {
 			// PCA
 			Paragraph pcaP = new Paragraph("Principal components");
 			pcaP.setSpacingAfter(10);
+			double[][] pc = model.getPreprocessModel().getPrincipalComponents();
 			PdfPTable pca = new PdfPTable(model.getPreprocessModel().getPC() + 1);
 			pca.setSpacingAfter(20);
 			pca.setSpacingBefore(10);
 			pca.setKeepTogether(true);
-			pca.addCell("Principal component");
+			pca.addCell("");
 			for(int i=0; i<model.getPreprocessModel().getPC(); i++) {
-				pca.addCell("Value");
+				pca.addCell("Prin. Comp.");
 			}
-			double[][] pc = model.getPreprocessModel().getPrincipalComponents();
-			for(int i=0; i<pc.length; i++) {
+			
+			for(int i=0; i<pc[0].length; i++) {
 				pca.addCell(Integer.toString(i + 1));
-				for(int j=0; j<pc[i].length; j++) {
-					pca.addCell(Double.toString(pc[i][j]));
+				for(int j=0; j<pc.length; j++) {
+					pca.addCell(Double.toString(pc[j][i]));
 				}
 			}
 			document.add(pcaP);
