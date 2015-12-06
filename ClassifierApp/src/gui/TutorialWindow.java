@@ -3,6 +3,7 @@ package gui;
 import java.awt.Dimension;
 import java.util.Hashtable;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import gui.listeners.Listener_TreeContent;
 
@@ -108,19 +109,53 @@ public class TutorialWindow extends JInternalFrame {
 		if(props == null)
 			props = Client.getProperties();
 		
-		if(key.equals("RadiSS"))
-			contents.put(key, FileInput.readFile(props.getProperty("tutorial.overview")));
-		else if(key.equals("Menu bar"))
-			contents.put(key, FileInput.readFile(props.getProperty("tutorial.menubar")));
-		else if(key.equals("Toolbar"))
-			contents.put(key, FileInput.readFile(props.getProperty("tutorial.toolbar")));
-		else if(key.equals("Workspace"))
-			contents.put(key, FileInput.readFile(props.getProperty("tutorial.workspace")));
-		else if(key.equals("Console Log"))
-			contents.put(key, FileInput.readFile(props.getProperty("tutorial.console")));
-		else if(key.equals("Error Log"))
-			contents.put(key, FileInput.readFile(props.getProperty("tutorial.error")));
-		else if(key.equals("Features"))
-			contents.put(key, FileInput.readFile(props.getProperty("tutorial.features")));
+		if(key.equals("RadiSS")) {
+			String str = updateImgContent(FileInput.readFile(props.getProperty("tutorial.overview")));
+			contents.put(key, str);
+		}
+		else if(key.equals("Menu bar")) {
+			String str = updateImgContent(FileInput.readFile(props.getProperty("tutorial.menubar")));
+			contents.put(key, str);
+		}
+		else if(key.equals("Toolbar")) {
+			String str = updateImgContent(FileInput.readFile(props.getProperty("tutorial.toolbar")));
+			contents.put(key, str);
+		}
+		else if(key.equals("Workspace")) {
+			String str = updateImgContent(FileInput.readFile(props.getProperty("tutorial.workspace")));
+			contents.put(key, str);
+		}
+		else if(key.equals("Console Log")) {
+			String str = updateImgContent(FileInput.readFile(props.getProperty("tutorial.console")));
+			contents.put(key, str);
+		}
+		else if(key.equals("Error Log")) {
+			String str = updateImgContent(FileInput.readFile(props.getProperty("tutorial.error")));
+			contents.put(key, str);
+		}
+		else if(key.equals("Features")) {
+			String str = updateImgContent(FileInput.readFile(props.getProperty("tutorial.features")));
+			contents.put(key, str);
+		}
+	}
+	
+	private String updateImgContent(String text) {
+		if(text.contains("img")) {
+			String content = text;
+			StringTokenizer tokenizer = new StringTokenizer(text, "\r\n");
+			while(tokenizer.hasMoreTokens()) {
+				String line = tokenizer.nextToken();
+				if(line.contains("img")) {
+					int index1 = line.indexOf("'");
+					int index2 = line.lastIndexOf("'");
+					String imgPath = line.substring(index1 + 1, index2);
+					String src = this.getClass().getResource(imgPath).toString();
+					content = content.replace(imgPath, src);
+				}
+			}
+			return content;
+		}
+		
+		return text;
 	}
 }

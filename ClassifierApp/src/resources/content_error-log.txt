@@ -1,4 +1,4 @@
 <dt>
 Errors, if any, are printed in this window. Complete stack trace and information about the error is prompted to the user.
 <br />
-<img src="img-content_log-error.png" />
+<img src='/resources/img-content_log-error.png' />

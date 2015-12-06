@@ -1,6 +1,6 @@
 <br />
 <h2>File</h2>
-<img src="/resources/img-content_menu-file.png" />
+<img src='/resources/img-content_menu-file.png' />
 <dl>
 	<dt>New image</dt>
 		<dd> This allows the user to choose and open a new image file. Any file format is acceptable by the system, regardless of its size and resolution. The chosen image is opened into the workspace region.</dd>
@@ -13,7 +13,7 @@
 </dl>
 <br />
 <h2>Help</h2>
-<img src=">/resources/img-content_menu-help.png" />
+<img src='/resources/img-content_menu-help.png' />
 <dl>
   <dt>Tutorial</dt>
       <dd>Overview on how the application functions is presented in the Tutorial section.</dd>

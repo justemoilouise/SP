@@ -1,4 +1,4 @@
 <br />
 Updates on the running operations, i.e. started/stopped classification and clustering, are being displayed in this window.
 <br />
-<img src="img-content_log-console.png" />
+<img src='/resources/img-content_log-console.png' />
