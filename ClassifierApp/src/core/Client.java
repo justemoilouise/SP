@@ -147,9 +147,10 @@ public class Client {
 		double[] features = getFeatures(isIJ);
 
 		if(features != null) {
-			progress = new ProgressInfo();
-			progress.setVisible(true);
-			pm.addToDesktopPane(progress);
+//			progress = new ProgressInfo();
+//			progress.setVisible(true);
+//			pm.addToDesktopPane(progress);
+			pm.appendToConsole("Classifying input...");
 			
 			preprocess.setIJ(isIJ);
 			svm.setIJ(isIJ);
@@ -242,9 +243,10 @@ public class Client {
 	}
 	
 	public static void download(int index) {
-		progress = new ProgressInfo();
-		progress.setVisible(true);
-		pm.addToDesktopPane(progress);
+//		progress = new ProgressInfo();
+//		progress.setVisible(true);
+//		pm.addToDesktopPane(progress);
+		pm.appendToConsole("Downloading output...");
 
 		boolean dloadSuccess = FileOutput.saveToFile(model, inputs.get(index-1), index);
 		
