@@ -221,6 +221,7 @@ public class MainWindow extends JFrame {
 
 	public void addToDesktopPane(Component comp) {
 		dp.add(comp);
+		dp.moveToFront(comp);
 	}
 	
 	public void appendToConsole(String message) {

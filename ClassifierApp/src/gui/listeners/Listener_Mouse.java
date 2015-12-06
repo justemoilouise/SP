@@ -65,7 +65,7 @@ public class Listener_Mouse implements ActionListener {
 				FileOutput.saveToFile(model, model.isIJUsed());
 				FileConfig.updateModelInfo(model);
 				Client.setModel(model);
-				Client.getPm().appendToConsole("Classifier model updated to version " + model.getVersion());
+				Client.getPm().appendToConsole("Classifier model updated to version " + model.getVersion() + "..");
 				Prompt.PromptSuccess("SUCCESS_UPLOAD_FILE");
 			}
 		}
@@ -120,7 +120,7 @@ public class Listener_Mouse implements ActionListener {
 			String newValue = JOptionPane.showInputDialog("Input classification threshold: ", t);
 			if(Double.parseDouble(newValue) != t) {
 				Client.getSvm().threshold = Double.parseDouble(newValue);
-				Client.getPm().appendToConsole("Classification threshold is now " + newValue);
+				Client.getPm().appendToConsole("Classification threshold is now " + newValue + "..");
 			}
 		}
 	}

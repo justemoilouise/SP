@@ -22,6 +22,9 @@ public class ProgressInfo extends JInternalFrame {
 	public ProgressInfo() {
 		progressBar = new JProgressBar();
 		progressBar.setIndeterminate(true);
+		progressBar.setEnabled(true);
+		progressBar.setVisible(true);
+		setVisible(true);
 	}
 	
 	public ProgressInfo(int length) {
@@ -39,6 +42,7 @@ public class ProgressInfo extends JInternalFrame {
 		setName("progress");
 		setTitle("Progress information");
 		setBounds(100, 100, 350, 60);
+		progressBar.setEnabled(true);
 		setVisible(true);
 	}
 	
@@ -114,6 +118,8 @@ public class ProgressInfo extends JInternalFrame {
 	}
 	
 	public void closeProgressBar() {
+		progressBar.setVisible(false);
+		progressBar.setEnabled(false);
 		progressBar.setIndeterminate(false);
 		progressBar = null;
 		setVisible(false);

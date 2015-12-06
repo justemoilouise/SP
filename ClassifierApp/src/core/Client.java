@@ -165,7 +165,7 @@ public class Client {
 			i.setSvmResult(results);
 			i.getSpecies().setName(svm.analyzeResults(results));
 			
-			progress.closeProgressBar();
+//			progress.closeProgressBar();
 			displayOutput();
 		}
 	}

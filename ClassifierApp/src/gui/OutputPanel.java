@@ -44,7 +44,7 @@ public class OutputPanel extends JInternalFrame {
 		
 		setTitle("Output (" + count + ")");;
 		setName("Output");
-		setBounds(10, 10, 800, 450);
+		setBounds((10*count)+10, (10*count)+10, 800, 450);
 		setClosable(true);
 		setIconifiable(true);
 	}

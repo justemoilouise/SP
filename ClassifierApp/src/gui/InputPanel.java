@@ -28,9 +28,10 @@ public class InputPanel extends JInternalFrame {
 		
 		addToGroupLayout();
 		
-		setTitle("Input (" + (Client.getCount()+1) + ")");;
+		int count = Client.getCount()+1;
+		setTitle("Input (" + count + ")");;
 		setName("Input");
-		setBounds(10, 10, 800, 450);
+		setBounds((10*count), (10*count), 800, 450);
 		setClosable(true);
 		setIconifiable(true);
 	}
