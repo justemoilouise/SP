@@ -13,5 +13,5 @@ $(function() {
 	
 	$("#nav_training").on("click", function() {
 		$("#content_holder").load("Training_Input.jsp");
-	});
+	});	
 });

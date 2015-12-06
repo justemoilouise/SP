@@ -185,7 +185,6 @@ $(function() {
 	});
 	
 	$("#content_holder").on("click","#btn_training", function() {
-		// check session
 		$("#content_holder").load("Training_Input.jsp");
 	});
 });
