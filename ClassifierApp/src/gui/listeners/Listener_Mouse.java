@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -121,6 +122,11 @@ public class Listener_Mouse implements ActionListener {
 			if(Double.parseDouble(newValue) != t) {
 				Client.getSvm().threshold = Double.parseDouble(newValue);
 				Client.getPm().appendToConsole("Classification threshold is now " + newValue + "..");
+				
+				//update properties file
+				Properties props = Client.getProperties();
+				props.setProperty("model.threshold", newValue);
+				FileConfig.saveToFile(props);
 			}
 		}
 	}

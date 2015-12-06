@@ -1,6 +1,7 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.Properties;
 
 import Data.SVMModel;
 import Data.SVMParameter;
@@ -15,10 +16,14 @@ import libsvm.svm_problem;
 public class SVM implements ISVM {
 	private SVMModel IJModel, JFModel, model;
 	private boolean isIJ;
-	public double threshold = 50;
+	public double threshold;
 
 	public SVM() {}
 
+	public void setThreshold(Properties props) {
+		this.threshold = Double.parseDouble(props.getProperty("model.threshold"));
+	}
+	
 	public boolean isIJ() {
 		return isIJ;
 	}

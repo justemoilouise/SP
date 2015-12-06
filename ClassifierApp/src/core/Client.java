@@ -49,6 +49,8 @@ public class Client {
 	}
 
 	private void init() {
+		svm.setThreshold(props);
+		
 		screen = new StartScreen();
 		screen.setExecutable(true);
 		
@@ -244,7 +246,7 @@ public class Client {
 		progress.setVisible(true);
 		pm.addToDesktopPane(progress);
 
-		boolean dloadSuccess = FileOutput.saveToFile(inputs.get(index-1), index);
+		boolean dloadSuccess = FileOutput.saveToFile(model, inputs.get(index-1), index);
 		
 		if(dloadSuccess)
 			Prompt.PromptSuccess("SUCCESS_DLOAD");
