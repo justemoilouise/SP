@@ -15,6 +15,7 @@ import libsvm.svm_problem;
 public class SVM implements ISVM {
 	private SVMModel IJModel, JFModel, model;
 	private boolean isIJ;
+	public double threshold = 50;
 
 	public SVM() {}
 
@@ -112,7 +113,7 @@ public class SVM implements ISVM {
 		double max = 0;
 
 		for(SVMResult result : results) {
-			if((result.getProbability() > 50) && (result.getProbability() > max)) {
+			if((result.getProbability() > threshold) && (result.getProbability() > max)) {
 				max = result.getProbability();
 				prediction = result.getName();
 			}
