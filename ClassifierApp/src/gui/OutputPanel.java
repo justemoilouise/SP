@@ -16,12 +16,14 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import Data.ClassifierModel;
 import Data.Input;
 import Data.SVMResult;
 import ImageHandlers.ProcessImage;
@@ -102,13 +104,33 @@ public class OutputPanel extends JInternalFrame {
 	}
 	
 	private JScrollPane getSummary() {
-		// include model details (features used, accuracy)
-		String prediction = input.getSpecies().getName();
-		JPanel panel = new JPanel();
+		ClassifierModel model = Client.getModel();
+		String featuresUsed = model.isIJUsed() ? "Shape and basic texture features" : "Shape and Haralick texture";
+		String[] featureLabels = new String[] { "Features used", "No. of Principal Components", "SVM Accuracy" };
+		Object[] featureValues = new Object[] { featuresUsed, model.getPreprocessModel().getPC(), model.getSvmmodel().getAccuracy() };
 		
-		JLabel label = new JLabel("PREDICTED CLASS: " + prediction);
+		String[] headers = {"Description", "Value"};
+		String[][] tableData = new String[featureLabels.length][2];
+		for(int i=0; i<featureLabels.length; i++) {
+			tableData[i][0] = featureLabels[i];
+			tableData[i][1] = featureValues[i].toString();
+		}
+		TableModel tableModel = new DefaultTableModel(tableData, headers);
+		JTable table = new JTable(tableModel);
+		table.setEnabled(false);
+		
+		JLabel label = new JLabel("CLASSIFIER MODEL DETAILS");
+		JPanel modelDetails = new JPanel();
+		modelDetails.setLayout(new BoxLayout(modelDetails, BoxLayout.Y_AXIS));
+		modelDetails.add(label);
+		modelDetails.add(table);
+
+		JPanel preditionPanel = new JPanel();
+		preditionPanel.setLayout(new BoxLayout(preditionPanel, BoxLayout.Y_AXIS));
+		String prediction = input.getSpecies().getName();
+		label = new JLabel("PREDICTED CLASS: " + prediction);
 		label.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel.add(label);
+		preditionPanel.add(label);
 		
 		if(prediction.equalsIgnoreCase("UNKNOWN")) {
 			label = new JLabel("Species doesn't fall in any known class.");
@@ -116,9 +138,16 @@ public class OutputPanel extends JInternalFrame {
 			label = new JLabel("There's a " + getProbability() + "% that it is the unknown's class.");
 		}
 		label.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel.add(label);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		preditionPanel.add(label);
 		
+		JSeparator separator = new JSeparator();
+		separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
+
+		JPanel panel = new JPanel();
+		panel.add(modelDetails);
+		panel.add(separator);
+		panel.add(preditionPanel);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		return new JScrollPane(panel);
 	}
 	

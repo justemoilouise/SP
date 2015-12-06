@@ -19,6 +19,10 @@ public class Preprocess implements IPREPROCESS {
 
 	public void setIJ(boolean isIJ) {
 		this.isIJ = isIJ;
+		if(isIJ)
+			model = IJModel;
+		else
+			model = JFModel;
 	}
 
 	public PreprocessModel getIJModel() {
@@ -41,15 +45,13 @@ public class Preprocess implements IPREPROCESS {
 		this.model = model;
 	}
 	
+	public PreprocessModel getModel() {
+		return model;
+	}
+	
 	@Override
 	public double[] scale(double[] features) {
-		// TODO Auto-generated method stub
-		
-		if(isIJ)
-			model = IJModel;
-		else
-			model = JFModel;
-		
+		// TODO Auto-generated method stub		
 		double[] scaled = new double[features.length];
 		double[] min = model.getMin();
 		double[] max = model.getMax();

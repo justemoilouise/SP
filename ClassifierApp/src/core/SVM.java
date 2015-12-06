@@ -25,6 +25,10 @@ public class SVM implements ISVM {
 
 	public void setIJ(boolean isIJ) {
 		this.isIJ = isIJ;
+		if(isIJ)
+			model = IJModel;
+		else
+			model = JFModel;
 	}
 
 	public SVMModel getIJModel() {
@@ -42,6 +46,10 @@ public class SVM implements ISVM {
 	public void setJFModel(SVMModel jFModel) {
 		JFModel = jFModel;
 	}
+	
+	public SVMModel getModel() {
+		return model;
+	}
 
 	@Override
 	public ArrayList<SVMResult> classify(double[] features, boolean isIJused) {
@@ -55,11 +63,6 @@ public class SVM implements ISVM {
 
 			nodes[i] = node;
 		}
-		
-		if(isIJused)
-			model = IJModel;
-		else
-			model = JFModel;
 
 		double proby[] = new double[svm.svm_get_nr_class(model.getModel())];
 		svm.svm_predict_probability(model.getModel(), nodes, proby);

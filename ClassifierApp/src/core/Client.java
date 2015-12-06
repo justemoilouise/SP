@@ -152,6 +152,11 @@ public class Client {
 			preprocess.setIJ(isIJ);
 			svm.setIJ(isIJ);
 			
+			model = new ClassifierModel();
+			model.setIJUsed(isIJ);
+			model.setPreprocessModel(preprocess.getModel());
+			model.setSvmmodel(svm.getModel());
+			
 			double[] preprocessedData = preprocess.scale(features);
 			preprocessedData = preprocess.reduceFeatures(preprocessedData);
 			ArrayList<SVMResult> results = svm.classify(preprocessedData, isIJ);			
