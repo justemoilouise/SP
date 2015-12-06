@@ -123,7 +123,7 @@ public class FileOutput extends Thread {
 		return false;
 	}
 	
-	public static boolean saveToFile(Input input, int index) {
+	public static boolean saveToFile(ClassifierModel model, Input input, int index) {
 		Image img = getImage(input);
 
 		Document document=new Document(PageSize.LETTER, 50, 50, 50, 50);
@@ -132,7 +132,7 @@ public class FileOutput extends Thread {
 			PdfWriter.getInstance(document, new FileOutputStream(fileName));
 			document.open();
 
-			Paragraph title = new Paragraph("Radiolarians", FontFactory.getFont(FontFactory.HELVETICA, 35, Font.BOLD));
+			Paragraph title = new Paragraph("RadiSS", FontFactory.getFont(FontFactory.HELVETICA, 35, Font.BOLD));
 			title.setAlignment(Element.ALIGN_CENTER);
 			title.setSpacingAfter(15);
 			document.add(title);
@@ -189,7 +189,6 @@ public class FileOutput extends Thread {
 			t2.addCell("Probabilty");
 
 			ArrayList<SVMResult> svmResult = input.getSvmResult();
-
 			Iterator<SVMResult> iter = svmResult.iterator();
 			while(iter.hasNext()) {
 				SVMResult result = iter.next();
@@ -203,6 +202,70 @@ public class FileOutput extends Thread {
 			document.add(t2);
 			document.newPage();
 
+			// model details
+			Paragraph p3 = new Paragraph("Classifier model details");
+			p3.setSpacingBefore(20);
+			p3.setSpacingAfter(10);
+			document.add(p3);
+			document.add(ls);
+			
+			//scaling factors
+			Paragraph scaleP = new Paragraph("Scaling factors");
+			scaleP.setSpacingAfter(10);
+			PdfPTable scale = new PdfPTable(3);
+			scale.setSpacingAfter(20);
+			scale.setSpacingBefore(10);
+			scale.setKeepTogether(true);
+			scale.addCell("Feature");
+			scale.addCell("Minimum value");
+			scale.addCell("Maximum value");
+			String[] features = model.getPreprocessModel().getFeatures();
+			double[] min = model.getPreprocessModel().getMin();
+			double[] max = model.getPreprocessModel().getMax();
+			for(int i=0; i<features.length; i++) {
+				scale.addCell(features[i]);
+				scale.addCell(Double.toString(min[i]));
+				scale.addCell(Double.toString(max[i]));
+			}
+			document.add(scaleP);
+			document.add(scale);
+
+			// PCA
+			Paragraph pcaP = new Paragraph("Principal components");
+			pcaP.setSpacingAfter(10);
+			PdfPTable pca = new PdfPTable(model.getPreprocessModel().getPC() + 1);
+			pca.setSpacingAfter(20);
+			pca.setSpacingBefore(10);
+			pca.setKeepTogether(true);
+			pca.addCell("Principal component");
+			for(int i=0; i<model.getPreprocessModel().getPC(); i++) {
+				pca.addCell("Value");
+			}
+			double[][] pc = model.getPreprocessModel().getPrincipalComponents();
+			for(int i=0; i<pc.length; i++) {
+				pca.addCell(Integer.toString(i + 1));
+				for(int j=0; j<pc[i].length; j++) {
+					pca.addCell(Double.toString(pc[i][j]));
+				}
+			}
+			document.add(pcaP);
+			document.add(pca);
+			
+			// SVM
+			String featuresUsed = model.isIJUsed() ? "Shape and basic features" : "Shape and Haralick texture";
+			Paragraph svmP = new Paragraph("SVM");
+			svmP.setSpacingAfter(10);
+			PdfPTable svm = new PdfPTable(2);
+			svm.setSpacingAfter(20);
+			svm.setSpacingBefore(10);
+			svm.setKeepTogether(true);
+			svm.addCell("Features used");
+			svm.addCell(featuresUsed);
+			svm.addCell("Accuracy");
+			svm.addCell(Double.toString(model.getSvmmodel().getAccuracy()));
+			document.add(svmP);
+			document.add(svm);
+			
 			document.close();
 			
 			return true;

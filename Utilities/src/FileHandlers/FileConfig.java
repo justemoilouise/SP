@@ -36,7 +36,7 @@ public class FileConfig {
 		saveToFile(old);
 	}
 	
-	private static void saveToFile(Properties props) {
+	public static void saveToFile(Properties props) {
 		try {
 			File config = new File(configName);
 			config.delete();
