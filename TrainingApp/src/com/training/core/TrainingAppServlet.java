@@ -10,6 +10,7 @@ import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,8 @@ import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.blobstore.FileInfo;
+import com.google.appengine.tools.cloudstorage.GcsFileMetadata;
 import com.google.appengine.tools.cloudstorage.GcsFileOptions;
 import com.google.appengine.tools.cloudstorage.GcsFilename;
 import com.google.appengine.tools.cloudstorage.GcsInputChannel;
@@ -43,10 +46,9 @@ public class TrainingAppServlet extends HttpServlet {
 	private BlobstoreService blobstoreService;
 	private GcsService gcsService;
 	private HttpSession session;
-	final String gcsBucket = "radiss-training.appspot.com";
+	final String gcsBucket = "radiss-training-models";
+//	final String gcsBucket = "radiss-training-models-test";
 	final String modelKeysFilename = "model-keys.dat";
-	final String cacheModelKey = "model_keys";
-	final String cacheAppKey = "app_keys";
 
 	public TrainingAppServlet() {
 		this.processor = new TrainingAppProcessor();
@@ -91,14 +93,13 @@ public class TrainingAppServlet extends HttpServlet {
 			model = processor.buildClassifierModel(model);
 			BlobKey key = writeFileToBlob(model);
 			saveModelToGCS(key);
-			response = true;
+			response = key;
 		} else if(method.equalsIgnoreCase("download")) {
 			String modelKey = req.getParameter("modelKey");
 			BlobKey modelBlobKey = new BlobKey(modelKey);			
 			BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(modelBlobKey);
 			resp.setHeader("Content-type", "application/octet-stream");
 			resp.setHeader("Content-Disposition", "attachment; filename=\"" + blobInfo.getFilename() +"\"");
-
 			blobstoreService.serve(modelBlobKey, resp);
 			return;
 		}
@@ -107,18 +108,20 @@ public class TrainingAppServlet extends HttpServlet {
 	}
 
 	private BlobKey writeFileToBlob(ClassifierModel model) {
+		BlobKey key = new BlobKey("");
 		try {
 			String fileName = "classifier-model-" + model.getVersion() + ".dat";
 			GcsFilename gcsFilename = new GcsFilename(gcsBucket, fileName);
 			GcsOutputChannel outputChannel = gcsService.createOrReplace(gcsFilename, GcsFileOptions.getDefaultInstance());
 			ObjectOutputStream oStream = new ObjectOutputStream(Channels.newOutputStream(outputChannel));
 			oStream.writeObject(model);
-			oStream.close();
-
-			return blobstoreService.createGsBlobKey(fileName);
+			oStream.flush();
+			outputChannel.close();
+			key = blobstoreService.createGsBlobKey("/gs/" + gcsBucket + "/" + fileName);
+//			String blobKey = extractBlobKey(key.getKeyString());
+//			key = new BlobKey(blobKey);
 		} catch(Exception ex) {}
-
-		return new BlobKey("");
+		return key;
 	}
 
 	private byte[] readFromBlob(BlobKey key) {
@@ -183,8 +186,10 @@ public class TrainingAppServlet extends HttpServlet {
 		try {
 			GcsFilename gcsFilename = new GcsFilename(gcsBucket, modelKeysFilename);
 			GcsInputChannel readChannel = gcsService.openPrefetchingReadChannel(gcsFilename, 0, 1024 * 1024);
-			ObjectInputStream iStream = new ObjectInputStream(Channels.newInputStream(readChannel));
-			modelKeys = (ArrayList<BlobKey>) iStream.readObject();
+			if(readChannel != null) {
+				ObjectInputStream iStream = new ObjectInputStream(Channels.newInputStream(readChannel));
+				modelKeys = (ArrayList<BlobKey>) iStream.readObject();
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -219,7 +224,6 @@ public class TrainingAppServlet extends HttpServlet {
 		try {
 			int index = 0;
 			ListResult result = gcsService.list(gcsBucket, ListOptions.DEFAULT);
-			result.next();
 			while (result.hasNext()){
 				ListItem l = result.next();
 				String name = l.getName();
@@ -240,5 +244,12 @@ public class TrainingAppServlet extends HttpServlet {
 		}
 
 		return models;
+	}
+	
+	private String extractBlobKey(String key) {
+		StringTokenizer tokenizer = new StringTokenizer(key, ":");
+		tokenizer.nextToken();
+		String blobKey = tokenizer.nextToken();
+		return blobKey.substring(0, blobKey.length());
 	}
 }
