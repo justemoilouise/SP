@@ -12,8 +12,7 @@ $(function() {
 					var features = classifier.isIJUsed 
 							? "Shape and basic texture features" 
 							: "Shape and Haralick texture descriptors";
-					var dloadURL = "trainingapp/download?modelKey=" + modelList[i].key.blobKey;
-					
+					var dloadURL = "https://storage.googleapis.com/radiss-training.appspot.com/classifier-model-" + classifier.version + ".0.dat"; 
 					var tRow = "<tr>" +
 									"<td>" + classifier.createdDate + "</td>" +
 									"<td>" + classifier.version + "</td>" +

@@ -10,7 +10,6 @@ import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +24,6 @@ import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-import com.google.appengine.api.blobstore.FileInfo;
-import com.google.appengine.tools.cloudstorage.GcsFileMetadata;
 import com.google.appengine.tools.cloudstorage.GcsFileOptions;
 import com.google.appengine.tools.cloudstorage.GcsFilename;
 import com.google.appengine.tools.cloudstorage.GcsInputChannel;
@@ -46,8 +43,7 @@ public class TrainingAppServlet extends HttpServlet {
 	private BlobstoreService blobstoreService;
 	private GcsService gcsService;
 	private HttpSession session;
-	final String gcsBucket = "radiss-training-models";
-//	final String gcsBucket = "radiss-training-models-test";
+	final String gcsBucket = "radiss-training.appspot.com";
 	final String modelKeysFilename = "model-keys.dat";
 
 	public TrainingAppServlet() {
@@ -92,7 +88,7 @@ public class TrainingAppServlet extends HttpServlet {
 			ClassifierModel model = ServletHelper.ConvertToObject(requestBody, ClassifierModel.class);
 			model = processor.buildClassifierModel(model);
 			BlobKey key = writeFileToBlob(model);
-			saveModelToGCS(key);
+//			saveModelToGCS(key);
 			response = key;
 		} else if(method.equalsIgnoreCase("download")) {
 			String modelKey = req.getParameter("modelKey");
@@ -201,6 +197,7 @@ public class TrainingAppServlet extends HttpServlet {
 		return modelKeys;
 	}
 	
+	@SuppressWarnings("unused")
 	private void saveModelToGCS(BlobKey key) {
 		ArrayList<BlobKey> modelKeys = readModelKeysFromGCS();
 		modelKeys.add(key);
@@ -244,12 +241,5 @@ public class TrainingAppServlet extends HttpServlet {
 		}
 
 		return models;
-	}
-	
-	private String extractBlobKey(String key) {
-		StringTokenizer tokenizer = new StringTokenizer(key, ":");
-		tokenizer.nextToken();
-		String blobKey = tokenizer.nextToken();
-		return blobKey.substring(0, blobKey.length());
 	}
 }

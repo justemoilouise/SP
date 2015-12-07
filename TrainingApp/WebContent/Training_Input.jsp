@@ -1,8 +1,9 @@
-<% //if(session.getAttribute("admin") == null) { %>
+<% if(session.getAttribute("admin") == null) { %>
    <script type="text/javascript">
-   	//window.location.href = "http://localhost:8888/LogIn.jsp";
+   		//window.location.href = "http://localhost:8888/LogIn.jsp";
+   		window.location.href = "http://radiss-training.appspot.com:8888/LogIn.jsp";
    </script>
-<% //} %>
+<% } %>
 
 <%@ page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory" %>
 <%@ page import="com.google.appengine.api.blobstore.BlobstoreService" %>
