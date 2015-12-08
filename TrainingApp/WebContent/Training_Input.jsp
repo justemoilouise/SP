@@ -81,7 +81,7 @@ $(function() {
 				<tr>
 					<th>No. of principal components</th>
 					<td><input type="text" id="train_preprocess_pca" /></td>
-					<td><em>(suggested: 4)</em></td>
+					<td><em>(suggested: 4 for basic texture features, 7 for Haralick)</em></td>
 				</tr>
 			</table>
 		</div>
