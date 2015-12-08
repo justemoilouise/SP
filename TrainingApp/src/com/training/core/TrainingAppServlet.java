@@ -34,7 +34,6 @@ import com.google.appengine.tools.cloudstorage.ListItem;
 import com.google.appengine.tools.cloudstorage.ListOptions;
 import com.google.appengine.tools.cloudstorage.ListResult;
 import com.google.appengine.tools.cloudstorage.RetryParams;
-import com.training.data.ClassifierModelList;
 import com.training.helpers.ServletHelper;
 
 @SuppressWarnings({ "serial" })
@@ -59,7 +58,7 @@ public class TrainingAppServlet extends HttpServlet {
 		resp.setContentType("application/json");
 
 		if(method.equalsIgnoreCase("getmodellist")) {
-			ArrayList<ClassifierModelList> models = getClassifierModels();		
+			ArrayList<ClassifierModel> models = getClassifierModels();		
 			response = models;
 		} else if(method.equalsIgnoreCase("getapplist")) {
 			processor.getAppList();
@@ -214,12 +213,10 @@ public class TrainingAppServlet extends HttpServlet {
 		}
 	}
 	
-	private ArrayList<ClassifierModelList> getClassifierModels() {
-		ArrayList<ClassifierModelList> models = new ArrayList<ClassifierModelList>();
-		ArrayList<BlobKey> keys = readModelKeysFromGCS();
+	private ArrayList<ClassifierModel> getClassifierModels() {
+		ArrayList<ClassifierModel> models = new ArrayList<ClassifierModel>();
 		
 		try {
-			int index = 0;
 			ListResult result = gcsService.list(gcsBucket, ListOptions.DEFAULT);
 			while (result.hasNext()){
 				ListItem l = result.next();
@@ -230,9 +227,7 @@ public class TrainingAppServlet extends HttpServlet {
 					GcsInputChannel readChannel = gcsService.openPrefetchingReadChannel(gcsFilename, 0, 1024 * 1024);
 					ObjectInputStream iStream = new ObjectInputStream(Channels.newInputStream(readChannel));
 					ClassifierModel model = (ClassifierModel) iStream.readObject();
-					ClassifierModelList modelList = new ClassifierModelList(keys.get(index), model);
-					models.add(modelList);
-					index++;
+					models.add(model);
 				}
 			}
 		}

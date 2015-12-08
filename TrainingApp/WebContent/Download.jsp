@@ -8,7 +8,7 @@ $(function() {
 			
 			if(modelList.length > 0) {
 				for(var i=0; i<modelList.length; i++) {
-					var classifier = modelList[i].model;
+					var classifier = modelList[i];
 					var features = classifier.isIJUsed 
 							? "Shape and basic texture features" 
 							: "Shape and Haralick texture descriptors";

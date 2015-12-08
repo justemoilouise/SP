@@ -1,7 +1,7 @@
 <% if(session.getAttribute("admin") == null) { %>
    <script type="text/javascript">
    		//window.location.href = "http://localhost:8888/LogIn.jsp";
-   		window.location.href = "http://radiss-training.appspot.com:8888/LogIn.jsp";
+   		window.location.href = "http://radiss-training.appspot.com/LogIn.jsp";
    </script>
 <% } %>
 
