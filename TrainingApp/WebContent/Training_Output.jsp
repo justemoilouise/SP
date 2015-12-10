@@ -17,12 +17,13 @@ $(function() {
 	}
 	
 	// Principal components
-	$('#tbl_princomp_val').attr('colspan', pModel.PC);
-	for(var i=0; i<pModel.principalComponents[0].length; i++) {
+	$('#tbl_princomp_val').attr('colspan', pModel.principalComponents[0].length);
+	for(var i=0; i<pModel.principalComponents.length; i++) {
 		var tRow = '<tr>';
 		tRow += '<td>' + (i+1) + '</td>';
-		for(var j=0; j<pModel.principalComponents.length; j++) {
-			tRow += ('<td>' + pModel.principalComponents[j][i] + '</td>');
+		for(var j=0; j<pModel.principalComponents[0].length; j++) {
+			var pc = parseFloat(pModel.principalComponents[i][j]).toFixed(2);
+			tRow += ('<td>' + pc + '</td>');
 		}
 		tRow += '</tr>';
 		$('#tbl_princomp').append(tRow);
