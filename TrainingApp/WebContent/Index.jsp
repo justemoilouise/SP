@@ -4,7 +4,7 @@
 	<title>RaDSS - Training</title>
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 </head>
-<body style="background-image:url('img/radiolaria_dark_by_fullerenedream.jpg'); color: #000; background-attachment: fixed; padding-top: 50px;">
+<body style="background-image:url('img/radiolaria_dark_by_fullerenedream.jpg'); color: #000; background-attachment: fixed; padding-top: 75px;">
 	<div id="alert_holder"></div>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
