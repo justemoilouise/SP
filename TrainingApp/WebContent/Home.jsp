@@ -1,10 +1,10 @@
-<main class="main" style="background-image:url('img/radiolaria_dark_by_fullerenedream.jpg');  color: #fff" id="content" role="main">
+<!--<main class="main" style="background-image:url('img/radiolaria_dark_by_fullerenedream.jpg');  color: #fff" id="content" role="main">-->
 	<div class="container" style="padding-right: 15px; padding-left: 15px; padding-top: 180px; margin-right: auto; margin-left: auto; padding-bottom: 180px;">
 		<h1 style="font-size: 80px; color: white;"> RaDSS</h1>
-		<p style="font-size: 30px"> A tool for classifying Radiolarian species.</p>
+		<p style="font-size: 30px; color: white;"> A tool for classifying Radiolarian species.</p>
 	</div>
-</main>
-<div class="content" style="font-size:20px">
+<!--</main>-->
+<div class="content panel" style="font-size:20px; background-color:rgba(200,200,220,0.8);">
 	<div style="margin-right: auto; margin-left: auto; padding-top: 50px; padding-bottom: 50px;">
 		<div style="width:1100px; margin-right:auto; margin-left:auto;">
 			<p style="margin-bottom:50px;">

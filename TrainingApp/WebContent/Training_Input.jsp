@@ -56,10 +56,16 @@ $(function() {
 
 <br />
 <div class="input-group col-md-offset-1 col-md-10 col-xs-offset-1 col-xs-10" id="input_file">
-	<input type="file" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="col-md-10 col-xs-10" id="input_file_fld" />
-	<button type="submit" class="btn btn-primary col-md-2 col-xs-2" id="input_file_btn">
-		<span class="glyphicon glyphicon-check"></span>
-	</button>
+	<div class="panel panel-default col-md-offset-1 col-md-10">
+		<div class="panel-heading">File upload</div>
+		<div class="panel-body">
+			<input type="file" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="col-md-10 col-xs-10" id="input_file_fld" />
+			<button type="submit" class="btn btn-primary col-md-2 col-xs-2" id="input_file_btn">
+				<span class="glyphicon glyphicon-check"></span>
+			</button>
+			<em>** Upload Excel file containing the training set</em><br />
+		</div>
+	</div>
 </div>
 <br />
 <div id="parametersPanel">

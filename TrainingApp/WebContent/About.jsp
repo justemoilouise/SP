@@ -1,5 +1,5 @@
 <br />
-<div class="col-md-offset-1 col-md-10 panel-body">
+<div class="col-md-offset-1 col-md-10 panel" style="background-color:rgba(200,200,220,0.8);">
 	<br /> &emsp;&emsp; Classifying radiolarians is tedious. Requiring a high level of expertise, vast number of 
 	references and such eyes for details. Up until now, researchers still go through a lot of work in naming and 
 	studying these species. 
@@ -11,11 +11,11 @@
 	<br /><br /><br /><br />
 </div>
 <div class="col-md-offset-1 col-md-10">
-	<div class="panel panel-primary">
+	<div class="panel panel-primary" id="howItWorks">
 		<div class="panel-heading">
 			<h3><strong><font color="white"> HOW IT WORKS: </font></strong></h3>
 		</div>
-		<div class="panel-body">
+		<div class="panel-body" style="background-color:rgba(200,200,220,0.8);">
 			<p>Training a classifier can be done in only 3 simple steps:</p>
 			<ol>
 				<li><h4>Upload training set</h4></li>
@@ -56,11 +56,11 @@
 			<br />
 		</div>
 	</div>
-	<div class="panel panel-primary">
+	<div class="panel panel-primary" id="results">
 		<div class="panel-heading">
 			<h3><strong><font color="white"> WHAT ARE THE RESULTS: </font></strong></h3>
 		</div>
-		<div class="panel-body">
+		<div class="panel-body" style="background-color:rgba(200,200,220,0.8);">
 			<p>The following are the result of the training:</p>
 			<ol>
 				<li>Scaling factors - minimum and maximum values used to normalize each feature</li>
@@ -72,7 +72,7 @@
 	</div>
 </div>
 <br /><br /><br /><br />
-<div class="panel panel-default col-md-offset-1 col-md-10">
+<div class="panel panel-default col-md-offset-1 col-md-10" style="background-color:rgba(200,200,220,0.8);">
 	<br /> &emsp;&emsp;For comments and suggestions, please email: &emsp;<b>louiseann.apostol@gmail.com</b>
 	<br />
 	<br />
