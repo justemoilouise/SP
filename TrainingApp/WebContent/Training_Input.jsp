@@ -1,9 +1,9 @@
-<% if(session.getAttribute("admin") == null) { %>
-   <script type="text/javascript">
+<script type="text/javascript">
+	if(!isLoggedIn) {
    		$("#loginModal").modal("toggle");
-   </script>
-<% } %>
-
+   	}
+</script>
+  
 <%@ page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory" %>
 <%@ page import="com.google.appengine.api.blobstore.BlobstoreService" %>
 <%! BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService(); %>

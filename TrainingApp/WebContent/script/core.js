@@ -1,3 +1,4 @@
+var isLoggedIn = false;
 var model = {};
 var modelList = {};
 var alertType = "info";

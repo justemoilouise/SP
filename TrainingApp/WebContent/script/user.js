@@ -15,6 +15,7 @@ $(function() {
 			method: "POST",
 			success: function(response) {
 				if(response.indexOf("true") >= 0) {
+					isLoggedIn = true;
 					alertType = "success";
 					callback("Log in successful.");
 					$("#loginModal").modal("toggle");
@@ -35,6 +36,7 @@ $(function() {
 		$.ajax({
 			url: 'trainingapp/user/logout',
 			success: function() {
+				isLoggedIn = false;
 				alertType = "success";
 				callback("You have successfully logged out of the system.");
 				toggleLogout();
