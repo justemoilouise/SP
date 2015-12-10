@@ -28,6 +28,7 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
@@ -128,7 +129,7 @@ public class FileOutput extends Thread {
 	public static boolean saveToFile(ClassifierModel model, Input input, int index, String fileName) {
 		fileName = fileName.endsWith(".pdf") ? fileName : fileName.concat(".pdf");
 		Image img = getImage(input);
-		Document document=new Document(PageSize.LETTER, 50, 50, 50, 50);
+		Document document=new Document(PageSize.LETTER, 20, 20, 50, 50);
 		try {
 			PdfWriter.getInstance(document, new FileOutputStream(fileName));
 			document.open();
@@ -239,15 +240,11 @@ public class FileOutput extends Thread {
 			pca.setSpacingAfter(20);
 			pca.setSpacingBefore(10);
 			pca.setKeepTogether(true);
-			pca.addCell("Prin. Comp.");
-			for(int i=0; i<pc[0].length; i++) {
-				pca.addCell("");
-			}
 			
 			for(int i=0; i<pc.length; i++) {
 				pca.addCell(Integer.toString(i + 1));
 				for(int j=0; j<pc[0].length; j++) {
-					pca.addCell(Double.toString(pc[i][j]));
+					pca.addCell(new Phrase(String.format("%.2f", pc[i][j]), FontFactory.getFont(FontFactory.HELVETICA, 8)));
 				}
 			}
 			document.add(pcaP);
