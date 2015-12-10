@@ -8,11 +8,16 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -42,7 +47,6 @@ public class MainWindow extends JFrame {
 		pl = new LogPanel();
 		
 		initLookAndFeel();
-		Rectangle bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 		
 		dp.setBackground(Color.GRAY);
 		Container c = getContentPane();
@@ -54,7 +58,7 @@ public class MainWindow extends JFrame {
 		addWindowListener(lw);
 
 		ImageIcon img = new ImageIcon("img/logo.png");
-		
+		Rectangle bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 		setIconImage(img.getImage());
 		setSize(bounds.width, bounds.height);
 		setJMenuBar(setMenubar());
@@ -62,6 +66,8 @@ public class MainWindow extends JFrame {
 		setBackground(Color.DARK_GRAY);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setLayout(new BorderLayout());
+		setContentPane(new ImagePanel());
 	}
 
 	private void initLookAndFeel() {
@@ -247,4 +253,22 @@ public class MainWindow extends JFrame {
 	public Component getDesktoPane() {
 		return dp;
 	}
+}
+
+@SuppressWarnings("serial")
+class ImagePanel extends JComponent {
+    private Image image;
+    public ImagePanel() {
+    	try {
+			this.image = ImageIO.read(this.getClass().getResource("/resources/img-bg.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, this);
+    }
 }
