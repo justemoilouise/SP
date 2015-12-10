@@ -12,6 +12,11 @@ var toggleProgress = function() {
 	$("#progressModal").modal("toggle");
 }
 
+var toggleLogout = function() {
+	$("#nav_logout").toggle();
+}
+
 $(function() {
+	toggleLogout();
 	$("#content_holder").load("Home.jsp");
 })

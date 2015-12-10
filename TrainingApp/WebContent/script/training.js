@@ -159,6 +159,7 @@ $(function() {
 			data: JSON.stringify(model),
 			async: false,
 			success : function(response) {
+				model.version = response;
 				alertType = "success";
 				fxnCallback("Classifier model file saved successfully.");
 			},
@@ -170,6 +171,7 @@ $(function() {
 				$("#train_save_btn").button('reset');
 				$('html, body').animate({scrollTop: 0}, 'fast');
 				toggleProgress();
+				window.location.href = "https://storage.googleapis.com/radiss-training.appspot.com/classifier-model-" + model.version + ".0.dat";
 			}
 		});
 	});

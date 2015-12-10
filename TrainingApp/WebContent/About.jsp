@@ -4,7 +4,7 @@
 	references and such eyes for details. Up until now, researchers still go through a lot of work in naming and 
 	studying these species. 
 	<br />
-	<br /> &emsp;&emsp; RadiSS is a decision support system designed to help researchers in classifying Radiolarian 
+	<br /> &emsp;&emsp; RaDSS is a decision support system designed to help researchers in classifying Radiolarian 
 	species given an image. It aims to minimize the effort in coming up with the possible name of the target species. 
 	As a consequence, further studies on the structure and way of living of these species can be given more attention. 
 	Even the dating process of the sediment on which the species was found could be done easily.

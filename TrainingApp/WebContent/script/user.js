@@ -1,6 +1,3 @@
-var alertType = "info";
-var alertMessage = "YAY!";
-
 $(function() {
 	var callback = function(message) {
 		alertMessage = message;
@@ -20,8 +17,8 @@ $(function() {
 				if(response.indexOf("true") >= 0) {
 					alertType = "success";
 					callback("Log in successful.");
-					window.location = "/";
-					
+					$("#loginModal").modal("toggle");
+					toggleLogout();
 				} else {
 					alertType = "warning";
 					callback("Invalid username and/or password.");
@@ -40,6 +37,7 @@ $(function() {
 			success: function() {
 				alertType = "success";
 				callback("You have successfully logged out of the system.");
+				toggleLogout();
 				window.location = "/";
 			},
 			error: function() {

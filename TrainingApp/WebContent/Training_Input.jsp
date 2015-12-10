@@ -1,7 +1,6 @@
 <% if(session.getAttribute("admin") == null) { %>
    <script type="text/javascript">
-   		//window.location.href = "http://localhost:8888/LogIn.jsp";
-   		window.location.href = "http://radiss-training.appspot.com/LogIn.jsp";
+   		$("#loginModal").modal("toggle");
    </script>
 <% } %>
 
@@ -39,8 +38,6 @@ $(function() {
 			dataType: "json",
 			async: false,
 			success: function(response) {
-				alertType = "success";
-				fxnCallback("File uploaded successfully.");
 				$("#parametersPanel").show();
 			},
 			error: function() {

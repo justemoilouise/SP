@@ -86,9 +86,8 @@ public class TrainingAppServlet extends HttpServlet {
 			String requestBody = ServletHelper.GetRequestBody(req.getReader());
 			ClassifierModel model = ServletHelper.ConvertToObject(requestBody, ClassifierModel.class);
 			model = processor.buildClassifierModel(model);
-			BlobKey key = writeFileToBlob(model);
-//			saveModelToGCS(key);
-			response = key;
+			writeFileToBlob(model);
+			response = model.getVersion();
 		} else if(method.equalsIgnoreCase("download")) {
 			String modelKey = req.getParameter("modelKey");
 			BlobKey modelBlobKey = new BlobKey(modelKey);			
@@ -102,8 +101,7 @@ public class TrainingAppServlet extends HttpServlet {
 		resp.getWriter().println(ServletHelper.ConvertToJson(response));
 	}
 
-	private BlobKey writeFileToBlob(ClassifierModel model) {
-		BlobKey key = new BlobKey("");
+	private void writeFileToBlob(ClassifierModel model) {
 		try {
 			String fileName = "classifier-model-" + model.getVersion() + ".dat";
 			GcsFilename gcsFilename = new GcsFilename(gcsBucket, fileName);
@@ -112,11 +110,7 @@ public class TrainingAppServlet extends HttpServlet {
 			oStream.writeObject(model);
 			oStream.flush();
 			outputChannel.close();
-			key = blobstoreService.createGsBlobKey("/gs/" + gcsBucket + "/" + fileName);
-//			String blobKey = extractBlobKey(key.getKeyString());
-//			key = new BlobKey(blobKey);
 		} catch(Exception ex) {}
-		return key;
 	}
 
 	private byte[] readFromBlob(BlobKey key) {

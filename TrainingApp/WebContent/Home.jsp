@@ -1,6 +1,6 @@
 <main class="main" style="background-image:url('img/radiolaria_dark_by_fullerenedream.jpg');  color: #fff" id="content" role="main">
 	<div class="container" style="padding-right: 15px; padding-left: 15px; padding-top: 180px; margin-right: auto; margin-left: auto; padding-bottom: 180px;">
-		<h1 style="font-size: 80px; color: white;"> RadiSS</h1>
+		<h1 style="font-size: 80px; color: white;"> RaDSS</h1>
 		<p style="font-size: 30px"> A tool for classifying Radiolarian species.</p>
 	</div>
 </main>
