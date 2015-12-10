@@ -132,7 +132,7 @@ public class FileOutput extends Thread {
 			PdfWriter.getInstance(document, new FileOutputStream(fileName));
 			document.open();
 
-			Paragraph title = new Paragraph("RadiSS", FontFactory.getFont(FontFactory.HELVETICA, 35, Font.BOLD));
+			Paragraph title = new Paragraph("RaDSS", FontFactory.getFont(FontFactory.HELVETICA, 35, Font.BOLD));
 			title.setAlignment(Element.ALIGN_CENTER);
 			title.setSpacingAfter(15);
 			document.add(title);
@@ -234,19 +234,19 @@ public class FileOutput extends Thread {
 			Paragraph pcaP = new Paragraph("Principal components");
 			pcaP.setSpacingAfter(10);
 			double[][] pc = model.getPreprocessModel().getPrincipalComponents();
-			PdfPTable pca = new PdfPTable(model.getPreprocessModel().getPC() + 1);
+			PdfPTable pca = new PdfPTable(pc[0].length + 1);
 			pca.setSpacingAfter(20);
 			pca.setSpacingBefore(10);
 			pca.setKeepTogether(true);
-			pca.addCell("");
-			for(int i=0; i<model.getPreprocessModel().getPC(); i++) {
-				pca.addCell("Prin. Comp.");
+			pca.addCell("Prin. Comp.");
+			for(int i=0; i<pc[0].length; i++) {
+				pca.addCell("");
 			}
 			
-			for(int i=0; i<pc[0].length; i++) {
+			for(int i=0; i<pc.length; i++) {
 				pca.addCell(Integer.toString(i + 1));
-				for(int j=0; j<pc.length; j++) {
-					pca.addCell(Double.toString(pc[j][i]));
+				for(int j=0; j<pc[0].length; j++) {
+					pca.addCell(Double.toString(pc[i][j]));
 				}
 			}
 			document.add(pcaP);
