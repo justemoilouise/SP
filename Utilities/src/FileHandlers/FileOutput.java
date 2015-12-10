@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import CoreHandler.Prompt;
@@ -16,6 +17,7 @@ import Data.PreprocessModel;
 import Data.SVMModel;
 import Data.SVMResult;
 import Data.Species;
+import Helpers.SVMResultComparator;
 import ImageHandlers.ProcessImage;
 
 import com.itextpdf.text.BaseColor;
@@ -189,10 +191,10 @@ public class FileOutput extends Thread {
 			t2.addCell("Probabilty");
 
 			ArrayList<SVMResult> svmResult = input.getSvmResult();
+			Collections.sort(svmResult, new SVMResultComparator());
 			Iterator<SVMResult> iter = svmResult.iterator();
 			while(iter.hasNext()) {
 				SVMResult result = iter.next();
-				
 				t2.addCell(result.getName());
 				t2.addCell(Double.toString(result.getProbability()));
 			}
