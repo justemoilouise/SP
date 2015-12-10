@@ -1,5 +1,5 @@
 <br />
-RadiSS is a tool that can be used to classify Radiolarian species. It has three major processes - image feature extraction, preprocessing and classification.
+RaDSS is a tool that can be used to classify Radiolarian species. It has three major processes - image feature extraction, preprocessing and classification.
 <ol>
 	<li>Image feature extraction</li>
 	<li>Preprocessing</li>

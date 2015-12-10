@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
@@ -26,6 +27,7 @@ import javax.swing.table.TableModel;
 import Data.ClassifierModel;
 import Data.Input;
 import Data.SVMResult;
+import Helpers.SVMResultComparator;
 import ImageHandlers.ProcessImage;
 import core.Client;
 
@@ -128,12 +130,12 @@ public class OutputPanel extends JInternalFrame {
 		JPanel preditionPanel = new JPanel();
 		preditionPanel.setLayout(new BoxLayout(preditionPanel, BoxLayout.Y_AXIS));
 		String prediction = input.getSpecies().getName();
-		label = new JLabel("PREDICTED CLASS: " + prediction);
+		label = new JLabel("PREDICTED SPECIES: " + prediction);
 		label.setAlignmentX(Component.LEFT_ALIGNMENT);
 		preditionPanel.add(label);
 		
 		if(prediction.equalsIgnoreCase("UNKNOWN")) {
-			label = new JLabel("Species doesn't fall in any known class.");
+			label = new JLabel("Input doesn't fall in any known species.");
 		} else {
 			label = new JLabel("There's a " + getProbability() + "% that it is the unknown's class.");
 		}
@@ -172,7 +174,7 @@ public class OutputPanel extends JInternalFrame {
 
 	private JScrollPane getSVMResult() {
 		ArrayList<SVMResult> result = input.getSvmResult();
-		
+		Collections.sort(result, new SVMResultComparator());
 		String[] headers = {"Class Name", "Probability"};
 		String[][] tableData = new String[result.size()][2];
 		

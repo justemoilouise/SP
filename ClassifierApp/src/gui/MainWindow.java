@@ -58,7 +58,7 @@ public class MainWindow extends JFrame {
 		setIconImage(img.getImage());
 		setSize(bounds.width, bounds.height);
 		setJMenuBar(setMenubar());
-		setTitle("RadiSS");
+		setTitle("RaDSS");
 		setBackground(Color.DARK_GRAY);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
