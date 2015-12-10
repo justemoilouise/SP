@@ -125,12 +125,11 @@ public class FileOutput extends Thread {
 		return false;
 	}
 	
-	public static boolean saveToFile(ClassifierModel model, Input input, int index) {
+	public static boolean saveToFile(ClassifierModel model, Input input, int index, String fileName) {
+		fileName = fileName.endsWith(".pdf") ? fileName : fileName.concat(".pdf");
 		Image img = getImage(input);
-
 		Document document=new Document(PageSize.LETTER, 50, 50, 50, 50);
 		try {
-			String fileName = "output (" + index + ").pdf";
 			PdfWriter.getInstance(document, new FileOutputStream(fileName));
 			document.open();
 
