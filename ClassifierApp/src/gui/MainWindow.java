@@ -66,8 +66,7 @@ public class MainWindow extends JFrame {
 		setBackground(Color.DARK_GRAY);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setLayout(new BorderLayout());
-		setContentPane(new ImagePanel());
+//		setContentPane(new ImagePanel());
 	}
 
 	private void initLookAndFeel() {

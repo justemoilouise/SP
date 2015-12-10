@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import CoreHandler.Prompt;
@@ -96,10 +97,16 @@ public class Listener_Mouse implements ActionListener {
 			}
 		}
 		else if(command.startsWith("download")) {
-			int marker = command.indexOf("_") + 1;
-			int index = Integer.parseInt(command.substring(marker, command.length()));
+			JFileChooser fc = new JFileChooser();
+			int dload = fc.showSaveDialog(null);
+			
+			if(dload == JFileChooser.APPROVE_OPTION) {
+				String filename = fc.getSelectedFile().getAbsolutePath();
+				int marker = command.indexOf("_") + 1;
+				int index = Integer.parseInt(command.substring(marker, command.length()));
 
-			Client.download(index);
+				Client.download(index, filename);
+			}
 		}
 		else if(command.equals("view_tutorial")) {
 			TutorialWindow tw = new TutorialWindow();

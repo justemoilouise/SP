@@ -242,13 +242,13 @@ public class Client {
 		pm.addToDesktopPane(output);
 	}
 	
-	public static void download(int index) {
+	public static void download(int index, String filename) {
 //		progress = new ProgressInfo();
 //		progress.setVisible(true);
 //		pm.addToDesktopPane(progress);
 		pm.appendToConsole("Downloading output...");
 
-		boolean dloadSuccess = FileOutput.saveToFile(model, inputs.get(index-1), index);
+		boolean dloadSuccess = FileOutput.saveToFile(model, inputs.get(index-1), index, filename);
 		
 		if(dloadSuccess)
 			Prompt.PromptSuccess("SUCCESS_DLOAD");
