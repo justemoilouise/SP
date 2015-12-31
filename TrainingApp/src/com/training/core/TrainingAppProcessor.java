@@ -14,7 +14,7 @@ public class TrainingAppProcessor {
 	private double version;
 
 	public TrainingAppProcessor() {
-		this.version = 1;
+		this.version = 3;
 	}
 	
 	public ArrayList<ClassifierModel> getModelList() {

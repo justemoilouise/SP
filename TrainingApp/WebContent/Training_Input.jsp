@@ -82,7 +82,7 @@ $(function() {
 				<tr>
 					<th>No. of principal components</th>
 					<td><input type="text" id="train_preprocess_pca" /></td>
-					<td><em>(suggested: 4 for basic texture features, 7 for Haralick)</em></td>
+					<td><em>(suggested: 4 for basic texture features, 8 for Haralick)</em></td>
 				</tr>
 			</table>
 		</div>
@@ -110,32 +110,32 @@ $(function() {
 				<tr>
 					<td>Cost</td>
 					<td><input type="text" id="svm_cost" /></td>
-					<td><em>(suggested: 60 for basic texture features, 251 for Haralick)</em></td>
+					<td><em>(suggested: 164 for basic texture features, 374 for Haralick)</em></td>
 				</tr>
 				<tr>
 					<td>Gamma</td>
 					<td><input type="text" id="svm_gamma" /></td>
-					<td><em>(suggested: 0.42 for basic texture features, 0.08 for Haralick)</em></td>
+					<td><em>(suggested: 0.68 for basic texture features, 0.52 for Haralick)</em></td>
 				</tr>
 				<tr>
 					<td>Epsilon</td>
 					<td><input type="text" id="svm_eps" /></td>
-					<td><em>(suggested: 0.59 for basic texture features, 0.53 for Haralick)</em></td>
+					<td><em>(suggested: 0.60 for basic texture features, 0.29 for Haralick)</em></td>
 				</tr>
 				<tr>
 					<td>Degree</td>
 					<td><input type="text" id="svm_degree" /></td>
-					<td><em>(suggested: -2 for basic texture features, 2 for Haralick)</em></td>
+					<td><em>(suggested: 195 for basic texture features, 677 for Haralick)</em></td>
 				</tr>
 				<tr>
 					<td>Nu</td>
 					<td><input type="text" id="svm_nu" /></td>
-					<td><em>(suggested: 0.99 for basic texture features, 0.70 for Haralick)</em></td>
+					<td><em>(suggested: 0.63 for basic texture features, 0.78 for Haralick)</em></td>
 				</tr>
 				<tr>
 					<td>Coefficient</td>
 					<td><input type="text" id="svm_coef" /></td>
-					<td><em>(suggested: 0.14 for basic texture features, 0.69 for Haralick)</em></td>
+					<td><em>(suggested: 0.88 for basic texture features, 0.28 for Haralick)</em></td>
 				</tr>
 			</table>
 		</div>
