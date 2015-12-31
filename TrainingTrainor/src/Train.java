@@ -1,9 +1,14 @@
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -11,6 +16,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import data.ClassifierModel;
 import data.Species;
 import data.Parameters;
 
@@ -22,6 +28,7 @@ public class Train {
 	private Preprocess preprocess;
 	private SVM svm;
 	private String[] keys;
+	private double prevAccuracy = 0;
 
 	public Train() {
 		init();
@@ -38,6 +45,12 @@ public class Train {
 				
 //				ArrayList<Species> test = readSpecies("testingSet/" + testingFile[j]);
 //				double accuracy = testModel(test);
+				
+				if(accuracy > prevAccuracy) {
+					prevAccuracy = accuracy;
+					ClassifierModel model = buildClassifierModel(j+1, j==0);
+					saveToDATFile(model);
+				}
 				saveToFile(j, p, accuracy);
 			}
 		}
@@ -143,5 +156,37 @@ public class Train {
 		species.setFeatureValues(values);
 
 		return species;
+	}
+	
+	private ClassifierModel buildClassifierModel(int version, boolean isIJUsed) {
+		ClassifierModel model = new ClassifierModel();
+		model.setCreatedDate(new Date());
+		model.setIJUsed(isIJUsed);
+		model.setVersion(version);
+		model.setPreprocessModel(preprocess.getModel());
+		model.setSvmmodel(svm.getModel());
+		return model;
+	}
+	
+	private File saveToDATFile(ClassifierModel model) {
+		
+		try {
+			File f = new File("classifier-model-" + model.getVersion() + ".dat");
+			FileOutputStream fileStream = new FileOutputStream(f);
+			ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
+			objectStream.writeObject(model);
+			objectStream.flush();
+			objectStream.close();
+			
+			return f;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }

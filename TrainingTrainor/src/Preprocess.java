@@ -2,15 +2,28 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import data.PreprocessModel;
 import data.Species;
 import Jama.Matrix;
 import Jama.SingularValueDecomposition;
 
 public class Preprocess {
+	private PreprocessModel model;
 	private double[] min, max, mean;
 	private double[][] principalComponents;
 	
-	public Preprocess() {}
+	public Preprocess() {
+		this.model = new PreprocessModel();
+	}
+	
+	public PreprocessModel getModel() {
+		model.setMin(min);
+		model.setMax(max);
+		model.setMean(mean);
+		model.setPrincipalComponents(principalComponents);
+		
+		return model;
+	}
 	
 	public double[] scale(double[] features) {		
 		double[] scaled = new double[features.length];
@@ -31,6 +44,8 @@ public class Preprocess {
 	
 	public ArrayList<Species> reduceFeatures(ArrayList<Species> dataset, int PC) {
 		// TODO Auto-generated method stub
+		model.setPC(PC);
+		
 		double[][] featureSet = extractFeatures(dataset);
 		featureSet = MathFunctions.Transpose(featureSet);
 		

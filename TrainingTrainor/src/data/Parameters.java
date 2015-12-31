@@ -23,11 +23,11 @@ public class Parameters {
 		
 		this.PCA = r.nextInt(9) + 1;
 		this.svmParameter.setCost(r.nextInt(999) + 1);
-		this.svmParameter.setGamma(r.nextDouble());
-		this.svmParameter.setEpsilon(r.nextDouble());
-		this.svmParameter.setDegree(r.nextInt());
-		this.svmParameter.setNu(r.nextDouble());
-		this.svmParameter.setCoefficient(r.nextDouble());
+		this.svmParameter.setGamma(r.nextDouble() % 1000);
+		this.svmParameter.setEpsilon(r.nextDouble() % 1000);
+		this.svmParameter.setDegree(r.nextInt(999) + 1);
+		this.svmParameter.setNu(r.nextDouble() % 1000);
+		this.svmParameter.setCoefficient(r.nextDouble() % 1000);
 	}
 	
 	public String convertToString() {
