@@ -6,10 +6,10 @@ import libsvm.svm_model;
 import libsvm.svm_node;
 import libsvm.svm_parameter;
 import libsvm.svm_problem;
-import data.SVMModel;
-import data.SVMParameter;
-import data.SVMResult;
-import data.Species;
+import Data.SVMModel;
+import Data.SVMParameter;
+import Data.SVMResult;
+import Data.Species;
 
 public class SVM {
 	private SVMModel svmModel;
@@ -22,9 +22,6 @@ public class SVM {
 	}
 	
 	public SVMModel getModel() {
-		svmModel.setClasses(classes);
-		svmModel.setModel(model);
-		svmModel.setAccuracy(accuracy);
 		return svmModel;
 	}
 	
@@ -41,12 +38,16 @@ public class SVM {
 	public double buildModel(ArrayList<Species> dataset, SVMParameter svmParameter) {
 		// TODO Auto-generated method stub
 		this.classes = new ArrayList<String>();
+		svmModel.setClasses(classes);
 		
 		svm_parameter params = BuildSVMParameters(svmParameter);
 		svm_problem prob = BuildSVMProblem(dataset);
 		
-		model = svm.svm_train(prob, params);		
+		model = svm.svm_train(prob, params);
+		svmModel.setModel(model);
 		accuracy = crossValidate(params, prob);
+		svmModel.setAccuracy(accuracy);
+		
 		return accuracy;
 	}
 

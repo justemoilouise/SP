@@ -1,6 +1,7 @@
 package data;
 
 import java.util.Random;
+import Data.SVMParameter;
 
 public class Parameters {
 	private int PCA;

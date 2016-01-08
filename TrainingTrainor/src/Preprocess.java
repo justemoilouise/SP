@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import data.PreprocessModel;
-import data.Species;
+import Data.PreprocessModel;
+import Data.Species;
 import Jama.Matrix;
 import Jama.SingularValueDecomposition;
 
@@ -16,12 +16,7 @@ public class Preprocess {
 		this.model = new PreprocessModel();
 	}
 	
-	public PreprocessModel getModel() {
-		model.setMin(min);
-		model.setMax(max);
-		model.setMean(mean);
-		model.setPrincipalComponents(principalComponents);
-		
+	public PreprocessModel getModel() {		
 		return model;
 	}
 	
@@ -53,6 +48,8 @@ public class Preprocess {
 		double[][] u = getSVD_U(featureSet);
 		double[][] pc = MathFunctions.GetMatrixColumns(u, 0, PC);
 		principalComponents = MathFunctions.Transpose(pc);
+		model.setPrincipalComponents(principalComponents);
+		
 		featureSet = MathFunctions.MatrixMultiplication(principalComponents, phi);
 		featureSet = MathFunctions.Transpose(featureSet);
 		return updateDataset(dataset, featureSet);
@@ -65,7 +62,10 @@ public class Preprocess {
 		
 		//scaling proper
 		min = MathFunctions.GetMinimum(featureSet);
+		model.setMin(min);
+		
 		max = MathFunctions.GetMaximum(featureSet);
+		model.setMax(max);
 		
 		for(int i=0; i<featureSet.length; i++) {			
 			for(int j=0; j<dataset.size(); j++) {
@@ -93,7 +93,7 @@ public class Preprocess {
 	
 	private double[][] calculatePhi(double[][] data) {
 		mean = MathFunctions.GetMatrixMean(data);
-		
+		model.setMean(mean);
 		return MathFunctions.MatrixSubtraction(data, mean);
 	}
 	

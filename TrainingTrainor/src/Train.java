@@ -16,8 +16,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import data.ClassifierModel;
-import data.Species;
+import Data.ClassifierModel;
+import Data.Species;
 import data.Parameters;
 
 public class Train {
