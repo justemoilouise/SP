@@ -171,7 +171,7 @@ $(function() {
 				$("#train_save_btn").button('reset');
 				$('html, body').animate({scrollTop: 0}, 'fast');
 				toggleProgress();
-				window.location.href = "https://storage.googleapis.com/radiss-training.appspot.com/classifier-model-" + model.version + ".0.dat";
+				window.location.href = "https://storage.googleapis.com/radiss-classifier-models/classifier-model-" + model.version + ".0.dat";
 			}
 		});
 	});

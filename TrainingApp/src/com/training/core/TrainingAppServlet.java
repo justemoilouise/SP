@@ -42,7 +42,8 @@ public class TrainingAppServlet extends HttpServlet {
 	private BlobstoreService blobstoreService;
 	private GcsService gcsService;
 	private HttpSession session;
-	final String gcsBucket = "radiss-training.appspot.com";
+//	final String gcsBucket = "radiss-training.appspot.com";
+	final String gcsBucket = "radiss-classifier-models";
 	final String modelKeysFilename = "model-keys.dat";
 
 	public TrainingAppServlet() {
