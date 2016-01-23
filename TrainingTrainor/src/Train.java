@@ -165,6 +165,7 @@ public class Train {
 		model.setVersion(version);
 		model.setPreprocessModel(preprocess.getModel());
 		model.setSvmmodel(svm.getModel());
+		model.setNotes("");
 		return model;
 	}
 	
