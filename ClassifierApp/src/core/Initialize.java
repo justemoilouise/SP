@@ -87,7 +87,7 @@ public class Initialize implements Runnable {
 		filename = props.getProperty("model.svm.ij");
 		SVMModel sModel = FileInput.readSVMModelFromDATFile(filename);
 		models.put("svm_model_IJ", sModel);
-		filename = props.getProperty("model.svm.ij");
+		filename = props.getProperty("model.svm.jf");
 		sModel = FileInput.readSVMModelFromDATFile(filename);
 		models.put("svm_model_JF", sModel);
 
