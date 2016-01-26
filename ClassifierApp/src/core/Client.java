@@ -28,7 +28,7 @@ public class Client {
 	private static StartScreen screen;
 	private static MainWindow pm;
 	private static ProgressInfo progress;
-	
+
 	private static Preprocess preprocess;
 	private static SVM svm;
 	private static ClassifierModel model;
@@ -147,9 +147,6 @@ public class Client {
 		double[] features = getFeatures(isIJ);
 
 		if(features != null) {
-//			progress = new ProgressInfo();
-//			progress.setVisible(true);
-//			pm.addToDesktopPane(progress);
 			pm.appendToConsole("Classifying input...");
 			
 			preprocess.setIJ(isIJ);
@@ -168,7 +165,6 @@ public class Client {
 			i.setSvmResult(results);
 			i.getSpecies().setName(svm.analyzeResults(results));
 			
-//			progress.closeProgressBar();
 			displayOutput();
 		}
 	}
@@ -243,9 +239,6 @@ public class Client {
 	}
 	
 	public static void download(int index, String filename) {
-//		progress = new ProgressInfo();
-//		progress.setVisible(true);
-//		pm.addToDesktopPane(progress);
 		pm.appendToConsole("Downloading output...");
 
 		boolean dloadSuccess = FileOutput.saveToFile(model, inputs.get(index-1), index, filename);

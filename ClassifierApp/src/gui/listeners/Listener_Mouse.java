@@ -55,7 +55,9 @@ public class Listener_Mouse implements ActionListener {
 			if(f != null) {
 				ArrayList<Input> input = FileInput.readInput(f);
 				
-				Client.setInputs(input);
+				//Client.setInputs(input);
+				Client.setImgPlus(null);
+				Client.addInput(input.get(0));
 				Client.displayInput();
 			}
 		}
