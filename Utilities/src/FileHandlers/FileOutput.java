@@ -148,9 +148,8 @@ public class FileOutput extends Thread {
 				document.add(p0);
 				document.add(ls);
 				img.setAlignment(Element.ALIGN_CENTER);
-				img.setSpacingAfter(20);
+				img.setSpacingAfter(70);
 				document.add(img);
-				document.newPage();
 			}
 
 			Species s = input.getSpecies();			
@@ -160,7 +159,7 @@ public class FileOutput extends Thread {
 			p1.setSpacingBefore(20);
 			p1.setSpacingAfter(10);
 			PdfPTable t1 = new PdfPTable(2);
-			t1.setSpacingAfter(20);
+			t1.setSpacingAfter(70);
 			t1.setSpacingBefore(10);
 			t1.setKeepTogether(true);
 			t1.addCell("Measurement");
@@ -177,14 +176,13 @@ public class FileOutput extends Thread {
 			document.add(p1);
 			document.add(ls);
 			document.add(t1);
-			document.newPage();
 			
 			//SVM
 			Paragraph p2 = new Paragraph("SVM Prediction");
 			p2.setSpacingBefore(20);
 			p2.setSpacingAfter(10);
 			PdfPTable t2 = new PdfPTable(2);
-			t2.setSpacingAfter(20);
+			t2.setSpacingAfter(70);
 			t2.setSpacingBefore(10);
 			t2.setKeepTogether(true);
 			t2.addCell("Species");
@@ -202,7 +200,6 @@ public class FileOutput extends Thread {
 			document.add(p2);
 			document.add(ls);
 			document.add(t2);
-			document.newPage();
 
 			// model details
 			Paragraph p3 = new Paragraph("Classifier model details");
@@ -215,13 +212,13 @@ public class FileOutput extends Thread {
 			Paragraph scaleP = new Paragraph("Scaling factors");
 			scaleP.setSpacingAfter(10);
 			PdfPTable scale = new PdfPTable(3);
-			scale.setSpacingAfter(20);
+			scale.setSpacingAfter(70);
 			scale.setSpacingBefore(10);
 			scale.setKeepTogether(true);
 			scale.addCell("Feature");
 			scale.addCell("Minimum value");
 			scale.addCell("Maximum value");
-			String[] features = model.getPreprocessModel().getFeatures();
+			String[] features = s.getFeatureLabels();
 			double[] min = model.getPreprocessModel().getMin();
 			double[] max = model.getPreprocessModel().getMax();
 			for(int i=0; i<features.length; i++) {
@@ -237,7 +234,7 @@ public class FileOutput extends Thread {
 			pcaP.setSpacingAfter(10);
 			double[][] pc = model.getPreprocessModel().getPrincipalComponents();
 			PdfPTable pca = new PdfPTable(pc[0].length + 1);
-			pca.setSpacingAfter(20);
+			pca.setSpacingAfter(70);
 			pca.setSpacingBefore(10);
 			pca.setKeepTogether(true);
 			
@@ -255,7 +252,7 @@ public class FileOutput extends Thread {
 			Paragraph svmP = new Paragraph("SVM");
 			svmP.setSpacingAfter(10);
 			PdfPTable svm = new PdfPTable(2);
-			svm.setSpacingAfter(20);
+			svm.setSpacingAfter(70);
 			svm.setSpacingBefore(10);
 			svm.setKeepTogether(true);
 			svm.addCell("Features used");
@@ -279,13 +276,11 @@ public class FileOutput extends Thread {
 		Image img = null;
 		
 		try {
-			int w = (int)PageSize.LETTER.getWidth();
-			int h = (int)PageSize.LETTER.getHeight();
-			
+			int newWidth = 245;
 			if(!input.getImageName().equals("/resources/img_noimg.png")) {
 				img = Image.getInstance(input.getImageName());
 				Dimension d = ProcessImage.getScaledDimension(new Dimension((int) img.getWidth(), (int) img.getHeight()),
-						new Dimension((int) (w*2)/3, (int) (h*2)/3));
+						new Dimension(newWidth, newWidth));
 				img.scaleAbsolute(d.width, d.height);
 			}
 		}
