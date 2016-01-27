@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import CoreHandler.Prompt;
 import Data.ClassifierModel;
 import Data.Input;
@@ -37,8 +42,73 @@ public class FileOutput extends Thread {
 
 	public FileOutput() {}
 	
-	public static File saveToDATFile(ClassifierModel model) {
-		
+	public static boolean saveToExcelFile(ArrayList<Species> trainingSet, String fileName) {
+		try {
+			FileOutputStream fileOut = new FileOutputStream(fileName);
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			XSSFSheet worksheet = workbook.createSheet("Training Set");
+			
+			int rowCount = -1;
+			//add headings
+			String[] labels = trainingSet.get(0).getFeatureLabels();
+			Row row = worksheet.createRow(rowCount++);			
+			for(int colCount = 0; colCount <= labels.length; colCount++) {
+				Cell cell = row.createCell(colCount);
+				if(colCount == 0)
+					cell.setCellValue("Species");
+				else {
+					cell.setCellValue(labels[colCount-1]);
+				}
+			}
+			rowCount++;
+			
+			// add data
+			Iterator<Species> iter = trainingSet.iterator();
+			while(iter.hasNext()) {
+				Species s = iter.next();
+				Row speciesRow = worksheet.createRow(rowCount);
+				for(int j = 0; j <= s.getFeatureValues().length; j++) {
+					Cell cell = speciesRow.createCell(j);
+					if(j == 0)
+						cell.setCellValue(s.getName());
+					else {
+						cell.setCellValue(s.getFeatureValues()[j-1]);
+					}
+				}
+				rowCount++;
+			}
+			workbook.write(fileOut);
+			fileOut.flush();
+			fileOut.close();
+			return true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public static boolean saveToDATFile(ClassifierModel model, String fileName) {
+		try {
+			fileName = fileName.endsWith(".dat") ? fileName : fileName.concat(".dat");
+			File f = new File(fileName);
+			FileOutputStream fileStream = new FileOutputStream(f);
+			ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
+			objectStream.writeObject(model);
+			objectStream.flush();
+			objectStream.close();
+			return true;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public static File saveToDATFile(ClassifierModel model) {		
 		try {
 			File f = new File("classifier-model-" + model.getVersion() + ".dat");
 			FileOutputStream fileStream = new FileOutputStream(f);
