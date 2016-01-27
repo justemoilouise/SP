@@ -8,7 +8,6 @@ import CoreHandler.Prompt;
 import Data.ClassifierModel;
 import Data.Species;
 import ExceptionHandlers.ExceptionHandler;
-import ExceptionHandlers.ThreadException;
 import FileHandlers.FileConfig;
 import FileHandlers.FileOutput;
 import gui.MainWindow;
@@ -17,7 +16,6 @@ import ij.ImagePlus;
 
 public class Client {
 	public static double modelVersion;
-	
 	private static StartScreen screen;
 	private static MainWindow pm;
 	private static Properties props;
@@ -31,7 +29,6 @@ public class Client {
 		trainingSet = new ArrayList<Species>();
 		pm = new MainWindow();	
 		Prompt.SetParentComponent(pm.getDesktoPane());
-		isIJ = Prompt.chooseFeatures(true);
 		modelVersion = Double.parseDouble(props.getProperty("model.version"));
 		init();
 	}
@@ -39,15 +36,16 @@ public class Client {
 	private void init() {		
 		screen = new StartScreen();
 		screen.setExecutable(true);
-		
-		Thread splashScreen = new Thread(screen, "SplashScreen");
-		Thread init = new Thread(new Initialize(screen), "Initialize");
-
-		splashScreen.setUncaughtExceptionHandler(new ThreadException());
-		splashScreen.start();
-
-		init.setUncaughtExceptionHandler(new ThreadException());
-		init.start();
+		screen.setMessage("Initializing...");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		screen.setExecutable(false);
+		isIJ = Prompt.chooseFeatures(true);
+		pm.setVisible(true);
 	}
 	
 	public static Properties getProperties() {
@@ -74,8 +72,6 @@ public class Client {
 		if(trainingSet.size() > 0) {
 				return true;
 		}
-		if(imgPlus != null)
-			return true;
 		return false;
 	}
 		
@@ -120,6 +116,15 @@ public class Client {
 	public static void exportTrainingSet(String filename) {
 		pm.appendToConsole("Exporting training set...");
 		boolean dloadSuccess = FileOutput.saveToExcelFile(trainingSet, filename);
+		if(dloadSuccess)
+			Prompt.PromptSuccess("SUCCESS_DLOAD");
+		else
+			Prompt.PromptSuccess("ERROR_DLOAD");
+	}
+	
+	public static void saveModel(String filename) {
+		pm.appendToConsole("Saving classifier model...");
+		boolean dloadSuccess = FileOutput.saveToDATFile(model, filename);
 		if(dloadSuccess)
 			Prompt.PromptSuccess("SUCCESS_DLOAD");
 		else

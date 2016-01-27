@@ -55,7 +55,9 @@ public class Listener_Mouse implements ActionListener {
 			Client.getFeatures();
 		}
 		else if(command.equals("build_model")) {
-			Client.onSubmit();
+			boolean isValid = Client.validateInput();
+			if(isValid) Client.onSubmit();
+			else Prompt.PromptError("ERROR_INPUT");
 		}
 		else if(command.equals("upload_model")) {
 			File f = FileInput.uploadModelFile();
@@ -70,31 +72,15 @@ public class Listener_Mouse implements ActionListener {
 			}
 		}
 		else if(command.equals("save_model")) {
-//			boolean isValid = Client.validateInput();
-//
-//			if(isValid) {
-//				boolean isIJ = Prompt.chooseFeatures(true);
-//				Client.getFeatures(isIJ);
-//			}
-//			else {
-//				Prompt.PromptError("ERROR_INPUT");
-//			}
+			JFileChooser fc = new JFileChooser();
+			int dload = fc.showSaveDialog(null);
+			
+			if(dload == JFileChooser.APPROVE_OPTION) {
+				String filename = fc.getSelectedFile().getAbsolutePath();
+				Client.saveModel(filename);
+			}
 		}
-//		else if(command.equals("stop")) {
-//			boolean isValid = Client.validateInput();
-//
-//			if(isValid) {
-//				int choice = Prompt.ConfirmExit("progress");
-//				
-//				if(choice == JOptionPane.YES_OPTION) {
-//					Client.stop();
-//				}
-//			}
-//			else {
-//				Prompt.PromptError("ERROR_INPUT");
-//			}
-//		}
-		else if(command.startsWith("download")) {
+		else if(command.startsWith("export")) {
 			JFileChooser fc = new JFileChooser();
 			int dload = fc.showSaveDialog(null);
 			
