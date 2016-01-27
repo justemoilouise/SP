@@ -1,6 +1,5 @@
 package core;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
@@ -12,29 +11,28 @@ import ExceptionHandlers.ExceptionHandler;
 import ExceptionHandlers.ThreadException;
 import FileHandlers.FileConfig;
 import FileHandlers.FileOutput;
-import ImageHandlers.ProcessImage;
 import gui.MainWindow;
 import gui.StartScreen;
 import ij.ImagePlus;
 
 public class Client {
+	public static double modelVersion;
+	
 	private static StartScreen screen;
 	private static MainWindow pm;
-	
 	private static Properties props;
 	private static ImagePlus imgPlus;
 	private static ArrayList<Species> trainingSet;
 	private static boolean isIJ;
-	private static int count;
 	private static ClassifierModel model;
 
 	public Client() {
 		props = FileConfig.readConfig();
 		trainingSet = new ArrayList<Species>();
-		count = 1;
 		pm = new MainWindow();	
 		Prompt.SetParentComponent(pm.getDesktoPane());
 		isIJ = Prompt.chooseFeatures(true);
+		modelVersion = Double.parseDouble(props.getProperty("model.version"));
 		init();
 	}
 
@@ -91,21 +89,16 @@ public class Client {
 		svm.buildModel(dataset, null);
 		
 		model = new ClassifierModel();
+		model.setVersion(modelVersion);
 		model.setCreatedDate(new Date());
 		model.setPreprocessModel(preprocess.getPreprocessModel());
 		model.setSvmmodel(svm.getSVMModel());
 	}
 
 	public static void getFeatures() {
-		try {
-			BufferedImage bi = ProcessImage.getROI(imgPlus);
-
-			String name = "tmp/"+count+".png";
-			ProcessImage.saveImage(bi, name);
-			
+		try {			
 			FeatureExtraction featureExtraction = new FeatureExtraction();
 			featureExtraction.getShapeDescriptors(imgPlus);
-			
 			if(isIJ) {
 				featureExtraction.getTextureDescriptors(imgPlus.getProcessor());
 			}
@@ -126,7 +119,6 @@ public class Client {
 	
 	public static void exportTrainingSet(String filename) {
 		pm.appendToConsole("Exporting training set...");
-
 		boolean dloadSuccess = FileOutput.saveToExcelFile(trainingSet, filename);
 		if(dloadSuccess)
 			Prompt.PromptSuccess("SUCCESS_DLOAD");

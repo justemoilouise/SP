@@ -8,16 +8,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.awt.Rectangle;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -66,7 +61,6 @@ public class MainWindow extends JFrame {
 		setBackground(Color.DARK_GRAY);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-//		setContentPane(new ImagePanel());
 	}
 
 	private void initLookAndFeel() {
@@ -146,17 +140,6 @@ public class MainWindow extends JFrame {
 		item.addActionListener(lm);
 		menu.add(item);
 		menu.addSeparator();
-		
-		item = new JMenuItem("Upload classifier model");
-		item.setActionCommand("upload_model");
-		item.addActionListener(lm);
-		menu.add(item);
-		
-		item = new JMenuItem("Adjust classification threshold");
-		item.setActionCommand("adjust_threshold");
-		item.addActionListener(lm);
-		menu.add(item);
-		menu.addSeparator();
 
 		item = new JMenuItem("Quit");
 		item.setActionCommand("quit");
@@ -198,18 +181,18 @@ public class MainWindow extends JFrame {
 		toolbar.addSeparator();
 
 		//execute operations
-		imgIcon = new ImageIcon(this.getClass().getResource("/resources/img-icon_run.png"));
-		submit = new JButton(imgIcon);
-		submit.setActionCommand("submit");
-		submit.addActionListener(lm);
-		submit.setToolTipText("Classify");
-		toolbar.add(submit);
 		imgIcon = new ImageIcon(this.getClass().getResource("/resources/img-icon_stop.png"));
 		stop = new JButton(imgIcon);
-		stop.setActionCommand("stop");
+		stop.setActionCommand("image_extractFeatures");
 		stop.addActionListener(lm);
-		stop.setToolTipText("Stop");
+		stop.setToolTipText("Extract image features");
 		toolbar.add(stop);
+		imgIcon = new ImageIcon(this.getClass().getResource("/resources/img-icon_run.png"));
+		submit = new JButton(imgIcon);
+		submit.setActionCommand("build_model");
+		submit.addActionListener(lm);
+		submit.setToolTipText("Build model");
+		toolbar.add(submit);
 		toolbar.addSeparator();
 
 		//ImageJ
@@ -252,22 +235,4 @@ public class MainWindow extends JFrame {
 	public Component getDesktoPane() {
 		return dp;
 	}
-}
-
-@SuppressWarnings("serial")
-class ImagePanel extends JComponent {
-    private Image image;
-    public ImagePanel() {
-    	try {
-			this.image = ImageIO.read(this.getClass().getResource("/resources/img-bg.jpg"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(image, 0, 0, this);
-    }
 }

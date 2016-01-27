@@ -54,7 +54,7 @@ public class Listener_Mouse implements ActionListener {
 		else if(command.equals("image_extractFeatures")) {
 			Client.getFeatures();
 		}
-		else if(command.equals("train_start")) {
+		else if(command.equals("build_model")) {
 			Client.onSubmit();
 		}
 		else if(command.equals("upload_model")) {
