@@ -100,7 +100,7 @@ public class Listener_Mouse implements ActionListener {
 			
 			if(dload == JFileChooser.APPROVE_OPTION) {
 				String filename = fc.getSelectedFile().getAbsolutePath();
-				Client.download(filename);
+				Client.exportTrainingSet(filename);
 			}
 		}
 		else if(command.equals("view_tutorial")) {

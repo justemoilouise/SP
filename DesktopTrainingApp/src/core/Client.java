@@ -2,12 +2,11 @@ package core;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Properties;
 
 import CoreHandler.Prompt;
 import Data.ClassifierModel;
-import Data.Input;
-import Data.SVMResult;
 import Data.Species;
 import ExceptionHandlers.ExceptionHandler;
 import ExceptionHandlers.ThreadException;
@@ -27,17 +26,12 @@ public class Client {
 	private static ArrayList<Species> trainingSet;
 	private static boolean isIJ;
 	private static int count;
-	
-	private static Preprocess preprocess;
-	private static SVM svm;
 	private static ClassifierModel model;
 
 	public Client() {
 		props = FileConfig.readConfig();
 		trainingSet = new ArrayList<Species>();
 		count = 1;
-		preprocess = new Preprocess();
-		svm = new SVM();
 		pm = new MainWindow();	
 		Prompt.SetParentComponent(pm.getDesktoPane());
 		isIJ = Prompt.chooseFeatures(true);
@@ -84,12 +78,22 @@ public class Client {
 		}
 		if(imgPlus != null)
 			return true;
-		
 		return false;
 	}
 		
+	@SuppressWarnings("unchecked")
 	public static void onSubmit() {
+		Preprocess preprocess = new Preprocess();
+		ArrayList<Species> dataset = preprocess.scale((ArrayList<Species>)trainingSet.clone());
+		dataset = preprocess.reduceFeatures(dataset);
 		
+		SVM svm = new SVM();
+		svm.buildModel(dataset, null);
+		
+		model = new ClassifierModel();
+		model.setCreatedDate(new Date());
+		model.setPreprocessModel(preprocess.getPreprocessModel());
+		model.setSvmmodel(svm.getSVMModel());
 	}
 
 	public static void getFeatures() {
@@ -120,11 +124,10 @@ public class Client {
 		}
 	}
 	
-	public static void download(String filename) {
-		pm.appendToConsole("Downloading output...");
+	public static void exportTrainingSet(String filename) {
+		pm.appendToConsole("Exporting training set...");
 
-		boolean dloadSuccess = true;//FileOutput.saveToDATFile(model);
-		
+		boolean dloadSuccess = FileOutput.saveToExcelFile(trainingSet, filename);
 		if(dloadSuccess)
 			Prompt.PromptSuccess("SUCCESS_DLOAD");
 		else
