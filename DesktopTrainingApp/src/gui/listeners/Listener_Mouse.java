@@ -55,6 +55,9 @@ public class Listener_Mouse implements ActionListener {
 			String name = Prompt.GetSpeciesName();
 			Client.getFeatures(name);
 		}
+		else if(command.equals("get_parameters")) {
+			Client.getParameters();
+		}
 		else if(command.equals("build_model")) {
 			boolean isValid = Client.validateInput();
 			if(isValid) Client.onSubmit();

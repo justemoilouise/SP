@@ -12,6 +12,7 @@ import FileHandlers.FileConfig;
 import FileHandlers.FileOutput;
 import gui.FeaturesPanel;
 import gui.MainWindow;
+import gui.ParametersPanel;
 import gui.StartScreen;
 import ij.ImagePlus;
 
@@ -20,6 +21,7 @@ public class Client {
 	private static StartScreen screen;
 	private static MainWindow pm;
 	private static FeaturesPanel fp;
+	private static ParametersPanel pp;
 	private static Properties props;
 	private static ImagePlus imgPlus;
 	private static ArrayList<Species> trainingSet;
@@ -81,11 +83,12 @@ public class Client {
 	@SuppressWarnings("unchecked")
 	public static void onSubmit() {
 		Preprocess preprocess = new Preprocess();
+		preprocess.setPC(pp.getPCA());
 		ArrayList<Species> dataset = preprocess.scale((ArrayList<Species>)trainingSet.clone());
 		dataset = preprocess.reduceFeatures(dataset);
 		
 		SVM svm = new SVM();
-		svm.buildModel(dataset, null);
+		svm.buildModel(dataset, pp.getSVMParams());
 		
 		model = new ClassifierModel();
 		model.setVersion(modelVersion);
@@ -119,6 +122,12 @@ public class Client {
 			Prompt.PromptError("ERROR_INPUT_FEATURES");
 			printStackTrace(e);
 		}
+	}
+	
+	public static void getParameters() {
+		pp = new ParametersPanel();
+		pp.setVisible(true);
+		pm.addToDesktopPane(pp);
 	}
 	
 	public static void exportTrainingSet(String filename) {

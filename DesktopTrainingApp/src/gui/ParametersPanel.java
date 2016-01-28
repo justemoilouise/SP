@@ -1,10 +1,9 @@
 package gui;
 
-import java.awt.FlowLayout;
-
 import gui.listeners.Listener_Mouse;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -26,23 +25,24 @@ public class ParametersPanel extends JInternalFrame {
 	public ParametersPanel() {
 		this.lm = new Listener_Mouse();
 		
-		add(parametersPanel());
+		JPanel content = new JPanel();
+		content.add(parametersPanel());
 		JButton btn = new JButton("OK");
 		btn.setActionCommand("build_model");
 		btn.addActionListener(lm);
-		add(btn);
-		
-		setLayout(new FlowLayout(FlowLayout.CENTER));
+		content.add(btn);
+		content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
+		add(content);
 		setTitle("Training parameters");;
 		setName("Parameters");
-		setBounds(10, 10, 250, 350);
+		setBounds(10, 10, 250, 400);
 		setClosable(true);
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private JPanel parametersPanel() {
 		JPanel panel = new JPanel();
-		panel.setSize(225, 300);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		Border titleBorder = BorderFactory.createTitledBorder("Preprocessing");
 		JPanel ppPanel = new JPanel();
@@ -52,6 +52,7 @@ public class ParametersPanel extends JInternalFrame {
 		
 		titleBorder = BorderFactory.createTitledBorder("SVM");
 		JPanel svmPanel = new JPanel();
+		svmPanel.setLayout(new BoxLayout(svmPanel, BoxLayout.Y_AXIS));
 		svmFields = new JComponent[ValueHelper.SVMParameters().length];
 		for(int i=0; i<ValueHelper.SVMParameters().length; i++) {
 			String param = ValueHelper.SVMParameters()[i];
@@ -63,12 +64,11 @@ public class ParametersPanel extends JInternalFrame {
 				svmFields[i] = new JComboBox(ValueHelper.SVMKernelFunctions());
 				break;
 			default:
-				svmFields[i] = new JTextField();
+				svmFields[i] = new JTextField(8);
 				break;
 			}
 			svmPanel.add(formGroup(param, svmFields[i]));
 		}
-		
 		svmPanel.setBorder(titleBorder);
 		panel.add(svmPanel);
 		

@@ -86,7 +86,7 @@ public class FeaturesPanel extends JInternalFrame {
 		panel.add(btn);
 		
 		btn = new JButton("Build classifier model");
-		btn.setActionCommand("build_model");
+		btn.setActionCommand("get_parameters");
 		btn.addActionListener(lm);
 		panel.add(btn);
 		
