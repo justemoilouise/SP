@@ -34,7 +34,7 @@ public class MainWindow extends JFrame {
 	private LogPanel pl;
 	private Listener_Mouse lm;
 	private JDesktopPane dp;
-	private JButton submit, stop;
+	private JButton submit;
 
 	public MainWindow() {		
 		lm = new Listener_Mouse();
@@ -181,17 +181,11 @@ public class MainWindow extends JFrame {
 		toolbar.addSeparator();
 
 		//execute operations
-		imgIcon = new ImageIcon(this.getClass().getResource("/resources/img-icon_stop.png"));
-		stop = new JButton(imgIcon);
-		stop.setActionCommand("image_extractFeatures");
-		stop.addActionListener(lm);
-		stop.setToolTipText("Extract image features");
-		toolbar.add(stop);
 		imgIcon = new ImageIcon(this.getClass().getResource("/resources/img-icon_run.png"));
 		submit = new JButton(imgIcon);
-		submit.setActionCommand("build_model");
+		submit.setActionCommand("image_extractFeatures");
 		submit.addActionListener(lm);
-		submit.setToolTipText("Build model");
+		submit.setToolTipText("Extract image features");
 		toolbar.add(submit);
 		toolbar.addSeparator();
 

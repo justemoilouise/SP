@@ -12,6 +12,7 @@ import FileHandlers.FileConfig;
 import FileHandlers.FileOutput;
 import gui.FeaturesPanel;
 import gui.MainWindow;
+import gui.OutputPanel;
 import gui.ParametersPanel;
 import gui.StartScreen;
 import ij.ImagePlus;
@@ -82,6 +83,8 @@ public class Client {
 		
 	@SuppressWarnings("unchecked")
 	public static void onSubmit() {
+		pp.setVisible(false);
+		
 		Preprocess preprocess = new Preprocess();
 		preprocess.setPC(pp.getPCA());
 		ArrayList<Species> dataset = preprocess.scale((ArrayList<Species>)trainingSet.clone());
@@ -95,6 +98,10 @@ public class Client {
 		model.setCreatedDate(new Date());
 		model.setPreprocessModel(preprocess.getPreprocessModel());
 		model.setSvmmodel(svm.getSVMModel());
+		
+		OutputPanel op = new OutputPanel(model);
+		op.setVisible(true);
+		pm.addToDesktopPane(op);
 	}
 
 	public static void getFeatures(String name) {

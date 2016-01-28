@@ -85,9 +85,6 @@ public class SVM implements ISVM {
 		prob.l = dataCount;
 		prob.x = new svm_node[dataCount][];
 
-		double classNameCtr = 0;
-		String className = "";
-
 		for(int i=0; i<dataCount; i++) {
 			Species s = dataset.get(i);
 			double[] features = s.getFeatureValues();
@@ -100,12 +97,11 @@ public class SVM implements ISVM {
 				prob.x[i][j] = node;
 			}
 
-			if(!className.equals(s.getName())) {
-				className = s.getName();
-				classes.add(className);
-				classNameCtr++;
+			if(classes.size() == 0 || !classes.contains(s.getName())) {
+				classes.add(s.getName());
 			}
-			prob.y[i] = classNameCtr;
+			
+			prob.y[i] = classes.indexOf(s.getName());
 		}
 		
 		return prob;
