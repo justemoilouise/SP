@@ -10,6 +10,7 @@ import Data.Species;
 import ExceptionHandlers.ExceptionHandler;
 import FileHandlers.FileConfig;
 import FileHandlers.FileOutput;
+import gui.FeaturesPanel;
 import gui.MainWindow;
 import gui.StartScreen;
 import ij.ImagePlus;
@@ -18,6 +19,7 @@ public class Client {
 	public static double modelVersion;
 	private static StartScreen screen;
 	private static MainWindow pm;
+	private static FeaturesPanel fp;
 	private static Properties props;
 	private static ImagePlus imgPlus;
 	private static ArrayList<Species> trainingSet;
@@ -27,7 +29,8 @@ public class Client {
 	public Client() {
 		props = FileConfig.readConfig();
 		trainingSet = new ArrayList<Species>();
-		pm = new MainWindow();	
+		pm = new MainWindow();
+		fp = new FeaturesPanel();
 		Prompt.SetParentComponent(pm.getDesktoPane());
 		modelVersion = Double.parseDouble(props.getProperty("model.version"));
 		init();
@@ -91,7 +94,7 @@ public class Client {
 		model.setSvmmodel(svm.getSVMModel());
 	}
 
-	public static void getFeatures() {
+	public static void getFeatures(String name) {
 		try {			
 			FeatureExtraction featureExtraction = new FeatureExtraction();
 			featureExtraction.getShapeDescriptors(imgPlus);
@@ -103,9 +106,14 @@ public class Client {
 			}
 			
 			Species s = new Species();
+			s.setName(name);
 			s.setFeatureLabels(featureExtraction.getFeatureLabels());
 			s.setFeatureValues(featureExtraction.getFeatureValues());
 			trainingSet.add(s);
+			fp.refresh();
+			fp.setVisible(true);
+			if(pm.getFromDesktopPane("Input") == null)
+				pm.addToDesktopPane(fp);
 		}
 		catch(Exception e) {
 			Prompt.PromptError("ERROR_INPUT_FEATURES");

@@ -52,7 +52,8 @@ public class Listener_Mouse implements ActionListener {
 			}
 		}
 		else if(command.equals("image_extractFeatures")) {
-			Client.getFeatures();
+			String name = Prompt.GetSpeciesName();
+			Client.getFeatures(name);
 		}
 		else if(command.equals("build_model")) {
 			boolean isValid = Client.validateInput();
