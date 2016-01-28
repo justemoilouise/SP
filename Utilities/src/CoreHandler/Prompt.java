@@ -30,4 +30,8 @@ public class Prompt {
 	public static int ConfirmExit(String mode) {
 		return dialog.confirmExit(mode);
 	}
+	
+	public static String GetSpeciesName() {
+		return dialog.getSpeciesName();
+	}
 }

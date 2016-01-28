@@ -44,14 +44,15 @@ public class FileOutput extends Thread {
 	
 	public static boolean saveToExcelFile(ArrayList<Species> trainingSet, String fileName) {
 		try {
+			fileName = fileName.endsWith(".xlsx") ? fileName : fileName.concat(".xlsx");
 			FileOutputStream fileOut = new FileOutputStream(fileName);
 			XSSFWorkbook workbook = new XSSFWorkbook();
 			XSSFSheet worksheet = workbook.createSheet("Training Set");
 			
-			int rowCount = -1;
+			int rowCount = 0;
 			//add headings
 			String[] labels = trainingSet.get(0).getFeatureLabels();
-			Row row = worksheet.createRow(rowCount++);			
+			Row row = worksheet.createRow(rowCount);			
 			for(int colCount = 0; colCount <= labels.length; colCount++) {
 				Cell cell = row.createCell(colCount);
 				if(colCount == 0)

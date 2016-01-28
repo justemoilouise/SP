@@ -96,4 +96,8 @@ public class DialogBox extends JDialog {
 		return JOptionPane.showOptionDialog(comp, message, "Confirm exit", JOptionPane.DEFAULT_OPTION, 
 				JOptionPane.WARNING_MESSAGE, null, buttons, buttons[1]);
 	}
+	
+	public String getSpeciesName() {
+		return JOptionPane.showInputDialog(comp, "Species: ");
+	}
 }
