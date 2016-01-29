@@ -106,16 +106,11 @@ public class OutputPanel extends JInternalFrame {
 	
 	private JPanel buttonPanel() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(1, 3));
+		panel.setLayout(new GridLayout(1, 2));
 		panel.setPreferredSize(new Dimension(975, 25));
 		
 		JButton btn = new JButton("Save");
 		btn.setActionCommand("save_model");
-		btn.addActionListener(lm);
-		panel.add(btn);
-		
-		btn = new JButton("Upload");
-		btn.setActionCommand("upload_model");
 		btn.addActionListener(lm);
 		panel.add(btn);
 		

@@ -63,18 +63,6 @@ public class Listener_Mouse implements ActionListener {
 			if(isValid) Client.onSubmit();
 			else Prompt.PromptError("ERROR_INPUT");
 		}
-		else if(command.equals("upload_model")) {
-			File f = FileInput.uploadModelFile();
-			
-			if(f != null) {
-//				ClassifierModel model = FileInput.readModelFromDATFile(f);
-//				FileOutput.saveToFile(model, model.isIJUsed());
-//				FileConfig.updateModelInfo(model);
-//				Client.setModel(model);
-//				Client.getPm().appendToConsole("Classifier model updated to version " + model.getVersion() + "..");
-//				Prompt.PromptSuccess("SUCCESS_UPLOAD_FILE");
-			}
-		}
 		else if(command.equals("save_model")) {
 			JFileChooser fc = new JFileChooser();
 			int dload = fc.showSaveDialog(null);

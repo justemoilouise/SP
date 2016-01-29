@@ -1,0 +1,26 @@
+<br />
+Input and output windows are displayed in the workspace area.
+<br />
+<img src='/resources/img-content_workspace.png' />
+<h2>Input image</h2>
+  Image chosen by the user.
+  <br />
+<img src='/resources/img-content_workspace-input.png' />
+<br />
+<h2>Input file</h2>
+  Contents of the file selected by the user.
+<br />
+<h2>Feature options</h2>
+  Allows users to choose which feature set will be used for training the model.
+  <br />
+<img src='/resources/img-content_workspace-features.png' />
+<br />
+<h2>Results - Features Extraction</h2>
+  Features extracted from the chosen image.
+  <br />
+<img src='/resources/img-content_workspace-featuresPanel.png' />
+<br />
+<h2>Results - Training</h2>
+  Details of the classifier model built - scaling factors, principal components, classes and SVM accuracy
+  <br />
+<img src='/resources/img-content_workspace-output.png' />

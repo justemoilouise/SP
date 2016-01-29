@@ -206,6 +206,10 @@ public class MainWindow extends JFrame {
 		dp.moveToFront(comp);
 	}
 	
+	public void removeFromDesktopPane(Component comp) {
+		dp.remove(comp);
+	}
+	
 	public void appendToConsole(String message) {
 		pl.appendToConsole(message);
 	}

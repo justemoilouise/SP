@@ -23,6 +23,7 @@ public class Client {
 	private static MainWindow pm;
 	private static FeaturesPanel fp;
 	private static ParametersPanel pp;
+	private static OutputPanel op;
 	private static Properties props;
 	private static ImagePlus imgPlus;
 	private static ArrayList<Species> trainingSet;
@@ -83,7 +84,7 @@ public class Client {
 		
 	@SuppressWarnings("unchecked")
 	public static void onSubmit() {
-		pp.setVisible(false);
+		pm.removeFromDesktopPane(pp);
 		
 		Preprocess preprocess = new Preprocess();
 		preprocess.setPC(pp.getPCA());
@@ -99,8 +100,9 @@ public class Client {
 		model.setPreprocessModel(preprocess.getPreprocessModel());
 		model.setSvmmodel(svm.getSVMModel());
 		
-		OutputPanel op = new OutputPanel(model);
+		op = new OutputPanel(model);
 		op.setVisible(true);
+		pm.removeFromDesktopPane(fp);
 		pm.addToDesktopPane(op);
 	}
 
@@ -120,10 +122,7 @@ public class Client {
 			s.setFeatureLabels(featureExtraction.getFeatureLabels());
 			s.setFeatureValues(featureExtraction.getFeatureValues());
 			trainingSet.add(s);
-			fp.refresh();
-			fp.setVisible(true);
-			if(pm.getFromDesktopPane("Input") == null)
-				pm.addToDesktopPane(fp);
+			displayTrainingSet();
 		}
 		catch(Exception e) {
 			Prompt.PromptError("ERROR_INPUT_FEATURES");
@@ -149,10 +148,19 @@ public class Client {
 	public static void saveModel(String filename) {
 		pm.appendToConsole("Saving classifier model...");
 		boolean dloadSuccess = FileOutput.saveToDATFile(model, filename);
-		if(dloadSuccess)
+		if(dloadSuccess) {
 			Prompt.PromptSuccess("SUCCESS_DLOAD");
+			pm.remove(op);
+		}
 		else
 			Prompt.PromptSuccess("ERROR_DLOAD");
+	}
+	
+	public static void displayTrainingSet() {
+		fp.refresh();
+		fp.setVisible(true);
+		if(pm.getFromDesktopPane("Input") == null)
+			pm.addToDesktopPane(fp);
 	}
 	
 	public static void printStackTrace(Throwable ex) {

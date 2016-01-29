@@ -1,0 +1,20 @@
+<br />
+<h2>File</h2>
+<img src='/resources/img-content_menu-file.png' />
+<dl>
+	<dt>New image</dt>
+		<dd> This allows the user to choose and open a new image file. Any file format is acceptable by the system, regardless of its size and resolution. The chosen image is opened into the workspace region.</dd>
+	<dt>New file</dt>
+        <dd> This button allows the user to choose and open a new file containing the training set to be used. A window containing the contents of the file will be opened in the workspace region.</dd>
+	<dt>Quit</dt>
+        <dd>This closes the application.</dd>
+</dl>
+<br />
+<h2>Help</h2>
+<img src='/resources/img-content_menu-help.png' />
+<dl>
+  <dt>Tutorial</dt>
+      <dd>Overview on how the application functions is presented in the Tutorial section.</dd>
+  <dt>About</dt>
+        <dd>Theories and principles behind the functions available in the application can be read in the About section.</dd>
+</dl>

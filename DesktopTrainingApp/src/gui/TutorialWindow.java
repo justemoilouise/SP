@@ -30,7 +30,7 @@ public class TutorialWindow extends JInternalFrame {
 		
 		mainPanel = new JScrollPane();
 		text = new JTextPane();
-		addToMainPanel("RadiSS");
+		addToMainPanel("RaDSS");
 		
 		JScrollPane sidePanel = new JScrollPane();
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
@@ -64,8 +64,7 @@ public class TutorialWindow extends JInternalFrame {
 
 	private JTree setContentTree() {
 		DefaultMutableTreeNode category;
-		
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode("RadiSS");
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode("RaDSS");
 		
 		category = new DefaultMutableTreeNode("Menu bar");
 		root.add(category);
@@ -80,9 +79,6 @@ public class TutorialWindow extends JInternalFrame {
 		root.add(category);
 		
 		category = new DefaultMutableTreeNode("Error Log");
-		root.add(category);
-		
-		category = new DefaultMutableTreeNode("Features");
 		root.add(category);
 		
 		JTree tree = new JTree(root);
@@ -109,7 +105,7 @@ public class TutorialWindow extends JInternalFrame {
 		if(props == null)
 			props = Client.getProperties();
 		
-		if(key.equals("RadiSS")) {
+		if(key.equals("RaDSS")) {
 			String str = updateImgContent(FileInput.readFile(props.getProperty("tutorial.overview")));
 			contents.put(key, str);
 		}
@@ -131,10 +127,6 @@ public class TutorialWindow extends JInternalFrame {
 		}
 		else if(key.equals("Error Log")) {
 			String str = updateImgContent(FileInput.readFile(props.getProperty("tutorial.error")));
-			contents.put(key, str);
-		}
-		else if(key.equals("Features")) {
-			String str = updateImgContent(FileInput.readFile(props.getProperty("tutorial.features")));
 			contents.put(key, str);
 		}
 	}

@@ -1,0 +1,16 @@
+<br />
+<img src='/resources/img-content_toolbar.png' />
+<br />
+<h2>Open new image</h2>
+  This button allows the user to choose and open a new image file. Any file format is acceptable by the system, regardless of its size and resolution.
+  The chosen image is opened into the workspace region.
+<br />
+<h2>Open new file</h2>
+  This button allows the user to choose and open a new file containing the data set to be used for training.
+  A window containing the contents of the file will be opened in the workspace region.
+<br />
+<h2>Run</h2>
+  This triggers the classification of the input species. Once done, the results will be displayed in the workspace area.
+<br />
+<h2>Selection tools</h2>
+  All tools necessary in choosing which part of the image is to be classified is in this toolbar.
