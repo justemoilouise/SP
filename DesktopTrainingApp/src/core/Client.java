@@ -18,6 +18,7 @@ import ij.ImagePlus;
 import ij.gui.ImageWindow;
 
 public class Client {
+	public static boolean isIJ = true;
 	public static double modelVersion;
 	private static MainWindow pm;
 	private static FeaturesPanel fp;
@@ -27,7 +28,6 @@ public class Client {
 	private static Properties props;
 	private static ImagePlus imgPlus;
 	private static ArrayList<Species> trainingSet;
-	private static boolean isIJ = true;
 	private static ClassifierModel model;
 
 	public Client() {

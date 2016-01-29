@@ -49,6 +49,9 @@ public class Listener_Mouse implements ActionListener {
 				Client.displayTrainingSet();
 			}
 		}
+		else if(command.equals("get_isIJ")) {
+			Client.isIJ = Prompt.chooseFeatures(Client.isIJ);
+		}
 		else if(command.equals("image_extractFeatures")) {
 			String name = Prompt.GetSpeciesName();
 			Client.getFeatures(name);

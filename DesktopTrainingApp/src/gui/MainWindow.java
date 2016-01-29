@@ -141,6 +141,12 @@ public class MainWindow extends JFrame {
 		menu.add(item);
 		menu.addSeparator();
 
+		item = new JMenuItem("Change features used");
+		item.setActionCommand("get_isIJ");
+		item.addActionListener(lm);
+		menu.add(item);
+		menu.addSeparator();
+		
 		item = new JMenuItem("Quit");
 		item.setActionCommand("quit");
 		item.addActionListener(lm);
