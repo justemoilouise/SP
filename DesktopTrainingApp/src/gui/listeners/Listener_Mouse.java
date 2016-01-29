@@ -51,10 +51,15 @@ public class Listener_Mouse implements ActionListener {
 		}
 		else if(command.equals("get_isIJ")) {
 			Client.isIJ = Prompt.chooseFeatures(Client.isIJ);
+			String message = Client.isIJ ? "Shape and basic textures features used" : "Shape and Haralick texture descriptors used";
+			Client.getPm().appendToConsole(message);
 		}
 		else if(command.equals("image_extractFeatures")) {
-			String name = Prompt.GetSpeciesName();
-			Client.getFeatures(name);
+			if(Client.imgPlus != null) {
+				String name = Prompt.GetSpeciesName();
+				Client.getFeatures(name);
+			}
+			else Prompt.PromptError("ERROR_INPUT");
 		}
 		else if(command.equals("get_parameters")) {
 			Client.getParameters();

@@ -20,13 +20,13 @@ import ij.gui.ImageWindow;
 public class Client {
 	public static boolean isIJ = true;
 	public static double modelVersion;
+	public static ImagePlus imgPlus;
 	private static MainWindow pm;
 	private static FeaturesPanel fp;
 	private static ParametersPanel pp;
 	private static OutputPanel op;
 	private static ImageWindow imgWindow;
 	private static Properties props;
-	private static ImagePlus imgPlus;
 	private static ArrayList<Species> trainingSet;
 	private static ClassifierModel model;
 

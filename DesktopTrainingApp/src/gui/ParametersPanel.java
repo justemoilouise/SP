@@ -1,5 +1,8 @@
 package gui;
 
+import java.awt.Dimension;
+import java.awt.GridLayout;
+
 import gui.listeners.Listener_Mouse;
 
 import javax.swing.BorderFactory;
@@ -27,10 +30,7 @@ public class ParametersPanel extends JInternalFrame {
 		
 		JPanel content = new JPanel();
 		content.add(parametersPanel());
-		JButton btn = new JButton("OK");
-		btn.setActionCommand("build_model");
-		btn.addActionListener(lm);
-		content.add(btn);
+		content.add(buttonPanel());
 		content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
 		add(content);
 		setTitle("Training parameters");;
@@ -72,6 +72,18 @@ public class ParametersPanel extends JInternalFrame {
 		svmPanel.setBorder(titleBorder);
 		panel.add(svmPanel);
 		
+		return panel;
+	}
+
+	private JPanel buttonPanel() {
+		JButton btn = new JButton("Build model");
+		btn.setActionCommand("build_model");
+		btn.addActionListener(lm);
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(1, 1));
+		panel.setPreferredSize(new Dimension(225, 25));
+		panel.add(btn);		
 		return panel;
 	}
 	
