@@ -24,8 +24,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import Data.ClassifierModel;
 import Data.Input;
+import Data.PreprocessModel;
+import Data.SVMModel;
 import Data.SVMResult;
 import Helpers.SVMResultComparator;
 import ImageHandlers.ProcessImage;
@@ -35,18 +36,16 @@ import core.Client;
 public class OutputPanel extends JInternalFrame {
 	private Input input;
 	private Listener_Mouse lm;
-	private final int count;
+	private int index;
 
-	public OutputPanel(Input input) {
+	public OutputPanel(Input input, int index) {
 		this.input = input;
-		this.count = Client.getCount();
+		this.index = index;
 		lm = new Listener_Mouse();
 		
 		addToGroupLayout();
-		
-		setTitle("Output (" + count + ")");;
-		setName("Output");
-		setBounds((10*count)+10, (10*count)+10, 800, 450);
+
+		setBounds((10*index)+10, (10*index)+10, 800, 450);
 		setClosable(true);
 		setIconifiable(true);
 	}
@@ -60,7 +59,7 @@ public class OutputPanel extends JInternalFrame {
 		JLabel imgLabel = new JLabel(img);
 		
 		JButton dload = new JButton("Download");
-		dload.setActionCommand("download_" +count);
+		dload.setActionCommand("download_" +index);
 		dload.addActionListener(lm);
 		
 		JPanel footer = new JPanel();
@@ -106,10 +105,12 @@ public class OutputPanel extends JInternalFrame {
 	}
 	
 	private JScrollPane getSummary() {
-		ClassifierModel model = Client.getModel();
-		String featuresUsed = model.isIJUsed() ? "Shape and basic texture features" : "Shape and Haralick texture";
+		PreprocessModel pModel = input.isIJUsed() ? Client.getPreprocess().getIJModel() : Client.getPreprocess().getJFModel();
+		SVMModel sModel = input.isIJUsed() ? Client.getSvm().getIJModel() : Client.getSvm().getJFModel();
+		
+		String featuresUsed = input.isIJUsed() ? "Shape and basic texture features" : "Shape and Haralick texture";
 		String[] featureLabels = new String[] { "Features used", "No. of Principal Components", "SVM Accuracy" };
-		Object[] featureValues = new Object[] { featuresUsed, model.getPreprocessModel().getPC(), model.getSvmmodel().getAccuracy() };
+		Object[] featureValues = new Object[] { featuresUsed, pModel.getPC(), sModel.getAccuracy() };
 		
 		String[] headers = {"Description", "Value"};
 		String[][] tableData = new String[featureLabels.length][2];

@@ -73,16 +73,20 @@ public class Listener_Mouse implements ActionListener {
 				Prompt.PromptSuccess("SUCCESS_UPLOAD_FILE");
 			}
 		}
-		else if(command.equals("submit")) {
+		else if(command.equals("classify_image")) {
 			boolean isValid = Client.validateInput();
 
 			if(isValid) {
 				boolean isIJ = Prompt.chooseFeatures(true);
-				Client.onSubmit(isIJ);
+				Client.classify(isIJ);
+				Client.displayImage();
 			}
 			else {
 				Prompt.PromptError("ERROR_INPUT");
 			}
+		}
+		else if(command.equals("view_output")) {
+			Client.displayOutput();
 		}
 		else if(command.equals("stop")) {
 			boolean isValid = Client.validateInput();

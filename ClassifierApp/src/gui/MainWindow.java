@@ -8,16 +8,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.awt.Rectangle;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -66,7 +61,6 @@ public class MainWindow extends JFrame {
 		setBackground(Color.DARK_GRAY);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-//		setContentPane(new ImagePanel());
 	}
 
 	private void initLookAndFeel() {
@@ -200,7 +194,7 @@ public class MainWindow extends JFrame {
 		//execute operations
 		imgIcon = new ImageIcon(this.getClass().getResource("/resources/img-icon_run.png"));
 		submit = new JButton(imgIcon);
-		submit.setActionCommand("submit");
+		submit.setActionCommand("classify_image");
 		submit.addActionListener(lm);
 		submit.setToolTipText("Classify");
 		toolbar.add(submit);
@@ -229,6 +223,10 @@ public class MainWindow extends JFrame {
 		dp.moveToFront(comp);
 	}
 	
+	public void removeFromDesktopPane(Component comp) {
+		dp.remove(comp);
+	}
+	
 	public void appendToConsole(String message) {
 		pl.appendToConsole(message);
 	}
@@ -252,22 +250,4 @@ public class MainWindow extends JFrame {
 	public Component getDesktoPane() {
 		return dp;
 	}
-}
-
-@SuppressWarnings("serial")
-class ImagePanel extends JComponent {
-    private Image image;
-    public ImagePanel() {
-    	try {
-			this.image = ImageIO.read(this.getClass().getResource("/resources/img-bg.jpg"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(image, 0, 0, this);
-    }
 }

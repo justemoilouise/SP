@@ -4,6 +4,7 @@ import ij.ImagePlus;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Properties;
 
 import CoreHandler.Prompt;
@@ -16,6 +17,7 @@ import ExceptionHandlers.ThreadException;
 import FileHandlers.FileConfig;
 import FileHandlers.FileOutput;
 import ImageHandlers.ProcessImage;
+import gui.ImagesPanel;
 import gui.InputPanel;
 import gui.OutputPanel;
 import gui.StartScreen;
@@ -28,10 +30,10 @@ public class Client {
 	private static StartScreen screen;
 	private static MainWindow pm;
 	private static ProgressInfo progress;
+	private static ImagesPanel ip;
 
 	private static Preprocess preprocess;
 	private static SVM svm;
-	private static ClassifierModel model;
 
 	private static ImagePlus imgPlus;
 	private static ArrayList<Input> inputs;
@@ -44,6 +46,7 @@ public class Client {
 		svm = new SVM();
 		pm = new MainWindow();	
 		Prompt.SetParentComponent(pm.getDesktoPane());
+		ip = new ImagesPanel();
 		
 		init();
 	}
@@ -86,6 +89,10 @@ public class Client {
 		
 		return inputs.get(index);
 	}
+	
+	public static ArrayList<Input> getInput() {
+		return inputs;
+	}
 
 	public static MainWindow getPm() {
 		return pm;
@@ -111,13 +118,7 @@ public class Client {
 		Client.svm = svm;
 	}
 
-	public static ClassifierModel getModel() {
-		return model;
-	}
-
-	public static void setModel(ClassifierModel model) {
-		Client.model = model;
-		
+	public static void setModel(ClassifierModel model) {		
 		//update currently used models
 		if(model.isIJUsed()) {
 			preprocess.setIJModel(model.getPreprocessModel());
@@ -141,21 +142,15 @@ public class Client {
 		
 		return false;
 	}
-		
-	public static void onSubmit(boolean isIJ) {
-		count++;		
+	
+	public static void classify(boolean isIJ) {
+		count++;
 		double[] features = getFeatures(isIJ);
-
 		if(features != null) {
-			pm.appendToConsole("Classifying input...");
+			pm.appendToConsole("Processing input...");
 			
 			preprocess.setIJ(isIJ);
 			svm.setIJ(isIJ);
-			
-			model = new ClassifierModel();
-			model.setIJUsed(isIJ);
-			model.setPreprocessModel(preprocess.getModel());
-			model.setSvmmodel(svm.getModel());
 			
 			double[] preprocessedData = preprocess.scale(features);
 			preprocessedData = preprocess.reduceFeatures(preprocessedData);
@@ -164,8 +159,6 @@ public class Client {
 			Input i = inputs.get(inputs.size()-1);
 			i.setSvmResult(results);
 			i.getSpecies().setName(svm.analyzeResults(results));
-			
-			displayOutput();
 		}
 	}
 	
@@ -183,10 +176,10 @@ public class Client {
 		}
 	}
 
-	private static double[] getFeatures(boolean isIJ) {
+	public static double[] getFeatures(boolean isIJ) {
 		try {
 			Input input = new Input();
-			
+			input.setIJUsed(isIJ);
 			if(imgPlus !=null) {
 				BufferedImage bi = ProcessImage.getROI(imgPlus);
 
@@ -226,6 +219,14 @@ public class Client {
 		return null;
 	}
 
+	public static void displayImage() {
+		ip.refreshImages();
+		ip.setVisible(true);
+		if(pm.getFromDesktopPane("Images") == null) {
+			pm.addToDesktopPane(ip);
+		}
+	}
+	
 	public static void displayInput() {
 		InputPanel input = new InputPanel(inputs.get(inputs.size()-1));
 		input.setVisible(true);
@@ -233,16 +234,30 @@ public class Client {
 	}
 	
 	public static void displayOutput() {
-		OutputPanel output = new OutputPanel(inputs.get(count-1));
-		output.setVisible(true);
-		pm.addToDesktopPane(output);
+		Iterator<Input> it = inputs.iterator();
+		while(it.hasNext()) {
+			Input i = it.next();
+			int index = inputs.indexOf(i) + 1;
+			String panelName = "Output (" + (inputs.indexOf(i) + 1) + ")";
+			OutputPanel output = new OutputPanel(i, index);
+			output.setTitle(panelName);
+			output.setName(panelName);
+			output.setVisible(true);
+			if(pm.getFromDesktopPane(panelName) == null) {
+				pm.addToDesktopPane(output);
+			}
+		}
 	}
 	
 	public static void download(int index, String filename) {
 		pm.appendToConsole("Downloading output...");
 
-		boolean dloadSuccess = FileOutput.saveToFile(model, inputs.get(index-1), index, filename);
-		
+		Input input = inputs.get(index-1);
+		ClassifierModel model = new ClassifierModel();
+		model.setIJUsed(input.isIJUsed());
+		model.setPreprocessModel(input.isIJUsed() ? preprocess.getIJModel() : preprocess.getJFModel());
+		model.setSvmmodel(input.isIJUsed() ? svm.getIJModel() : svm.getJFModel());
+		boolean dloadSuccess = FileOutput.saveToFile(model, input, index, filename);
 		if(dloadSuccess)
 			Prompt.PromptSuccess("SUCCESS_DLOAD");
 		else
