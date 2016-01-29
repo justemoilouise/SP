@@ -3,7 +3,6 @@ package gui.listeners;
 import gui.AboutWindow;
 import gui.TutorialWindow;
 import ij.ImagePlus;
-import ij.gui.ImageWindow;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -36,19 +35,18 @@ public class Listener_Mouse implements ActionListener {
 				try {
 					Image img = ImageIO.read(f);
 					ImagePlus imgPlus = new ImagePlus(f.getName(), img);
-					ImageWindow imgWindow = new ImageWindow(imgPlus);
 					Client.setImgPlus(imgPlus);
-					Client.getPm().addToDesktopPane(imgWindow);
 				}
 				catch(Exception x) {}
 			}
 		}
-		else if(command.equals("input_file")) {			
+		else if(command.equals("input_file")) {
+			Client.getPm().appendToConsole("Reading file..");
 			File f = FileInput.uploadExcelFile();
 			if(f != null) {
 				ArrayList<Species> input = FileInput.readSpecies(f);
-				Client.setImgPlus(null);
 				Client.setTrainingSet(input);
+				Client.displayTrainingSet();
 			}
 		}
 		else if(command.equals("image_extractFeatures")) {
@@ -60,7 +58,10 @@ public class Listener_Mouse implements ActionListener {
 		}
 		else if(command.equals("build_model")) {
 			boolean isValid = Client.validateInput();
-			if(isValid) Client.onSubmit();
+			if(isValid)  {
+				Client.onSubmit();
+				Client.displayOutput();
+			}
 			else Prompt.PromptError("ERROR_INPUT");
 		}
 		else if(command.equals("save_model")) {

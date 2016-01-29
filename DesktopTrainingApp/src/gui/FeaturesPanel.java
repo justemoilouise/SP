@@ -75,7 +75,7 @@ public class FeaturesPanel extends JInternalFrame {
 		panel.setLayout(new GridLayout(1, 3));
 		panel.setPreferredSize(new Dimension(975, 25));
 		
-		JButton btn = new JButton("Add another");
+		JButton btn = new JButton("Extract from another image");
 		btn.setActionCommand("image_extractFeatures");
 		btn.addActionListener(lm);
 		panel.add(btn);

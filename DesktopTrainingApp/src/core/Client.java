@@ -16,6 +16,7 @@ import gui.OutputPanel;
 import gui.ParametersPanel;
 import gui.StartScreen;
 import ij.ImagePlus;
+import ij.gui.ImageWindow;
 
 public class Client {
 	public static double modelVersion;
@@ -24,6 +25,7 @@ public class Client {
 	private static FeaturesPanel fp;
 	private static ParametersPanel pp;
 	private static OutputPanel op;
+	private static ImageWindow imgWindow;
 	private static Properties props;
 	private static ImagePlus imgPlus;
 	private static ArrayList<Species> trainingSet;
@@ -61,6 +63,9 @@ public class Client {
 	
 	public static void setImgPlus(ImagePlus img) {
 		Client.imgPlus = img;
+		imgWindow = new ImageWindow(imgPlus);
+		imgWindow.setName("Image");
+		pm.addToDesktopPane(imgWindow);
 	}
 	
 	public static ArrayList<Species> getTrainingSet() {
@@ -84,11 +89,13 @@ public class Client {
 		
 	@SuppressWarnings("unchecked")
 	public static void onSubmit() {
+		pm.appendToConsole("Building classifier model..");
 		pm.removeFromDesktopPane(pp);
 		
 		Preprocess preprocess = new Preprocess();
 		preprocess.setPC(pp.getPCA());
-		ArrayList<Species> dataset = preprocess.scale((ArrayList<Species>)trainingSet.clone());
+		ArrayList<Species> dataset = (ArrayList<Species>)trainingSet.clone();
+		dataset = preprocess.scale(dataset);
 		dataset = preprocess.reduceFeatures(dataset);
 		
 		SVM svm = new SVM();
@@ -99,14 +106,10 @@ public class Client {
 		model.setCreatedDate(new Date());
 		model.setPreprocessModel(preprocess.getPreprocessModel());
 		model.setSvmmodel(svm.getSVMModel());
-		
-		op = new OutputPanel(model);
-		op.setVisible(true);
-		pm.removeFromDesktopPane(fp);
-		pm.addToDesktopPane(op);
 	}
 
 	public static void getFeatures(String name) {
+		pm.appendToConsole("Extracting image features of " + name);
 		try {			
 			FeatureExtraction featureExtraction = new FeatureExtraction();
 			featureExtraction.getShapeDescriptors(imgPlus);
@@ -161,6 +164,19 @@ public class Client {
 		fp.setVisible(true);
 		if(pm.getFromDesktopPane("Input") == null)
 			pm.addToDesktopPane(fp);
+	}
+	
+	public static void displayOutput() {		
+		if(pm.getFromDesktopPane("Image") != null) {
+			pm.removeFromDesktopPane(imgWindow);
+			imgPlus = null;
+		}
+		if(pm.getFromDesktopPane("Output") != null)
+			pm.removeFromDesktopPane(op);
+		
+		op = new OutputPanel(model);
+		op.setVisible(true);
+		pm.addToDesktopPane(op);
 	}
 	
 	public static void printStackTrace(Throwable ex) {

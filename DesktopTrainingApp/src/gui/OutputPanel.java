@@ -3,6 +3,7 @@ package gui;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.Iterator;
 
 import gui.listeners.Listener_Mouse;
 
@@ -12,10 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import core.ValueHelper;
 import Data.ClassifierModel;
 
 @SuppressWarnings("serial")
@@ -38,7 +39,7 @@ public class OutputPanel extends JInternalFrame {
 	
 	private JTabbedPane getResults() {
 		JTabbedPane tp = new JTabbedPane();
-		tp.setPreferredSize(new Dimension(975, 400));
+		tp.setPreferredSize(new Dimension(975, 375));
 		tp.addTab("Scaling factors", getScalingFactors());
 		tp.addTab("Principal Components", getPrincipalComponents());
 		tp.addTab("SVM", getSVMModel());
@@ -61,7 +62,7 @@ public class OutputPanel extends JInternalFrame {
 		table.setEnabled(false);
 
 		JScrollPane pane = new JScrollPane(table);
-		pane.setSize(975, 400);
+		pane.setSize(975, 375);
 		return (pane);
 	}
 	
@@ -84,41 +85,48 @@ public class OutputPanel extends JInternalFrame {
 		table.setEnabled(false);
 
 		JScrollPane pane = new JScrollPane(table);
-		pane.setSize(975, 400);
+		pane.setSize(975, 375);
 		return (pane);
 	}
 	
 	private JScrollPane getSVMModel() {
-		String[][] tableData = new String[2][2];
-		tableData[0][0] = "Classes";
-		tableData[0][1] = ValueHelper.ToString(model.getSvmmodel().getClasses());
-		tableData[1][0] = "Accuracy";
-		tableData[1][1] = Double.toString(model.getSvmmodel().getAccuracy());
+		StringBuilder content = new StringBuilder();
+		content.append("<h3> Classes </h3>");
 		
-		TableModel model = new DefaultTableModel(tableData, new String[] { "Property", "Value" });
-		JTable table = new JTable(model);
-		table.setEnabled(false);
+		Iterator<String> it = model.getSvmmodel().getClasses().iterator();
+		content.append("<ul>");
+		while(it.hasNext()) {
+			content.append("<li>");
+			content.append(it.next());
+			content.append("</li>");
+		}
+		content.append("</ul>");
+		content.append("<br />");
+		content.append("<h3> Accuracy: </h3>");
+		content.append("&emsp;");
+		content.append(model.getSvmmodel().getAccuracy() + "%");
+		
+		JTextPane text = new JTextPane();
+		text.setContentType("text/html");
+		text.setText(content.toString());
+		text.setEditable(false);
+		text.setCaretPosition(0);
 
-		JScrollPane pane = new JScrollPane(table);
-		pane.setSize(975, 400);
+		JScrollPane pane = new JScrollPane(text);
+		pane.setSize(975, 375);
+		pane.setViewportView(text);
 		return (pane);
 	}
 	
 	private JPanel buttonPanel() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(1, 2));
-		panel.setPreferredSize(new Dimension(975, 25));
-		
-		JButton btn = new JButton("Save");
+		JButton btn = new JButton("Save classifier model");
 		btn.setActionCommand("save_model");
 		btn.addActionListener(lm);
-		panel.add(btn);
 		
-		btn = new JButton("Rebuild");
-		btn.setActionCommand("build_model");
-		btn.addActionListener(lm);
-		panel.add(btn);
-		
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(1, 1));
+		panel.setPreferredSize(new Dimension(975, 25));
+		panel.add(btn);		
 		return panel;
 	}
 }
