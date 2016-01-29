@@ -166,7 +166,7 @@ public class Client {
 			pm.addToDesktopPane(fp);
 	}
 	
-	public static void displayOutput() {		
+	public static void displayOutput() {
 		if(pm.getFromDesktopPane("Image") != null) {
 			pm.removeFromDesktopPane(imgWindow);
 			imgPlus = null;

@@ -12,8 +12,36 @@ Input and output windows are displayed in the workspace area.
 <br />
 <h2>Feature options</h2>
   Allows users to choose which feature set will be used for training the model.
-  <br />
+<br />
 <img src='/resources/img-content_workspace-features.png' />
+<br />
+<h2>Parameters Panel</h2>
+  Allows users to set parameters that will be used for training.
+  <ol>
+  	<li> PCA </li>
+  		<ul>
+  			<li> Should be any integer greater than 0 </li>
+			<li> Determines how many components the features will be reduced into </li>
+  		</ul>
+  	<li> SVM Type </li>
+  		<ul>
+  			<li> C-SVC - allows the SVM algorithm to clearly separate samples that are separated by a very narrow margin </li>
+			<li> Nu-SVC - the nu parameter controls training errors and the number of support vectors </li>
+			<li> One-class SVM - the SVM algorithm considers the spatial distribution information for each sample to determine whether the sample belongs to the known class </li>
+  		</ul>
+  	<li> Kernel function - used in mapping the training vectors to a high dimensional space </li>
+  	<li> Kernel function parameters </li>
+  		<ul>
+  			<li> Cost </li>
+			<li> Gamma </li>
+			<li> Epsilon </li>
+			<li> Degree </li>
+			<li> Nu </li>
+			<li> Coefficient </li>
+  		</ul>
+  </ol>
+<br />
+<img src='/resources/img-content_workspace-parametersPanel.png' />
 <br />
 <h2>Results - Features Extraction</h2>
   Features extracted from the chosen image.
