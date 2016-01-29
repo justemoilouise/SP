@@ -11,9 +11,14 @@ Input and output windows are displayed in the workspace area.
   Contents of the file selected by the user.
 <br />
 <h2>Feature options</h2>
-  Allows users to choose which feature set will be used for both classification and clustering.
+  Allows users to choose which feature set will be used for both classification.
   <br />
 <img src='/resources/img-content_workspace-features.png' />
+<br />
+<h2>Chosen images</h2>
+  Thumbnails list of the chosen images to be classified.
+  <br />
+<img src='/resources/img-content_workspace-imagesPanel.png' />
 <br />
 <h2>Results</h2>
   Image - if any, features and classification results.
