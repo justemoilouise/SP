@@ -14,13 +14,11 @@ import gui.FeaturesPanel;
 import gui.MainWindow;
 import gui.OutputPanel;
 import gui.ParametersPanel;
-import gui.StartScreen;
 import ij.ImagePlus;
 import ij.gui.ImageWindow;
 
 public class Client {
 	public static double modelVersion;
-	private static StartScreen screen;
 	private static MainWindow pm;
 	private static FeaturesPanel fp;
 	private static ParametersPanel pp;
@@ -29,7 +27,7 @@ public class Client {
 	private static Properties props;
 	private static ImagePlus imgPlus;
 	private static ArrayList<Species> trainingSet;
-	private static boolean isIJ;
+	private static boolean isIJ = true;
 	private static ClassifierModel model;
 
 	public Client() {
@@ -42,19 +40,11 @@ public class Client {
 		init();
 	}
 
-	private void init() {		
-		screen = new StartScreen();
-		screen.setExecutable(true);
-		screen.setMessage("Initializing...");
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		screen.setExecutable(false);
-		isIJ = Prompt.chooseFeatures(true);
+	private void init() {
 		pm.setVisible(true);
+		isIJ = Prompt.chooseFeatures(true);
+		String message = isIJ ? "Shape and basic textures features used" : "Shape and Haralick texture descriptors used";
+		pm.appendToConsole(message);
 	}
 	
 	public static Properties getProperties() {
