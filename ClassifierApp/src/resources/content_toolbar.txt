@@ -10,10 +10,10 @@
   A window containing the contents of the file will be opened in the workspace region.
 <br />
 <h2>Run</h2>
-  This triggers the classification and clustering of the input species. Once done, the results will be displayed in the workspace area. This includes the image, if present, features extracted, classification and clustering results.
+  This triggers the classification of the input species. Once done, the results will be displayed in the workspace area. This includes the image, if present, features extracted and classification results.
 <br />
 <h2>Stop</h2>
-  This stops the currently running classification and/or clustering operations.
+  This stops the currently running classification operation.
 <br />
 <h2>Selection tools</h2>
-  All tools necessary in choosing which part of the image is to be classified/clustered is in this toolbar.
+  All tools necessary in choosing which part of the image is to be classified is in this toolbar.
