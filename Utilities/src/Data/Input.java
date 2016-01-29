@@ -9,6 +9,7 @@ import ij.ImagePlus;
 public class Input implements Serializable {
 	private ImagePlus img;
 	private String imageName;
+	private boolean isIJUsed;
 	private Species species;
 	private ArrayList<SVMResult> svmResult;
 
@@ -32,6 +33,14 @@ public class Input implements Serializable {
 
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
+	}
+
+	public boolean isIJUsed() {
+		return isIJUsed;
+	}
+
+	public void setIJUsed(boolean isIJUsed) {
+		this.isIJUsed = isIJUsed;
 	}
 
 	public Species getSpecies() {
