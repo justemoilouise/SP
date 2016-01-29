@@ -36,13 +36,11 @@ public class Listener_Mouse implements ActionListener {
 
 		if(command.equals("input_image")) {
 			File f = ProcessImage.upload();
-
 			if(f!=null) {
 				try {
 					Image img = ImageIO.read(f);
 					ImagePlus imgPlus = new ImagePlus(f.getName(), img);
 					ImageWindow imgWindow = new ImageWindow(imgPlus);
-
 					Client.setImgPlus(imgPlus);
 					Client.getPm().addToDesktopPane(imgWindow);
 				}
@@ -51,14 +49,20 @@ public class Listener_Mouse implements ActionListener {
 		}
 		else if(command.equals("input_file")) {			
 			File f = FileInput.uploadExcelFile();
-			
 			if(f != null) {
 				ArrayList<Input> input = FileInput.readInput(f);
-				
-				//Client.setInputs(input);
 				Client.setImgPlus(null);
 				Client.addInput(input.get(0));
-				Client.displayInput();
+				boolean isValid = Client.validateInput();
+				if(isValid) {
+					boolean isIJ = Prompt.chooseFeatures(true);
+					Client.classify(isIJ);
+					Client.displayInput();
+					Client.displayImage();
+				}
+				else {
+					Prompt.PromptError("ERROR_INPUT");
+				}
 			}
 		}
 		else if(command.equals("upload_model")) {

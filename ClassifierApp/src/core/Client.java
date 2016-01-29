@@ -180,7 +180,7 @@ public class Client {
 		try {
 			Input input = new Input();
 			input.setIJUsed(isIJ);
-			if(imgPlus !=null) {
+			if(imgPlus != null) {
 				BufferedImage bi = ProcessImage.getROI(imgPlus);
 
 				String name = "tmp/"+count+".png";
@@ -190,7 +190,6 @@ public class Client {
 				
 				FeatureExtraction featureExtraction = new FeatureExtraction();
 				featureExtraction.getShapeDescriptors(imgPlus);
-				
 				if(isIJ) {
 					featureExtraction.getTextureDescriptors(imgPlus.getProcessor());
 				}
@@ -228,7 +227,7 @@ public class Client {
 	}
 	
 	public static void displayInput() {
-		InputPanel input = new InputPanel(inputs.get(inputs.size()-1));
+		InputPanel input = new InputPanel(inputs.get(inputs.size()-1), inputs.size());
 		input.setVisible(true);
 		pm.addToDesktopPane(input);
 	}

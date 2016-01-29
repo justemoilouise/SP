@@ -17,21 +17,19 @@ import javax.swing.table.TableModel;
 
 import Data.Input;
 import ImageHandlers.ProcessImage;
-import core.Client;
 
 @SuppressWarnings("serial")
 public class InputPanel extends JInternalFrame {
 	private Input input;
 
-	public InputPanel(Input input) {
+	public InputPanel(Input input, int index) {
 		this.input = input;
 		
 		addToGroupLayout();
 		
-		int count = Client.getCount()+1;
-		setTitle("Input (" + count + ")");;
+		setTitle("Input (" + index + ")");;
 		setName("Input");
-		setBounds((10*count), (10*count), 800, 450);
+		setBounds((10*index), (10*index), 800, 450);
 		setClosable(true);
 		setIconifiable(true);
 	}

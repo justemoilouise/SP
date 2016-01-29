@@ -49,7 +49,7 @@ public class ImagesPanel extends JInternalFrame {
 		Iterator<Input> it = inputs.iterator();
 		while(it.hasNext()) {
 			Input i = it.next();
-			if(i.getImg() != null && i.getSpecies().getName() != null)
+			if(i.getSpecies().getName() != null)
 				unclassified.add(i);
 		}
 		
