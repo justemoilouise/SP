@@ -19,7 +19,7 @@ public class ProcessImage {
 	public static File upload() {
 		File f = null;
 		
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG files", "png");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", "*");
 		JFileChooser fc = new JFileChooser();
 		fc.setFileFilter(filter);
 		fc.showDialog(null, "Choose image");
