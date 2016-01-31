@@ -10,7 +10,6 @@ import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import CoreHandler.Prompt;
 
@@ -18,10 +17,7 @@ public class ProcessImage {
 	
 	public static File upload() {
 		File f = null;
-		
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", "*");
 		JFileChooser fc = new JFileChooser();
-		fc.setFileFilter(filter);
 		fc.showDialog(null, "Choose image");
 		fc.setVisible(true);
 
