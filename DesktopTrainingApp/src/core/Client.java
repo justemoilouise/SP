@@ -143,7 +143,9 @@ public class Client {
 		boolean dloadSuccess = FileOutput.saveToDATFile(model, filename);
 		if(dloadSuccess) {
 			Prompt.PromptSuccess("SUCCESS_DLOAD");
+			pm.remove(fp);
 			pm.remove(op);
+			Client.trainingSet = new ArrayList<Species>();
 		}
 		else
 			Prompt.PromptSuccess("ERROR_DLOAD");
